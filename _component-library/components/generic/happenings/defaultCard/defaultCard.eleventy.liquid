@@ -1,0 +1,47 @@
+{% capture eventTitle %}
+  {% if cancelled == true %}
+    {{"CANCELLED - " |  append: happeningTitle}}
+    {% else %}
+    {{ happeningTitle }}
+  {% endif %}
+{% endcapture %}
+
+<div class="w-full ">
+  <h3 class="hover:underline text-2xl">
+    <a 
+    data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardHeading"
+    href="{{url}}">{{ eventTitle }}</a>
+  </h3>
+  <a 
+  data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardImg"
+  class="relative" href="{{url}}">
+      {% bookshop "generic/image" bind: image class: "w-full rounded transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]" %}
+      <time 
+      {% if cancelled != true %}
+        _="on load
+        set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+        log happeningDate
+        set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
+        js(happeningDate,timezone)  
+        dt = new Date(happeningDate);
+        console.log(dt);
+        return dt.toLocaleString('en-US', { timeZone: timezone }) end
+        put it into my.innerHTML
+        "
+      {% endif %}
+      
+      class="absolute bottom-5 right-5 p-2 z-10 bg-white text-slate-800 rounded" datetime="{{ happeningDatetime | date: "%Y-%m-%d" }}">{% if cancelled %}CANCELLED{% else %}{{ happeningDatetime | date: "%Y-%m-%d %I:%M %P", 0 }} UTC{% endif %}</time>
+  </a>
+  <ul class=" flex text-{{color_group}}-secondarycolor flex flex-wrap gap-x-4 overflow-hidden opacity-70">
+    {% for tag in blogTags %}
+      {% if tag != 'undefined' %}
+        <li class="hover:underline after:absolute after:content-['·'] after:scale-150  after:left-2 relative before:content-[' '] after:left-[-10px] after:text-lg ">
+        <a 
+        data-umami-event="{{tag | slug}}-{{happeningTitle}}-{{page.url}}-tags"
+        class="font-bold" href="/tag/{{ tag | slug }}/">{{ tag | capitalize | replace: ' ', '' }}</a>
+      </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  
+</div>

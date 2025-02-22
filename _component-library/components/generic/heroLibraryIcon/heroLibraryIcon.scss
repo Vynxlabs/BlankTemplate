@@ -1,0 +1,12 @@
+.c-heroLibraryIcon {
+    &--outline {
+        .c-heroLibraryIcon__svg, * {
+            stroke: var(--c-heroLibraryIconColor, #F9F9FB);
+        }
+    }
+    &--solid {
+        .c-heroLibraryIcon__svg, *{
+            fill: var(--c-heroLibraryIconColor, #F9F9FB);
+        }
+    }
+}

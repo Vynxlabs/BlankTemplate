@@ -1,0 +1,34 @@
+
+{% assign color_group = styles.color_group %}
+
+<div class="componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.services %}
+        {% for item in content.services %}
+          {% for service in collections.services %}
+              {% if item.service == service.data.id %}
+                {% capture image %}
+                        imagePath: {{ service.data.serviceImage }}
+                        imageAlt: {{ service.data.imageAltText }}
+                  {% endcapture %}
+                {% if service.data.category and service.data.category !="" %}
+                    <p>{{service.data.category}}</p>
+                {% endif %}
+                {% if service.data.category %}
+                    
+                {% endif %}
+              <p>{{service.data.title}}</p>
+              {% bookshop "generic/image" bind: image class: "w-full rounded object-cover aspect-[3/2]" %}
+              {% endif %}
+          {% endfor %}
+        {% endfor %}
+
+    {% endif %}
+  </section>
+</div>

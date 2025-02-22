@@ -1,0 +1,20 @@
+{% if formSubmit %}
+
+  <button  
+  data-umami-event="{{text}}-{{page.url}}-formBtn"
+  data-contrast="true"
+  type="submit" class=" {% if ghostButton %} border-2 border-{{color_group}}-{{colorFromGroup}}color {% else %}bg-{{color_group}}-{{colorFromGroup}}color text-{{color_group}}-highcontrast-{{colorFromGroup}}color
+  
+  {% endif %}  px-3 py-2 rounded font-bold text-sm uppercase transition-all hover:scale-105 ">
+  {{ text }}</button>{% else %}
+  <a
+    data-umami-event="{{text}}-{{page.url}}-btn"
+    data-contrast="true"
+    href="{{url}}"
+    class="  {% if ghostButton %} border-2 border-{{color_group}}-{{colorFromGroup}}color  {% else %}bg-{{color_group}}-{{colorFromGroup}}color text-{{color_group}}-highcontrast-{{colorFromGroup}}color
+  
+  {% endif %}  px-3 py-2 rounded font-bold text-sm uppercase transition-all hover:scale-105 "
+    {% if openInNewTab %}
+    target="_blank"
+    {% endif %}>{{ text }}</a>{% endif %}
+  

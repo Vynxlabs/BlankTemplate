@@ -1,0 +1,28 @@
+{% if pagination.href.next or pagination.href.previous %}
+  <footer class="flex justify-center mt-10">
+    <nav class="flex justify-between gap-4 text-{{color_group}}-accentcolor ">
+      {% if pagination.href.previous %}
+        <a 
+        data-umami-event="previous-{{page.url}}-blogPagination"
+        class="hover:underline" href="{{ pagination.href.previous }}{{ paginationNumber }}">
+          {% if paginationPrevText %}
+            {{ paginationPrevText }}
+          {% else %}
+            Previous
+          {% endif %}
+        </a>
+      {% endif %}
+      {% if pagination.href.next %}
+        <a 
+        data-umami-event="Next-{{page.url}}-blogPagination"
+        class="hover:underline" href="{{ pagination.href.next }}{{ paginationAnchor }}">
+          {% if paginationNextText %}
+            {{ paginationNextText }}
+          {% else %}
+            Next
+          {% endif %}
+        </a>
+      {% endif %}
+    </nav>
+  </footer>
+{% endif %}

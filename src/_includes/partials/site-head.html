@@ -1,0 +1,141 @@
+{% assign navPages = collections.all | eleventyNavigation %}
+
+{% assign level=-1%}
+
+{% assign color_group=site.nav_color_group%}
+
+{% capture logoUrl%}
+{% if disableNav == true  %}
+{{page.url}}
+{% else %}
+/
+{% endif %}
+{% endcapture%}
+
+
+<div id="navbar" class="fixed left-0 top-0 z-[900] w-full transition-all duration-300">
+  {% include "partials/banner.html" %}
+  <nav
+  
+    class=" transition-all duration-300  h-auto md:h-auto w-full bg-{{site.nav_color_group}}-backgroundcolor bg-opacity-70 text-{{site.nav_color_group}}-textcolor  backdrop-blur-sm flex "
+  >
+  
+  <a 
+  data-umami-event="logo-homeLink-navbar"
+  href="{{logoUrl}}" class="md:flex items-center self-start md:self-center p-4 ml-4 flex-shrink-0 hidden ">
+  
+    {% if not site.logoPath or site.logoPath == "" %}
+    <p class="cs-logoFont text-2xl hover:underline">{{site.name}}</p>
+    {% else %}
+    {% logo site.logoPath, "logo for {{site.name}}", " w-[100px]"  %}
+  {% endif %}
+  </a>
+    <div
+    id="navbar-container"
+      class="mx-auto flex max-w-[1440px] flex-wrap items-center  justify-between p-4 gap-3 md:gap-1 w-full"
+    >
+    <a 
+    data-umami-event="logo-homeLink-navbar"
+    href="{{logoUrl}}" class="md:hidden ">{% if not site.logoPath or site.logoPath == "" %}
+      <p class="cs-logoFont text-2xl hover:underline">{{site.name}}</p>
+      {% else %}
+      {% logo site.logoPath, "logo for {{site.name}}", " w-[100px]"  %}
+    {% endif %}</a>
+
+{% if disableNav != true  %}
+      <div class="flex flex-wrap-reverse justify-end flex-1 sm:flex-none items-center md:order-3 gap-4 justify-self-end">
+        {% bookshop "generic/button" bind: site.button %}
+        <button
+          data-umami-event="menu-toggle-navbar"
+          data-collapse-toggle="navbar-sticky"
+          type="button"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500  md:hidden"
+          aria-controls="navbar-sticky"
+          aria-expanded="false"
+          _="
+      on click
+      toggle .scale-y-100 on #navbar-sticky
+      toggle .invisible on #navbar-sticky
+      toggle .h-0 on #navbar-sticky
+  
+      toggle .gap-2 on #navbar-container
+  
+      toggle .scale-y-100 on #physical
+      toggle .invisible on #physical
+      toggle .h-0 on #physical
+      toggle .py-2 on #physical
+  
+      toggle .hidden on .logic-x
+      toggle .hidden on .logic-hamburger
+  
+      toggle .h-auto on #navbar
+      end
+  
+  
+      "
+        >
+          <span class="sr-only">Open main menu</span>
+          <div class="logic-x hidden">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "x-mark" iconType: "outline" iconSize: 'small' roundedBorder: false themeColor: true %}</div>
+          <div class="logic-hamburger">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "bars-4" iconType: "outline" iconSize: 'small' roundedBorder: false themeColor: true %}</div>
+  
+        </button>
+      </div>
+      <div
+        class="h-0 md:h-auto md:border-1 flex scale-y-0 invisible transition-all duration-300 origin-top md:scale-y-100 md:visible w-full items-center justify-between border-b border-white border-opacity-20 md:py-2 text-xs  md:order-1 md:flex md:text-sm gap-2"
+        id="physical"
+      >
+        <div class="flex flex-col justify-between gap-2 md:flex-row md:gap-8">
+          {% if site.contactInfo.location and site.contactInfo.location != "" %}
+          <div class="flex gap-1 items-center">
+            {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "map-pin" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
+            <p>{{ site.contactInfo.location }}</p>
+          </div>
+          {% endif %}
+          {% if site.contactInfo.hours and site.contactInfo.hours != "" %}
+          <div class="flex gap-1 items-center">
+            {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "clock" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
+            <p>{{ site.contactInfo.hours }}</p>
+          </div>
+          {% endif %}
+  
+        </div>
+        <div class="flex flex-col justify-between gap-2 md:flex-row md:gap-8">
+          {% if site.contactInfo.phone and site.contactInfo.phone != "" %}
+          <div class="flex gap-1 items-center">
+            {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "phone" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
+            <a 
+            data-umami-event="{{site.contactInfo.phone}}-navbar"
+            href="tel:{{ site.contactInfo.phone | remove: "-" | remove: " " | remove: "." | remove: "(" | remove: ")" }}" class="block underline"
+              >{{ site.contactInfo.phone }}</a
+            >
+          </div>
+          {% endif %}
+          {% if site.contactInfo.email and site.contactInfo.email != "" %}
+          <div class="flex gap-1 items-center">
+            {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "envelope" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
+            <a 
+            data-umami-event="{{site.contactInfo.email}}-navbar"
+            href="mailto:{{ site.contactInfo.email }}" class="block underline"
+              >{{ site.contactInfo.email }}</a
+            >
+          </div>
+          {% endif %}
+  
+        </div>
+      </div>
+  
+      <div
+        class="h-0 scale-y-0 md:h-auto md:scale-y-100 invisible transition-all duration-300 origin-top md:visible w-full flex-1 items-center justify-between md:order-2 md:flex md:w-auto"
+        id="navbar-sticky"
+      >
+        <ul
+          class="mt-4 flex  flex-col rounded border border-{{site.nav_color_group}}-backgroundcolor  p-4 font-medium md:mt-0 md:flex-row md:flex-wrap md:space-x-8 md:border-0 md:bg-transparent md:p-0 max-h-[50vh] overflow-y-scroll md:overflow-visible md:max-h-none"
+        >
+          {% for entry in navPages %} {% render "partials/render-nav.html",
+          entry: entry, color_group: site.nav_color_group, level:level, blogPosts: collections.blog, page:page %} {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    </div>
+  </nav>
+</div>

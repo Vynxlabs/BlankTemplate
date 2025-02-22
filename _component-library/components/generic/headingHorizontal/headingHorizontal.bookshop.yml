@@ -1,0 +1,71 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - headingBlocks
+  label: "Heading Horizontal"
+  description: Header text for you content
+  icon: view_headline
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    highlightEyebrow: false
+    eyebrow: 
+    headline: primary heading
+    description:
+    buttons: [bookshop:generic/button]
+    headingHierarchy: h2
+  styles:
+    headingRight: false
+    visualInterest: none
+    visualInterestColor: '#000000'
+    highContrast: false
+    contrastColorGroup:
+    contrastAgainst: 
+
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  headingRight:
+    type: switch
+    comment: Display the heading to the right and the body on the left
+  headingHierarchy:
+      hidden: true
+      type: select
+      options:
+        values:
+          - h1
+          - h2
+          - h3
+          - h4
+          - h5
+          - h6
+  visualInterest:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: None
+          id: none
+          icon: view_headline
+        - name: Dash
+          id: dash
+          icon: view_headline
+        - name: Side Line
+          id: sideLine
+          icon: view_headline
+        - name: Underline
+          id: underline
+          icon: view_headline
+  highContrast:
+    hidden: true
+  contrastAgainst:
+    hidden: true
+  contrastColorGroup:
+    hidden: true

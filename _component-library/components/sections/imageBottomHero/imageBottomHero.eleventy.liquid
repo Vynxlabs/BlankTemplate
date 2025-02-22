@@ -1,0 +1,49 @@
+{% assign color_group = styles.color_group %}
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow| stringifyFilter}}
+        headline: {{content.heading.content.headline| stringifyFilter}}
+        description: {{content.heading.content.description| stringifyFilter}}
+        buttons:
+          {{content.heading.content.buttons | json}}
+        headingHierarchy: "h1"
+    styles:
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        headingRight: {{content.heading.styles.headingRight}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: {{content.heading.styles.visualInterestColor}}
+        highContrast: true
+        contrastColorGroup: {{styles.color_group}}
+        contrastAgainst: {{styles.topColorFromGroup}} 
+        textClassOverride: 
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+
+<div class="c-imageBottomHero pb-20  text-{{styles.color_group}}-textcolor">
+  <section class="flex h-full">
+
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    <div class="cs-w-full max-h-[90%]  sm:max-h-[80%] bg-{{styles.color_group}}-{{styles.topColorFromGroup}}color  z-10 "></div>
+    <div class="cs-w-full flex mt-[100px] sm:mt-[200px] md:mt-[200px] lg:mt-[200px] items-center justify-center flex-col bg-{{styles.color_group}}-{{styles.bottomColorFromGroup}}color ">
+      <div class="z-20 min-h-min basecontainer w-full relative">
+        {% bookshop {{content.heading._bookshop_name}} bind: heading %}
+          <div>
+          <div class="text-{{styles.color_group}}-highcontrast-{{styles.topColorFromGroup}}color mt-5 flex flex-wrap justify-around gap-2 text-sm">
+            {% for benefit in content.benefits %}
+              <p>{{ benefit }}</p>
+            {% endfor %}
+        </div>
+          {% comment %} Update this to dynamically choose from the image, or the media embeds{% endcomment %}
+          {% bookshop "{{content.image._bookshop_name}}" bind: content.image class: "max-h-screen object-cover z-30 w-full rounded mt-4 overflow-hidden" %}
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</div>

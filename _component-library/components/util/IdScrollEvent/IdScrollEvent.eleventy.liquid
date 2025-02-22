@@ -1,0 +1,7 @@
+<div id="{{ sectionId | idFilter }}" _="
+on intersection(intersecting) having threshold 0.5
+if intersecting then
+js window.umami.track('{{sectionId}}-{{page.url}}-scroll') end
+">
+
+</div>

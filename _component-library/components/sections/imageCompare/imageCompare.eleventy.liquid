@@ -1,0 +1,67 @@
+{% assign color_group = styles.color_group %}
+{% capture iconClass %}
+    fill-{{styles.color_group}}-secondarycolor
+{% endcapture %}
+{% capture orientationClasses %}
+  {% if styles.imageOrientation == "landscape" %}
+    max-w-[700px] max-h-[500px]
+    {% else %}
+    max-w-[500px] max-h-[700px]
+  {% endif %}
+{% endcapture %}
+<div class="c-imageCompare componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full flex flex-col items-center"
+    id="{{content.sectionId | }}">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% if env_bookshop_live and content.showNote %}
+        <div class="mb-20">{% bookshop "generic/notification" heading: "Slider no sliding" text: "The slider will not slide while editing, but will work on your live site" %}</div>
+      {% endif %}
+    {% comment %} Image container {% endcomment %}
+    <div class="relative mt-10 flex overflow-hidden rounded {{orientationClasses}}">
+        {% bookshop "generic/image" bind: content.leftImage class:"lg-before-img absolute top-0 w-1/2 h-full object-cover object-left" %}
+        {% bookshop "generic/image" bind: content.rightImage %}
+        <div
+        id="sliderLine"
+        class="absolute left-1/2 h-full w-1 -translate-x-1/2 bg-{{color_group}}-secondarycolor shadow-[0px_0px_8px_2px_rgba(204,_237,_193,_0.50)]"
+      ></div>
+      <div
+        id="sliderIcon"
+        class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 justify-between"
+      >
+      {% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"chevron-left" iconType:"solid" iconSize:'small' roundedBorder:false classOverride: iconClass %}
+      {% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"chevron-right" iconType:"solid" iconSize:'small' roundedBorder:false classOverride: iconClass %}
+      </div>
+      <input
+      data-umami-event="{{styles.imageOrientation}}-{{page.url}}-imgCompareSlider"
+        id="slider"
+        type="range"
+        class="absolute inset-0 opacity-0"
+        min="0"
+        max="100"
+        _="
+      on input
+      set img to .lg-before-img
+      set sliderLine to #sliderLine
+      set sliderIcon to #sliderIcon
+      set sliderVal to my value + '%'
+      set img.style.width to sliderVal
+      set sliderLine.style.left to sliderVal
+      set sliderIcon.style.left to sliderVal
+      "
+      />
+    </div>
+    {% if content.buttons %}
+        <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+          {% for button in content.buttons %}
+            {% bookshop "generic/button" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+  </section>
+</div>

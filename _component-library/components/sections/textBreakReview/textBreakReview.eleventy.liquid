@@ -1,0 +1,54 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-textBreakReview c-simpleCta componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+  <section class="basecontainer w-full">
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.reviews %}
+
+      <div class="flex justify-around gap-20 flex-wrap overflow-hidden mt-20 md:pr-16">
+        {% for item in content.reviews %}
+          {% for review in reviews %}
+
+            {% if item.review == review.id %}
+              <div class="max-w-[350px] relative flex flex-wrap ">
+                {% assign review = review.resultImage | logFilter %}
+                {% assign imageAltText = "Service result for " | append: review.name %}
+                <div class="rounded">
+                  {% if content.usePersonImage %}
+                    {% bookshop "generic/image" imagePath: review.personImage imageAlt: imageAltText class: "rounded object-cover object-center h-full w-full" %}
+                  {% else %}
+                    {% bookshop "generic/image" imagePath: review.resultImage imageAlt: imageAltText class: "rounded object-cover object-center h-full w-full" %}
+                  {% endif %}
+
+
+                </div>
+                {% comment %} Create custom tailwind classses for this background {% endcomment %}
+                <div class="hidden sm:block absolute inset-0  bg-gradient-to-r from-transparent to-{{color_group}}-backgroundcolor opacity-60 before:hidden"></div>
+                <div class="mt-4 sm:absolute top-[7%] lg:left-[170px] sm:left-[170px] md:left-[125px] sm:-right-[250px]">
+                  <div class="flex">
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                  </div>
+                  <div class="mt-2 sm:max-w-[250px] relative">
+                    <div class="font-medium sm:font-bold text-2xl">
+                      <span class="absolute text-5xl -left-6 -top-2">"</span>
+                      {{ review.review }}</div>
+                    <div>{{ review.name }}</div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </section>
+</div>

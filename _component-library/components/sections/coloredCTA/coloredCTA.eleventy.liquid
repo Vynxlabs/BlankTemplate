@@ -1,0 +1,32 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-simpleCta componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor px-4">
+    
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    <section class="basecontainer w-full max-w-[900px] bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color rounded px-4 py-20">
+    {% capture heading %}
+        content:
+            highlightEyebrow: {{content.CallToAction.content.highlightEyebrow}}
+            eyebrow: {{content.CallToAction.content.eyebrow | stringifyFilter}}
+            headline: {{content.CallToAction.content.headline | stringifyFilter}}
+            description: {{content.CallToAction.content.description | stringifyFilter}}
+            headingHierarchy: "h2"
+            buttons:
+                {{content.CallToAction.content.buttons | json}}
+        styles:
+            contentAlignment: {{content.CallToAction.styles.contentAlignment}}
+            textAlignment: {{content.CallToAction.styles.textAlignment}}
+            visualInterest: {{content.CallToAction.styles.visualInterest}}
+            visualInterestColor: "{{content.CallToAction.styles.visualInterestColor}}"
+            highContrast: true
+            contrastColorGroup: {{styles.card_color_group}}
+            contrastAgainst: {{styles.colorFromGroup}}
+    {% endcapture %}
+    {% assign heading = heading | ymlify %}
+    {% assign temp = heading | log %}
+        {% bookshop "generic/heading" bind: heading %}
+
+    </section>
+</div>

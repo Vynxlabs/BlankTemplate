@@ -1,0 +1,38 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Large Image"
+  description: A section dedicated to showing off a single image
+  icon: image
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading!
+    image: bookshop:generic/image!
+    buttons: [bookshop:generic/button]
+  styles:
+    color_group: primary
+    imageOrientation: landscape
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  imageOrientation:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Landscape
+          id: landscape
+          icon: crop_landscape
+        - name: Portrait
+          id: portrait
+          icon: crop_portrait

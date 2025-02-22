@@ -1,0 +1,24 @@
+{% capture heading %}
+    content:
+        headline: {{title | stringifyFilter}}
+        headingHierarchy: "h3"
+    styles:
+        contentAlignment: "left"
+        textAlignment: "left"
+  {% endcapture %}
+  {% assign heading = heading | ymlify %}
+  
+  <li class="relative max-h-[300px] max-w-[400px] rounded transition-all duration-300 scale-100 hover:scale-105">
+            <a 
+            data-umami-event="{{title}}-{{page.url}}-servicesCard"
+            href="{{url}}" class=" ">
+              {% bookshop "generic/image" bind: image class: "aspect-[4/3] object-cover object-center" %}
+              <div class="absolute -top-8 flex flex-col items-end left-4  font-bold rounded">
+                <div class="p-2 z-10 ">{% bookshop "generic/heading" bind: heading %}</div>
+                <div class="-mt-10 w-full h-5 bg-{{color_group}}-backgroundcolor bg-opacity-70 rounded backdrop-blur-sm"></div>
+              </div>
+              <div class="absolute bottom-5 right-5 flex flex-col items-end px-4  font-bold ">
+                <p class="underline bg-{{color_group}}-backgroundcolor bg-opacity-70 text-{{color_group}}-textcolor bg-opacity-40 pb-2 px-2 rounded backdrop-blur-sm">Learn more</p>
+              </div>
+            </a>
+          </li>

@@ -1,0 +1,36 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Services Section"
+  description:
+  icon:
+  tags: [connected]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading
+    showNote: true
+  styles:
+    color_group: primary
+    cardStyle: defaultCard
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  cardStyle:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Default
+          id: defaultCard
+        - name: Clean
+          id: cleanCard
+    

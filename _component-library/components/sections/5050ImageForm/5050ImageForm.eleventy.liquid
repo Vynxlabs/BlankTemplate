@@ -1,0 +1,47 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-5050ImageForm relative">
+  <section
+    class="basecontainer w-full">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    <div class=" flex">
+
+      <div class="cs-w-full lg:cs-w-full-r flex flex-col items-center p-4   justify-center bg-{{styles.color_group}}-backgroundcolor  bg-opacity-60 text-{{styles.color_group}}-highcontrast-backgroundcolor lg:bg-opacity-100">
+        <div class="max-w-[512px] w-full">
+          {% bookshop "generic/heading" bind: content.heading %}
+          {% bookshop "simple/formBuilder" bind: content.form %}
+          <div class="flex justify-between w-full mt-11 gap-2 flex-wrap ">
+          {% if site.contactInfo.email and site.contactInfo.email != "" %}
+            <div class="flex gap-1 items-center">
+              <a 
+              data-umami-event="{{site.contactInfo.email}}-{{page.url}}-50/50form"
+              href="mailto:{{ site.contactInfo.email }}" class="block underline"
+                >{{ site.contactInfo.email }}</a
+              >
+            </div>
+            {% endif %}
+
+            {% if site.contactInfo.phone and site.contactInfo.phone != "" %}
+              <div class="flex gap-1 items-center">
+                <a 
+                data-umami-event="{{site.contactInfo.phone}}-{{page.url}}-50/50form"
+                href="tel:{{ site.contactInfo.phone | remove: "-" | remove: " " | remove: "." | remove: "(" | remove: ")" }}" class="block underline"
+                  >{{ site.contactInfo.phone }}</a
+                >
+              </div>
+              {% endif %}
+        </div>
+        </div>
+        
+      </div>
+
+      <div class="cs-w-full min-h-screen lg:cs-w-full-l -z-10 flex items-end justify-center bg-cover bg-center font-bold md:justify-normal ">
+        {% bookshop "generic/image" bind: content.image class: "min-h-screen h-full w-screen object-cover" %}
+      </div>
+
+    </div>
+  </section>
+</div>

@@ -1,0 +1,108 @@
+{% assign level=level | plus: 1%}
+
+{% capture display %}
+{% if level <= 0%}
+md:absolute md:left-0
+{% else  %}
+  md:absolute md:left-full md:top-1/2
+    {% endif %}
+ {% endcapture %}
+
+ {%assign hex = 'text-{{color_group}}-textcolor'%}
+
+{% if entry.url == "/blog/" %} {% if
+blogPosts.size > 0 %}
+ 
+<li>
+  
+  <a 
+  data-umami-event="{{entry.title}}-navbar"
+  {{entry.url | linkFilter: page.url}}
+    class="data-[state=active]:link data-[state=active]:decoration-{{color_group}}-accentcolor  block rounded py-2 pl-3 pr-4 uppercase  transition-colors hover:bg-gray-700 dark:border-gray-700 md:p-0 md:hover:bg-transparent md:dark:hover:bg-transparent"
+    href="{{ entry.url }}"
+    >{{ entry.title }}</a
+  >
+</li>
+{% endif %} {% elsif entry.children.size <= 0 %}
+<li>
+  <a 
+  data-umami-event="{{entry.title}}-navbar"
+  {{entry.url | linkFilter: page.url}}
+    class="data-[state=active]:link data-[state=active]:decoration-{{color_group}}-accentcolor block rounded py-2 pl-3 pr-4 uppercase  transition-colors hover:bg-gray-700 dark:border-gray-700 md:p-0 md:hover:bg-transparent md:dark:hover:bg-transparent"
+    href="{{ entry.url }}"
+    >{{ entry.title }}</a
+  >
+</li>
+{% endif %} {% if entry.children.size > 0 %}
+<div class="relative ">
+  <div class="flex items-center">
+    <li>
+      <button
+      data-umami-event="{{entry.title}}-navbar"
+      {{entry.url | linkFilter: page.url}}
+        class="data-[state=active]:link data-[state=active]:decoration-{{color_group}}-accentcolor block rounded py-2 pl-3 pr-4 uppercase  transition-colors hover:bg-gray-700 dark:border-gray-700 md:p-0 md:hover:bg-transparent md:dark:hover:bg-transparent"
+       _="
+      set element opened to false
+      set element submenu to #{{ entry.key | slugify }}
+      on click
+    
+      if opened then
+      js(submenu)
+        submenu.classList.remove('md:scale-y-100');
+        submenu.classList.add('md:invisible');
+      end then set opened to false else
+      js(submenu)
+        submenu.classList.add('md:scale-y-100');
+        submenu.classList.remove('md:invisible');
+      end then set opened to true end
+      halt
+      on click from elsewhere
+      if opened then
+      js(submenu)
+      submenu.classList.remove('md:scale-y-100');
+      submenu.classList.add('md:invisible');
+      end then set opened to false
+      " 
+        >{{ entry.title }}</button
+      >
+    </li>
+    <summary class="absolute left-[87%] "><button class="hover:border-b-2 hidden md:block w-12 h-10 data-[state=active]:link hover:text-sopris-green rounded py-2 pl-3 pr-4 uppercase  transition-colors hover:bg-gray-700 dark:border-gray-700 md:p-0 md:hover:bg-transparent md:dark:hover:bg-transparent"
+      _="
+      set element opened to false
+      set element submenu to #{{ entry.key | slugify }}
+      on click
+    
+      if opened then
+      js(submenu)
+        submenu.classList.remove('md:scale-y-100');
+        submenu.classList.add('md:invisible');
+      end then set opened to false else
+      js(submenu)
+        submenu.classList.add('md:scale-y-100');
+        submenu.classList.remove('md:invisible');
+      end then set opened to true end
+      halt
+      on click from elsewhere
+      if opened then
+      js(submenu)
+      submenu.classList.remove('md:scale-y-100');
+      submenu.classList.add('md:invisible');
+      end then set opened to false
+      "
+    
+      ><div class="w-full flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="stroke-{{color_group}}-textcolor hidden md:inline-block " d="M4 7L10 13L16 7" stroke="white" stroke-width="2"/>
+          </svg>
+      </div>
+        </button></summary>
+  </div>
+  <ul id="{{ entry.key | slugify }}" class="{{display}}    transition-all md:duration-300 origin-top md:invisible   md:scale-y-0  ml-3  md:ml-0 md:p-2 md:pr-6  md:z-10 mt-2 w-max  rounded   border-l-2 border-{{color_group}}-backgroundcolor md:bg-{{color_group}}-backgroundcolor bg-opacity-70  focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+    {% for child in entry.children %} {% render "partials/render-nav.html",
+    entry:child, color_group: color_group, level: level, blogPosts: blogPosts, page:page %} {% endfor %}
+  </ul>
+</div>
+
+  
+
+{% endif %}

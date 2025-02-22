@@ -1,0 +1,28 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Information Cards"
+  description: Show off your information in straight forward cards
+  icon:
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading!
+    cards:
+      - heading: bookshop:generic/heading!
+  styles:
+    color_group: primary
+    card_color_group: primary
+    cardBackground: true
+    
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:

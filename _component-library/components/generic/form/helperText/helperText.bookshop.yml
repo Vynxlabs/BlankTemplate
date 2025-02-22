@@ -1,0 +1,46 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+  label: "Helper text"
+  description: Display a short explanatory text for a field
+  icon: information-circle
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  helperText: Helper text
+  id:
+
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  helperText: Helper text
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  id:
+    hidden: true
+  helperText:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true

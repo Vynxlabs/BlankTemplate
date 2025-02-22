@@ -1,0 +1,117 @@
+name: Weekly Template Update and Test
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every Sunday at midnight UTC
+
+permissions:
+  contents: write
+
+jobs:
+  update-template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+
+      - name: Use Node.js v20.2.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'v20.2.0'
+
+      - name: Cache Node.js modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Set up Git
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Fetch upstream changes
+        run: |
+          git remote add upstream https://github.com/Virtuouz/BookShopStarter.git
+          git fetch upstream main
+
+      - name: Create temporary branch
+        run: |
+          git checkout -b temp-update-branch
+          git merge upstream/main --allow-unrelated-histories --no-edit || (echo "Merge conflict detected. Proceeding with conditional conflict resolution."; exit 0)
+
+      - name: Identify conflicts and resolve
+        if: always()
+        run: |
+          echo "Identifying conflicts..."
+          conflicts=$(git diff --name-only --diff-filter=U)
+          echo "Conflicted files: $conflicts"
+
+          for file in $conflicts; do
+            if [[ "$file" == _component-library/* || \
+                  "$file" == .cloudcannon/* || \
+                  "$file" == .github/* || \
+                  "$file" == netlify/* || \
+                  "$file" == src/_data-ref/* || \
+                  "$file" == src/_includes/* || \
+                  "$file" == src/assets/styles/* || \
+                  "$file" == src/filters/* || \
+                  "$file" == tests/* || \
+                  "$file" == utils/* || \
+                  "$file" == .eleventy.js || \
+                  "$file" == cloudcannon.config.yml || \
+                  "$file" == netlify.toml || \
+                  "$file" == package-lock.json || \
+                  "$file" == package.json || \
+                  ("$file" == src/pages/* && "$file" != *.md) || \
+                  ("$file" == src/posts/* && "$file" != *.md) || \
+                  ("$file" == src/happenings/* && "$file" != *.md) || \
+                  ("$file" == src/services/* && "$file" != *.md) ]]; then
+              echo "Applying 'theirs' strategy for $file"
+              git checkout --theirs -- "$file"
+            else
+              echo "Applying 'ours' strategy for $file"
+              git checkout --ours -- "$file"
+            fi
+          done
+
+          git add .
+          git commit -m "Resolved conflicts using conditional logic."
+
+      - name: Install dependencies
+        run: npm install --prefer-offline --no-audit --no-progress --production
+
+      - name: Run component validation and sync site.json
+        run: npm run test:componentUse
+
+      - name: run data sync
+        run: npm run test:siteJsonSync
+
+      - name: Commit changes
+        run: |
+          git add .
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Sync components and site file"
+          fi
+          
+
+      - name: Merge changes into main
+        if: success()
+        run: |
+          git checkout main
+          git merge temp-update-branch --no-edit
+          git push origin main
+
+      - name: Clean up
+        run: git branch -D temp-update-branch
+
+      - name: Notify on failure
+        if: failure()
+        run: echo "Automated tests failed. Merge aborted."

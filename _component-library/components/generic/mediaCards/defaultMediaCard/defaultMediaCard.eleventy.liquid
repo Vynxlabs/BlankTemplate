@@ -1,0 +1,27 @@
+{% assign color_group = styles.color_group %}
+{% capture entryHeading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow | stringifyFilter}}
+        headline: {{content.heading.content.headline | stringifyFilter}}
+        description: {{content.heading.content.description | stringifyFilter}}
+        headingHierarchy: "h3"
+        buttons:
+          {{content.heading.content.buttons | json}}
+    styles:
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: "{{content.heading.styles.visualInterestColor}}"
+        highContrast: true
+        contrastColorGroup: "{{styles.color_group}}"
+        contrastAgainst: "{{styles.colorFromGroup}}"
+  {% endcapture %}
+  {% assign entryHeading = entryHeading | ymlify %}
+
+<li class="c-defaultMediaCard rounded  h-full flex-1 flex flex-col max-w-[400px] min-w-[300px] md:min-w-[350px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color">
+    {% bookshop "generic/image" bind: content.image class: "rounded-t aspect-[4/3] object-cover object-center" %}
+    <div class="p-4">
+        {% bookshop "generic/heading" bind: entryHeading %}
+    </div>
+</li>

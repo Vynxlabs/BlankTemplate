@@ -1,0 +1,18 @@
+primaryColor_group:
+  name: Primary
+  textColor: '#041e25'
+  backgroundColor: '#f6fdfe'
+  primaryColor: '#25cbe4'
+  secondaryColor: '#ef808f'
+  accentColor: '#eaca57'
+customColor_groups:
+  - name: Primary Dark
+    textColor: '#daf4fb'
+    backgroundColor: '#010809'
+    primaryColor: '#1bc0da'
+    secondaryColor: '#7f101f'
+    accentColor: '#a88815'
+    id: 5c9075f8-80f9-4482-b041-91cffdfe02be
+heading_font: Alegreya Sans
+content_font: Fira Sans
+logo_font: Oswald

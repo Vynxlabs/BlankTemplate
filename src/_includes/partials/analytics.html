@@ -1,0 +1,31 @@
+
+{% if site.googleAnalytics and site.googleAnalytics != "" %}
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{site.googleAnalytics}}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{site.googleAnalytics}}');
+</script>
+{% endif %}
+
+{% if site.umamiAnalytics.websiteId 
+  and site.umamiAnalytics.websiteId != "" 
+  and site.umamiAnalytics.scriptSource 
+  and site.umamiAnalytics.scriptSource != ""
+  and site.umamiAnalytics.dataDomains 
+  and site.umamiAnalytics.dataDomains != "" %}
+
+  <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    var el = document.createElement('script');
+    el.setAttribute('src', '{{site.umamiAnalytics.scriptSource}}');
+    el.setAttribute('data-website-id', '{{site.umamiAnalytics.websiteId}}');
+    el.setAttribute('data-domains', '{{site.umamiAnalytics.dataDomains}}');
+    document.body.appendChild(el);
+  });
+</script>
+{% endif %}

@@ -1,0 +1,118 @@
+{
+  "logoPath": "",
+  "faviconPath": "",
+  "name": "My Business Name",
+  "legalName": "Legal Name LLC",
+  "termsAndConditionsUrl": "",
+  "privacyPolicyUrl": "",
+  "url": "https://exampe.com",
+  "contactInfo": {
+    "email": "info@example.com",
+    "phone": "123-456-7890",
+    "location": "Some Rd, Somecity, ID ",
+    "hours": "Mon - Fri: 8am-5pm"
+  },
+  "customCode": {
+    "headCode": "",
+    "bodyCode": ""
+  },
+  "googleAnalytics": "",
+  "umamiAnalytics": {
+    "bringYourOwnUmami": false,
+    "websiteId": "",
+    "scriptSource": "https://analytics.vynxlabs.com/script.js",
+    "dataDomains": ""
+  },
+  "socialMediaLinks": [
+    {
+      "label": "Xwitter",
+      "linkUrl": "https://twitter.com/"
+    },
+    {
+      "label": "Facebook",
+      "linkUrl": "https://www.facebook.com/"
+    },
+    {
+      "label": "Dribble",
+      "linkUrl": "https://dribbble.com/"
+    }
+  ],
+  "socialImage": "",
+  "button": {
+    "_bookshop_name": "generic/button",
+    "url": "https://example.com",
+    "openInNewTab": false,
+    "text": "Button Text",
+    "color_group": "primary",
+    "colorFromGroup": "primary",
+    "ghostButton": true
+  },
+  "nav_color_group": "primary",
+  "color_group": "primary",
+  "footer_color_group": "5c9075f8-80f9-4482-b041-91cffdfe02be",
+  "_inputs": {
+    "privacyPolicyUrl": {
+      "type": "url"
+    },
+    "termsAndConditionsUrl": {
+      "type": "url"
+    },
+    "umamiAnalytics": {
+      "hidden": true
+    },
+    "websiteId": {
+      "hidden": "!bringYourOwnUmami"
+    },
+    "scriptSource": {
+      "hidden": "!bringYourOwnUmami"
+    },
+    "dataDomains": {
+      "hidden": "!bringYourOwnUmami"
+    },
+    "headCode": {
+      "comment": "Add code at the end of the <head> tag",
+      "type": "code"
+    },
+    "bodyCode": {
+      "comment": "Add code before the </body> tag",
+      "type": "code"
+    },
+    "color_group": {
+      "comment": "The over all color group for the site."
+    },
+    "socialImage": {
+      "comment": "This is the image that will be shown when sharing your page social media like Facebook, and X (Twitter)"
+    },
+    "googleAnalytics": {
+      "comment": "Place your Google Analytics Measurement ID here"
+    },
+    "logoPath": {
+      "hidden": false,
+      "type": "image"
+    },
+    "faviconPath": {
+      "type": "image",
+      "comment": "Place your websites favicon here. If left empty, we'll use your logo instead."
+    },
+    "button": {
+      "comment": "This is the button will show up in your navigation bar and across all pages on the website"
+    },
+    "socialMediaLinks": {
+      "type": "array",
+      "options": {
+        "structures": {
+          "values": [
+            {
+              "label": "Social Media Link",
+              "icon": "link",
+              "value": {
+                "label": null,
+                "linkUrl": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{% assign color_group = styles.color_group %}
+
+
+<section  class='cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor'>
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+
+{% if content.heading or content.text %}
+    <div class='basecontainer flex flex-col justify-center items-center w-full max-w-[750px]'>
+        {% bookshop "generic/heading" bind:content.heading %}
+        <div class="c-simpleTextBlock">{% if content.text %}{% bookshop "generic/textBlock" bind:content.text %}{% endif %}</div>
+    </div>
+{% endif %}
+</section>

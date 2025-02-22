@@ -1,0 +1,4 @@
+{
+    "layout":"layouts/page.html",
+    "permalink":"/happenings/{{ title | slug }}/index.html"
+}

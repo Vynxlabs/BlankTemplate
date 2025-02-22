@@ -1,0 +1,26 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Pricing Cards"
+  description: Show your pricing through cards!
+  icon:
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading!
+    cards: [bookshop:generic/pricingCard!]
+    buttons: [bookshop:generic/button]
+  styles:
+    color_group: primary
+
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:

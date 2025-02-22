@@ -1,0 +1,29 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Side By Side Standard"
+  description: A versile section with alternating text and images from left to right
+  icon: ballot
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading!
+    entries: [bookshop:generic/leftRight!]
+  styles:
+    color_group: primary
+    startImageRight: false
+    fullWidth: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  startImageRight:
+    type: switch
+    comment: Weather the alternating image and content pattern should start with the image on the right.

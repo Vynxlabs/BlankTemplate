@@ -1,0 +1,65 @@
+{% if env_bookshop_live %}
+  {% assign postListItems = collections.blog %}
+{% else %}
+  {% assign postListItems = pagination.items %}
+{% endif %}
+{% assign color_group = styles.color_group %}
+{% if contents.randomize %}
+  {% assign postListItems = collections.blog | randomBlogsFilter: page %}
+{% else %}
+  {% assign postListItems = collections.blog %}
+{% endif %}
+{% assign counter = 0 %}
+{% assign cardStyle = 'generic/blog/' |  append: styles.cardStyle | append: "Card" %}
+
+<div class="cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor">
+
+  <div
+    class="basecontainer">
+
+  {% if contents.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: contents.sectionId %}
+  {% endif %}
+    {% if env_bookshop_live and contents.showNote %}
+      {% bookshop "generic/notification" heading: "Blog Cards" text: "The time to read will not show up while editing, but will show up on the live site" %}
+    {% endif %}
+    {% bookshop "generic/heading" bind: contents.heading %}
+    <div class="mt-12 grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 md:gap-20 ">
+      {% for entry in postListItems %}
+        {% capture blogAuthor %}
+                    {% for writer in authors %}
+                        {% if entry.data.author == writer.id %}
+                            {{ writer.name }}
+                        {% endif %}
+                    {% endfor %}
+                {% endcapture %}
+        {% capture image %}
+        {% if entry.data.blogImage and entry.data.blogImage != ""  %}
+        image:
+          imagePath: {{ entry.data.blogImage }}
+          imageAlt: {{ entry.data.imageAltText }}
+        {% else %}
+        image:
+          imagePath: {{ blog.defaultImage }}
+          imageAlt: {{ blog.defaultImageAltText }}
+        {% endif %}
+        {% endcapture %}
+        {% capture blogInfo %}
+        blogTitle: {{ entry.data.title | stringifyFilter}}
+        url: {{ entry.url }}
+        author: {{ blogAuthor | strip}}
+        date: '{% if entry.data.date %}{{ entry.data.date }}{% else %}{{ entry.date }}{% endif %}'
+        length: {{ entry.content | readTimeFilter }}
+        blogTags: {{ entry.data.tags | ymlify | split: "," | json}}
+        {{ image | strip}}
+        color_group: {{styles.color_group}}
+        {% endcapture %}
+        {% assign blogInfo = blogInfo | ymlify %}
+        {% if counter < 3 %}
+          {% bookshop {{cardStyle}} bind: blogInfo %}
+        {% endif %}
+        {% assign counter = counter | plus: 1 %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

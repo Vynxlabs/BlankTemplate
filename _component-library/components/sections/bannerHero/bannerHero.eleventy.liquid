@@ -1,0 +1,33 @@
+{% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
+{% endcapture %}
+{% assign color_group = styles.color_group %}
+
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow | stringifyFilter}}
+        headline: {{content.heading.content.headline | stringifyFilter}}
+        description: {{content.heading.content.description | stringifyFilter}}
+        headingHierarchy: "h1"
+        buttons:
+            {{content.heading.content.buttons | json}}
+    styles:
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: "{{content.heading.styles.visualInterestColor}}"
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+<div class="c-bannerHero componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+  <div class="absolute inset-0 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
+    {% bookshop "generic/image" bind: content.backgroundImage class: "h-full w-screen object-cover " %}
+  </div>
+  <section class="basecontainer w-full z-10 flex flex-col h-[600px] justify-center ">
+    {% bookshop "generic/heading" bind: heading %}
+  </section>
+</div>

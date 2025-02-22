@@ -1,0 +1,33 @@
+{% assign id = id | uuidFilter %}
+<button class="c-snippetImageModal {{classes}} transition-all duration-300 scale-100 hover:scale-[101%]  py-4"
+_=
+"
+on click
+set modal to #modal-{{id}}
+modal.show()
+transition #modal-{{id}} opacity to 1 over 0.2s
+"
+>
+{% bookshop "generic/image" imagePath: imagePath imageAlt: imageAlt class: "object-cover object-center w-full h-auto" %}
+</button>
+<dialog
+    id="modal-{{id }}"
+    class="fixed top-0 z-[900] h-full w-full overflow-scroll p-4 opacity-0 open:bg-slate-950 open:bg-opacity-60 open:backdrop-blur-lg sm:p-10"
+  >
+    <div class="flex flex-col gap-10">
+      <button aria-label="Close image"
+        class="sticky top-0 self-end font-bold text-white opacity-60"
+        _="
+          on click
+          set modal to #modal-{{id}}
+          transition #modal-{{id}} opacity to 0 over 0.2s settle then
+          modal.close()
+          "
+      >
+      {%- bookshop "generic/heroLibraryIcon" heroLibraryIconName:"x-mark" iconType:"solid" iconSize:'large' roundedBorder:false color: "#ffffff" -%}
+      </button>
+      <div class="self-center">
+          {% bookshop "generic/image" imagePath: imagePath imageAlt: imageAlt class: "max-w-[90%] object-cover object-center" %}
+      </div>
+    </div>
+  </dialog>

@@ -1,0 +1,111 @@
+{% assign color_group = styles.color_group %}
+{% assign counter = 0 %}
+{% assign visualInterestPath = "/assets/images/visual-interest/" | append: styles.imageVisualInterest | append: '.svg' %}
+{% assign visualInterestClasses = "" %}
+{% if styles.imageVisualInterest == "dot-grid" %}
+  {% assign visualInterestClasses = "absolute top-[60px] opacity-50 xl:left-[12%] rotate-90 -z-10 hidden xl:block " | append: "fill-" | append: color_group | append: "-primarycolor " %}
+{% elsif styles.imageVisualInterest == "cross-grid" %}
+  {% assign visualInterestClasses = "absolute -top-[40px] opacity-50 xl:left-[12%] -z-10 hidden xl:block " | append: "stroke-" | append: color_group | append: "-primarycolor " %}
+{% endif %}
+
+<div class="c-featuresCenterImage componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full">
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% if env_bookshop_live and content.showNote %}
+      <div class="mb-20">{% bookshop "generic/notification" heading: "No image visual interest" text: "The visual interest for the images (Dots or Crosses) will not show up when editing, but will show up on the live site" %}</div>
+    {% endif %}
+    {% if content.cards %}
+      <div class="mt-20 flex justify-center gap-16 w-full flex-wrap xl:flex-nowrap">
+        {% comment %} Even cards {% endcomment %}
+        <div class="xl:w-full flex-1 order-1 min-w-[275px] flex flex-col gap-8">
+          {% for card in content.cards %}
+            {% assign evenOdd = counter | modulo: 2 %}
+            {% if evenOdd == 0 %}
+              {% assign color_group = styles.card_color_group %}
+              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  rounded">
+                {% capture heading %}
+                        content:
+                            highlightEyebrow: {{card.heading.content.highlightEyebrow}}
+                            eyebrow: {{card.heading.content.eyebrow | stringifyFilter}}
+                            headline: {{card.heading.content.headline | stringifyFilter}}
+                            description: {{card.heading.content.description | stringifyFilter}}
+                            headingHierarchy: "h3"
+                            buttons:
+                                {{card.heading.content.buttons | json}}
+                        styles:
+                            contentAlignment: {{card.heading.styles.contentAlignment}}
+                            textAlignment: {{card.heading.styles.textAlignment}}
+                            visualInterest: {{card.heading.styles.visualInterest}}
+                            visualInterestColor: "{{card.heading.styles.visualInterestColor}}"
+                    {% endcapture %}
+                {% assign heading = heading | ymlify %}
+                {% bookshop "generic/heading" bind: heading %}
+              </div>
+            {% endif %}
+            {% assign counter = counter | plus: 1 %}
+          {% endfor %}
+
+        </div>
+        <div class="flex flex-col relative xl:max-w-[300px] order-4 xl:order-2">
+
+          <div class="sticky top-8">
+            {% if env_bookshop_live %}
+            {% elsif styles.imageVisualInterest != "none" %}
+
+              <div class="relative">{{ '/src' | append: visualInterestPath | svgContents: visualInterestClasses }}</div>
+            {% endif %}
+            {% bookshop "generic/image" bind: content.image class: "rounded xl:aspect-auto aspect-video object-cover" %}
+
+            {% if content.buttons %}
+              <div class="mt-10 flex w-full gap-8 flex-wrap justify-center ">
+                {% for button in content.buttons %}
+                  {% bookshop "generic/button" bind: button %}
+                {% endfor %}
+
+              </div>
+            {% endif %}
+          </div>
+          <div class="flex-1"></div>
+        </div>
+        {% assign counter = 0 %}
+        {% assign counter = counter | plus: 1 %}
+        {% comment %} Odd cards {% endcomment %}
+        <div class="xl:w-full flex-1 order-3 min-w-[275px] flex flex-col gap-8">
+          {% for card in content.cards %}
+            {% assign evenOdd = counter | modulo: 2 %}
+            {% if evenOdd == 0 %}
+              {% assign color_group = styles.card_color_group %}
+              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  rounded">
+                {% capture heading %}
+                        content:
+                            highlightEyebrow: {{card.heading.content.highlightEyebrow}}
+                            eyebrow: {{card.heading.content.eyebrow | stringifyFilter}}
+                            headline: {{card.heading.content.headline | stringifyFilter}}
+                            description: {{card.heading.content.description | stringifyFilter}}
+                            headingHierarchy: "h3"
+                            buttons:
+                                {{card.heading.content.buttons | json}}
+                        styles:
+                            contentAlignment: {{card.heading.styles.contentAlignment}}
+                            textAlignment: {{card.heading.styles.textAlignment}}
+                            visualInterest: {{card.heading.styles.visualInterest}}
+                            visualInterestColor: "{{card.heading.styles.visualInterestColor}}"
+                    {% endcapture %}
+                {% assign heading = heading | ymlify %}
+                {% bookshop "generic/heading" bind: heading %}
+              </div>
+            {% endif %}
+            {% assign counter = counter | plus: 1 %}
+          {% endfor %}
+
+        </div>
+
+
+      </div>
+    {% endif %}
+  </section>
+</div>

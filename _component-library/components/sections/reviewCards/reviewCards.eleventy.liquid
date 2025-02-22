@@ -1,0 +1,51 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-reviewCards componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full">
+    
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.reviews %}
+
+      <div class="flex justify-around gap-4 gap-y-8 flex-wrap mt-20">
+        {% for item in content.reviews %}
+          {% for review in reviews %}
+
+            {% if item.review == review.id %}
+              <div class="max-w-[400px] min-w-[250px] sm:min-w-[300px] flex-1 bg-{{item.card_color_group}}-{{item.colorFromGroup}}color text-{{item.card_color_group}}-highcontrast-{{item.colorFromGroup}}color shadow-xl  rounded transition hover:-translate-y-1 duration-300 h-full p-6">
+                <div class="mt-4">
+                  <div class="flex">
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}
+                  </div>
+                  <p class=" opacity-80">
+                    {{ review.review }}
+                  </p>
+                  <div class="flex items-center mt-6">
+                    <div class="mr-2">
+                      {% assign altText = review.name | append: ', ' | append: review.titleOrDescription %}
+                      {% bookshop "generic/image" imagePath: review.personImage imageAlt: altText class: "object-cover object-center w-[55px] h-[55px] rounded-full" %}
+
+                    </div>
+                    <div>
+                      <h4 class="text-xl opacity-80 font-medium">{{ review.name }}</h4>
+                      <p class="text-sm opacity-60">
+                        <i>{{ review.titleOrDescription }}</i>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+</div>

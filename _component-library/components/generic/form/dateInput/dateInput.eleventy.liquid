@@ -1,0 +1,34 @@
+<div class="relative c-dateInput">
+  <label class="block text-xs uppercase font-bold text-{{color_group}}-textcolor" for="{{ id }}">{{ label }}{% if required %}
+      *{% endif %}
+    <input
+      class="block text-base appearance-none rounded font-normal w-full border border-{{color_group}}-textcolor py-1 px-2 bg-{{color_group}}-backgroundcolor hover:border-{{color_group}}-accentcolor"
+      type="date"
+      onfocus="this.showPicker()"
+      id="{{ id }}"
+      name="{{ label }}"
+      {% if minToday %}
+      min="{{ 'now' | date: '%Y-%m-%d' }}"
+      {% elsif minToday %}
+      min="{{ min | date: '%Y-%m-%d' }}"
+      {% endif %}
+      {% if maxToday %}
+      max="{{ 'now' | date: '%Y-%m-%d' }}"
+      {% elsif maxToday %}
+      max="{{ max | date: '%Y-%m-%d' }}"
+      {% endif %}
+      {% if required %}
+      required{% endif %}
+      {% if helperText %}
+      aria-describedby="{{ id }}--helper"
+      {% endif %}>
+      <div class="absolute top-[26px] right-2 pointer-events-none">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "calendar-days" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}</div>
+  </label>
+
+  
+
+  {% if helperText %}
+    <div class="mt-2">{% bookshop "generic/form/helperText" id: id helperText: helperText %}</div>
+  {% endif %}
+
+</div>

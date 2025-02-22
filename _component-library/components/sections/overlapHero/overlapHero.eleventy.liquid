@@ -1,0 +1,32 @@
+{% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
+{% endcapture %}
+
+{% assign color_group = styles.color_group %}
+
+<div class="c-overlapHero componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor relative h-screen">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% if content.backgroundImage %}
+        <div class="absolute inset-0 -z-20 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
+          {% bookshop "generic/image" bind: content.backgroundImage class: "h-screen w-screen object-cover" %}
+        </div>
+      {% endif %}
+
+      {% if content.foregroundImage %}
+        <div class="absolute inset-0 -z-10 flex items-center justify-center ">
+          {% bookshop "generic/image" bind: content.foregroundImage class: "h-screen w-screen object-cover" %}
+        </div>
+      {% endif %}
+    <section class="basecontainer w-full flex flex-col items-center justify-center">
+        {% if content.buttons %}
+            <div class="mt-14 flex w-full gap-8 flex-wrap justify-center self-end">
+              {% for button in content.buttons %}
+                {% bookshop "generic/button" bind: button %}
+              {% endfor %}
+      
+            </div>
+          {% endif %}
+    </section>
+</div>

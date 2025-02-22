@@ -1,0 +1,26 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Large Embed"
+  description: An embed focused section that is centered on the screen
+  icon:
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    showNote: true
+    heading: bookshop:generic/heading!
+    embed: bookshop:structure:embeds
+    buttons: [bookshop:generic/button]
+  styles:
+    color_group: primary
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:

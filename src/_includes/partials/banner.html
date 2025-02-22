@@ -1,0 +1,24 @@
+{% assign iconClass = "fill-" | append: banner.color_group | append: "-highcontrast-" | append: banner.colorFromGroup | append: 'color' %}
+
+{% if banner.enable_banner and banner.show_until and disableNav != true %}
+    <div class="cs-w-full bg-{{banner.color_group}}-{{banner.colorFromGroup}}color text-{{banner.color_group}}-highcontrast-{{banner.colorFromGroup}}color flex flex-col items-center justify-center">
+        <div class="basecontainer w-full">
+            <header class=" hidden flex w-full justify-center items-center py-2 relative"
+                _="on load
+                set :show_until to '{{ banner.show_until }}' as Date log :show_until
+                set :hidden to  localStorage.banner_{{ banner.id | slug | remove: '-' }} or (:show_until - Date.now()) < 0 log :hidden
+                if not :hidden then
+                    log (:show_until - Date.now())
+                    remove .hidden from me
+                end
+            end
+            on click from #banner_button_{{ banner.id | slug | remove: '-' }}
+                set localStorage.banner_{{ banner.id | slug | remove: '-' }} to true
+                add .hidden to me
+            end">
+                <div>{{ banner.html }}</div>
+                <button class="absolute top-2 -right-5 sm:-right-8" id="banner_button_{{ banner.id | slug | remove: '-' }}">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"x-mark" iconType:"solid" iconSize:'small' roundedBorder:false classOverride: iconClass %}</button>
+            </header>
+        </div>
+    </div>
+{% endif %}

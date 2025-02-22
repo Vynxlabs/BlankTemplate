@@ -1,0 +1,22 @@
+{% assign color_group = site.color_group %}
+{% capture heading %}
+    content:
+        highlightEyebrow: {{heading.content.highlightEyebrow}}
+        eyebrow: {{heading.content.eyebrow| stringifyFilter}}
+        headline: {{heading.content.headline| stringifyFilter}}
+        description: {{heading.content.description| stringifyFilter}}
+        buttons:
+          {{heading.content.buttons | json}}
+        headingHierarchy: "h1"
+    styles:
+        contentAlignment: {{heading.styles.contentAlignment}}
+        textAlignment: {{heading.styles.textAlignment}}
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+<div class="cs-w-full pt-20 flex flex-col items-center justify-center mt-24">
+    
+  {% if sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
+  {% endif %}
+    <div  class="basecontainer w-full" >{% bookshop "generic/heading" bind: heading headingHierarchy: "h1"  %}</div>
+</div>

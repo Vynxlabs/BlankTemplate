@@ -1,0 +1,53 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Happening Cards Full"
+  description: This will show all upcoming happenings.
+  icon:
+  tags: [happenings, connected]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  contents:
+    sectionId:
+    showNote: true
+    heading: bookshop:structure:headingBlocks
+    showCancelled: true
+    tags:
+    noHappeningsHeading: bookshop:generic/heading
+  styles:
+    color_group: primary
+    cardStyle: default
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  color_group:
+    comment: >-
+      This color group is applied to the No Happenings Heading.
+  cardStyle:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Default
+          id: default
+  tags:
+    hidden: true
+    type: multiselect
+    label: Filter by tags
+    comment: >-
+      Filter by specifc tags (set up in the happenings data file) to show only those happenings. Leave blank to show all.
+      Make sure the tag you want to filter on is set up in the happenings data file.
+    options:
+      values: data.blogTags
+  noHappeningsHeading:
+    label: No Happenings Heading
+    comment: >-
+      The heading to show when there are no happenings.
+      If no heading is given, this section will be hidden when there are no happenings.

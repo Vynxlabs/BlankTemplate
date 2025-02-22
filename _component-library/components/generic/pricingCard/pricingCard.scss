@@ -1,0 +1,43 @@
+.c-pricingCard {
+    h2 {
+        margin-top: 48px;
+        font-size: 36px;
+      }
+      h3 {
+        margin-top: 32px;
+        font-size: 32px;
+      }
+      h4 {
+        margin-top: 32px;
+        font-size: 28px;
+      }
+      h5 {
+        margin-top: 28px;
+        font-size: 24px;
+      }
+      h6 {
+        margin-top: 24px;
+        font-size: 20px;
+      }
+      p {
+        margin-top: 12px;
+      }
+      ol,
+      ul {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding-left: 32px;
+      }
+      
+      a{
+        color: #5FB6E0;
+        text-decoration: underline;
+      }
+    
+      ul > li {
+        list-style-type: circle;
+      }
+      ol > li {
+        list-style-type: decimal;
+      }
+}

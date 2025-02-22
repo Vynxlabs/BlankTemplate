@@ -1,0 +1,40 @@
+{% if env_bookshop_live %}
+  {% assign author = 'jane Doe' %}
+  {% assign length = '2 min' %}
+  {% assign date = '2020-01-17' %}
+  {% capture blogTags %}
+  tag1,tag2
+  {% endcapture %}
+  {% assign blogTags = blogTags | split: "," %}
+  {% assign blogTitle = 'How to quickly build a website visually' %}
+{% endif %}
+
+<div class="w-full col-span-1 md:col-span-2 lg:col-span-3">
+  <ul class=" flex text-{{color_group}}-secondarycolor flex flex-wrap gap-x-4 overflow-hidden opacity-70">
+  {% for tag in blogTags %}
+    {% if tag != 'undefined' %}
+      <li class="hover:underline after:absolute after:content-['·'] after:scale-150  after:left-2 relative before:content-[' '] after:left-[-10px] after:text-lg ">
+      <a 
+      data-umami-event="{{tag | slug}}-{{blogTitle}}-{{page.url}}-tags"
+      class="font-bold" href="/tag/{{ tag | slug }}/">{{ tag | capitalize | replace: ' ', '' }}</a>
+    </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+  <h2 class="text-4xl md:text-5xl hover:underline"><a 
+  data-umami-event="{{blogTitle}}-{{page.url}}-blogCardHeading"
+  href="{{url}}">{{ blogTitle }}</a></h2>
+  <div class="opacity-70 mt-4 md:mt-10 flex justify-between flex-wrap">
+      <div class="flex gap-2">
+          <p>Written by {{ author }}</p>
+          <div>·</div>
+          <p>{{ length }}</p>
+      </div>
+      <time datetime="{{ date | date: "%Y-%m-%d" }}">— {{ date | date: "%B %d, %Y" }} —</time>
+  </div>
+  <a 
+  data-umami-event="{{blogTitle}}-{{page.url}}-blogCardImg"
+  class="" href="{{url}}">
+        {% bookshop "generic/image" bind: image class: "w-full rounded transition-all duration-300 scale-100 hover:scale-[1.01] object-cover md:aspect-video aspect-[3/2]" %}
+    </a>
+</div>

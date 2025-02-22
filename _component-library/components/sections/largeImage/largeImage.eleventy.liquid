@@ -1,0 +1,33 @@
+{% assign color_group = styles.color_group %}
+{% capture orientationClasses %}
+  {% if styles.imageOrientation == "landscape" %}
+    max-w-[1000px] max-h-[715px]
+    {% else %}
+    max-w-[500px] max-h-[700px]
+  {% endif %}
+{% endcapture %}
+
+<div class="c-largeImage relative left-1/2 right-1/2 mx-[-50vw] flex w-screen flex-col items-center justify-center pt-10 md:pt-20 bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+    <section
+    class="basecontainer w-full flex flex-col items-center"
+    >
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    {% comment %} Image container {% endcomment %}
+    <div class="relative {% if content.heading %} mt-10 {% endif %} flex {{orientationClasses}}">
+        {% bookshop "generic/image" bind: content.image class:"w-full h-auto rounded" %}
+
+    </div>
+    {% if content.buttons %}
+        <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+          {% for button in content.buttons %}
+            {% bookshop "generic/button" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+  </section>
+</div>

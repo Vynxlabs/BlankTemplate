@@ -1,0 +1,9 @@
+{
+    "permalink":"/{{ title | slug }}/index.html",
+    "layout":"layouts/page.html",
+    "_options":{
+        "permalink":{
+            "hidden":true
+        }
+    }
+}

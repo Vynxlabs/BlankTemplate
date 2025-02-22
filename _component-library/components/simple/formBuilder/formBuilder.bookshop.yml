@@ -1,0 +1,34 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+  label: "Form Builder"
+  description: "Build a form from inputs. Spam filtering is built in"
+  icon: dynamic_form
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  formName:
+  sectionId:
+  successPage:
+  form_elements: [bookshop:structure:form_blocks]
+  submitButton: 
+    text: "Submit"
+    color_group: primary
+    colorFromGroup: primary
+    ghostButton: false
+    formSubmit: true
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  successPage:
+      type: url
+      comment:  The page to redirect to after submission. If none provided a defualt confirmation page will be shown
+  blackText:
+    type: switch
+    label: Black Text
+  formSubmit:
+    hidden: true

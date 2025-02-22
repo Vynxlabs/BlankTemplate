@@ -1,0 +1,9 @@
+{% if text and env_bookshop_live %}
+    <div class="">    
+        {{ text | markdownify  }}
+    </div>
+{% elsif text %}
+<div class="">    
+        {{ text | evalLiquid | markdownify  }}
+    </div>
+{% endif %}

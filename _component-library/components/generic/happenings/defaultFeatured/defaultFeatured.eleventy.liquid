@@ -1,0 +1,61 @@
+{% assign summaryShort = summary %}
+{% assign summaryCharCount = summary | size %}
+{% if summaryCharCount > 700 %}
+  {% assign summaryShort = summaryShort | slice: 0, 700 | append: '...' %}
+{% endif %}
+{% capture eventTitle %}
+  {% if cancelled == true %}
+    {{"CANCELLED - " |  append: happeningTitle}}
+    {% else %}
+    {{ happeningTitle }}
+  {% endif %}
+{% endcapture %}
+<div class="c-defaultFeatured w-full col-span-1 md:col-span-2 lg:col-span-3">
+  <div class="w-full flex flex-wrap gap-x-10 gap-y-4">
+    <a 
+    data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardImg"
+    class="relative max-w-[700px] md:flex-1 md:min-w-[400px]" href="{{url}}">
+      {% bookshop "generic/image" bind: image class: "w-full h-full rounded transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]" %}
+    </a>
+
+    <div class="h-fit max-w-[700px] flex-grow flex-shrink basis-20">
+      <ul class=" flex text-{{color_group}}-secondarycolor flex flex-wrap gap-x-4 overflow-hidden opacity-70">
+        {% for tag in blogTags %}
+          {% if tag != 'undefined' %}
+            <li class="hover:underline after:absolute after:content-['·'] after:scale-150  after:left-2 relative before:content-[' '] after:left-[-10px] after:text-lg ">
+              <a 
+              data-umami-event="{{tag | slug}}-{{happeningTitle}}-{{page.url}}-tags"
+              class="font-bold" href="/tag/{{ tag | slug }}/">{{ tag | capitalize | replace: ' ', '' }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      <h3 class="hover:underline font-bold text-3xl">
+        <a 
+        data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardHeading"
+        href="{{url}}">{{ eventTitle }}</a>
+      </h3>
+      <time
+        {% if cancelled != true %}
+        _="on load
+            set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+            log happeningDate
+            set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
+            js(happeningDate,timezone)
+            dt = new Date(happeningDate);
+            console.log(dt);
+            return dt.toLocaleString('en-US', { timeZone: timezone }) end
+            put it into my.innerHTML
+            "
+        {% endif %}
+        class=""
+        datetime="{{ happeningDatetime | date: "%Y-%m-%d" }}">{% if cancelled %}CANCELLED{% else %}{{ happeningDatetime | date: "%Y-%m-%d %I:%M %P", 0 }} UTC{% endif %}</time>  
+          
+          
+        
+      <p class="mt-2">{{ summaryShort }}</p>
+      <a class="hover:underline text-[#5FB6E0]" href="{{url}}">Read more</a>
+    </div>
+
+  </div>
+</div>

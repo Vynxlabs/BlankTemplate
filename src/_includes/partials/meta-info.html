@@ -1,0 +1,47 @@
+{% assign pageTitle = title | append: ' - ' | append: site.name %} {% comment %}
+{# We don't want any duplication. This is likely for the home page.  #}
+{% endcomment %}
+{% capture socialShareImage %}
+{% if blogImage and blogImage != "" %} {{ blogImage }} 
+{% elsif page.url contains 'blog/' %} {{blog.defaultImage}}
+{% elsif happeningImage and happeningImage != "" %} {{ happeningImage }} 
+{% elsif page.url contains 'happenings/' %} {{happenings.defaultImage}}
+{% elsif site.socialImage and site.socialImage != "" %} {{ site.socialImage }} {% endif %}
+{% endcapture %}
+{% assign socialShareImage = socialShareImage | strip %}
+ {% if site.name == title %}
+{% assign pageTitle = title %} {% endif %} {% assign siteTitle = site.name %} {%
+assign currentUrl = site.url | append: page.url %} {%comment %}{# If the page’s Front Matter has specific metaTitle and/or metaDesc items, switch them into the mix. #}   {%endcomment%}
+{% if metaTitle %} {% assign pageTitle = metaTitle %} {% endif %} {% if not metaDesc
+%} {% assign metaDesc = summary %} {% endif %}
+
+<title>{{ pageTitle }}</title>
+<link rel="canonical" href="{{ currentUrl }}" />
+
+<meta name="view-transition" content="same-origin" />
+
+<meta property="og:site_name" content="{{ siteTitle }}" />
+<meta property="og:title" content="{{ pageTitle }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ currentUrl }}" />
+
+{% if socialShareImage and socialShareImage != "" %}
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="{{ socialShareImage }}" />
+<meta name="twitter:image" content="{{ socialShareImage }}" />
+<meta property="og:image:alt" content="Page image for {{ site.name }}" />
+<meta name="twitter:image:alt" content="Page image for {{ site.name }}" />
+{% endif %} {% if metaDesc %}
+<meta name="description" content="{{ metaDesc }}" />
+<meta name="twitter:description" content="{{ metaDesc }}" />
+<meta property="og:description" content="{{ metaDesc }}" />
+{% endif %}
+
+{% include "partials/favicon.html" %}
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="msapplication-TileColor" content="#da532c" />
+<meta name="theme-color" content="#ffffff" />

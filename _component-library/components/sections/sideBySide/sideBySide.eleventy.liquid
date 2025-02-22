@@ -1,0 +1,22 @@
+{% assign counter = 21 %}
+{% assign color_group = styles.color_group %}
+
+<div class="componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    <div class="mb-36">{% bookshop "generic/heading" bind: content.heading %}</div>
+    {% if env_bookshop_live and content.showNote %}
+      <div class="mb-20">{% bookshop "generic/notification" heading: "No animation or image visual interest" text: "
+        The animation for this section will be on the live site, but while editing they'll show up without animation 
+        <br> <br> 
+        The visual interest for the images (Dots or Crosses) will not show up when editing, but will show up on the live site" %}</div>
+    {% endif %}
+    {% if content.entries %}
+      {% bookshop "generic/leftRightAnimation" content: content styles: styles %}
+    {% endif %}
+  </section>
+</div>

@@ -1,0 +1,512 @@
+source: src
+paths:
+  uploads: assets/uploads/:title
+  static: ""
+  collections: ""
+  data: _data
+  layouts: _includes
+  includes: _includes
+data_config:
+  fonts: true
+  authors: true
+  blogTags: true
+  reviews: true
+  blog: true
+  happenings: true
+  tokens: true
+collections_config_override: true
+collections_config:
+  data:
+    path: _data
+    output: false
+    icon: settings
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  pages:
+    path: pages
+    output: true
+    url: dist/pages
+    filter:
+      exclude:
+        - robots.njk
+        - rss.njk
+        - sitemap.njk
+        - tags.md
+        - pages.json
+        - 404.md
+    parse_branch_index: null
+    name: Pages
+    description: All your pages
+    icon: description
+    documentation: null
+    preview:
+      gallery: description
+    sort: null
+    sort_options: null
+    singular_name: null
+    singular_key: null
+    _editables: null
+    _enabled_editors:
+      - content
+      - visual
+    _inputs:
+      title:
+        label: Page Title
+        comment: Seo focused page title
+      removeFromNavigation:
+        type: switch
+        label: Remove from navigation
+        comment: Will remove this page from top navigation top nav and footer
+      eleventyExcludeFromCollections:
+        hidden: true
+      eleventyNavigation:
+        label: Navigation
+      eleventyNavigation.key:
+        comment: How this page is identified in the navigation
+      eleventyNavigation.order:
+        comment: What order in the navigation
+      eleventyNavigation.title:
+        label: Display Title
+        comment: >-
+          What website visitors will see. Leave blank if you want to use the key
+          as Display Title
+      eleventyNavigation.parent:
+        comment: What key this should be grouped with. Leave blank for no grouping
+      eleventyNavigation.url:
+        label: External Link
+        comment: >-
+          If you want to have a link to another website or file on your site,
+          place that link here. Leave blank for all other situations. WARNING:
+          this will prevent this page from building and showing up in your
+          website.
+      pageLink:
+        label: Page Location
+        comment: The location of this page on your webiste i.e. Example.com/mylocation. Leave blank if you want to just use the page title as the page location.
+        type: text
+      metaDesc:
+        type: textarea
+        label: Meta Description
+        comment: SEO focused page summary
+      permalink:
+        hidden: true
+      pagination:
+        hidden: true
+      layout:
+        hidden: true
+    _select_data: null
+    _structures: null
+    add_options: null
+    create: null
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+    new_preview_url: null
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+    schema_key: null
+  blog:
+    path: posts
+    output: true
+    url: dist/blog
+    filter:
+      exclude:
+        - posts.json
+    _enabled_editors:
+      - content
+    _inputs:
+      title:
+        label: Page Title
+        comment: Seo focused page title
+      metaDesc:
+        type: textarea
+        label: Meta Description
+        comment: SEO focused page summary
+      author:
+        type: select
+        options:
+          values: data.authors
+          value_key: id
+          text_key: name
+      tags:
+        type: multiselect
+        options:
+          values: data.blogTags
+      date:
+        type: date
+        label: Published Date
+        instance_value: NOW
+      happening:
+        type: switch
+        label: Make into a happening
+        comment: Turn this post into a happening
+      cancelled:
+        hidden: "!happening"
+      happeningDate:
+        hidden: "!happening"
+        type: datetime
+        label: Happening Date
+        comment: >-
+          If this blog post is tagged with a happening tag, enter the happening date here. If not, leave blank.
+          IMPORTANT: The date must be in UTC time. You'll need to convert your local time to UTC time.
+      summary:
+        hidden: "!happening"
+        type: textarea
+        label: Happening Summary
+        comment: A short summary of the happening.
+      image:
+        hidden: true
+      permalink:
+        hidden: true
+      socialImage:
+        hidden: true
+      eleventyExcludeFromCollections:
+        hidden: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+  happenings:
+    path: happenings
+    output: true
+    url: dist/happenings
+    icon: event
+    filter:
+      exclude:
+        - happenings.json
+    _enabled_editors:
+      - content
+      - visual
+    _inputs:
+      title:
+        label: Page Title
+        comment: Seo focused page title
+      metaDesc:
+        type: textarea
+        label: Meta Description
+        comment: SEO focused page summary
+      tags:
+        type: multiselect
+        options:
+          values: data.blogTags
+      summary:
+        type: textarea
+      happeningDate:
+        type: datetime
+        label: Happening Date
+        comment: >-
+          IMPORTANT: The date must be in UTC time. You'll need to convert your local time to UTC time.
+        instance_value: NOW
+      image:
+        hidden: true
+      permalink:
+        hidden: true
+      socialImage:
+        hidden: true
+      eleventyExcludeFromCollections:
+        hidden: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/happening.md
+  services:
+    path: services
+    output: true
+    url: dist/services
+    name: Services
+    description: All your services
+    icon: design_services
+    documentation: null
+    preview:
+      gallery: design_services
+    filter:
+      exclude:
+        - services.json
+    _inputs:
+      title:
+        label: Page Title
+        comment: Seo focused page title
+      metaDesc:
+        type: textarea
+        label: Meta Description
+        comment: SEO focused page summary
+      category:
+        type: text
+        comment: >-
+          The category of the service, used to group services together. If no
+          category is specified, the service will be given a cateory of
+          "Services"
+      categorySlug:
+        hidden: true
+      summary:
+        type: textarea
+        comment: A short summary of the service
+      permalink:
+        hidden: true
+      eleventyExcludeFromCollections:
+        hidden: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/service.md
+_inputs:
+  helperText:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  disableNav:
+    type: switch
+    label: Disable Navigation
+    comment: "This will remove the top and bottom navigation from THIS page. Useful for ads landing pages."
+  disableSitemap:
+    type: switch
+    label: Remove From Sitemap
+    comment: "This will remove this page from the sitemap. This means that it won't be visible to search engines (gooogle, bing, etc). This is useful for ads landing pages."
+  pagination:
+    hidden: true
+  layout:
+    hidden: true
+  blogCards:
+    type: object
+    options:
+      structures: _structures.blog_cards
+  hero:
+    type: object
+    options:
+      structures: _structures.hero_blocks
+  description:
+    type: markdown
+    options:
+      link: true
+      bold: true
+      italic: true
+      undo: true
+      redo: true
+      initial_height: 135
+  socialImage:
+    type: image
+    hidden: false
+  color_group:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values:
+        - id: primary
+          name: Primary
+  nav_color_group:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values:
+        - id: primary
+          name: Primary
+  footer_color_group:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values:
+        - id: primary
+          name: Primary
+  card_color_group:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values:
+        - id: primary
+          name: Primary
+  form_color_group:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values:
+        - id: primary
+          name: Primary
+  id:
+    hidden: true
+    instance_value: UUID
+  arrangement:
+    type: select
+    comment: The layout of the icon and text together
+    options:
+      values:
+        - name: Inline
+          id: inline
+        - name: Stacked
+          id: stacked
+  sectionId:
+    comment: >-
+      An ID given to a section to be able to link to it Example:
+      example.com/#sectionId where sectionID is what you type in this box
+  font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      values: data.fonts
+  heading_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      values: data.fonts
+  content_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      values: data.fonts
+  logo_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      values: data.fonts
+  showNote:
+    type: switch
+    comment: >-
+      Hide/Show the note that contains helpful information about the live
+      editing of this component. This note doesn't show up on the live site.
+  service:
+    type: select
+    options:
+      values: collections.services
+      value_key: id
+      text_key: title
+  colorFromGroup:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
+  review:
+    type: textarea
+_snippets:
+  imageModal:
+    template: eleventy_liquid_bookshop_component
+    inline: false
+    preview:
+      text: Image
+    definitions:
+      component_name: snippets/imageModal
+      named_args:
+        - editor_key: imagePath
+          type: string
+        - editor_key: imageAlt
+          type: string
+  videoEmbed:
+    template: eleventy_liquid_bookshop_component
+    inline: false
+    preview:
+      text: Youtube or Vimeo
+    definitions:
+      component_name: snippets/videoEmbed
+      named_args:
+        - editor_key: platform
+          type: string
+        - editor_key: videoId
+          type: string
+    _inputs:
+      videoId:
+        comment: "You can find this in the URL of the video you want to embed. For example, https://www.youtube.com/watch?v=YOUR_VIDEO_ID, or for vimeo https://vimeo.com/YOUR_VIDEO_ID"
+      platform:
+        comment: "Youtube or Vimeo"
+        type: choice
+        options:
+          allow_empty: false
+          value_key: id
+          values:
+            - id: youtube
+              name: Youtube
+            - id: vimeo
+              name: Vimeo
+_select_data: {}
+_structures:
+  content_blocks:
+    style: modal
+  hero_blocks:
+    style: modal
+  tokens:
+    style: select
+    values:
+      - label: Single Token
+        value:
+          key:
+          value:
+      - label: Token Group
+        value:
+          groupName:
+          tokens:
+            - key:
+              value:
+_editables: {}
+timezone: Etc/UTC

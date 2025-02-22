@@ -1,0 +1,75 @@
+{% if env_bookshop_live %}
+  {% assign postListItems = collections.happenings %}
+{% else %}
+  {% assign postListItems = pagination.items %}
+{% endif %}{% assign color_group = styles.color_group %}
+{% comment %} "happenings" is a data file that is being passed into this funciton src/data/happenings.yml {% endcomment %}
+{% assign postListItems = collections.happenings | concat: collections.blog | happeningsFilter: page, happenings, contents.tags, 22 %}
+
+{% assign counter = 0 %}
+{% assign cardStyle = 'generic/happenings/' | append: styles.cardStyle | append: "Card" %}
+
+
+<div class="cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor">
+  {% if postListItems.size > 0 %}
+    <div class="basecontainer">
+
+      {% if contents.sectionId %}
+        {% bookshop "util/IdScrollEvent" sectionId: contents.sectionId %}
+      {% endif %}
+      {% if env_bookshop_live and contents.showNote %}
+        {% bookshop "generic/notification" heading: "No Filtering and UTC Time" text: "The filtering does not work while editing, but will show up on the live site <br><br> The time will show up as UTC while live editing but will show up as local time on the live site" %}
+      {% endif %}
+      {% if contents.heading %}
+        {% bookshop {{contents.heading._bookshop_name}} bind: contents.heading %}
+      {% endif %}
+      <div class="mt-12 grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 md:gap-20 ">
+        {% for entry in postListItems %}
+          {% if contents.showCancelled != true and entry.data.cancelled == true %}
+            {%- continue -%}
+          {% endif %}
+          {% capture image %}
+            {% if entry.url contains "happenings/" %}
+            {% if entry.data.happeningImage and entry.data.happeningImage != ""  %}
+            image:
+                imagePath: {{ entry.data.happeningImage }}
+                imageAlt: {{ entry.data.imageAltText }}
+            {% else %}
+            image:
+                imagePath: {{ happenings.defaultImage }}
+                imageAlt: {{ happenings.defaultImageAltText }}
+            {% endif %}
+            {% else %}
+            {% if entry.data.blogImage and entry.data.blogImage != ""  %}
+            image:
+                imagePath: {{ entry.data.blogImage }}
+                imageAlt: {{ entry.data.imageAltText }}
+            {% else %}
+            image:
+                imagePath: {{ blog.defaultImage }}
+                imageAlt: {{ blog.defaultImageAltText }}
+            {% endif %}
+            {% endif %}
+            {% endcapture %}
+          {% capture happeningInfo %}
+            happeningTitle: {{ entry.data.title | stringifyFilter}}
+            url: {{ entry.url }}
+            happeningDatetime: '{% if entry.data.happeningDate %}{{ entry.data.happeningDate }}{% else %}{{ entry.date }}{% endif %}'
+            blogTags: {{ entry.data.tags | ymlify | split: "," | json}}
+            cancelled: {{ entry.data.cancelled }}
+            {{ image | strip}}
+            color_group: {{styles.color_group}}
+            {% endcapture %}
+          {% assign happeningInfo = happeningInfo | ymlify %}
+          {% if counter < 3 %}
+            {% bookshop {{cardStyle}} bind: happeningInfo %}
+          {% endif %}
+          {% assign counter = counter | plus: 1 %}
+        {% endfor %}
+      </div>
+    </div>
+  {% elsif contents.noHappeningsHeading %}
+    {% bookshop {{contents.noHappeningsHeading._bookshop_name}} bind: contents.noHappeningsHeading %}
+  {% else %}
+  {% endif %}
+</div>

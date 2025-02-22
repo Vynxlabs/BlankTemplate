@@ -1,0 +1,45 @@
+enable_banner: false
+html: <p>This banner is completely optional, and can be shown until a set date!</p>
+id: alto-banner-1
+show_until: 2024-07-27T00:00:00Z
+color_group: primary
+colorFromGroup: primary
+_inputs:
+  enable_banner:
+    type: switch
+  html:
+    type: html
+    label: Banner Content
+    hidden: '!enable_banner'
+  id:
+    type: text
+    label: Unique ID
+    hidden: '!enable_banner'
+    comment: >-
+      Prevents repeated display for users who close the banner, changing ID
+      resets for all.
+  show_until:
+    type: date
+    comment: Date to stop showing the banner
+    hidden: '!enable_banner'
+  color_group:
+    hidden: '!enable_banner'
+  colorFromGroup:
+    hidden: '!enable_banner'
+    type: select
+    comment: This will be the background color of the notification banner
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
+

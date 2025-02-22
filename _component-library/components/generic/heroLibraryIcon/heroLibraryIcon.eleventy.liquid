@@ -1,0 +1,43 @@
+{% assign iconPath = "/assets/images/icons/" | append: iconType | append: "/" | append: heroLibraryIconName | append: '.svg' %}
+{% capture iconSizeClasses %}
+    {% if iconSize == 'large' %}
+        w-[70px] h-[70px]
+        {% elsif iconSize == 'small' %}
+            w-[32px] h-[32px]
+        {% elsif iconSize == 'micro' %}
+            w-[16px] h-[16px]
+    {% endif %}
+{% endcapture %}
+{% capture iconStrokeColor %}
+    {% if themeColor %}
+        stroke-{{color_group}}-textcolor
+        {% elsif classOverride and classOverride != "" %}
+            {{classOverride}}
+        {% else %}
+        c-heroLibraryIcon__svg
+{% endif %}
+{% endcapture %}
+{% capture iconFillColor %}
+    {% if themeColor %}
+        fill-{{color_group}}-textcolor
+        {% elsif classOverride and classOverride != "" %}
+            {{classOverride}}
+        {% else %}
+        c-heroLibraryIcon__svg
+{% endif %}
+{% endcapture %}
+{% capture chosenType %}
+    {% if iconType == 'solid' %}
+        {{ iconFillColor }} 
+        {% else %}
+            {{ iconStrokeColor }} 
+    {% endif %}    
+{% endcapture %}
+{% assign chosenType = chosenType | append: "w-full h-full" %}
+<span class="c-heroLibraryIcon--{{iconType}} flex shrink-0 justify-center items-center {{ iconSizeClasses | strip }}" style="--c-heroLibraryIconColor: {% if themeColor %}{% else %}{{ color }}{% endif %}">
+  {% if env_bookshop_live %}
+    <span class="w-full h-full bg-clip-content  bg-[url(var(--url))]" style="--url: url('{{ iconPath }}')"></span>
+  {% else %}
+    {{ '/src' | append: iconPath | svgContents: chosenType }}
+  {% endif %}
+</span>

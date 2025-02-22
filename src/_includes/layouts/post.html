@@ -1,0 +1,150 @@
+{% layout "layouts/base.html" %} 
+
+
+
+{% assign pageHeaderTitle = title %}
+
+{% comment %}{% assign recommendedPosts = helpers.getSiblingContent(collections.blog, page) %} {% endcomment %}
+
+{% capture blogDate %}
+  {% if date %} {{ date }} {% else %} {{ page.date }} {% endif %}
+{% endcapture %}
+
+{% capture image %}
+  {% if blogImage and blogImage != ""  %}
+      imagePath: {{ blogImage }}
+      imageAlt: {{ imageAltText }}
+  {% else %}
+      imagePath: {{ blog.defaultImage }}
+      imageAlt: {{ blog.defaultImageAltText }}
+  {% endif %}
+{% endcapture %}
+
+{% assign image = image | ymlify %}
+
+{% capture blogAuthor %}
+    {% for writer in authors %}
+        {% if author == writer.id %}
+            name: {{ writer.name }}
+            imagePath: "{{ writer.image }}"
+        {% endif %}
+    {% endfor %}
+{% endcapture %}
+
+
+
+{% assign blogAuthor = blogAuthor | ymlify %}
+
+{% if happening %} 
+{% assign recommendedPosts = collections.happenings | concat: collections.blog | happeningsFilter: page, happenings  %}
+{% assign componentBookshopName ="sections/happeningCardsPartial" %}
+{% capture infoPosts %}
+  contents:
+    heading:
+      _bookshop_name: generic/heading
+      content: 
+        headline: "Looking for more?"
+        description: "These events are up next!"
+        headingHierarchy: h2
+      styles:
+        color_group: primary
+        contentAlignment: left
+        textAlignment: left
+  styles:
+    color_group: {{site.color_group}}
+    cardStyle: default
+    
+{% endcapture %}
+{% else %}
+{% assign recommendedPosts = collections.blog | randomBlogsFilter: page  %}
+{% assign componentBookshopName ="sections/blogCardsPartial" %}
+{% capture infoPosts %}
+  contents:
+    randomize: true 
+    heading:
+      content: 
+        headline: "More from the blog"
+        description: "These are some of the more interesting posts from our blog."
+        headingHierarchy: h2
+      styles:
+        color_group: primary
+        contentAlignment: left
+        textAlignment: left
+  styles:
+    color_group: {{site.color_group}}
+    cardStyle: default
+    
+{% endcapture %}
+{% endif %}
+{% assign infoPosts = infoPosts | ymlify %}
+
+
+
+{% block content %}
+
+<div class=" mt-40">
+  <h1 class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
+  {% bookshop "generic/image" bind: image class: "w-full rounded  object-cover aspect-video mt-4"  %}
+  <div class="flex gap-2 mt-4">
+    {% bookshop "generic/image" imagePath: blogAuthor.imagePath imageAlt: blogAuthor.name  class: "rounded object-cover aspect-square w-20 "  %}
+    <div class="flex flex-col justify-between">
+      <p>written by {{blogAuthor.name}}</p>
+      <time class="" datetime="{{ blogDate | date: "%Y-%m-%d" }}">{{ blogDate | date: "%B %d, %Y" }}</time>
+    </div>
+  </div>
+{% if tags  %}
+<p class="visually-hidden" id="tags-desc">
+  Tags that this post has been filed under.
+</p>
+
+<ul id="tags" class=" flex text-{{site.color_group}}-secondarycolor flex flex-wrap gap-y-1 gap-x-4 overflow-hidden mt-4" aria-describedby="tags-desc">
+  {% for tag in tags %}
+    <li class="hover:underline after:absolute after:content-['·'] after:scale-150  after:left-2 relative before:content-[' '] after:left-[-10px] after:text-lg ">
+      <a class="font-bold"
+        href="/tag/{{ tag | slug }}/"
+        >#{{ tag | capitalize | replace: ' ', '-' }}</a>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}
+  <article class="post-main-container">
+      {% if content | toc %}
+      <section class=" mt-8 "
+      _="
+      
+        on load
+        measure #table-of-contents height then set :height to it
+        set $tocHeight to :height.height
+        log $tocHeight
+        if $tocHeight >= 380
+        log 'true'
+        remove .hidden from #toggle-toc
+        end
+        end
+      "
+      >
+        <div id="table-of-contents" class="transition-all duration-300 ease-in underline max-h-96 overflow-hidden">{{ content | toc }}</div>
+        <button id="toggle-toc" class="mt-8 flex gap-2 items-center justify-center  hidden" _="
+        on click
+        toggle .max-h-96 on #table-of-contents
+        toggle .{'max-h-[90000px]'} on #table-of-contents
+        toggle .rotate-180 on #toggle-toc-icon
+        log $tocHeight
+        go to the top of #tags smoothly
+        end
+        " 
+        
+        
+        ><span>Toggle Table of Contents</span> <span id="toggle-toc-icon" class="">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"arrow-down" iconType:"solid" iconSize:'micro' roundedBorder:false themeColor:true %}</span> </button>
+      </section>
+      {% endif %}
+      <div class="mt-8 flex justify-center">
+        <section class="w-full max-w-[720px] cs-mainContent">{{ content }}</section>
+      </div>
+  </article>
+  {% if recommendedPosts.size > 0 %}
+  <div class="mt-24">{% bookshop {{componentBookshopName}} bind: infoPosts  %}</div>
+  {% endif %}
+
+</div>
+{% endblock %}

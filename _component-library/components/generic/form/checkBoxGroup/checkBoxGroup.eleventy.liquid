@@ -1,0 +1,26 @@
+{% assign groupName = label | append: "-" | append: id %}
+
+{% capture arrangementClasses %}
+    {% if arrangement == 'inline' %}
+         flex-wrap justify-between gap-2
+         {% else %}
+            flex-col gap-1
+    {% endif %}
+{% endcapture %}
+
+
+<div class="c-checkBoxGroup">
+    <fieldset class="border  border-{{color_group}}-textcolor rounded p-2 hover:border-{{color_group}}-accentcolor" role="group" {% if helper_text %}aria-describedby="{{ id }}--helper"{% endif %}>
+        {% if label and label != '' %}
+            <legend class="text-xs uppercase font-bold ">{{ label }}</legend>
+        {% endif %}
+        <div class="flex   {{ arrangementClasses }}">
+            {% for checkbox in checkboxes %}
+                {% bookshop "generic/form/checkBoxInput" bind:checkbox groupName:groupName %}
+            {% endfor %}
+        </div>
+    </fieldset>
+    {% if helperText %}
+        <div class="mt-2">{% bookshop "generic/form/helperText" id:id helperText: helperText  %}</div>
+    {% endif %}
+</div>

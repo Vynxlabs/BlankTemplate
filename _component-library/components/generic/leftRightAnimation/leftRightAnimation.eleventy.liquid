@@ -1,0 +1,172 @@
+{% assign counter = 21 %}
+{% capture imagePositionClasses %}
+    {% if styles.imagePosition == 'right' %}
+        order-1
+    {% endif %}
+{% endcapture %}
+{% assign visualInterestPath = "/assets/images/visual-interest/" | append: styles.imageVisualInterest | append: '.svg' %}
+{% assign visualInterestClasses = "" %}
+{% if styles.imageVisualInterest == "dot-grid" %}
+    {% assign visualInterestClasses = "absolute -top-[45px] opacity-50 " | append: "fill-" | append: color_group | append: "-primarycolor " %}
+    {% elsif styles.imageVisualInterest == "cross-grid" %}
+        {% assign visualInterestClasses = "absolute -top-[40px] opacity-50 " | append: "stroke-" | append: color_group | append: "-primarycolor " %}
+{% endif %}
+
+{% if styles.imagePosition == 'right' %}
+    {% if styles.imageVisualInterest == "dot-grid" %}
+        {% assign visualInterestClasses = visualInterestClasses |  append: ' left-[45%]' %}
+        {% elsif styles.imageVisualInterest == "cross-grid" %}
+        {% assign visualInterestClasses = visualInterestClasses |  append: ' left-[58%]' %}
+    {% endif %}
+    
+    {% else %}
+    {% if styles.imageVisualInterest == "dot-grid" %}
+        {% assign visualInterestClasses = visualInterestClasses |  append: ' right-[45%]' %}
+        {% elsif styles.imageVisualInterest == "cross-grid" %}
+        {% assign visualInterestClasses = visualInterestClasses |  append: ' right-[58%]' %}
+    {% endif %}
+{% endif %}
+
+{% comment %} Animation based on live website {% endcomment %}
+{% if env_bookshop_live %}
+  <div class="bg-{{color_group}}-backgroundcolor  text-{{color_group}}-textcolor">
+    {% for entry in content.entries %}
+      {% capture entryHeading %}
+          content:
+              highlightEyebrow: {{entry.entry.heading.content.highlightEyebrow}}
+              eyebrow: {{entry.entry.heading.content.eyebrow | stringifyFilter}}
+              headline: {{entry.entry.heading.content.headline | stringifyFilter}}
+              description: {{entry.entry.heading.content.description | stringifyFilter}}
+              headingHierarchy: "h3"
+              buttons:
+                {{entry.entry.heading.content.buttons | json}}
+          styles:
+              contentAlignment: {{entry.entry.heading.styles.contentAlignment}}
+              textAlignment: {{entry.entry.heading.styles.textAlignment}}
+              visualInterest: {{entry.entry.heading.styles.visualInterest}}
+              visualInterestColor: "{{entry.entry.heading.styles.visualInterestColor}}"
+        {% endcapture %}
+        {% assign entryHeading = entryHeading | ymlify %}
+      <div class=" hidden grid-cols-2 gap-[7vw] lg:grid">
+        <div class="sticky top-[20vh] h-[60vh] {{imagePositionClasses}}">
+          <div id="a{{content.id}}" class="lg-benefit-img ">
+            {% bookshop "generic/image" bind: entry.entry.image class: imageClasses %}
+            <div class="relative">
+              <div class="{{visualInterestClasses}} bg-clip-content [background-image:var(--url)]" style="--url: url('{{ visualInterestPath }}')"></div>
+            </div>
+            </div>
+        </div>
+        <div class="w-[500px]">
+          {% bookshop "generic/heading" bind: entryHeading %}
+            </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% else %}
+  <div class="hidden grid-cols-2 gap-[7vw] lg:grid [contain:paint;]">
+    <div class="sticky top-[20vh] h-[60vh] {{imagePositionClasses}}">
+      {% for entry in content.entries %}
+        {% assign counter = counter | minus: 1 %}
+        {% assign imageClasses = 'z-[' | append: counter | append: ']' %}
+        {% assign imageClasses = imageClasses | append: ' object-cover absolute top-0 transition-all aspect-[3/2] w-full rounded' %}
+        {% comment %} The a in the a is to prevent errors caused when id starts with numerical value {% endcomment %}
+        <div id="a{{entry.entry.id}}" class="lg-benefit-img relative opacity-0 transition-all duration-500">
+          {% bookshop "generic/image" bind: entry.entry.image class: imageClasses %}
+          {% if styles.imageVisualInterest != "none" %}
+            <div class="relative">{{ '/src' | append: visualInterestPath | svgContents: visualInterestClasses }}</div>
+          {% endif %}
+          
+          </div>
+      {% endfor %}
+    </div>
+    <div class="flex flex-col gap-[50vh] py-[30vh]">
+      {% for entry in content.entries %}
+        
+        {% capture entryHeading %}
+          content:
+              highlightEyebrow: {{entry.entry.heading.content.highlightEyebrow}}
+              eyebrow: {{entry.entry.heading.content.eyebrow | stringifyFilter}}
+              headline: {{entry.entry.heading.content.headline | stringifyFilter}}
+              description: {{entry.entry.heading.content.description | stringifyFilter}}
+              headingHierarchy: "h3"
+              buttons: 
+                {{entry.entry.heading.content.buttons | json}}
+          styles:
+              contentAlignment: {{entry.entry.heading.styles.contentAlignment}}
+              textAlignment: {{entry.entry.heading.styles.textAlignment}}
+              visualInterest: {{entry.entry.heading.styles.visualInterest}}
+              visualInterestColor: "{{entry.entry.heading.styles.visualInterestColor}}"
+        {% endcapture %}
+        {% assign entryHeading = entryHeading | ymlify %}
+        <div class="w-[500px]" _="
+            on intersection(intersecting) having threshold 1
+            if intersecting
+            add .opacity-0 to .lg-benefit-img
+            remove .opacity-100 from .lg-benefit-img
+            add .opacity-100 to #a{{entry.entry.id}}
+            remove .opacity-0 from #a{{entry.entry.id}}
+            log '{{entry.entry.id}}'
+            
+            ">
+          {% bookshop "generic/heading" bind: entryHeading %}
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+
+{% comment %} Mobile view {% endcomment %}
+<div class="flex flex-col gap-20 lg:hidden">
+  {% for entry in content.entries %}
+    {% capture entryHeading %}
+        content:
+            highlightEyebrow: {{entry.entry.heading.content.highlightEyebrow}}
+            eyebrow: {{entry.entry.heading.content.eyebrow | stringifyFilter}}
+            headline: {{entry.entry.heading.content.headline | stringifyFilter}}
+            description: {{entry.entry.heading.content.description | stringifyFilter}}
+            headingHierarchy: "h3"
+            buttons: 
+              {{entry.entry.heading.content.buttons | json}}
+        styles:
+            contentAlignment: {{entry.entry.heading.styles.contentAlignment}}
+            textAlignment: {{entry.entry.heading.styles.textAlignment}}
+            visualInterest: {{entry.entry.heading.styles.visualInterest}}
+            visualInterestColor: "{{entry.entry.heading.styles.visualInterestColor}}"
+      {% endcapture %}
+      {% assign entryHeading = entryHeading | ymlify %}
+    <div>
+      <div>
+        {% bookshop "generic/image" bind: entry.entry.image class: "w-full object-cover lg:hidden aspect-[3/2] rounded" %}
+      </div>
+      <div class="mt-4">{% bookshop "generic/heading" bind: entryHeading %}</div>
+    </div>
+  {% endfor %}
+</div>
+
+{% comment %} 
+        z-[20]
+        z-[19]
+        z-[18]
+        z-[17]
+        z-[16]
+        z-[15]
+        z-[14]
+        z-[13]
+        z-[12]
+        z-[11]
+        z-[10]
+        z-[9]
+        z-[8]
+        z-[7]
+        z-[6]
+        z-[5]
+        z-[4]
+        z-[3]
+        z-[2]
+        z-[1]
+
+ {% endcomment %}

@@ -1,0 +1,149 @@
+{% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
+{% endcapture %}
+{% capture contentAlignment %}
+{% if styles.contentAlignment == 'left' %} items-start {% elsif styles.contentAlignment == 'center' %} items-center {% else %} items-end {% endif %}
+{% endcapture %}
+
+{% capture textAlignment %}
+{% if styles.textAlignment == 'left' %} text-left {% elsif styles.textAlignment == 'center' %} text-center {% else %} text-right {% endif %}
+{% endcapture %}
+
+{% capture buttonAlignment %}
+{% if styles.textAlignment == 'left' %}  {% elsif styles.textAlignment == 'center' %} justify-center {% else %} justify-end {% endif %}
+{% endcapture %}
+
+<section class="cs-w-full relative flex flex-col items-center h-screen overflow-hidden">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+  {% if content.image.imagePath %}
+    <div class="absolute inset-0 -z-10 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
+      {% bookshop "generic/image" bind: content.image class: "h-screen w-screen object-cover" %}
+    </div>
+  {% endif %}
+
+  
+  <div class="basecontainer w-full flex flex-col h-full justify-center {{contentAlignment}}">
+    <div class="max-w-[700px] text-white {{textAlignment}}">
+
+
+      <p class=" {% if content.highlightEybrow %} text-{{styles.color_group}}-accentcolor {% endif %} ">{{ content.eyebrow }}</p>
+      <h1 class="md:text-5xl text-4xl font-bold">{{ content.headline }}</h1>
+      <p class="mt-3">{% if content.description %}{% bookshop "generic/textBlock" text:content.description %}{% endif %}</p>
+      {% if content.buttons %}
+        <div class="mt-3 flex w-full gap-8 flex-wrap {{buttonAlignment}}">
+          {% for button in content.buttons %}
+            {% bookshop "generic/button" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% comment %} Yes this is gross and the not the best wayt to do this, fight me {% endcomment %}
+{% comment %}
+    after:bg-opacity-[0%]
+    after:bg-opacity-[1%]
+    after:bg-opacity-[2%]
+    after:bg-opacity-[3%]
+    after:bg-opacity-[4%]
+    after:bg-opacity-[5%]
+    after:bg-opacity-[6%]
+    after:bg-opacity-[7%]
+    after:bg-opacity-[8%]
+    after:bg-opacity-[9%]
+    after:bg-opacity-[10%]
+    after:bg-opacity-[11%]
+    after:bg-opacity-[12%]
+    after:bg-opacity-[13%]
+    after:bg-opacity-[14%]
+    after:bg-opacity-[15%]
+    after:bg-opacity-[16%]
+    after:bg-opacity-[17%]
+    after:bg-opacity-[18%]
+    after:bg-opacity-[19%]
+    after:bg-opacity-[20%]
+    after:bg-opacity-[21%]
+    after:bg-opacity-[22%]
+    after:bg-opacity-[23%]
+    after:bg-opacity-[24%]
+    after:bg-opacity-[25%]
+    after:bg-opacity-[26%]
+    after:bg-opacity-[27%]
+    after:bg-opacity-[28%]
+    after:bg-opacity-[29%]
+    after:bg-opacity-[30%]
+    after:bg-opacity-[31%]
+    after:bg-opacity-[32%]
+    after:bg-opacity-[33%]
+    after:bg-opacity-[34%]
+    after:bg-opacity-[35%]
+    after:bg-opacity-[36%]
+    after:bg-opacity-[37%]
+    after:bg-opacity-[38%]
+    after:bg-opacity-[39%]
+    after:bg-opacity-[40%]
+    after:bg-opacity-[41%]
+    after:bg-opacity-[42%]
+    after:bg-opacity-[43%]
+    after:bg-opacity-[44%]
+    after:bg-opacity-[45%]
+    after:bg-opacity-[46%]
+    after:bg-opacity-[47%]
+    after:bg-opacity-[48%]
+    after:bg-opacity-[49%]
+    after:bg-opacity-[50%]
+    after:bg-opacity-[51%]
+    after:bg-opacity-[52%]
+    after:bg-opacity-[53%]
+    after:bg-opacity-[54%]
+    after:bg-opacity-[55%]
+    after:bg-opacity-[56%]
+    after:bg-opacity-[57%]
+    after:bg-opacity-[58%]
+    after:bg-opacity-[59%]
+    after:bg-opacity-[60%]
+    after:bg-opacity-[61%]
+    after:bg-opacity-[62%]
+    after:bg-opacity-[63%]
+    after:bg-opacity-[64%]
+    after:bg-opacity-[65%]
+    after:bg-opacity-[66%]
+    after:bg-opacity-[67%]
+    after:bg-opacity-[68%]
+    after:bg-opacity-[69%]
+    after:bg-opacity-[70%]
+    after:bg-opacity-[71%]
+    after:bg-opacity-[72%]
+    after:bg-opacity-[73%]
+    after:bg-opacity-[74%]
+    after:bg-opacity-[75%]
+    after:bg-opacity-[76%]
+    after:bg-opacity-[77%]
+    after:bg-opacity-[78%]
+    after:bg-opacity-[79%]
+    after:bg-opacity-[80%]
+    after:bg-opacity-[81%]
+    after:bg-opacity-[82%]
+    after:bg-opacity-[83%]
+    after:bg-opacity-[84%]
+    after:bg-opacity-[85%]
+    after:bg-opacity-[86%]
+    after:bg-opacity-[87%]
+    after:bg-opacity-[88%]
+    after:bg-opacity-[89%]
+    after:bg-opacity-[90%]
+    after:bg-opacity-[91%]
+    after:bg-opacity-[92%]
+    after:bg-opacity-[93%]
+    after:bg-opacity-[94%]
+    after:bg-opacity-[95%]
+    after:bg-opacity-[96%]
+    after:bg-opacity-[97%]
+    after:bg-opacity-[98%]
+    after:bg-opacity-[99%]
+    after:bg-opacity-[100%]
+
+{% endcomment %}

@@ -1,0 +1,19 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-mediaCards componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+  <section class="basecontainer w-full">
+    {% bookshop "generic/heading" bind: content.heading %}
+
+    {% if content.cards %}
+      <ul class="mt-20 flex flex-wrap justify-center gap-16">
+        {% for card in content.cards %}
+          {% bookshop {{card._bookshop_name}} bind: card %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+</div>

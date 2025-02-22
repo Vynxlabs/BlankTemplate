@@ -1,0 +1,110 @@
+<!doctype html>
+<html
+  lang="en"
+  class="mx-auto my-0 max-w-[1440px] scroll-pt-32 overflow-x-hidden"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    {% include "partials/meta-info.html" %} {% include
+    "partials/google-fonts.html" %}
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      href="{{ site.url }}/feed.xml"
+    />
+    {% capture css %} {% include "css/styles.css" %} {% endcapture%}
+    <link rel="stylesheet" href="/css/bookshop.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style defer>
+      {{ css  }}
+    </style>
+    {{site.customCode.headCode}}
+    {{customCode.headCode}}
+  </head>
+  {% include "partials/analytics.html" %} {% include
+  "partials/watermark.html" %}
+  <body
+    class="mx-4 sm:mx-10  flex flex-col h-screen text-{{site.color_group}}-textcolor bg-{{site.color_group}}-backgroundcolor text-lg "
+  >
+  
+    {% include "partials/site-head.html" %}
+
+    <main
+      tabindex="-1"
+      id="main-content"
+      class="flex flex-1 flex-col [&>:last-child]:flex-1 mt-20"
+      _='on load 
+      measure #navbar height then set :height to it
+      set :maincontent to the #main-content
+      set :maincontent.style.marginTop to :height.height+"px"
+      log :height.height
+      end'
+    >
+      {% bookshop_include "hero" hero: hero %} {% bookshop_include "page"
+      content_blocks: content_blocks %} {% block content %}{% endblock %}
+    </main>
+    {% include "partials/site-foot.html" %} 
+    {% bookshop "util/textContrastScript"  %}
+    <script defer>
+      // Calculate contrast ratio based on RGB values
+      function calculateContrast(rgb) {
+        var sum = Math.round(
+          (parseInt(rgb[0]) * 299 +
+            parseInt(rgb[1]) * 587 +
+            parseInt(rgb[2]) * 114) /
+            1000,
+        );
+        return sum > 128 ? "text-slate-950" : "text-white";
+      }
+
+      // Function to set foreground color based on contrast
+      function setForegroundColor(element) {
+        // Get RGB values from the element's style or data attribute
+        var style = window.getComputedStyle(element);
+        var backgroundColor = style.backgroundColor;
+        var match = backgroundColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        if (match) {
+          var rgb = [
+            parseInt(match[1]),
+            parseInt(match[2]),
+            parseInt(match[3]),
+          ];
+          var contrastClass = calculateContrast(rgb);
+          element.classList.add(contrastClass);
+        }
+      }
+
+      // Select elements with data-contrast="true" attribute and set foreground color
+      document.addEventListener("DOMContentLoaded", function () {
+        var elements = document.querySelectorAll('[data-contrast="true"]');
+        elements.forEach(function (element) {
+          setForegroundColor(element);
+        });
+      });
+    </script>
+
+    <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+    <script defer>
+      var prevScrollpos = window.pageYOffset;
+      window.onscroll = function () {
+        var nav = document.getElementById("navbar");
+        var currentScrollPos = window.pageYOffset;
+
+        if (currentScrollPos > 250 && prevScrollpos < currentScrollPos) {
+          nav.style.top = "-" + nav.offsetHeight + "px";
+        } else if (
+          currentScrollPos <= 250 ||
+          prevScrollpos > currentScrollPos
+        ) {
+          nav.style.top = "0";
+        }
+
+        prevScrollpos = currentScrollPos;
+      };
+    </script>
+    {{site.customCode.bodyCode}}
+    {{customCode.bodyCode}}
+  </body>
+</html>

@@ -1,0 +1,169 @@
+// @import "reset.scss";
+
+@tailwind base;
+@tailwind components;
+
+@layer components {
+  .basecontainer {
+    @apply flex max-w-[1440px] flex-col px-4 sm:px-10;
+  }
+  .cs-w-full-l {
+    @apply relative left-1/2 right-1/2 ml-[-50vw] mr-0 w-[50vw];
+  }
+  .cs-w-full-r {
+    @apply relative left-1/2 right-1/2 ml-0 mr-[-50vw] w-[50vw];
+  }
+  .componentcontainer {
+    @apply relative left-1/2 right-1/2 mx-[-50vw] flex w-screen flex-col items-center justify-center py-10 md:py-20;
+  }
+  .cs-w-full {
+    @apply relative left-1/2 right-1/2 mx-[-50vw] w-screen;
+  }
+  .link {
+    @apply underline decoration-4 underline-offset-4 transition-colors;
+  }
+}
+
+@import "variables.scss";
+@import "color_groups.scss";
+@import "nav.scss";
+@import "footer.scss";
+@import "component-browser.scss";
+@import "leaflet.scss";
+
+/* Globals */
+
+@font-face {
+  font-family: "fira-sansregular";
+  src:
+    url("/fonts/firasans-regular-webfont.woff2") format("woff2"),
+    url("/fonts/firasans-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "piazzolla";
+  src:
+    url("/fonts/Piazzolla-VariableFont_opsz,wght.woff2")
+      format("woff2 supports variations"),
+    url("/fonts/Piazzolla-VariableFont_opsz,wght.woff2")
+      format("woff2-variations");
+  font-weight: 100 1000;
+}
+
+/* * {
+  outline: 1px solid #f00 !important;
+}  */
+
+/* Compositions */
+.flow-half > * + * {
+  margin-top: 8px;
+}
+.flow > * + * {
+  margin-top: 16px;
+}
+
+.flow5 > * + * {
+  margin-top: 5rem;
+}
+
+/* Utilities */
+.visually-hidden {
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%); /* browsers in the future */
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+main > :last-child {
+  flex: 1 1 0;
+}
+
+main > :last-child > :only-child {
+  height: 100%;
+}
+
+body {
+  font-family: var(--content-font), Lato, sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--heading-font), Lato, serif;
+  }
+}
+
+.cs-logoFont {
+  font-family: var(--logo-font), Lato, sans-serif;
+}
+
+.cs-mainContent {
+  margin-bottom: 20px;
+  h2 {
+    margin-top: 48px;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+  h3 {
+    margin-top: 32px;
+    font-size: 2rem;
+    line-height: 2.25rem;
+  }
+  h4 {
+    margin-top: 32px;
+    font-size: 1.75rem;
+    line-height: 2rem;
+  }
+  h5 {
+    margin-top: 28px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  h6 {
+    margin-top: 24px;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  p {
+    margin-top: 12px;
+  }
+  ol,
+  ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 32px;
+  }
+  a {
+    color: #5fb6e0;
+    text-decoration: underline;
+  }
+  ul > li {
+    list-style-type: circle;
+  }
+  ol > li {
+    list-style-type: decimal;
+  }
+}
+
+.toc {
+  margin-bottom: 40px;
+  max-width: 400px;
+  li{
+    margin-top: 8px;
+  }
+  ol {
+    ol {
+      padding-left: 20px;
+      
+    }
+  }
+}
+
+@tailwind utilities;

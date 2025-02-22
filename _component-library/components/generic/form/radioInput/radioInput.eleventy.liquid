@@ -1,0 +1,15 @@
+<div class="">
+
+  <label class=" flex items-center gap-1 text-{{color_group}}-textcolor text-base" for="{{ id }}"><input
+      class=" appearance-none w-4 h-4 border rounded-full border-{{color_group}}-textcolor cursor-pointer relative flex justify-center items-center shrink-0 checked:after:content-['●'] text-{{color_group}}-secondarycolor"
+      type="radio"
+      id="{{ id }}"
+      name="{{ groupName }}"
+      value="{{ label }}"
+      {% if checked %}
+      checked{% endif %}
+      {% if required %}
+      required{% endif %} />{{ label }}{% if required %}
+      *{% endif %}
+  </label>
+</div>

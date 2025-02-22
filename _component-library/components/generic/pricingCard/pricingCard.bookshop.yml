@@ -1,0 +1,79 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+  label: "Pricing Card"
+  description:
+  icon:
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    heading:
+    shortDescription:
+    price: $0
+    priceDescription:
+    description:
+    buttons: [bookshop:generic/button]
+  styles:
+    card_color_group: primary
+    colorFromGroup: background
+    highlightColor: primary
+    highlight: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  heading:
+    comment: "What to call this price. Examples 'Basic', 'Pro', 'Enterprise'"
+  colorFromGroup:
+    label: "Card background color"
+  highlightColor:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
+  shortDescription:
+    comment: A short description of the service. Example "Perfect for beginners"
+  priceDescription:
+    comment: A description of the price. Examples "Paid monthly" or "Paid upfront"
+  description:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      format: p h4 h5 h6
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: true
+      numberedlist: true
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      snippet: false

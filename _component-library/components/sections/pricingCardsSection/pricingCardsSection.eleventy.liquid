@@ -1,0 +1,31 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-pricingCardsSection componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+    <div class="mt-24 flex gap-4 justify-center flex-wrap">
+
+      {% if content.cards %}
+        {% for card in content.cards %}
+          {% bookshop "generic/pricingCard" bind: card %}
+        {% endfor %}
+        
+      {% endif %}
+      
+
+    </div>
+    {% if content.buttons %}
+        <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+          {% for button in content.buttons %}
+            {% bookshop "generic/button" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+  </section>
+</div>

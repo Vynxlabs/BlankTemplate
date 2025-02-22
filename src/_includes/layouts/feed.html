@@ -1,0 +1,39 @@
+{% layout "layouts/base.html" %} 
+
+{% assign postListItems = pagination.items %}
+{% assign pageHeaderTitle = title %}
+{% assign pageHeaderSummary = subheadline %}
+{% capture styles %}
+color_group: {{site.color_group}}
+cardStyle: default
+{% endcapture %}
+{% assign styles = styles | ymlify %}
+{% comment %}
+If this is a tag, grab those items instead as one large collection
+{% endcomment %}
+{% if tag %}
+  {% assign postListItems = collections[tag] %}
+  {% assign pageHeaderTitle = 'Posts filed under “' | append: tag | append: '”' %}
+{% endif %}
+
+{% capture heading %}
+        content:
+            headline: {{pageHeaderTitle}}
+            headingHierarchy: h1
+        styles:
+            contentAlignment: center
+            textAlignment: center
+    {% endcapture %}
+{% assign heading = heading | ymlify %}
+{% block content %}
+{% bookshop "sections/simpleHero" heading: heading %}
+  <article class="blog-main-container">
+    <div>
+      
+      {% unless tag == "pages" %}
+      {% bookshop "sections/blogCards" bind: styles %}
+      {% endunless %}
+      
+    </div>
+  </article>
+{% endblock %}

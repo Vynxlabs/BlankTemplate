@@ -1,0 +1,6 @@
+<div class="c-helperText flex gap-2 text-sm text-{{color_group}}-textcolor">
+    {% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"information-circle" iconType:"outline" iconSize:'micro' roundedBorder:false themeColor:true %}
+    <div class="{{ c }}__helper__text" id="{{ id }}--helper" role="tooltip">
+{% bookshop "generic/textBlock" text: helperText %}
+    </div>
+</div>

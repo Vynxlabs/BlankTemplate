@@ -1,0 +1,15 @@
+{% assign color_group = styles.color_group %}
+<div class="componentcontainer bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor">
+    <section  class="basecontainer w-full">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+        {% if content.heading %}
+            <div class="">
+                {% if content.heading %}{% bookshop "generic/heading" bind:content.heading %}{% endif %}
+            </div>
+        {% endif %}
+            <div class="">{% bookshop "simple/formBuilder" bind:content.form %}</div>
+    </section>
+</div>

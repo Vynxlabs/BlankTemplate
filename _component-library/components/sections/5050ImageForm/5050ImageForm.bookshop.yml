@@ -1,0 +1,25 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "50/50 Image and Form"
+  description: A form where half is an image and half is a form
+  icon: splitscreen_landscape
+  tags: [form]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:generic/heading!
+    image: bookshop:generic/image
+    form: bookshop:simple/formBuilder!
+  styles:
+    color_group: primary
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:

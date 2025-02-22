@@ -1,0 +1,94 @@
+{% assign color_group = styles.color_group %}
+{% assign categories = collections.services | categoriesFilter %}
+{% assign cardStyle = 'generic/services/' |  append: styles.cardStyle  %}
+
+{% assign liveEditClasses = 'border-' | append: color_group | append: '-secondarycolor' %}
+
+
+
+<section class="c-servicesSection componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+  <div class="basecontainer w-full">{% bookshop "generic/heading" bind: content.heading %}</div>
+  {% if env_bookshop_live and content.showNote %}
+    <div class="mb-20">{% bookshop "generic/notification" heading: "Tabs in live editing" text: "Trying to click through your services tabs will not work while editing" %}
+      </div>
+  {% endif %}
+  <div class="lg-waiting mt-16"
+  _="
+  on loaded
+  log $isFocused
+  if $isFocused is 0 add .border-{{styles.color_group}}-secondarycolor  to first <button/> in me"
+  >
+  {% comment %} Tabs selection {% endcomment %}
+  
+    
+  
+  <div class=" z-10">
+      <ul class="flex flex-wrap flex-col md:flex-row md:gap-2">
+        {% for category in categories %}
+          <li>
+              <button id="{{category | slug}}" class="lg-service-categories px-2 py-1 sm:px-4 sm:py-2 font-bold w-full border-2 md:border-b-2 md:border-t-0 md:border-r-0 md:border-l-0 capitalize {% if env_bookshop_live and categories.first == category %}{{liveEditClasses}}{% endif %}"
+              _="
+              on click or focus remove .border-{{styles.color_group}}-secondarycolor from .lg-service-categories
+              add .border-{{styles.color_group}}-secondarycolor to me
+              add .hidden to .categories
+              remove .hidden from .{{category | slug}}
+              set  $isFocused to 1 log $isFocused
+              "
+              >
+                {{ category }}
+              </button>
+          </li>
+        {% endfor %}
+      </ul>
+  </div>
+  {% comment %} Services Section {% endcomment %}
+  <div
+      class="lg-waiting "
+      _="
+          on loaded if $isFocused is 0 remove .hidden from the next <ul/>"
+    ></div>
+      <div class=" componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor mt-4">
+        <div class="basecontainer w-full flex flex-col items-center ">
+          {% for category in categories %}
+            <ul class="categories {{category | slug}} flex flex-wrap justify-around gap-10 {% if env_bookshop_live and categories.first == category %}{% else %}hidden{% endif %}">
+              {% for service in collections.services %}
+                {% if service.data.category %}
+                  {% assign serviceCategory = service.data.category | slug %}
+                  {% else %}
+                  {% assign serviceCategory = 'Services' | slug %}
+                {% endif %}
+                {% assign categorySlug = category | slug %}
+                {% if serviceCategory == categorySlug %}
+                  {% capture serviceInfo %}
+                    url: {{ service.url }}
+                    title: {{ service.data.title }}
+                    image:
+                      imagePath: {{ service.data.serviceImage }}
+                      imageAlt: {{ service.data.imageAltText }}
+                    summary: {{ service.data.summary }}
+                  {% endcapture %}
+                  {% assign serviceInfo = serviceInfo | ymlify %}
+                  {% bookshop {{cardStyle}} bind: serviceInfo %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endfor %}
+          {% comment %} <div class="ghost-button mt-10"
+            _="
+            on click
+            go to the top of body smoothly
+            "
+            >{% bookshop "generic/button" url: '#' text: 'Back to top' ghostButton: true blackText: true  %}</div>
+        </div> {% endcomment %}
+      </div>
+  </div>
+</section>
+
+<script defer type="text/hyperscript">
+  on load if $isFocused is not 1 set  $isFocused to 0 send loaded to .lg-waiting end
+  on load if $isFocusedSpecial is not 1 set  $isFocusedSpecial to 0 send loaded to .lg-waiting
+</script>

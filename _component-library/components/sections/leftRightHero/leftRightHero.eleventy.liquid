@@ -1,0 +1,44 @@
+{% assign color_group = styles.color_group %}
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow| stringifyFilter}}
+        headline: {{content.heading.content.headline| stringifyFilter}}
+        description: {{content.heading.content.description| stringifyFilter}}
+        buttons:
+          {{content.heading.content.buttons | json}}
+        headingHierarchy: "h1"
+    styles:
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: {{content.heading.styles.visualInterestColor}}
+        highContrast: true
+        contrastColorGroup: {{styles.color_group}}
+        contrastAgainst: {{styles.topColorFromGroup}} 
+        textClassOverride: 
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+
+<div class="c-leftRightHero componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+
+  {% if styles.headingRight %}
+    {% capture direction %}
+     flex-row-reverse flex-wrap
+    {% endcapture %}
+  {% else %}
+    {% capture direction %}
+        flex-row flex-wrap  
+    {% endcapture %}
+  {% endif %}
+
+  <section class="basecontainer w-full flex {{direction}} gap-x-4 gap-y-2">
+    <div class="flex-1 flex justify-center items-center min-w-[300px] sm:min-w-[400px] ">{% bookshop "generic/heading" bind: heading %}</div>
+    <div class="flex-1 w-full min-w-[300px] sm:min-w-[600px]">{% bookshop "generic/image" bind: content.image class: "max-h-screen object-cover object-center rounded w-full" %}</div>
+  </section>
+</div>

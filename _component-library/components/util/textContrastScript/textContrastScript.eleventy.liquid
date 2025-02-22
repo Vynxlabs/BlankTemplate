@@ -1,0 +1,54 @@
+{% if env_bookshop_live %}
+    <script defer>
+      // Function to calculate contrast ratio based on RGB values
+function calculateContrast(rgb) {
+  var sum = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
+  return (sum > 128) ? 'text-slate-950' : 'text-white';
+}
+
+// Function to set foreground color based on contrast
+function setForegroundColor(element) {
+  // Get RGB values from the element's style or data attribute
+  var style = window.getComputedStyle(element);
+  var backgroundColor = style.backgroundColor;
+  var match = backgroundColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+  if (match) {
+    var rgb = [parseInt(match[1]), parseInt(match[2]), parseInt(match[3])];
+    var contrastClass = calculateContrast(rgb);
+    element.classList.add(contrastClass);
+  }
+}
+
+// Function to update text colors for elements with data-contrast="true"
+function updateTextColors() {
+  var elements = document.querySelectorAll('[data-contrast="true"]');
+  elements.forEach(function(element) {
+    setForegroundColor(element);
+  });
+}
+
+// Function to run within the iframe's context
+function runScriptInIframe() {
+  // Update text colors every 7 seconds
+  setInterval(updateTextColors, 7000);
+
+  // Initial update on page load
+  updateTextColors();
+}
+
+// Get the iframe element
+var iframe = document.getElementById('editor-iframe');
+
+// Check if the iframe is loaded
+if (iframe) {
+  // Get the iframe's content window and document
+  var iframeWindow = iframe.contentWindow;
+  var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+  // Execute the script within the iframe's context
+  iframeWindow.addEventListener('DOMContentLoaded', function() {
+    iframeDocument.addEventListener('DOMContentLoaded', runScriptInIframe);
+  });
+}
+    </script>
+    {% endif %}

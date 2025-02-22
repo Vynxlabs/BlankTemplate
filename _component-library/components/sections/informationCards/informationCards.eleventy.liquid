@@ -1,0 +1,42 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-informationCards componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section class="basecontainer w-full">
+
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% bookshop "generic/heading" bind: content.heading %}
+
+    {% if content.cards %}
+      <div class="mt-20 flex flex-wrap justify-center gap-16">
+        {% if styles.cardBackground %}
+        {% endif %}
+
+
+        {% for card in content.cards %}
+          {% assign color_group = styles.card_color_group %}
+          <div class="min-h-[260px] max-w-[380px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  rounded">
+            {% capture heading %}
+              content:
+                  highlightEyebrow: {{card.heading.content.highlightEyebrow}}
+                  eyebrow: {{card.heading.content.eyebrow | stringifyFilter}}
+                  headline: {{card.heading.content.headline | stringifyFilter}}
+                  description: {{card.heading.content.description | stringifyFilter}}
+                  headingHierarchy: "h3"
+                  buttons:
+                      {{card.heading.content.buttons | json}}
+              styles:
+                  contentAlignment: {{card.heading.styles.contentAlignment}}
+                  textAlignment: {{card.heading.styles.textAlignment}}
+                  visualInterest: {{card.heading.styles.visualInterest}}
+                  visualInterestColor: "{{card.heading.styles.visualInterestColor}}"
+          {% endcapture %}
+            {% assign heading = heading | ymlify %}
+            {% bookshop "generic/heading" bind: heading %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+</div>

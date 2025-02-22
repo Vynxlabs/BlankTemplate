@@ -1,0 +1,49 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - form_blocks
+  label: "File Input"
+  description: "Let users upload a file"
+  icon: upload
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  label: ""
+  id:
+  customAccept: false
+  acceptSelection:
+  acceptCSV:
+  required: false
+  placeholder:
+  helperText:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  acceptSelection:
+    hidden: "customAccept"
+    label: Accepted File Types
+    comment: Select the file types you want to accept. Leave blank to accept all files. Max file size is 8MB
+    type: multiselect
+    options:
+      value_key: id
+      values:
+      - name: Images
+        id: image/*
+      - name: Documents
+        id: application/*
+      - name: Audio
+        id: audio/*
+      - name: Video
+        id: video/*
+
+  acceptCSV:
+    hidden: "!customAccept"
+    label: Custom Accept
+    comment: >-
+      Customise the accepted file types for this input in a comma separated values format.
+      Example ".png,.jpg,.csv,.pdf" Max file size is 8MB
+    

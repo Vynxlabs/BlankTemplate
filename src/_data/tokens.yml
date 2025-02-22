@@ -1,0 +1,8 @@
+token_list:
+_inputs:
+  token_list:
+    type: array
+    options:
+      structures: _structures.tokens
+  value:
+    type: textarea
