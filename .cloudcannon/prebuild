@@ -1,3 +1,4 @@
 npm run fetch-theme-variables
+npm run copy-glide-assets
 npm run sass:build
 npm run bookshop-sass:build

@@ -2,8 +2,10 @@
     {% assign postListItems = collections.blog %}
     {% elsif tag %}
         {% assign postListItems = collections[tag] %}
-    {% else %}
+    {% elsif pagination and page.url == "/blog/"%}
     {% assign postListItems = pagination.items %}
+    {% else %}
+    {% assign postListItems = collections.blog %}
 {% endif %}
 {% assign color_group = styles.color_group %}
 {% assign counter = 0 %}
@@ -23,7 +25,7 @@
         {% if env_bookshop_live and content.showNote %}
             {% bookshop "generic/notification" heading:"Blog Cards" text:"The time to read will not show up while editing, but will show up on the live site" %}
         {% endif %}
-        {% bookshop "generic/heading" bind: content.heading %}
+        {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
         <div class="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 md:gap-20 mt-12">
             {% for entry in postListItems %}
                 {% capture blogAuthor %}

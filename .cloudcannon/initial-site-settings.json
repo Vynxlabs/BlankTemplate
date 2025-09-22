@@ -1,18 +1,32 @@
 {
   "ssg": "eleventy",
   "mode": "hosted",
-  "build": {
-    "install_command": "[ -f package.json ] && npm i",
-    "build_command": "npx eleventy",
+  "build_configuration": {
+    "output": "dist",
+    "hugoVersion": "0.128.1",
+    "rubyVersion": "2.7.3",
+    "nodeVersion": "file",
+    "denoVersion": "1.40.2",
+    "preserved_paths": "node_modules/,.cache/,dist/assets/images/",
+    "environment_variables": [
+      {
+        "key": "CLOUDCANNON_ENV",
+        "value": "cloudcannon"
+      }
+    ],
+    "config": "",
+    "formats": "",
+    "input": "",
+    "pathprefix": "",
+    "quiet": false,
+    "incremental": false,
+    "ignoreinitial": false,
+    "preserveOutput": false,
+    "includeGit": false,
+    "manage_plugin_manually": false,
+    "use_beta_plugin": false,
     "output_path": "dist",
-    "environment_variables": [],
-    "preserved_paths": "node_modules,dist/assets/images",
-    "preserve_output": false,
-    "include_git": false,
-    "manually_configure_urls": false,
-    "hugo_version": "0.128.1",
-    "ruby_version": "2.7.3",
-    "node_version": "20",
-    "deno_version": "1.40.2"
+    "install_command": "npm i",
+    "build_command": "npm run eleventy"
   }
 }

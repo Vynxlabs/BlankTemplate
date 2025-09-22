@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Text Break Review"
   description: A result image review where the text breaks out of the image frame
   icon: reviews
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     usePersonImage: false
     reviews:
       - review:

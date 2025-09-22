@@ -1,5 +1,7 @@
 {% if env_bookshop_live %}
   {% assign postListItems = collections.happenings | concat: collections.blog | happeningsFilter: page, happenings, contents.tags, -1 %}
+  {% elsif tag %}
+   {% assign postListItems = collections[tag] %} 
 {% elsif pagination.items %}
   {% assign postListItems = pagination.items %}
 {% else %}
@@ -26,7 +28,7 @@
         {% bookshop "generic/notification" heading: "All happenings and Time Format" text: "While editing all happenings will be shown. <br> The correct ones will show up on the live site <br><br> The time will show up as UTC while live editing but will show up as local time on the live site" %}
       {% endif %}
       {% if contents.heading %}
-        {% bookshop {{contents.heading._bookshop_name}} bind: contents.heading %}
+        {% if contents.heading %} {% bookshop {{contents.heading._bookshop_name}} bind: contents.heading %} {% endif %}
       {% endif %}
       <div class="mt-12 grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 md:gap-20 ">
         {% for entry in postListItems %}

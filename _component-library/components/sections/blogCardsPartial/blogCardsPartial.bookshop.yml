@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Blog Cards - 3 Posts"
   description: Shows up to 3 blog cards. Either the most recent or random
   icon:
@@ -13,7 +14,7 @@ blueprint:
   contents:
     sectionId:
     showNote: true
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     randomize: false
   styles:
     color_group: primary

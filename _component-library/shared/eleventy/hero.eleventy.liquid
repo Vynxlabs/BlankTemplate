@@ -1,7 +1,11 @@
-{% if hero %}
-    {% bookshop {{hero._bookshop_name}} bind:hero %}
+{% if hero == false %}
+{% comment %}
+  do nothing
+{% endcomment %}
+{% elsif hero %}
+  {% bookshop {{hero._bookshop_name}} bind:hero %}
 {% elsif permalink != "/components/" %}
-    {% capture default_hero %}
+  {% capture default_hero %}
         content:
             headline: {{ title | stringifyFilter}}
             headingHierarchy: h1
@@ -9,10 +13,10 @@
             contentAlignment: center
             textAlignment: center
     {% endcapture %}
-    {% assign default_hero = default_hero | ymlify %}
-    {% if permalink contains "blog/" or permalink contains"tag/" %}
-        {% else %}
-        {% bookshop "sections/simpleHero" heading: default_hero %} 
-    {% endif %}
-    
+  {% assign default_hero = default_hero | ymlify %}
+  {% if permalink contains "blog/" or permalink contains"tag/" %}
+  {% else %}
+    {% bookshop "sections/simpleHero" heading: default_hero %}
+  {% endif %}
+
 {% endif %}

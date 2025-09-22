@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Blog Cards - All Posts"
   description: Shows all blog posts in a format
   icon:
@@ -13,7 +14,7 @@ blueprint:
   content:
     sectionId:
     showNote: true
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
   styles:
     color_group: primary
     cardStyle: default

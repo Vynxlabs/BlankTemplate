@@ -7,7 +7,9 @@
   {% endif %}
         {% if content.heading %}
             <div class="">
-                {% if content.heading %}{% bookshop "generic/heading" bind:content.heading %}{% endif %}
+                {% if content.heading %}
+                {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
+                {% endif %}
             </div>
         {% endif %}
             <div class="">{% bookshop "simple/formBuilder" bind:content.form %}</div>

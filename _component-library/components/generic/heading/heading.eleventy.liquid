@@ -29,13 +29,10 @@
     cs-visualInterest-sideLine
   {% endif %}
 {% endcapture %}
-
 {% capture textClass %}
 {% if styles.highContrast %} text-{{styles.contrastColorGroup}}-highcontrast-{{styles.contrastAgainst}}color {% else %} text-{{color_group}}-textcolor {% endif %}
 {% if styles.textClassOverride %} {{styles.textClassOverride}} {% endif %}
 {% endcapture %}
-
-  
 
 
 <header class="c-heading w-full flex flex-col justify-center {{contentAlignment}} {{textClass}} {{margin}}">
@@ -44,7 +41,7 @@
       <div class=" {% if content.highlightEyebrow %} text-{{color_group}}-accentcolor {% endif %} ">{% bookshop "generic/textBlock" text: content.eyebrow %}</div>
     {% endif %}
     <{{content.headingHierarchy | default: "h2" }} class="cs-visualInterest {{headingClasses}} font-bold mt-1 {{headingSize}}" style="--c-visualColor: {{styles.visualInterestColor}}">
-    {% bookshop "generic/textBlock" text: content.headline %}
+      {% bookshop "generic/textBlock" text: content.headline %}
       </{{content.headingHierarchy | default: "h2" }}>
       <div class="mt-4 cs-headingLink">
         {% if content.description %}
@@ -53,13 +50,14 @@
       {% if content.buttons %}
         <div class="mt-3 flex w-full gap-8 flex-wrap {{buttonAlignment}}">
           {% for button in content.buttons %}
-            {% bookshop "generic/button" bind: button %}
+            {% bookshop "{{button._bookshop_name}}" bind: button %}
           {% endfor %}
 
         </div>
       {% endif %}
-    </div>{% if styles.highContrast %}
-      {% assign temp = styles | log %}
+    </div>
+    {% if styles.highContrast %}
+      {% assign temp = styles  %}
     {% endif %}
-    
+
   </header>

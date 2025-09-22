@@ -1,0 +1,15 @@
+{% assign color_group = styles.color_group %}
+
+<div class=" basecontainer w-full sticky bottom-0 md:bottom-2 z-[890]  flex justify-center">
+    <div class="flex">
+      {% if content.buttons %}
+        <div class="cs-w-full flex  flex-col items-center">
+          <div class="px-3 py-2 mt-10 md:w-max md:max-w-[511px] flex w-full gap-4 flex-wrap justify-center bg-{{styles.color_group}}-{{styles.colorFromGroup}}color {{theme.container_rounding}}">
+            {% for button in content.buttons %}
+              {% bookshop "{{button._bookshop_name}}" bind: button %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<button
+  data-umami-event="{{text}}-{{page.url}}-formBtn"
+  data-contrast="true"
+  _="
+on click
+set modal to #modal-{{id}}
+modal.show()
+transition #modal-{{id}} opacity to 1 over 0.2s
+"
+  class=" {% if ghostButton %} border-2 border-{{color_group}}-{{colorFromGroup}}color {% else %}bg-{{color_group}}-{{colorFromGroup}}color text-{{color_group}}-highcontrast-{{colorFromGroup}}color
+  
+  {% endif %}  px-3 py-2 {{theme.button_rounding}} font-bold text-sm uppercase transition-all hover:scale-105 ">
+  {{ text }}</button>
+<dialog id="modal-{{id}}" class="fixed top-0 z-[920] h-full w-full overflow-scroll p-4 opacity-0 open:bg-slate-950 open:bg-opacity-60 open:backdrop-blur-lg sm:p-10">
+  <div class="flex flex-col gap-10">
+    <button
+      aria-label="Close image"
+      class="sticky top-0 self-end font-bold text-white opacity-60"
+      _="
+          on click
+          set modal to #modal-{{id}}
+          transition #modal-{{id}} opacity to 0 over 0.1s settle then
+          modal.close()
+          ">
+      {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "x-mark" iconType: "solid" iconSize: 'large' roundedBorder: false color: "#ffffff" %}
+    </button>
+    <div class="self-center w-full max-w-[90%] {% if resource._bookshop_name != "generic/videoEmbed" %}flex justify-center{% endif %}">
+
+      {% if resource._bookshop_name == "simple/formBuilder" %}
+
+        {% assign color_group = form_color_group %}
+        <div class=" bg-{{form_color_group}}-backgroundcolor bg-opacity-70 p-5 {{theme.container_rounding}} w-full max-w-[512px] flex-1 min-w-[300px]">{% bookshop "{{resource._bookshop_name}}" bind: resource class: "max-w-[90%] object-cover object-center" %}</div>
+      {% else %}
+        {% if resource and resource != "" %}
+          {% bookshop "{{resource._bookshop_name}}" bind: resource class: "max-w-[90%] object-cover object-center" %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</dialog>

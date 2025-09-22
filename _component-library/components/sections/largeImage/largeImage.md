@@ -3,7 +3,7 @@ title: Large Image
 layout: layouts/page.html
 eleventyNavigation:
   key: Large Image
-  order: 18
+  order: 22
 tags: Sections
 draft: false
 _schema: default

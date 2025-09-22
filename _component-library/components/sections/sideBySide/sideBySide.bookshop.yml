@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Side By Side Animation"
   description: A versatile section that combines text, images, and and a animation transitions between them.
   icon: ballot
@@ -13,7 +14,7 @@ blueprint:
   content:
     showNote: true
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     entries:
       - entry:
           heading: bookshop:generic/heading!

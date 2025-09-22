@@ -1,5 +1,7 @@
 {% assign color_group = styles.color_group %}
-
+{% capture imageClasses %}
+  max-w-[475px] w-full object-cover object-center min-[823px]:p-0 px-8 {{theme.image_rounding}}
+{% endcapture %}
 <div class="c-basicFormWithImage componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
     <section
     class="basecontainer w-full">
@@ -7,11 +9,11 @@
   {% if content.sectionId %}
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
     <div class=" flex justify-center items-center flex-wrap mt-12">
-        {% bookshop "generic/image" bind:content.image class: "max-w-[475px] w-full object-cover object-center min-[823px]:p-0 px-8 " %}
+        {% bookshop "generic/image" bind:content.image class: imageClasses %}
         {% assign color_group = styles.form_color_group %}
-        <div class="-mt-8 min-[823px]:mt-0 min-[823px]:-ml-8 bg-{{styles.form_color_group}}-backgroundcolor bg-opacity-70 p-5 rounded w-full max-w-[512px] flex-1 min-w-[300px]">{% bookshop "simple/formBuilder" bind:content.form %}</div>
+        <div class="-mt-8 min-[823px]:mt-0 min-[823px]:-ml-8 bg-{{styles.form_color_group}}-backgroundcolor bg-opacity-70 p-5 {{theme.container_rounding}} w-full max-w-[512px] flex-1 min-w-[300px]">{% bookshop "simple/formBuilder" bind:content.form %}</div>
     </div>
     </section>
 </div>

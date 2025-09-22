@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "50/50 Image and Form"
   description: A form where half is an image and half is a form
   icon: splitscreen_landscape
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     image: bookshop:generic/image
     form: bookshop:simple/formBuilder!
   styles:

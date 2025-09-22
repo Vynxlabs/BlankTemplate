@@ -3,7 +3,7 @@ title: Side By Side Standard
 layout: layouts/page.html
 eleventyNavigation:
   key: Side By Side Standard
-  order: 24
+  order: 31
 tags: Sections
 draft: false
 _schema: default

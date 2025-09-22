@@ -3,7 +3,7 @@ title: Blog Cards - All Posts
 layout: layouts/page.html
 eleventyNavigation:
   key: Blog Cards - All Posts
-  order: 4
+  order: 5
 tags: Sections
 draft: false
 _schema: default

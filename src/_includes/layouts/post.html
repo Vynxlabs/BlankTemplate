@@ -35,8 +35,8 @@
 
 {% assign blogAuthor = blogAuthor | ymlify %}
 
-{% if happening %} 
 {% assign recommendedPosts = collections.happenings | concat: collections.blog | happeningsFilter: page, happenings  %}
+{% if happening and recommendedPosts.size > 0 %} 
 {% assign componentBookshopName ="sections/happeningCardsPartial" %}
 {% capture infoPosts %}
   contents:
@@ -62,6 +62,7 @@
   contents:
     randomize: true 
     heading:
+      _bookshop_name: generic/heading
       content: 
         headline: "More from the blog"
         description: "These are some of the more interesting posts from our blog."

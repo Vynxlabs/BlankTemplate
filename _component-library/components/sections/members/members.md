@@ -3,7 +3,7 @@ title: Members
 layout: layouts/page.html
 eleventyNavigation:
   key: Members
-  order: 20
+  order: 26
 tags: Sections
 draft: false
 _schema: default

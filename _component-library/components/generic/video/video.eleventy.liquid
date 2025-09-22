@@ -1,0 +1,160 @@
+{% capture videoComponentclasses %}
+    {% if class %}
+        {{class}}
+        {% else %}
+        w-full h-auto
+    {% endif %}
+    {% if yAxisPosition %}
+        object-[50%_{{yAxisPosition}}%]
+    {% endif %}
+{% endcapture %}
+{% capture videoAttributes %}
+   {% if attributes %}
+   {{attributes}}
+   {% else %}
+   autoplay muted playsinline loop
+   {% endif %} 
+{% endcapture %}
+{% assign videoUrl = videoUrl | pathExists %}
+{% capture videoElement %}
+    
+{% endcapture %}
+{% if videoUrl and videoUrl != "" %}
+  {% if hoverPlay and hoverPlay == true %}
+
+    <div class="relative w-full h-full">
+    <div class=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center" 
+    
+    >
+
+    <div  class="bg-white bg-opacity-50 rounded-full p-1 opacity-85">
+      {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "play-circle" iconType: "solid" iconSize: 'small' roundedBorder: false color: "#0f172a" %}
+    </div>
+    </div>
+    <video class="{{videoComponentclasses}}" src="{{videoUrl}}" muted playsinline loop 
+    _="on mouseenter
+    set video to me
+    transition the previous <div/> opacity to 0 over 0.025s then 
+    video.play() end
+    on mouseleave
+    transition the previous <div/> opacity to 1 over 0.025s then
+    set video to me
+    video.pause() end"
+    ></video>
+    </div>
+  {% else %}
+
+    <video
+      class="{{videoComponentclasses}}"
+      src="{{videoUrl}}"
+      {{ videoAttributes }}></video>
+  {% endif %}
+{% else %}
+
+  <div class="{{videoComponentclasses}}"></div>
+
+{% endif %}
+
+{% comment %} 
+  object-[50%_0%]
+  object-[50%_1%]
+  object-[50%_2%]
+  object-[50%_3%]
+  object-[50%_4%]
+  object-[50%_5%]
+  object-[50%_6%]
+  object-[50%_7%]
+  object-[50%_8%]
+  object-[50%_9%]
+  object-[50%_10%]
+  object-[50%_11%]
+  object-[50%_12%]
+  object-[50%_13%]
+  object-[50%_14%]
+  object-[50%_15%]
+  object-[50%_16%]
+  object-[50%_17%]
+  object-[50%_18%]
+  object-[50%_19%]
+  object-[50%_20%]
+  object-[50%_21%]
+  object-[50%_22%]
+  object-[50%_23%]
+  object-[50%_24%]
+  object-[50%_25%]
+  object-[50%_26%]
+  object-[50%_27%]
+  object-[50%_28%]
+  object-[50%_29%]
+  object-[50%_30%]
+  object-[50%_31%]
+  object-[50%_32%]
+  object-[50%_33%]
+  object-[50%_34%]
+  object-[50%_35%]
+  object-[50%_36%]
+  object-[50%_37%]
+  object-[50%_38%]
+  object-[50%_39%]
+  object-[50%_40%]
+  object-[50%_41%]
+  object-[50%_42%]
+  object-[50%_43%]
+  object-[50%_44%]
+  object-[50%_45%]
+  object-[50%_46%]
+  object-[50%_47%]
+  object-[50%_48%]
+  object-[50%_49%]
+  object-[50%_50%]
+  object-[50%_51%]
+  object-[50%_52%]
+  object-[50%_53%]
+  object-[50%_54%]
+  object-[50%_55%]
+  object-[50%_56%]
+  object-[50%_57%]
+  object-[50%_58%]
+  object-[50%_59%]
+  object-[50%_60%]
+  object-[50%_61%]
+  object-[50%_62%]
+  object-[50%_63%]
+  object-[50%_64%]
+  object-[50%_65%]
+  object-[50%_66%]
+  object-[50%_67%]
+  object-[50%_68%]
+  object-[50%_69%]
+  object-[50%_70%]
+  object-[50%_71%]
+  object-[50%_72%]
+  object-[50%_73%]
+  object-[50%_74%]
+  object-[50%_75%]
+  object-[50%_76%]
+  object-[50%_77%]
+  object-[50%_78%]
+  object-[50%_79%]
+  object-[50%_80%]
+  object-[50%_81%]
+  object-[50%_82%]
+  object-[50%_83%]
+  object-[50%_84%]
+  object-[50%_85%]
+  object-[50%_86%]
+  object-[50%_87%]
+  object-[50%_88%]
+  object-[50%_89%]
+  object-[50%_90%]
+  object-[50%_91%]
+  object-[50%_92%]
+  object-[50%_93%]
+  object-[50%_94%]
+  object-[50%_95%]
+  object-[50%_96%]
+  object-[50%_97%]
+  object-[50%_98%]
+  object-[50%_99%]
+  object-[50%_100%]
+{% endcomment %}

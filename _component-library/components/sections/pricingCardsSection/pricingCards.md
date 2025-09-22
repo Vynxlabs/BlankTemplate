@@ -3,7 +3,7 @@ title: Pricing Cards
 layout: layouts/page.html
 eleventyNavigation:
   key: Pricing Cards
-  order: 21
+  order: 27
 tags: Sections
 draft: false
 _schema: default

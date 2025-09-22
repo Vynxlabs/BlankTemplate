@@ -1,0 +1,59 @@
+.c-headingImage {
+.cs-visualInterest{
+    position: relative;
+  }
+  .cs-visualInterest::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .cs-visualInterest-sideLine::before{
+    border-left: 2px solid;
+    border-color: var(--c-visualColor, rgba(0, 0, 0, 0));
+    top: 0.5rem;
+    left: -0.5rem;
+    height: 50%;
+
+  }
+  .cs-visualInterest-dash::before{
+    border-top: 2px solid;
+    border-color: var(--c-visualColor, rgba(0, 0, 0, 0));
+    top: 50%;
+    left: -1rem;
+    width: 0.625rem;
+  }
+  .cs-visualInterest-underline::before{
+    border-bottom: 2px solid;
+    border-color: var(--c-visualColor, rgba(0, 0, 0, 0));
+    top: -0.5rem;
+    width:2rem;
+  }
+  p {
+    margin-top: 12px;
+  }
+  ol,
+  ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 32px;
+  }
+
+  .cs-headingLink {
+    a{
+      color: #5FB6E0;
+      
+    }
+  }
+  
+  
+
+  ul > li {
+    list-style-type: circle;
+  }
+  ol > li {
+    list-style-type: decimal;
+  }
+}

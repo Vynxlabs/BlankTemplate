@@ -6,28 +6,30 @@
     max-w-[500px] max-h-[700px]
   {% endif %}
 {% endcapture %}
-
+{% capture imageClasses %}
+  w-full h-auto {{theme.image_rounding}}
+  {% endcapture %}
 <div class="c-largeImage relative left-1/2 right-1/2 mx-[-50vw] flex w-screen flex-col items-center justify-center pt-10 md:pt-20 bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
-    <section
-    class="basecontainer w-full flex flex-col items-center"
-    >
+  <section class="basecontainer w-full flex flex-col items-center">
 
-  {% if content.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-  {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
     {% comment %} Image container {% endcomment %}
     <div class="relative {% if content.heading %} mt-10 {% endif %} flex {{orientationClasses}}">
-        {% bookshop "generic/image" bind: content.image class:"w-full h-auto rounded" %}
+      {% bookshop "generic/image" bind: content.image class: imageClasses %}
 
     </div>
     {% if content.buttons %}
-        <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
-          {% for button in content.buttons %}
-            {% bookshop "generic/button" bind: button %}
-          {% endfor %}
+      <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+        {% for button in content.buttons %}
+          {% bookshop "{{button._bookshop_name}}" bind: button %}
+        {% endfor %}
 
-        </div>
-      {% endif %}
+      </div>
+    {% endif %}
   </section>
 </div>

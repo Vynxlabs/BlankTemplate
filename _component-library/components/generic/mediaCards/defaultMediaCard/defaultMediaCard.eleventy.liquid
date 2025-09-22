@@ -19,8 +19,12 @@
   {% endcapture %}
   {% assign entryHeading = entryHeading | ymlify %}
 
-<li class="c-defaultMediaCard rounded  h-full flex-1 flex flex-col max-w-[400px] min-w-[300px] md:min-w-[350px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color">
-    {% bookshop "generic/image" bind: content.image class: "rounded-t aspect-[4/3] object-cover object-center" %}
+  {% capture imageClasses %}
+    {{theme.image_rounding}} aspect-[4/3] object-cover object-center
+  {% endcapture %}
+
+<li class="c-defaultMediaCard {{theme.container_rounding}}  h-full flex-1 flex flex-col max-w-[400px] min-w-[300px] md:min-w-[350px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color">
+    {% bookshop "generic/image" bind: content.image class: imageClasses %}
     <div class="p-4">
         {% bookshop "generic/heading" bind: entryHeading %}
     </div>

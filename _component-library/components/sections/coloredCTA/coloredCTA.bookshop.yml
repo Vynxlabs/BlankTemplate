@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Colored Call To Action"
   description: A visually loud call to action sure to get attention
   icon: exclamation

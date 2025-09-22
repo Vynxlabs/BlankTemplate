@@ -1,0 +1,183 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - headingBlocks
+  label: "Heading with Image"
+  description: Header text for you content
+  icon: view_headline
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    highlightEyebrow: false
+    eyebrow: >-
+
+    headline: >-
+      heading
+    description: >-
+
+    image: bookshop:generic/image!
+    buttons: [bookshop:structure:buttons]
+    headingHierarchy: h2
+  styles:
+    imageRight: true
+    contentAlignment: center
+    textAlignment: center
+    visualInterest: none
+    visualInterestColor: "#000000"
+    highContrast: false
+    contrastColorGroup:
+    contrastAgainst:
+    textClassOverride:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  imageRight:
+    type: switch
+    comment: Display the heading to the right and the body on the left, or vice versa
+  headline:
+    type: markdown
+    options:
+      link: false
+      blockquote: false
+      bold: false
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: false
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 150
+  eyebrow:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: false
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 150
+  description:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: true
+      numberedlist: true
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  contentAlignment:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Left
+          id: left
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: Right
+          id: right
+          icon: format_align_right
+  textAlignment:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Left
+          id: left
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: Right
+          id: right
+          icon: format_align_right
+  headingHierarchy:
+    hidden: true
+    type: select
+    options:
+      values:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+  visualInterest:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: None
+          id: none
+          icon: view_headline
+        - name: Dash
+          id: dash
+          icon: view_headline
+        - name: Side Line
+          id: sideLine
+          icon: view_headline
+        - name: Underline
+          id: underline
+          icon: view_headline
+  highContrast:
+    hidden: true
+  contrastAgainst:
+    hidden: true
+  contrastColorGroup:
+    hidden: true
+  textClassOverride:
+    hidden: true

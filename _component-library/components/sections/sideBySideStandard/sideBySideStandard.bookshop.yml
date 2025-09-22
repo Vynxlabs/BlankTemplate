@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Side By Side Standard"
   description: A versile section with alternating text and images from left to right
   icon: ballot
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     entries: [bookshop:generic/leftRight!]
   styles:
     color_group: primary

@@ -1,23 +1,23 @@
 {% if styles.startImageRight %}
   {% assign entryCounter = 1 %}
-  {% else %}
+{% else %}
   {% assign entryCounter = 0 %}
 {% endif %}
 {% assign color_group = styles.color_group %}
 {% assign fullWidth = styles.fullWidth %}
 
 <div class="c-sideBySideStandard componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor z-20">
-  <section
-    class="basecontainer w-full ">
+  <section class="basecontainer w-full ">
 
-  {% if content.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-  {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
     {% if content.entries %}
-      
-        
-      
+
+
       <div class="{% if fullWidth != true %}mt-20 {% else %} {% if content.heading%}mt-0 md:mt-12 lg:mt-36{% endif %}{% endif %}">
         {% for entry in content.entries %}
           {% capture entryContent %}
@@ -29,8 +29,8 @@
               {{entry.styles | json}}
           {% endcapture %}
           {% assign entryContent = entryContent | ymlify %}
-          {% assign temp = entryContent | log %}
-          {% bookshop "generic/leftRight" bind: entryContent%}
+          {% assign temp = entryContent %}
+          {% bookshop "generic/leftRight" bind: entryContent %}
           {% assign entryCounter = entryCounter | plus: 1 %}
         {% endfor %}
       </div>

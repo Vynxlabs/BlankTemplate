@@ -23,7 +23,7 @@
     {% if env_bookshop_live and contents.showNote %}
       {% bookshop "generic/notification" heading: "Blog Cards" text: "The time to read will not show up while editing, but will show up on the live site" %}
     {% endif %}
-    {% bookshop "generic/heading" bind: contents.heading %}
+    {% if contents.heading %} {% bookshop {{contents.heading._bookshop_name}} bind: contents.heading %} {% endif %}
     <div class="mt-12 grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3   gap-10 md:gap-20 ">
       {% for entry in postListItems %}
         {% capture blogAuthor %}

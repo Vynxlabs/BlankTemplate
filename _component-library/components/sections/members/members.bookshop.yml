@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Members"
   description: Show of memebers and a little about them
   icon:
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     members: [bookshop:structure:memberCards]
   styles:
     color_group: primary

@@ -9,6 +9,10 @@
   {% assign blogTitle = 'How to quickly build a website visually' %}
 {% endif %}
 
+{% capture imageClasses %}
+w-full {{theme.image_rounding}} transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]
+{% endcapture %}
+
 <div class="w-full ">
   <div class="flex justify-between text-sm opacity-70">
     <div class="">
@@ -23,7 +27,7 @@
   <a 
   data-umami-event="{{blogTitle}}-{{page.url}}-blogCardImg"
   class="" href="{{url}}">
-      {% bookshop "generic/image" bind: image class: "w-full rounded transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]" %}
+      {% bookshop "generic/image" bind: image class: imageClasses %}
   </a>
   <ul class=" flex text-{{color_group}}-secondarycolor flex flex-wrap gap-x-4 overflow-hidden opacity-70">
     {% for tag in blogTags %}

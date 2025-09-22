@@ -9,12 +9,13 @@
 {% endif %}
 
 <div class="c-featuresCenterImage componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
-  <section
-    class="basecontainer w-full">
-  {% if content.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-  {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+  <section class="basecontainer w-full">
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
     {% if env_bookshop_live and content.showNote %}
       <div class="mb-20">{% bookshop "generic/notification" heading: "No image visual interest" text: "The visual interest for the images (Dots or Crosses) will not show up when editing, but will show up on the live site" %}</div>
     {% endif %}
@@ -26,7 +27,7 @@
             {% assign evenOdd = counter | modulo: 2 %}
             {% if evenOdd == 0 %}
               {% assign color_group = styles.card_color_group %}
-              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  rounded">
+              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  {{theme.container_rounding}}">
                 {% capture heading %}
                         content:
                             highlightEyebrow: {{card.heading.content.highlightEyebrow}}
@@ -58,12 +59,16 @@
 
               <div class="relative">{{ '/src' | append: visualInterestPath | svgContents: visualInterestClasses }}</div>
             {% endif %}
-            {% bookshop "generic/image" bind: content.image class: "rounded xl:aspect-auto aspect-video object-cover" %}
+            {% capture imageClasses %}
+                {{theme.image_rounding}} xl:aspect-auto aspect-video object-cover
+              {% endcapture %}
+
+            {% bookshop "generic/image" bind: content.image class: imageClasses %}
 
             {% if content.buttons %}
               <div class="mt-10 flex w-full gap-8 flex-wrap justify-center ">
                 {% for button in content.buttons %}
-                  {% bookshop "generic/button" bind: button %}
+                  {% bookshop "{{button._bookshop_name}}" bind: button %}
                 {% endfor %}
 
               </div>
@@ -79,7 +84,7 @@
             {% assign evenOdd = counter | modulo: 2 %}
             {% if evenOdd == 0 %}
               {% assign color_group = styles.card_color_group %}
-              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  rounded">
+              <div class="min-h-[260px] w-full {% if styles.cardBackground %} bg-{{styles.card_color_group}}-backgroundcolor shadow-md{% endif %} px-7 py-4  {{theme.container_rounding}}">
                 {% capture heading %}
                         content:
                             highlightEyebrow: {{card.heading.content.highlightEyebrow}}

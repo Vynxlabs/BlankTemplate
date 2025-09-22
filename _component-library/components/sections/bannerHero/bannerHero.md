@@ -3,7 +3,7 @@ title: Banner Image Hero
 layout: layouts/page.html
 eleventyNavigation:
   key: Banner Image Hero
-  order: 2
+  order: 3
 tags: Sections
 draft: false
 _schema: default

@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Upcoming Happening"
   description: Shows the very next upcoming happening (only shows one).
   icon:
@@ -31,6 +32,7 @@ _inputs:
     comment: >-
       This color group is applied to the No Happenings Heading.
   tags:
+    hidden: false
     type: multiselect
     label: Filter by tags
     comment: >-

@@ -172,8 +172,8 @@ const validateAndResolveParameters = (
       if (
         blueprintParameters[key] === null ||
         blueprintParameters[key] === undefined ||
-        blueprintParameters[key].includes("bookshop:") ||
-        blueprintParameters[key][0].includes("bookshop:")
+      (typeof blueprintParameters[key] === 'string' && blueprintParameters[key].includes("bookshop:")) || 
+      (Array.isArray(blueprintParameters[key]) && blueprintParameters[key][0]?.includes("bookshop:")) 
       ) {
         blueprintParameters[key] = null; // Set to null to allow cloud cannon to handle inputs in the UI
         usedParameters[key] = blueprintParameters[key]; // Add missing optional parameter

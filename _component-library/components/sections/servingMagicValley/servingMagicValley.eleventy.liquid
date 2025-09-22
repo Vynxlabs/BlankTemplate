@@ -1,5 +1,9 @@
 {% assign color_group = styles.color_group %}
 
+{% capture imageClasses %}
+   lg:aspect-[5/4] aspect-video {{theme.image_rounding}} object-cover 
+{% endcapture %}
+
 <div class="c-servingMagicValley componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
 
   {% if content.sectionId %}
@@ -8,23 +12,23 @@
     <section class="basecontainer w-full">{% bookshop "generic/headingHorizontal" bind: content.heading %}
         <div class="flex justify-between items-center mt-40 flex-wrap min-[700px]:flex-nowrap gap-8">
             <h3 class=" text-7xl md:text-8xl lg:text-9xl xl:text-[200px] font-bold h-auto">Twin Falls</h3>
-            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/perrine.jpg" imageAlt: "Side view of the Twin Falls Idaho Perrine Bridge"  class: "lg:aspect-[5/4] aspect-video rounded object-cover" %}</div>
+            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/perrine.jpg" imageAlt: "Side view of the Twin Falls Idaho Perrine Bridge"  class: imageclasses %}</div>
         </div>
         <div class="flex flex-row-reverse justify-between items-center mt-40 flex-wrap min-[700px]:flex-nowrap gap-8 ">
             <h3 class=" text-7xl md:text-8xl lg:text-9xl xl:text-[200px] font-bold h-auto">Jerome</h3>
-            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/jerome.jpg" imageAlt: "Mermaid Cove near Jerome Idaho"  class: "lg:aspect-[5/4] aspect-video rounded object-cover" %}</div>
+            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/jerome.jpg" imageAlt: "Mermaid Cove near Jerome Idaho"  class: imageclasses %}</div>
         </div>
         <div class="flex justify-between items-center mt-40 flex-wrap min-[700px]:flex-nowrap gap-8">
             <h3 class=" text-7xl md:text-8xl lg:text-9xl xl:text-[200px] font-bold h-auto">Burley</h3>
-            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/burley.jpg" imageAlt: "Aerial view of Burleys annual Spudman Triathalon"  class: "lg:aspect-[5/4] aspect-video rounded object-cover" %}</div>
+            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/burley.jpg" imageAlt: "Aerial view of Burleys annual Spudman Triathalon"  class: imageclasses %}</div>
         </div>
         <div class="flex flex-row-reverse justify-between items-center mt-40 flex-wrap min-[700px]:flex-nowrap gap-8 ">
             <h3 class=" text-7xl md:text-8xl lg:text-9xl xl:text-[200px] font-bold h-auto">Buhl</h3>
-            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/buhl.png" imageAlt: "Famous Balancing Rock near Buhl Idaho"  class: "lg:aspect-[5/4] aspect-video rounded object-cover" %}</div>
+            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/buhl.png" imageAlt: "Famous Balancing Rock near Buhl Idaho"  class: imageclasses %}</div>
         </div>
         <div class="flex justify-between items-center mt-40 flex-wrap min-[700px]:flex-nowrap gap-8">
             <h3 class=" text-7xl md:text-8xl lg:text-9xl xl:text-[200px] font-bold h-auto">Gooding</h3>
-            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/gooding.jpg" imageAlt: "Night time shot of Little City of Rocks outside of Gooding Idaho"  class: "lg:aspect-[5/4] aspect-video rounded  object-cover" %}</div>
+            <div class="min-[700px]:flex-1 min-w-[300px] max-w-[500px]">{% bookshop "generic/image" imagePath: "/assets/images/locations/gooding.jpg" imageAlt: "Night time shot of Little City of Rocks outside of Gooding Idaho"  class: imageclasses %}</div>
         </div>
         <div class="text-center">
             <p class="lg:text-9xl md:text-8xl text-6xl  mt-40 font-bold">

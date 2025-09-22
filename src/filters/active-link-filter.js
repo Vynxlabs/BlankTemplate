@@ -1,5 +1,9 @@
 module.exports = (itemUrl, pageUrl) => {
   let response = "";
+  if(!itemUrl )
+  {
+    return response;
+  }
   if (itemUrl === pageUrl) {
     response = ' aria-current="page"';
   }

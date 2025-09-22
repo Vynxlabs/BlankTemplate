@@ -3,7 +3,7 @@ title: Left Right Hero
 layout: layouts/page.html
 eleventyNavigation:
   key: Left Right Hero
-  order: 18
+  order: 23
 tags: Sections
 draft: false
 _schema: default

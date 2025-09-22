@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Happening Cards"
   description: Shows up to 3 upcoming happenings
   icon:
@@ -38,6 +39,7 @@ _inputs:
         - name: Default
           id: default
   tags:
+    hidden: false
     type: multiselect
     label: Filter by tags
     comment: >-

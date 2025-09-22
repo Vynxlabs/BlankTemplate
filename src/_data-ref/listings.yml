@@ -1,0 +1,53 @@
+defaultImage:
+  imagePath: "/assets/uploads/listing.jpeg"
+  imageAlt: "Listing placeholder image"
+availableTags:
+  - Available
+  - For Sale
+disqualificationTags:
+  - Sold
+  - Not Available
+filtering:
+  - filterCollectionName: Standard
+    id: 00261a1d-bfc7-4c59-bf54-3cf251a971bb
+    filterGroups:
+    - groupName: Type
+      id: d949cea1-c327-4f44-b2a9-8afc843165f8
+      filters:
+        - New
+        - Used
+        - For Sale
+        - Pending Sale
+        - For Rent
+        - Available
+    - groupName: Delivery
+      id: 8f17ad61-3866-436d-92eb-c4d93b765c05
+      filters:
+        - Local Pickup
+        - Delivery Available
+        - Shipping Available
+_inputs:
+  filtering:
+    hidden: true
+    comment: >-
+      You can set up filtering groupings (called filter collections).
+      This will determine what filters are used and how they are grouped together.
+  availableTags:
+    type: multiselect
+    options:
+      values: data.listingTags
+    comment: >- 
+      These tags will consider a listing as available. 
+      A tag not part of this list, or part of the disqualification tags, will be considered a descriptive tag.
+  disqualificationTags:
+    type: multiselect
+    options:
+      values: data.listingTags
+    comment: >- 
+      Tags that will disqualify a listing. This is useful if you want to hide listings that have been sold or are not available.
+      A tag not part of this list, or part of the available tags, will be considered a descriptive tag.
+  filters:
+    type: multiselect
+    options:
+      values: data.listingTags
+    comment: Tags that will be used to filter the listings.

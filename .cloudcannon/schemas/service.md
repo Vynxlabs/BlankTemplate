@@ -12,8 +12,9 @@ serviceImage:
 imageAltText:
 category: 
 summary:
+pageLink:
 permalink: >-
-     /services/{% assign title = title | slugify %}{{ page.filePathStem | fileSubstringFilter | append: title | downcase }}/index.html
+  /services/{% capture varPagePath %}{% if pageLink%}{% assign pageLink = pageLink | slugify%}{{  page.filePathStem |fileSubstringFilter | append: pageLink }}{% else %}{% assign title = title | slugify%}{{  page.filePathStem |fileSubstringFilter | append: title }}{% endif %}{% endcapture %}/{{varPagePath | strip}}/index.html
 layout: "layouts/page.html"
 id:
 hero:

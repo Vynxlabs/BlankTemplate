@@ -3,7 +3,7 @@ title: Features - Centered Image
 layout: layouts/page.html
 eleventyNavigation:
   key: Features - Centered Image
-  order: 7
+  order: 8
 tags: Sections
 draft: false
 _schema: default

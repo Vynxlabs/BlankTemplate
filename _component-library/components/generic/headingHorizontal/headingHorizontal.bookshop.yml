@@ -12,19 +12,18 @@ spec:
 blueprint:
   content:
     highlightEyebrow: false
-    eyebrow: 
+    eyebrow:
     headline: primary heading
     description:
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
     headingHierarchy: h2
   styles:
     headingRight: false
     visualInterest: none
-    visualInterestColor: '#000000'
+    visualInterestColor: "#000000"
     highContrast: false
     contrastColorGroup:
-    contrastAgainst: 
-
+    contrastAgainst:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -35,16 +34,16 @@ _inputs:
     type: switch
     comment: Display the heading to the right and the body on the left
   headingHierarchy:
-      hidden: true
-      type: select
-      options:
-        values:
-          - h1
-          - h2
-          - h3
-          - h4
-          - h5
-          - h6
+    hidden: true
+    type: select
+    options:
+      values:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
   visualInterest:
     type: choice
     options:

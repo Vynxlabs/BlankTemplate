@@ -3,7 +3,7 @@ title: Information Cards
 layout: layouts/page.html
 eleventyNavigation:
   key: Information Cards
-  order: 17
+  order: 20
 tags: Sections
 draft: false
 _schema: default

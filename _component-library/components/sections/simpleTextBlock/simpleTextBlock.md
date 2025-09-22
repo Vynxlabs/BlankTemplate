@@ -3,7 +3,7 @@ title: Simple Text Block
 layout: layouts/page.html
 eleventyNavigation:
   key: Simple Text Block
-  order: 28
+  order: 35
 tags: Sections
 draft: false
 _schema: default

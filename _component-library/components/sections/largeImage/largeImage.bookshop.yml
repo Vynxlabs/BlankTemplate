@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Large Image"
   description: A section dedicated to showing off a single image
   icon: image
@@ -12,9 +13,9 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     image: bookshop:generic/image!
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
     imageOrientation: landscape

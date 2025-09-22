@@ -11,7 +11,7 @@
 
       <div class="cs-w-full lg:cs-w-full-r flex flex-col items-center p-4   justify-center bg-{{styles.color_group}}-backgroundcolor  bg-opacity-60 text-{{styles.color_group}}-highcontrast-backgroundcolor lg:bg-opacity-100">
         <div class="max-w-[512px] w-full">
-          {% bookshop "generic/heading" bind: content.heading %}
+          {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
           {% bookshop "simple/formBuilder" bind: content.form %}
           <div class="flex justify-between w-full mt-11 gap-2 flex-wrap ">
           {% if site.contactInfo.email and site.contactInfo.email != "" %}

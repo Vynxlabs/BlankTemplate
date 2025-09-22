@@ -3,6 +3,21 @@
 {% assign postListItems = pagination.items %}
 {% assign pageHeaderTitle = title %}
 {% assign pageHeaderSummary = subheadline %}
+
+{% capture information %}
+content:
+  showExpired: false
+  showAvailable: true
+  showDisqualified: false
+  showGeneral: true
+styles:
+  color_group: {{site.color_group}}
+  cardStyle: default
+  card_color_group: primary
+  colorFromGroup: background
+  listingCardStyle: default
+{% endcapture %}
+{% assign information = information | ymlify %}
 {% capture styles %}
 color_group: {{site.color_group}}
 cardStyle: default
@@ -13,7 +28,7 @@ If this is a tag, grab those items instead as one large collection
 {% endcomment %}
 {% if tag %}
   {% assign postListItems = collections[tag] %}
-  {% assign pageHeaderTitle = 'Posts filed under “' | append: tag | append: '”' %}
+  {% assign pageHeaderTitle = 'Filed under “' | append: tag | append: '”' %}
 {% endif %}
 
 {% capture heading %}
@@ -31,7 +46,15 @@ If this is a tag, grab those items instead as one large collection
     <div>
       
       {% unless tag == "pages" %}
+      {% if happenings.tags contains tag %}
+      {% bookshop "sections/happeningCards" bind: styles %}
+      {% elsif listingTags contains tag %}
+      {% bookshop "sections/listingsAll" bind: information %}
+      {% elsif pageCollections.tags contains tag %}
+      {% bookshop "sections/collectionsAll" bind: information %}
+      {% else  %} 
       {% bookshop "sections/blogCards" bind: styles %}
+      {% endif %}
       {% endunless %}
       
     </div>

@@ -1,5 +1,5 @@
 module.exports = function (Liquid) {
     this.registerFilter('removeExtraWhitespace', (text) => {
-        return str.replace(/\s+/g, ' ').trim();
+        return text.replace(/\s+/g, ' ').trim();
     });
 }

@@ -10,12 +10,16 @@
     {{ happeningTitle }}
   {% endif %}
 {% endcapture %}
+
+{% capture imageClasses %}
+  w-full h-full {{theme.image_rounding}} transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]
+{% endcapture %}
 <div class="c-defaultFeatured w-full col-span-1 md:col-span-2 lg:col-span-3">
   <div class="w-full flex flex-wrap gap-x-10 gap-y-4">
     <a 
     data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardImg"
     class="relative max-w-[700px] md:flex-1 md:min-w-[400px]" href="{{url}}">
-      {% bookshop "generic/image" bind: image class: "w-full h-full rounded transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]" %}
+      {% bookshop "generic/image" bind: image class: imageClasses %}
     </a>
 
     <div class="h-fit max-w-[700px] flex-grow flex-shrink basis-20">
@@ -38,7 +42,7 @@
       <time
         {% if cancelled != true %}
         _="on load
-            set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+            set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%dT%H:%M:%S%z"}}')
             log happeningDate
             set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
             js(happeningDate,timezone)

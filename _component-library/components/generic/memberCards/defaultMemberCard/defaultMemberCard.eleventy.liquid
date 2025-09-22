@@ -1,5 +1,5 @@
 {% capture imageClasses %}
-    w-full object-cover object-center aspect-[3/4] rounded
+    w-full object-cover object-center aspect-[3/4] {{theme.image_rounding}}
   {% if content.link and content.link != '' %} transition-all duration-300 scale-100 hover:scale-105 {% endif %}
 {% endcapture %}
 {% capture iconClasses %}
@@ -17,7 +17,7 @@ href="{{ content.link }}">{% endif %}
         <div class="absolute top-2 right-8">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-top-right-on-square" iconType: "outline" iconSize: 'micro' roundedBorder: false classOverride: iconClasses %}</div>
       {% endif %}
 
-      <div class="p-3 bg-{{style.color_group}}-{{style.colorFromGroup}}color bg-opacity-90 text-{{style.color_group}}-highcontrast-{{style.colorFromGroup}}color rounded shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] text-center">
+      <div class="p-3 bg-{{style.color_group}}-{{style.colorFromGroup}}color bg-opacity-90 text-{{style.color_group}}-highcontrast-{{style.colorFromGroup}}color {{theme.container_rounding}} shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] text-center">
         <h3 class="text-[1.375rem] font-bold opacity-85 px-4{% if content.link and content.link != '' %} hover:underline {% endif %}">{{ content.name }}</h3>
         <p class="opacity-75">{{ content.titleOrDescription }}</p>
       </div>

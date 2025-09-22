@@ -1,0 +1,48 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - embeds
+    - assets
+    - resource
+    - media
+    - imgvid
+  label: "Video"
+  description: An image that wil be optimized
+  icon: play_circle
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  videoUrl:
+  yAxisPosition:
+  class:
+  attributes:
+  hoverPlay:
+  videoNumber:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  imagePath: /images/tree.jpg
+  imageAlt: Tree in the middle of a field with the sunsetting on the left
+  imageSizes: 100vw
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  attributes:
+    hidden: true
+  hoverPlay:
+    hidden: true
+  class:
+    hidden: true
+  videoNumber:
+    hidden: true
+  yAxisPosition:
+    hidden: true
+    type: range
+    options:
+      min: 0
+      max: 100
+      step: 5
+      default: 50
+    comment: "This shifts the focus of the image up or down by percentage 1-100. 0 is the top of the image and 50 is the center of the image"
+

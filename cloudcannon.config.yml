@@ -14,6 +14,9 @@ data_config:
   blog: true
   happenings: true
   tokens: true
+  listingTags: true
+  listings: true
+  pageCollections: true
 collections_config_override: true
 collections_config:
   data:
@@ -80,10 +83,6 @@ collections_config:
           place that link here. Leave blank for all other situations. WARNING:
           this will prevent this page from building and showing up in your
           website.
-      pageLink:
-        label: Page Location
-        comment: The location of this page on your webiste i.e. Example.com/mylocation. Leave blank if you want to just use the page title as the page location.
-        type: text
       metaDesc:
         type: textarea
         label: Meta Description
@@ -188,7 +187,7 @@ collections_config:
       tags:
         type: multiselect
         options:
-          values: data.blogTags
+          values: data.happenings.tags[*]
       summary:
         type: textarea
       happeningDate:
@@ -197,7 +196,7 @@ collections_config:
         comment: >-
           IMPORTANT: The date must be in UTC time. You'll need to convert your local time to UTC time.
         instance_value: NOW
-      image:
+      finalImage:
         hidden: true
       permalink:
         hidden: true
@@ -221,6 +220,9 @@ collections_config:
     filter:
       exclude:
         - services.json
+    _enabled_editors:
+      - content
+      - visual
     _inputs:
       title:
         label: Page Title
@@ -247,6 +249,37 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/service.md
+  listings:
+    path: listings
+    output: true
+    url: dist/listings
+    name: Listings
+    description: All your listings
+    icon: lists
+    documentation: null
+    preview:
+      gallery: lists
+    filter:
+      exclude:
+        - listings.json
+    _enabled_editors:
+      - content
+      - visual
+    _inputs:
+      title:
+        label: Page Title
+        comment: Seo focused page title
+      metaDesc:
+        type: textarea
+        label: Meta Description
+        comment: SEO focused page summary
+      permalink:
+        hidden: true
+      eleventyExcludeFromCollections:
+        hidden: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/listing.md
 _inputs:
   helperText:
     type: markdown
@@ -272,6 +305,10 @@ _inputs:
       redo: true
       removeformat: true
       copyformatting: true
+  pageLink:
+    label: Page Location
+    comment: The location of this page on your webiste i.e. /mylocation. This page would then have a link of https://www.example.com/mylocation. Leave blank if you want to just use the page title as the page location.
+    type: text
   disableNav:
     type: switch
     label: Disable Navigation
@@ -292,15 +329,6 @@ _inputs:
     type: object
     options:
       structures: _structures.hero_blocks
-  description:
-    type: markdown
-    options:
-      link: true
-      bold: true
-      italic: true
-      undo: true
-      redo: true
-      initial_height: 135
   socialImage:
     type: image
     hidden: false
@@ -450,6 +478,82 @@ _inputs:
           name: Accent
   review:
     type: textarea
+  headline:
+    type: markdown
+    options:
+      link: false
+      blockquote: false
+      bold: false
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: false
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 150
+  eyebrow:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: false
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 150
+  description:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: true
+      numberedlist: true
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  _menuType:
+    hidden: true
 _snippets:
   imageModal:
     template: eleventy_liquid_bookshop_component
@@ -491,10 +595,47 @@ _snippets:
               name: Vimeo
 _select_data: {}
 _structures:
+  extra_blocks:
+    label: Additional Content Sections
+    comment: >-
+      Add any additional content sections below the predefined sections.
+    style: modal
   content_blocks:
+    label: Content Sections
     style: modal
   hero_blocks:
     style: modal
+  links:
+    style: select
+    values:
+      - label: Single Link
+        value:
+          _menuType: link
+          title:
+          url:
+      - label: Link Group
+        value:
+          _menuType: group
+          title:
+          links:
+  rootLinks:
+    style: select
+    values:
+      - label: Single Link
+        value:
+          _menuType: link
+          title:
+          url:
+      - label: Link Group
+        value:
+          _menuType: group
+          title:
+          links:
+      - label: Mega Menu
+        value:
+          _menuType: mega
+          title:
+          links:
   tokens:
     style: select
     values:

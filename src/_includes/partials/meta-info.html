@@ -6,6 +6,8 @@
 {% elsif page.url contains 'blog/' %} {{blog.defaultImage}}
 {% elsif happeningImage and happeningImage != "" %} {{ happeningImage }} 
 {% elsif page.url contains 'happenings/' %} {{happenings.defaultImage}}
+{% elsif listingImage and listingImage != "" %} {{ listingImage }} 
+{% elsif page.url contains 'listings/' %} {{listings.defaultImage.imagePath}}
 {% elsif site.socialImage and site.socialImage != "" %} {{ site.socialImage }} {% endif %}
 {% endcapture %}
 {% assign socialShareImage = socialShareImage | strip %}

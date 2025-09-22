@@ -3,7 +3,7 @@ title: Services Section
 layout: layouts/page.html
 eleventyNavigation:
   key: Services Section
-  order: 22
+  order: 29
 tags: Sections
 draft: false
 _schema: default

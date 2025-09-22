@@ -14,7 +14,7 @@ blueprint:
     sectionId:
     backgroundImage: bookshop:generic/image
     foregroundImage: bookshop:generic/image
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
     backgroundOpacity: 50

@@ -13,8 +13,13 @@ const fileSubstringFilter = require("./src/filters/extract-file-substring-filter
 const stringifyFilter = require("./src/filters/stringify-filter.js");
 const evalLiquid = require("./src/filters/evalLiquid-filter.js");
 const happeningsFilter = require("./src/filters/happenings-filter.js");
+const listingsFilter = require("./src/filters/listings-filter.js");
 const getServiceCategories = require("./src/filters/getServiceCategories-filter.js");
 const pathExistsFilter = require("./src/filters/pathExists-filter.js");
+const uuidHashFilter = require("./src/filters/uuid-hash-filter.js");
+const tagColorFilter = require("./src/filters/tag-color-filter.js");
+const collectionsFilter = require("./src/filters/collections-filter.js");
+const rot20_7 = require("./src/filters/rot20-7-filter.js");
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const markdownIt = require("markdown-it"),
@@ -31,7 +36,10 @@ const yaml = require("js-yaml");
 const { execSync } = require("child_process");
 const fs = require("fs");
 const svgContents = require("eleventy-plugin-svg-contents");
+const Fetch = require("@11ty/eleventy-fetch");
+const { generateLQIP } = require("./utils/lqip.js");
 
+const imageHashes = {};
 const imageShortcode = async (
   src,
   alt,
@@ -44,25 +52,49 @@ const imageShortcode = async (
   let before = Date.now();
 
   let inputFilePath = src == null ? src : path.join("src", src);
-
+  let isRemoteUrl = false;
   if (src.includes("http://") || src.includes("https://")) {
     inputFilePath = src;
+    isRemoteUrl = true;
   }
 
-  // console.log(
-  //   `[11ty/eleventy-img] ${Date.now() - before}ms: ${inputFilePath}`,
-  // );
+  const cacheDuration = "365d";
   const imageMetadata = await Image(inputFilePath, {
     svgShortCircuit: preferSvg ? "size" : false,
     widths: [...widths],
     formats: [...formats, null],
     outputDir: "dist/assets/images",
     urlPath: "/assets/images",
+    cacheOptions: {
+      duration: cacheDuration,
+    }
   });
+  if (!(Image.getHash(inputFilePath) in imageHashes) && !isRemoteUrl) {
+    imageHashes[Image.getHash(inputFilePath)] =
+      await Fetch(async function() {
+
+		return generateLQIP(inputFilePath);
+	}, {
+		// must supply a unique id for the callback
+		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+    duration: cacheDuration
+	});
+  } else if (!(Image.getHash(inputFilePath) in imageHashes) && isRemoteUrl) {
+    imageHashes[Image.getHash(inputFilePath)] = await Fetch(async function() {
+    let imageBuffer = await Fetch(inputFilePath, { type: "buffer" });
+
+		return generateLQIP(imageBuffer);
+	}, {
+		// must supply a unique id for the callback
+		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+    duration: cacheDuration
+	});
+  }
 
   const imageAttributes = {
     class: cls,
     alt,
+    style: imageHashes[Image.getHash(inputFilePath)],
     sizes: sizes || "100vw",
     loading: "lazy",
     decoding: "async",
@@ -109,6 +141,7 @@ const logoShortcode = async (
     return `<img class='${cls}' src='${src}' alt='${alt}'>`;
   }
 };
+
 
 function generateImages(src, widths = [200, 400, 850, 1920, 2500]) {
   let source = src;
@@ -179,7 +212,7 @@ function loadTokens() {
           Object.assign(flatTokens, flattenTokens(token.tokens, groupPrefix));
         }
       });
-console.log(flatTokens);
+      console.log(flatTokens);
       return flatTokens;
     }
 
@@ -214,7 +247,7 @@ function loadSiteTokens() {
       if (contactFields[key]) {
         let contactKey = slugify(`contactInfo.${key}`);
         console.log(contactKey);
-        flattenedTokens[contactKey] = contactFields[key];
+        flattenedTokens[contactKey] = key=="email" || key=="phone" ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>` : contactFields[key];
       }
     });
 
@@ -247,6 +280,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPassthroughCopy("/src/images/");
   eleventyConfig.addPassthroughCopy("./src/assets/uploads/**");
   eleventyConfig.addPassthroughCopy("./src/assets/images");
+  eleventyConfig.addPassthroughCopy("./src/assets/js");
   eleventyConfig.addPassthroughCopy("./src/_includes/partials/background");
   // eleventyConfig.addPassthroughCopy("./src/css/");
   eleventyConfig.addPassthroughCopy({ "./src/images/favicon": "/" });
@@ -340,6 +374,23 @@ module.exports = (eleventyConfig) => {
       });
   });
 
+  eleventyConfig.addCollection("listings", (collection) => {
+    return collection
+      .getFilteredByGlob("./src/listings/**/*.md")
+      .sort((a, b) => {
+        if (a.data.canExpire && !b.data.canExpire) {
+          return -1; // a comes before b if a can expire and b cannot
+        } else if (!a.data.canExpire && b.data.canExpire) {
+          return 1; // b comes before a if b can expire and a cannot
+        } else if (a.data.canExpire && b.data.canExpire) {
+          return new Date(a.data.expireDate) - new Date(b.data.expireDate); // sort by expireDate if both can expire
+        } else {
+          return a.data.title.localeCompare(b.data.title); // sort alphabetically if neither can expire
+        }
+      });
+  });
+
+
   eleventyConfig.addFilter("dateFilter", dateFilter);
   eleventyConfig.addFilter("w3DateFilter", w3DateFilter);
   eleventyConfig.addFilter("readTimeFilter", readTimeFilter);
@@ -359,7 +410,12 @@ module.exports = (eleventyConfig) => {
   });
   eleventyConfig.addFilter("evalLiquid", evalLiquid);
   eleventyConfig.addFilter("happeningsFilter", happeningsFilter);
+  eleventyConfig.addFilter("listingsFilter", listingsFilter);
+  eleventyConfig.addFilter("collectionsFilter", collectionsFilter);
   eleventyConfig.addFilter("pathExists", pathExistsFilter);
+  eleventyConfig.addFilter("uuidHashFilter", uuidHashFilter);
+  eleventyConfig.addFilter("tagColorFilter", tagColorFilter);
+  eleventyConfig.addFilter("rot20Filter", rot20_7);
 
   // Load and flatten tokens
   const tokens = loadTokens();
@@ -368,59 +424,58 @@ module.exports = (eleventyConfig) => {
   // Transform for tk.* tokens
 
   eleventyConfig.addTransform("replace-tokens", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(tokens, path); // Match normalized tokens
-    });
-  }
-  return content;
-});
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(tokens, path); // Match normalized tokens
+      });
+    }
+    return content;
+  });
 
-eleventyConfig.addTransform("replace-site-tokens", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(siteTokens, path); // Match normalized site tokens
-    });
-  }
-  return content;
-});
+  eleventyConfig.addTransform("replace-site-tokens", function (content) {
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(siteTokens, path); // Match normalized site tokens
+      });
+    }
+    return content;
+  });
 
-eleventyConfig.addTransform("replace-tokens-2", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(tokens, path); // Match normalized tokens
-    });
-  }
-  return content;
-});
+  eleventyConfig.addTransform("replace-tokens-2", function (content) {
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(tokens, path); // Match normalized tokens
+      });
+    }
+    return content;
+  });
 
-eleventyConfig.addTransform("replace-site-tokens-2", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(siteTokens, path); // Match normalized site tokens
-    });
-  }
-  return content;
-});
+  eleventyConfig.addTransform("replace-site-tokens-2", function (content) {
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(siteTokens, path); // Match normalized site tokens
+      });
+    }
+    return content;
+  });
 
+  eleventyConfig.addTransform("replace-tokens-3", function (content) {
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(tokens, path); // Match normalized tokens
+      });
+    }
+    return content;
+  });
 
-eleventyConfig.addTransform("replace-tokens-3", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[tk\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(tokens, path); // Match normalized tokens
-    });
-  }
-  return content;
-});
-
-eleventyConfig.addTransform("replace-site-tokens-3", function (content) {
-  if ((this.page.outputPath || "").endsWith(".html")) {
-    return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
-      return evaluateToken(siteTokens, path); // Match normalized site tokens
-    });
-  }
-  return content;
-});
+  eleventyConfig.addTransform("replace-site-tokens-3", function (content) {
+    if ((this.page.outputPath || "").endsWith(".html")) {
+      return content.replace(/\[\[st\.([^\]]+)\]\]/g, (match, path) => {
+        return evaluateToken(siteTokens, path); // Match normalized site tokens
+      });
+    }
+    return content;
+  });
 
   eleventyConfig.on("eleventy.before", () => {
     execSync("node ./utils/generateFavicon.js");
@@ -428,7 +483,9 @@ eleventyConfig.addTransform("replace-site-tokens-3", function (content) {
     execSync("node ./utils/permalinkDupCheck.js");
     execSync("node ./utils/addHappeningPagination.js");
     execSync("node ./utils/addBlogPagination.js");
+    execSync("node ./utils/addListingPagination.js");
     execSync("node ./utils/fetch-theme-variables.js");
+    execSync("node ./utils/copyGlideAssets.js");
   });
 
   eleventyConfig.on("eleventy.after", () => {

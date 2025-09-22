@@ -32,6 +32,9 @@ schemaFiles.forEach(schemaFile => {
             case 'service':
                 files = glob.sync('./src/services/**/*.md');
                 break;
+            case 'listing':
+                files = glob.sync('./src/listings/**/*.md');
+                break;
             default:
                 console.log(`Schema ${schemaName} not supported`);
                 return;
@@ -46,7 +49,7 @@ schemaFiles.forEach(schemaFile => {
 
 // Function to update the permalink in front matter
 function updatePermalink(filePath, schema) {
-    if(filePath === './src/pages/404.md' || filePath === './src/pages/tags.md') {
+    if(filePath === 'src/pages/404.md' || filePath === 'src/pages/tags.md') {
         return
     }
     const fileContent = fs.readFileSync(filePath, 'utf8');

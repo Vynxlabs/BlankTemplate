@@ -1,0 +1,63 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Collections"
+  description: A section that retrieves a collection of pages by tag
+  icon: lists
+  tags: [connected, collections]
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    showNote: true
+    collectiionCount: 50
+    heading: bookshop:structure:headingBlocks
+    tags:
+    noItemsHeading: bookshop:structure:headingBlocks
+  styles:
+    color_group: primary
+    card_color_group: primary
+    colorFromGroup: background
+    listingCardStyle: default
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  collectionCount:
+    hidden: true
+    comment: "Number of collection items to show. Default is 50."
+    type: number
+    options:
+      min: 0
+      max: 50
+      step: 1
+  tags:
+    hidden: false
+    comment: >-
+      Which collection you want to display. Cannot be left blank.
+    type: multiselect
+    options:
+      values: data.pageCollections.tags[*]
+  noItemsHeading:
+    comment: >-
+      The heading to show when there are no items in the collection(s).
+  listingCardStyle:
+    label: Collection Card Style
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Default
+          id: default
+        - name: Horizontal
+          id: horizontal
+        - name: Member card
+          id: member
+
+
+

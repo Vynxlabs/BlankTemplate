@@ -18,10 +18,10 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
 
-      - name: Use Node.js v20.2.0
+      - name: Use Node.js v20.3.0
         uses: actions/setup-node@v3
         with:
-          node-version: 'v20.2.0'
+          node-version: 'v20.3.0'
 
       - name: Cache Node.js modules
         id: cache-node-modules
@@ -39,7 +39,7 @@ jobs:
 
       - name: Fetch upstream changes
         run: |
-          git remote add upstream https://github.com/Virtuouz/BookShopStarter.git
+          git remote add upstream https://github.com/Virtuouz/SiteStitcher.git
           git fetch upstream main
 
       - name: Create temporary branch
@@ -68,10 +68,12 @@ jobs:
                   "$file" == .eleventy.js || \
                   "$file" == cloudcannon.config.yml || \
                   "$file" == netlify.toml || \
+                  "$file" == .nvmrc || \
                   "$file" == package-lock.json || \
                   "$file" == package.json || \
                   ("$file" == src/pages/* && "$file" != *.md) || \
                   ("$file" == src/posts/* && "$file" != *.md) || \
+                  ("$file" == src/listings/* && "$file" != *.md) || \
                   ("$file" == src/happenings/* && "$file" != *.md) || \
                   ("$file" == src/services/* && "$file" != *.md) ]]; then
               echo "Applying 'theirs' strategy for $file"

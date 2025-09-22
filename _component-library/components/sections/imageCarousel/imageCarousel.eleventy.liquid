@@ -1,0 +1,142 @@
+{% assign color_group = styles.color_group %}
+{% assign outerTrack = "glide-" | uuidFilter | replace: "-", "" %}
+{% assign lightBoxId = "lightbox" | uuidFilter | replace: "-", "" %}
+{% assign imageList = content.images %}
+{% assign imageCounter = content.images.size %}
+{% unless env_bookshop_live %}
+{% assign imageCounter = 0 %}
+{%- capture imageList -%}
+    {% for image in content.images %}
+    - imagePath: {{image.imagePath}}
+      imageAlt: {{image.imageAlt}}
+      yAxisPosition: {{image.yAxisPosition}}
+      imageNumber: {{imageCounter}}
+      {% assign imageCounter = imageCounter | plus: 1 %} 
+    {% endfor %}
+{%- endcapture -%}
+{% assign imageList = imageList | ymlify %}
+{% endunless %}
+{% assign firstImage = imageList[0] %}
+{% assign remainingImages = imageList | slice: 1, imageList.size %}
+{% capture imageClasses %}
+  w-full h-full object-cover object-center {{theme.image_rounding}}
+  {% endcapture %}
+{% assign modValue = 4 %}
+
+{% capture gridClasses %}
+ {% if imageCounter >= 43 %}
+{% assign modValue = 9 %}
+grid-cols-3 grid-rows-3
+ {% elsif imageCounter >= 25 %}
+  {% assign modValue = 6 %}
+  grid-cols-2 grid-rows-3
+  {% else %}
+     {% assign modValue = 4 %}
+     grid-cols-2 grid-rows-2
+ {% endif %} 
+{% endcapture %}
+<div class="c-imageCarousel relative">
+  <section class="basecontainer w-full">
+
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+
+    {% if env_bookshop_live and content.showNote %}
+            {% bookshop "generic/notification" heading:"No sliding. No image lightbox" text:"The carousel will not slide and the image lightbox will not open while editing, but will work on your live site" %}
+        {% endif %}
+    {% if content.heading %}
+      <div class="py-10 md:py-20">{% bookshop {{content.heading._bookshop_name}} bind: content.heading %}</div>
+    {% endif %}
+
+    <div class=" cs-w-full relative grid-rows flex bg-{{styles.color_group}}-backgroundcolor h-[50vh] md:h-[70vh]">
+      <button 
+      _=
+      "
+      on click
+      set modal to #modal-{{lightBoxId}}
+      modal.show()
+      transition #modal-{{lightBoxId}} opacity to 1 over 0.2s then
+      call openLightbox_{{ lightBoxId }}() then
+      call mainCarousel{{lightBoxId}}Go(0)
+      "
+      class="absolute top-[97%] left-[48%] bg-{{styles.color_group}}-backgroundcolor text-base p-2 {{theme.container_rounding}} text-{{styles.color_group}}-textcolor z-10">{{imageCounter}} Photos</button>
+      <div class=" {{outerTrack}} w-full">
+        <div class="w-full flex  justify-center">
+          <div class="pointer-events-none w-[97%] absolute z-10 flex justify-between top-1/2 opacity-70" data-glide-el="controls">
+            <button class="pointer-events-auto bg-white  p-1 rounded-full" data-glide-dir="<">
+                        <div class="hidden md:block">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-left" iconType: "solid" iconSize: 'small' roundedBorder: false color:"#000000" %}</div>
+          <div class="block md:hidden">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-left" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+            </button>
+            <button class="pointer-events-auto bg-white  p-1 rounded-full" data-glide-dir=">">
+                    <div class="hidden md:block">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-right" iconType: "solid" iconSize: 'small' roundedBorder: false color:"#000000" %}</div>
+          <div class="block md:hidden">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-right" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+            </button>
+          </div>
+        </div>
+        <div class="glide__track h-full" data-glide-el="track">
+          <ul class="glide__slides flex h-full w-full">
+
+            <li class="glide__slide w-1/2 {{theme.container_rounding}} h-full flex w-full">
+              <button class="w-full" _="
+      on click
+      set modal to #modal-{{lightBoxId}}
+      modal.show()
+      transition #modal-{{lightBoxId}} opacity to 1 over 0.2s then
+      call openLightbox_{{ lightBoxId }}() then
+      call mainCarousel{{lightBoxId}}Go(0)
+      ">{% bookshop "generic/image" bind: firstImage class: imageClasses %}</button>
+            </li>
+
+            {% assign groupIndex = 0 %}
+            {% assign imageGroup = "" %}
+            {% for image in remainingImages %}
+              {% assign groupMod = forloop.index0 | modulo: modValue %}
+              {% if groupMod == 0 %}
+                {% if forloop.index0 > 0 %}
+                  </div></li>
+                {% endif %}
+                <li class="glide__slide {{theme.container_rounding}} w-1/2 h-full ">
+                  <div class="grid  {{gridClasses}} gap-1 h-full">
+              {% endif %}
+
+              <button class="w-full h-full {{theme.container_rounding}}"
+              _="
+      on click
+      set modal to #modal-{{lightBoxId}}
+      modal.show()
+      transition #modal-{{lightBoxId}} opacity to 1 over 0.2s then
+      call openLightbox_{{ lightBoxId }}() then
+      call mainCarousel{{lightBoxId}}Go({{forloop.index}})
+      "
+              >
+                {% bookshop "generic/image" bind: image class: imageClasses %}
+              </button>
+
+              {% if forloop.last %}
+                  </div></li>
+              {% endif %}
+            {% endfor %}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="/assets/js/glide.js"></script>
+    <script>
+      new Glide('.{{ outerTrack }}', {
+  type: 'carousel',
+  perView: 2,
+  gap: 8,
+  breakpoints: {
+    768: {
+      perView: 1
+    }
+  }
+}).mount();
+    </script>
+  </section>
+</div>
+
+{% bookshop "generic/lightBox" images: imageList id: lightBoxId %}

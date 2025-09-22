@@ -7,8 +7,7 @@
   {% if content.sectionId %}
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
-    
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
     <div class="flex flex-wrap justify-around gap-8 mt-20">
         {% for element in content.members %}
             <div class="">{% bookshop "{{element._bookshop_name}}" bind: element %}</div>

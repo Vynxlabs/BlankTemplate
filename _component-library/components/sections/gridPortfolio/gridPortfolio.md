@@ -3,7 +3,7 @@ title: Image Grid Portfolio
 layout: layouts/page.html
 eleventyNavigation:
   key: Image Grid Portfolio
-  order: 10
+  order: 11
 tags: Sections
 draft: false
 _schema: default

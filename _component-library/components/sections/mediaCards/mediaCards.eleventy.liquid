@@ -6,7 +6,7 @@
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
   <section class="basecontainer w-full">
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
 
     {% if content.cards %}
       <ul class="mt-20 flex flex-wrap justify-center gap-16">

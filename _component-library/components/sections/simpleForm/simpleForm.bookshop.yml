@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Simple Form Section"
   description: A simple form section with a heading
   icon:
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     form: bookshop:simple/formBuilder!
   styles:
     color_group: primary

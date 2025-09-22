@@ -3,7 +3,7 @@ title: Bottom Image Hero
 layout: layouts/page.html
 eleventyNavigation:
   key: Bottom Image Hero
-  order: 12
+  order: 14
 tags: Sections
 draft: false
 _schema: default

@@ -1,26 +1,69 @@
-{% assign navPages = collections.all | eleventyNavigation %}
-{% assign topLevelLinks = "" %}
+{% if site.navigation.footerUseNav %}
+
+{% assign navPages = site.navigation.topNav %}
+  {% else %}
+
+{% assign navPages = site.navigation.footerNav %}
+  {% endif %}
+  {% assign topLevelLinks = "" %}
 {% assign groupedLinks = "" %}
+{% assign megaGroupedSections = "" %}
 
 {% for entry in navPages %}
-  {% if entry.children.size > 0 %}
-    {% capture topLevelLinks %}
-      {{ topLevelLinks }}
-      {% render "partials/render-footer.html" with entry as entry, page: page %}
-    {% endcapture %}
+  {% if entry._menuType != "mega" %}
+    {% if entry.links.size > 0 %}
+      {% capture topLevelLinks %}
+        {{ topLevelLinks }}
+        {% render "partials/render-footer.html" with entry as entry, page: page %}
+      {% endcapture %}
+    {% else %}
+      {% capture groupedLinks %}
+        {{ groupedLinks }}
+        <li>
+          <a 
+            data-umami-event="{{entry.title}}-footer"
+            {{ entry.url | linkFilter: page.url }}
+            class="data-[state=active]:link hover:text-sopris-green block rounded pt-0 pb-2 pl-3 pr-4 transition-colors hover:bg-gray-700 dark:border-gray-700  md:hover:bg-transparent md:dark:hover:bg-transparent"
+            href="{{ entry.url }}">
+            {{ entry.title }}
+          </a>
+        </li>
+      {% endcapture %}
+    {% endif %}
   {% else %}
-    {% capture groupedLinks %}
-      {{ groupedLinks }}
-      <li>
-        <a 
-          data-umami-event="{{entry.title}}-footer"
-          {{ entry.url | linkFilter: page.url }}
-          class="data-[state=active]:link hover:text-sopris-green block rounded py-2 pl-3 pr-4 uppercase transition-colors hover:bg-gray-700 dark:border-gray-700  md:hover:bg-transparent md:dark:hover:bg-transparent"
-          href="{{ entry.url }}">
-          {{ entry.title }}
-        </a>
-      </li>
-    {% endcapture %}
+    {%- assign localLinks = "" -%}
+    {% for megaEntry in entry.links %}
+      {% if megaEntry.links.size == nil %}
+        {% capture localLinks %}
+          {{ localLinks }}
+          <li>
+            <a 
+              data-umami-event="{{megaEntry.title}}-footer"
+              {{ megaEntry.url | linkFilter: page.url }}
+              class="data-[state=active]:link hover:text-sopris-green block rounded pt-0 pb-2 pl-3 pr-4 transition-colors hover:bg-gray-700 dark:border-gray-700  md:hover:bg-transparent md:dark:hover:bg-transparent"
+              href="{{ megaEntry.url }}">
+              {{ megaEntry.title }}
+            </a>
+          </li>
+        {% endcapture %}
+      {% else %}
+        {% capture topLevelLinks %}
+          {{ topLevelLinks }}
+          {% render "partials/render-footer.html" with megaEntry as entry, page: page %}
+        {% endcapture %}
+      {% endif %}
+    {% endfor %}
+    {% if localLinks != "" %}
+      {% capture megaGroupedSections %}
+        {{ megaGroupedSections }}
+        <div class="flex flex-col min-w-[200px]">
+          <p class="font-bold opacity-90 ">{{ entry.title }}</p>
+          <ul class="mt-2 flex flex-col gap-1">
+            {{ localLinks }}
+          </ul>
+        </div>
+      {% endcapture %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 
@@ -51,16 +94,18 @@
       </div>
       
       {% if disableNav != true %}
-      <div class="flex flex-wrap gap-10 justify-around w-full">
-        {% if groupedLinks != "" %}
-        <div class="flex flex-col min-w-[200px]">
-          <p class="font-bold opacity-90 text-xl">Links</p>
-          <ul class="mt-2 flex flex-col gap-1 md:gap-4">
-            {{ groupedLinks }}
-          </ul>
-        </div>
-        {% endif %}
-        {{ topLevelLinks }}
+      <div class="flex flex-wrap gap-10 justify-around w-full text-base">
+{% if groupedLinks != "" %}
+  <div class="flex flex-col min-w-[200px]">
+    <p class="font-bold opacity-90 ">Links</p>
+    <ul class="mt-2 flex flex-col gap-1">
+      {{ groupedLinks }}
+    </ul>
+  </div>
+{% endif %}
+
+{{ megaGroupedSections }}
+{{ topLevelLinks }}
       </div>
       {% endif %}
     </div>

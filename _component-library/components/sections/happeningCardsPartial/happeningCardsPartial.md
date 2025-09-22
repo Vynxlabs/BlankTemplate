@@ -3,7 +3,7 @@ title: Happening Cards
 layout: layouts/page.html
 eleventyNavigation:
   key: Happening Cards
-  order: 12
+  order: 13
 tags: Sections
 draft: false
 _schema: default

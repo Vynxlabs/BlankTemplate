@@ -6,18 +6,21 @@ const { Liquid } = require('liquidjs');
 
 // Import the custom filter
 const fileSubstringFilter = require(path.join(process.cwd(), 'src/filters/extract-file-substring-filter'));
+const uuidHashFilter = require(path.join(process.cwd(),"./src/filters/uuid-hash-filter.js"));
 
 // Directories to scan for Markdown files
-const directories = ['./src/pages', './src/posts', './src/services', './src/happenings'];
+const directories = ['./src/pages', './src/posts', './src/services', './src/happenings', './src/listings'];
 
 // Initialize LiquidJS engine and register the custom filter
 const engine = new Liquid();
 engine.registerFilter('fileSubstringFilter', fileSubstringFilter);
+engine.registerFilter('uuidHashFilter', uuidHashFilter);
 
 // Function to calculate the permalink using LiquidJS
 async function calculatePermalink(frontMatter, filePath) {
     const fileStem = filePath.replace(/^\.?\/src/, '').replace(/\.mdx?$/, '');
     const context = {
+        id: frontMatter.id || null,
         page: { filePathStem: fileStem },
         title: frontMatter.title || null,
         pageLink: frontMatter.pageLink || null
@@ -49,7 +52,9 @@ async function updatePermalinks() {
             if (frontMatterMatch) {
                 let frontMatter = yaml.load(frontMatterMatch[1]);
                 let originalPermalink = await calculatePermalink(frontMatter, filePath);
-
+                //Yes this is a hack, but this is a quick fix
+                originalPermalink = originalPermalink.replace('//', '/');
+                originalPermalink = originalPermalink.replace('//', '/');
                 if (originalPermalink) {
                     let permalink = originalPermalink;
                     console.log(permalink);

@@ -15,7 +15,7 @@ blueprint:
     price: $0
     priceDescription:
     description:
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
   styles:
     card_color_group: primary
     colorFromGroup: background

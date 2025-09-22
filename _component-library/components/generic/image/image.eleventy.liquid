@@ -8,10 +8,11 @@
         object-[50%_{{yAxisPosition}}%]
     {% endif %}
 {% endcapture %}
+{% assign imageComponentclasses = imageComponentclasses | removeExtraWhitespace | strip %}
 {% assign imagePath = imagePath | pathExists %}
-{% if env_bookshop_live %}
-    {% comment %} Div wrap to simulate block level element of picture that real short code generates {% endcomment %}
-    <picture><img class="{{imageComponentclasses}}" src="{{ imagePath }}" alt="{{ imageAlt }}"></picture>
+{% if env_bookshop_live or meta.env == 'cloudcannon' %}
+{% comment %} Div wrap to simulate block level element of picture that real short code generates {% endcomment %}
+<picture><img class="{{imageComponentclasses}}" src="{{ imagePath }}" alt="{{ imageAlt }}"></picture>
 
 
 

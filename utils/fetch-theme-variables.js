@@ -61,6 +61,7 @@ console.log(color_groups)
 
 // Helper function to convert hex to RGB
 function hexToRgb(hex) {
+    hex = hex == null ? '#ffffff' : hex;
     const bigint = parseInt(hex.slice(1), 16);
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;
@@ -69,6 +70,7 @@ function hexToRgb(hex) {
   }
 
   function hexToRgbCss(hex) {
+    hex = hex == null ? '#ffffff' : hex;
     const bigint = parseInt(hex.slice(1), 16);
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;
@@ -340,6 +342,12 @@ color_groups = color_groups.forEach((color_set, i) => {
     css_string_root += `--${id}__background : ${background};\n`
     css_string_root += `--${id}__foreground : ${foreground};\n`
     css_string_root += `--${id}__interaction : ${interaction};\n`
+
+    color_set.textColor = color_set.textColor == null || color_set.textColor == "" ? "#ffffff" : color_set.textColor
+    color_set.primaryColor = color_set.primaryColor == null || color_set.primaryColor == "" ? "#ffffff" : color_set.primaryColor
+    color_set.secondaryColor = color_set.secondaryColor == null || color_set.secondaryColor == "" ? "#ffffff" : color_set.secondaryColor
+    color_set.accentColor = color_set.accentColor == null || color_set.accentColor == "" ? "#ffffff" : color_set.accentColor
+    color_set.backgroundColor = color_set.backgroundColor == null || color_set.backgroundColor == "" ? "#ffffff" : color_set.backgroundColor
     
     css_string_utilities+=appendTailwindUtilityClasses(color_set,id)
     css_string_root += appendHighContrastClasses(color_set, id);

@@ -1,11 +1,16 @@
 const fs = require("fs");
 const path = require("path");
+const yaml = require("js-yaml");
+const { stringToSvg } = require("@realfavicongenerator/generate-favicon");
 
-// Paths to the reference and client files
-const referenceFilePath = path.resolve("./src/_data-ref/site.json");
-const clientFilePath = path.resolve("./src/_data/site.json");
-
-let warnings = [];
+// Dictionary with reference file paths as keys and client file paths as values
+const fileDictionary = {
+  "./src/_data-ref/site.json": "./src/_data/site.json",
+  "./src/_data-ref/theme.yml": "./src/_data/theme.yml",
+  "./src/_data-ref/listings.yml": "./src/_data/listings.yml",
+  "./src/_data-ref/happenings.yml": "./src/_data/happenings.yml",
+  "./src/_data-ref/pageCollections.yml": "./src/_data/pageCollections.yml",
+};
 
 // Function to validate and sync _inputs key
 function syncInputs(referenceInputs, clientInputs) {
@@ -38,15 +43,40 @@ function validateArray(referenceArray, clientArray, key) {
     if (item === null) {
       return null; // Preserve null values
     }
+    if (typeof item === "string" || item instanceof String) {
+      return item; // Preserve undefined values
+    }
+
     const newItem = {};
     for (const refKey in referenceStructure) {
-      if (!(refKey in item)) {
-        newItem[refKey] = referenceStructure[refKey];
-        warnings.push(
-          `Array '${key}' index ${index}: Added missing key '${refKey}'.`
-        );
+      // Add this code here
+      if (
+        typeof referenceStructure === "string" ||
+        referenceStructure instanceof String
+      ) {
+        continue;
+      }
+      if (
+        Array.isArray(referenceStructure[refKey]) &&
+        referenceStructure[refKey].every((item) => typeof item !== "object")
+      ) {
+        if (item[refKey] && item[refKey].length > 0) {
+          // Client file has at least one array item, skip this key
+          continue;
+        } else {
+          // Client file is empty, add array items from reference file
+          item[refKey] = referenceStructure[refKey];
+        }
       } else {
-        newItem[refKey] = item[refKey];
+        // Existing code here...
+        if (!(refKey in item)) {
+          newItem[refKey] = referenceStructure[refKey];
+          warnings.push(
+            `Array '${key}' index ${index}: Added missing key '${refKey}'.`,
+          );
+        } else {
+          newItem[refKey] = item[refKey];
+        }
       }
     }
 
@@ -54,7 +84,7 @@ function validateArray(referenceArray, clientArray, key) {
     for (const itemKey of Object.keys(item)) {
       if (!(itemKey in referenceStructure)) {
         warnings.push(
-          `Array '${key}' index ${index}: Removed extra key '${itemKey}'.`
+          `Array '${key}' index ${index}: Removed extra key '${itemKey}'.`,
         );
       }
     }
@@ -85,7 +115,7 @@ function reorderKeys(referenceData, clientData) {
       if (key in clientData) {
         reorderedClientData[key] = reorderKeys(
           referenceData[key],
-          clientData[key]
+          clientData[key],
         );
       } else {
         reorderedClientData[key] = referenceData[key]; // Add missing keys
@@ -105,14 +135,14 @@ function reorderKeys(referenceData, clientData) {
 
 // Function to sync the client file with the reference file
 function syncFiles(referenceFilePath, clientFilePath) {
-  const referenceData = JSON.parse(fs.readFileSync(referenceFilePath, "utf-8"));
-  const clientData = JSON.parse(fs.readFileSync(clientFilePath, "utf-8"));
+  const referenceData = parseFile(referenceFilePath);
+  const clientData = parseFile(clientFilePath);
 
   // Sync _inputs key
   if (referenceData._inputs && clientData._inputs) {
     const { updatedInputs, warnings: inputWarnings } = syncInputs(
       referenceData._inputs,
-      clientData._inputs
+      clientData._inputs,
     );
     clientData._inputs = updatedInputs;
     warnings.push(...inputWarnings);
@@ -130,7 +160,7 @@ function syncFiles(referenceFilePath, clientFilePath) {
       const { validatedArray, warnings: arrayWarnings } = validateArray(
         referenceData[key],
         clientData[key],
-        key
+        key,
       );
       clientData[key] = validatedArray;
       warnings.push(...arrayWarnings);
@@ -159,18 +189,49 @@ function syncFiles(referenceFilePath, clientFilePath) {
   const reorderedClientData = reorderKeys(referenceData, clientData);
 
   // Write the updated client file
-  fs.writeFileSync(clientFilePath, JSON.stringify(reorderedClientData, null, 2));
+  const fileExt = path.extname(clientFilePath);
+  if (fileExt === ".json") {
+    fs.writeFileSync(
+      clientFilePath,
+      JSON.stringify(reorderedClientData, null, 2),
+    );
+  } else if (fileExt === ".yml") {
+    fs.writeFileSync(clientFilePath, yaml.dump(reorderedClientData));
+  }
+}
+
+// Helper function to parse a file, whether it's JSON or YAML
+function parseFile(filePath) {
+  const fileContent = fs.readFileSync(filePath, "utf8");
+  const fileExtension = filePath.split(".").pop().toLowerCase();
+
+  if (fileExtension === "json") {
+    return JSON.parse(fileContent);
+  } else if (fileExtension === "yml" || fileExtension === "yaml") {
+    return yaml.load(fileContent);
+  } else {
+    throw new Error(`Unsupported file format: ${fileExtension}`);
+  }
 }
 
 // Execute the script
-syncFiles(referenceFilePath, clientFilePath);
+let warnings = [];
+Object.entries(fileDictionary).forEach(
+  ([referenceFilePath, clientFilePath]) => {
+    syncFiles(referenceFilePath, clientFilePath);
+  },
+);
 
 // Validation loop
 if (warnings.length > 0) {
   console.warn("Warnings:\n", warnings.join("\n"));
   warnings = [];
   console.log("Rechecking for warnings...");
-  syncFiles(referenceFilePath, clientFilePath);
+  Object.entries(fileDictionary).forEach(
+    ([referenceFilePath, clientFilePath]) => {
+      syncFiles(referenceFilePath, clientFilePath);
+    },
+  );
 }
 
 // Final warnings check
@@ -178,5 +239,5 @@ if (warnings.length > 0) {
   console.warn("Warnings:\n", warnings.join("\n"));
   process.exit(1);
 } else {
-  console.log("Client file is up to date. No warnings.");
+  console.log("Client files are up to date. No warnings.");
 }

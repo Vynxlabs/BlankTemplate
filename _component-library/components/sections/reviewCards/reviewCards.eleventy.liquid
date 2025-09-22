@@ -7,7 +7,7 @@
   {% if content.sectionId %}
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
     {% if content.reviews %}
 
       <div class="flex justify-around gap-4 gap-y-8 flex-wrap mt-20">
@@ -15,7 +15,7 @@
           {% for review in reviews %}
 
             {% if item.review == review.id %}
-              <div class="max-w-[400px] min-w-[250px] sm:min-w-[300px] flex-1 bg-{{item.card_color_group}}-{{item.colorFromGroup}}color text-{{item.card_color_group}}-highcontrast-{{item.colorFromGroup}}color shadow-xl  rounded transition hover:-translate-y-1 duration-300 h-full p-6">
+              <div class="max-w-[400px] min-w-[250px] sm:min-w-[300px] flex-1 bg-{{item.card_color_group}}-{{item.colorFromGroup}}color text-{{item.card_color_group}}-highcontrast-{{item.colorFromGroup}}color shadow-xl  {{theme.container_rounding}} transition hover:-translate-y-1 duration-300 h-full p-6">
                 <div class="mt-4">
                   <div class="flex">
                     {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "star" iconType: "solid" iconSize: 'micro' roundedBorder: false color: "#EBC644" %}

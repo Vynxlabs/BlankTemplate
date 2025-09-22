@@ -23,6 +23,11 @@
     "scriptSource": "https://analytics.vynxlabs.com/script.js",
     "dataDomains": ""
   },
+  "navigation": {
+    "footerUseNav": true,
+    "topNav":null,
+    "footerNav":null
+  },
   "socialMediaLinks": [
     {
       "label": "Xwitter",
@@ -49,8 +54,25 @@
   },
   "nav_color_group": "primary",
   "color_group": "primary",
-  "footer_color_group": "32e06fa7-61eb-4ca0-b91e-74d729c2925d",
+  "footer_color_group": "5c9075f8-80f9-4482-b041-91cffdfe02be",
   "_inputs": {
+    "footerUseNav":{
+      "label": "Use Top Navigation in Footer",
+      "comment": "This will duplicate the top navigation in the footer to save you time. If you want to use your own navigation in the footer, leave this unchecked."
+    },
+    "topNav": {
+      "type":"array",
+      "options": {
+        "structures": "_structures.rootLinks"
+      }
+    },
+    "footerNav": {
+      "hidden": "footerUseNav",
+      "type":"array",
+      "options": {
+        "structures": "_structures.links"
+      }
+    },
     "privacyPolicyUrl": {
       "type": "url"
     },

@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Image Gallery Masonry 5"
   description: Masonry grid of images 5 images per set
   icon: space_dashboard
@@ -12,24 +13,24 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     imageSets:
-      - images: [bookshop:generic/image]
-    buttons: [bookshop:generic/button]
+      - images: [bookshop:structure:media]
+    buttons: [bookshop:structure:buttons]
     setLimit: 5
     patternLimit: 10
     imageClasses:
-    - "" # This will always be empty and is needed for the grid to work
-    - sm:row-span-1 sm:col-span-1 sm:row-start-1 sm:col-start-1
-    - sm:row-span-1 sm:col-span-2 sm:row-start-1 sm:col-start-2
-    - sm:row-span-2 sm:col-span-1 sm:row-start-1 sm:col-start-4
-    - sm:row-span-1 sm:col-span-2 sm:row-start-2 sm:col-start-1
-    - sm:row-span-1 sm:col-span-1 sm:row-start-2 sm:col-start-3 col-span-2
-    - sm:row-span-2 sm:col-span-1 sm:row-start-1 sm:col-start-1
-    - sm:row-span-1 sm:col-span-1 sm:row-start-1 sm:col-start-2
-    - sm:row-span-1 sm:col-span-2 sm:row-start-1 sm:col-start-3
-    - sm:row-span-1 sm:col-span-2 sm:row-start-2 sm:col-start-2
-    - sm:row-span-1 sm:col-span-1 sm:row-start-2 sm:col-start-4 col-span-2
+      - "" # This will always be empty and is needed for the grid to work
+      - sm:row-span-1 sm:col-span-1 sm:row-start-1 sm:col-start-1
+      - sm:row-span-1 sm:col-span-2 sm:row-start-1 sm:col-start-2
+      - sm:row-span-2 sm:col-span-1 sm:row-start-1 sm:col-start-4
+      - sm:row-span-1 sm:col-span-2 sm:row-start-2 sm:col-start-1
+      - sm:row-span-1 sm:col-span-1 sm:row-start-2 sm:col-start-3 col-span-2
+      - sm:row-span-2 sm:col-span-1 sm:row-start-1 sm:col-start-1
+      - sm:row-span-1 sm:col-span-1 sm:row-start-1 sm:col-start-2
+      - sm:row-span-1 sm:col-span-2 sm:row-start-1 sm:col-start-3
+      - sm:row-span-1 sm:col-span-2 sm:row-start-2 sm:col-start-2
+      - sm:row-span-1 sm:col-span-1 sm:row-start-2 sm:col-start-4 col-span-2
   styles:
     color_group: primary
 
@@ -38,6 +39,8 @@ preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  images:
+    label: Media
   imageSets:
     comment: "Each image set can have up to 5 images. Any image added past the fifth will not show up"
   imageClasses:

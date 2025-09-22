@@ -1,21 +1,22 @@
 {% assign color_group = styles.color_group %}
 
 <div class="c-imageGalleryMasonryGrid componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
-  <section
-    class="basecontainer w-full">
+  <section class="basecontainer w-full">
 
-  {% if content.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-  {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
     <div class="mt-12">{% bookshop "generic/imageGrid" bind: content %}</div>
     {% if content.buttons %}
       <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
         {% for button in content.buttons %}
-          {% bookshop "generic/button" bind: button %}
+          {% bookshop "{{button._bookshop_name}}" bind: button %}
         {% endfor %}
 
       </div>
     {% endif %}
-    </section>
+  </section>
 </div>

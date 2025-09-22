@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Simple Text Block"
   description: Block of content with a header
   icon: article
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     text: bookshop:generic/textBlock!
   styles:
     color_group: "primary"

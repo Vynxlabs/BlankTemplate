@@ -70,7 +70,7 @@
       {% for entry in content.entries %}
         {% assign counter = counter | minus: 1 %}
         {% assign imageClasses = 'z-[' | append: counter | append: ']' %}
-        {% assign imageClasses = imageClasses | append: ' object-cover absolute top-0 transition-all aspect-[3/2] w-full rounded' %}
+        {% assign imageClasses = imageClasses | append: ' object-cover absolute top-0 transition-all aspect-[3/2] w-full ' | append: theme.image_rounding %}
         {% comment %} The a in the a is to prevent errors caused when id starts with numerical value {% endcomment %}
         <div id="a{{entry.entry.id}}" class="lg-benefit-img relative opacity-0 transition-all duration-500">
           {% bookshop "generic/image" bind: entry.entry.image class: imageClasses %}
@@ -118,7 +118,9 @@
   </div>
 {% endif %}
 
-
+{% capture mobileImageClasses %}
+ w-full object-cover lg:hidden aspect-[3/2] {{theme.image_rounding}} 
+{% endcapture %}
 {% comment %} Mobile view {% endcomment %}
 <div class="flex flex-col gap-20 lg:hidden">
   {% for entry in content.entries %}
@@ -140,7 +142,7 @@
       {% assign entryHeading = entryHeading | ymlify %}
     <div>
       <div>
-        {% bookshop "generic/image" bind: entry.entry.image class: "w-full object-cover lg:hidden aspect-[3/2] rounded" %}
+        {% bookshop "generic/image" bind: entry.entry.image class: mobileImageClasses %}
       </div>
       <div class="mt-4">{% bookshop "generic/heading" bind: entryHeading %}</div>
     </div>

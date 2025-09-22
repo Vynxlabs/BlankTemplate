@@ -3,9 +3,10 @@ spec:
   structures:
     - embeds
     - assets
+    - resource
   label: "Custom Embed"
   description:
-  icon:
+  icon: iframe
   tags: []
 
 # Defines the structure of this component, as well as the default values

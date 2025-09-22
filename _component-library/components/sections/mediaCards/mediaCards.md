@@ -3,7 +3,7 @@ title: Media Cards
 layout: layouts/page.html
 eleventyNavigation:
   key: Media Cards
-  order: 19
+  order: 25
 tags: Sections
 draft: false
 _schema: default

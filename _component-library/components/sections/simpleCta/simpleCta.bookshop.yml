@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Simple Call To Action"
   description: A simple call to action section
   icon: exclamation
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    CallToAction: bookshop:generic/heading!
+    CallToAction: bookshop:structure:headingBlocks
   styles:
     color_group: primary
 

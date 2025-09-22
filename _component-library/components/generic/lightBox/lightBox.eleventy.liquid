@@ -1,0 +1,189 @@
+{% assign mainTrack = id | replace: "-", "" %}
+{% assign subTrack = id | replace: "-", "" | append: "sub" %}
+
+{% capture thumbImageClasses %}
+ w-auto max-w-full max-h-full object-contain  cursor-pointer {{theme.image_rounding}} 
+  {% endcapture %}
+<dialog id="modal-{{id}}" class="c-lightBox fixed top-0 z-[900] h-full max-h-screen w-full p-4 opacity-0 open:bg-slate-950 open:bg-opacity-60 open:backdrop-blur-lg sm:p-10 overflow-hidden">
+
+  <div class="flex flex-col gap-4 h-full">
+    <button
+      aria-label="Close image"
+      class=" absolute top-0 self-end z-10 font-bold text-white opacity-60"
+      _="
+          on click
+          set modal to #modal-{{id}}
+          transition #modal-{{id}} opacity to 0 over 0.2s settle then
+          modal.close()
+          call destroyLightBox_{{id}}()
+          ">
+      {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "x-mark" iconType: "solid" iconSize: 'large' roundedBorder: false color: "#ffffff" %}
+    </button>
+
+    <!-- Main Carousel -->
+    <div class="flex-1 flex items-center justify-center overflow-hidden relative {{mainTrack}}">
+      <div class="w-full flex absolute justify-center">
+        <div class=" pointer-events-none w-full  z-10 flex justify-between top-1/2 opacity-70" data-glide-el="controls">
+          <button
+            class="pointer-events-auto bg-white  p-1 rounded-full"
+            data-glide-dir="<">
+          <div class="hidden md:block">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-left" iconType: "solid" iconSize: 'small' roundedBorder: false color:"#000000" %}</div>
+          <div class="block md:hidden">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-left" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+            </button>
+            <button class=" pointer-events-auto
+            bg-white
+            p-1
+            rounded-full" data-glide-dir=">">
+          <div class="hidden md:block">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-right" iconType: "solid" iconSize: 'small' roundedBorder: false color:"#000000" %}</div>
+          <div class="block md:hidden">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-right" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+          </button>
+        </div>
+      </div>
+      <div class="glide__track h-full w-full max-h-full" data-glide-el="track">
+        <ul class="glide__slides h-full flex items-center justify-center">
+          {% for image in images %}
+            <li class="glide__slide max-h-full max-w-full flex items-center justify-center">
+              {% bookshop "generic/image" bind: image class: "max-h-full w-full max-w-full object-contain" %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {% if images.size >= 5 %}
+      <!-- Thumbnail Carousel -->
+      <div class="h-24 sm:h-32 mt-2 relative {{subTrack}} thumbnails">
+
+      <div class="w-full flex absolute top-1/2 justify-center">
+        <div class="pointer-events-none w-[97%]  z-10 flex justify-between  opacity-70" data-glide-el="controls">
+          <button
+            class="pointer-events-auto bg-white  p-1 rounded-full"
+            data-glide-dir="<">
+          <div class="">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-left" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+            </button>
+            <button class=" pointer-events-auto
+           bg-white 
+            p-1
+            rounded-full" data-glide-dir=">">
+          <div class="">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-right" iconType: "solid" iconSize: 'micro' roundedBorder: false color:"#000000" %}</div>
+          </button>
+        </div>
+      </div>
+        <div class="glide__track h-full " data-glide-el="track">
+          <ul class="glide__slides h-full items-center">
+            {% for image in images %}
+              <li class="glide__slide flex h-full  items-center justify-center ">
+                {% bookshop "generic/image" bind: image class: thumbImageClasses %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</dialog>
+
+{% if images.size < 5 %}
+{% endif %}
+
+
+<script src="/assets/js/glide.js"></script>
+<script src="/assets/js/glide.js"></script>
+<script>
+  const mainCarousel{{id}} = new Glide('.{{ mainTrack }}', {
+    type: 'carousel',
+    perView: 1,
+    gap: 20,
+    perTouch: 10
+  });
+
+  const thumbCarousel{{id}} = new Glide('.{{ subTrack }}', {
+    type: 'slider',
+    perView: {% if images.size < 10 %}{{ images.size }}{% else %}10{% endif %},
+    gap: 15,
+    focusAt: 'center',
+    animationDuration: 250,
+    breakpoints: {
+      1024: { perView: {% if images.size < 7 %}{{ images.size }}{% else %}7{% endif %} },
+      768: { perView: {% if images.size < 5 %}{{ images.size }}{% else %}5{% endif %} },
+      640: { perView: 3 }
+    }
+  });
+
+
+  mainCarousel{{id}}.mount();
+  // Set initial state
+  //setActiveThumbnail{{id}}(0);
+
+  // Sync on main carousel slide
+  function mainCarousel{{id}}Go(index) {
+  mainCarousel{{id}}.go(`=${index}`);
+  
+  }
+  mainCarousel{{id}}.on('run', () => {
+  const currentIndex = mainCarousel{{id}}.index;
+  console.log(currentIndex);
+  setActiveThumbnail{{id}}(currentIndex);
+  });
+
+
+  {% if images.size >= 5 %}thumbCarousel{{id}}.mount();{% endif %}
+  
+
+  // Sync thumbnail clicks to main
+  document.addEventListener("DOMContentLoaded", function () {
+    const thumbnails = document.querySelectorAll('.{{ subTrack }} .glide__slide');
+
+    thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        mainCarousel{{id}}.go(`=${index}`);
+      });
+    });
+  });
+  function destroyLightBox_{{ id }}(){
+
+    try { mainCarousel{{id}}.destroy(); } catch (e) {}
+    try { thumbCarousel{{id}}.destroy(); } catch (e) {}
+  }
+  function setActiveThumbnail{{id}}(index) {
+  const thumbnails = document.querySelectorAll('.{{ subTrack }} .glide__slide img');
+
+  thumbnails.forEach((thumb, i) => {
+    if (i === index) {
+      thumb.classList.add('border-2', 'border-{{color_group}}-secondarycolor');
+    } else {
+      thumb.classList.remove('border-2', 'border-{{color_group}}-secondarycolor');
+    }
+  });
+
+  // Scroll the thumbnail carousel to that index
+  {% if images.size >= 5 %}
+    if (thumbCarousel{{id}}) {
+      thumbCarousel{{id}}.go(`=${index}`);
+    }
+  {% endif %}
+  }
+  function openLightbox_{{ id }}() {
+  const modal = document.getElementById("modal-{{ id }}");
+
+  if (!modal.open) modal.showModal();
+  
+  requestAnimationFrame(() => {
+    // Unmount and re-mount for safety
+    try { mainCarousel{{id}}.destroy(); } catch (e) {}
+    try { thumbCarousel{{id}}.destroy(); } catch (e) {}
+
+  {% if images.size >= 5 %}thumbCarousel{{id}}.mount();{% endif %}
+    mainCarousel{{id}}.mount();
+
+    // Sync thumbnails again
+    const thumbnails = modal.querySelectorAll('.{{ subTrack }} .glide__slide');
+    thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        mainCarousel{{id}}.go(`=${index}`);
+        setActiveThumbnail{{id}}(index);
+      });
+    });
+  });
+  }
+</script>

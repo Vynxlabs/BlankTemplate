@@ -2,25 +2,28 @@
 
 
 <div class="c-largeEmbed componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
-  <section
-    class="basecontainer w-full">
+  <section class="basecontainer w-full">
 
-  {% if content.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-  {% endif %}
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
     {% if env_bookshop_live and content.showNote %}
       {% bookshop "generic/notification" heading: "Incorrect Embed Size" text: "It is common for the custom embed to not show its size correctly when live editing, but will show up on correctly on the live site. <br>If it does not show up correctly on the live site, check if the size can be adjusted before pasting in the code. <br><br>Embeds with <code><script></script></code>  will not work correctly while live editing but will work on the live site." %}
     {% endif %}
-    {% bookshop "generic/heading" bind: content.heading %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
 
-    <div class="mt-10">
-      {% bookshop "{{content.embed._bookshop_name}}" bind: content.embed %}
-    </div>
+    {% if content.embed %}
+      <div class="mt-10">
+        {% bookshop "{{content.embed._bookshop_name}}" bind: content.embed %}
+      </div>
+    {% endif %}
 
     {% if content.buttons %}
       <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
         {% for button in content.buttons %}
-          {% bookshop "generic/button" bind: button %}
+          {% bookshop "{{button._bookshop_name}}" bind: button %}
         {% endfor %}
 
       </div>

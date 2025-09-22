@@ -3,21 +3,26 @@ spec:
   structures:
     - embeds
     - assets
+    - resource
+    - media
   label: "Video Embed"
   description:
-  icon:
+  icon: smart_display
   tags: []
 
 # Defines the structure of this component, as well as the default values
 blueprint:
   platform: youtube
   videoId:
+  thumbOnly:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  thumbOnly:
+    hidden: true
   videoId:
     comment: 'You can find this in the URL of the video you want to embed. For example, https://www.youtube.com/watch?v=YOUR_VIDEO_ID, or for vimeo https://vimeo.com/YOUR_VIDEO_ID'
   platform:

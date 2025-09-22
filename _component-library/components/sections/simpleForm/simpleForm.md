@@ -3,7 +3,7 @@ title: Simple Form Section
 layout: layouts/page.html
 eleventyNavigation:
   key: Simple Form Section
-  order: 26
+  order: 33
 tags: Sections
 draft: false
 _schema: default

@@ -3,7 +3,7 @@ title: Full Screen Image Hero
 layout: layouts/page.html
 eleventyNavigation:
   key: Full Screen Image Hero
-  order: 8
+  order: 9
 tags: Sections
 draft: false
 _schema: default

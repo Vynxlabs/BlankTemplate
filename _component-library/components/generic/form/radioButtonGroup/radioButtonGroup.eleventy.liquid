@@ -10,7 +10,7 @@
 
 
 <div class="c-checkBoxGroup">
-    <fieldset class="border border-{{color_group}}-textcolor rounded p-2 hover:border-{{color_group}}-accentcolor" role="group" {% if helper_text %}aria-describedby="{{ id }}--helper"{% endif %}>
+    <fieldset class="border border-{{color_group}}-textcolor {{theme.container_rounding}} p-2 hover:border-{{color_group}}-accentcolor" role="group" {% if helper_text %}aria-describedby="{{ id }}--helper"{% endif %}>
         {% if label and label != '' %}
             <legend class="text-xs uppercase font-bold ">{{ label }}</legend>
         {% endif %}
@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
     </fieldset>
-    {% if helperText %}
+    {% if helperText and helperText != '' %}
         <div class="mt-2">{% bookshop "generic/form/helperText" id:id helperText: helperText  %}</div>
     {% endif %}
 </div>

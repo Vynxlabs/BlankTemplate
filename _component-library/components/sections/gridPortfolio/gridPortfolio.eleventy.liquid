@@ -12,22 +12,22 @@
       <div class="col-span-12 md:col-span-4 md:mt-6 lg:mt-12 md:pt-6 lg:pt-12">
         <div class="xl:my-12 xl:py-12">
           <div class="mb-6 md:my-12 lg:py-12">
-            {% bookshop "generic/heading" bind: content.heading %}
+            {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
           </div>
         </div>
         {% for imageContent in content.images %}
           {% assign evenOdd = counter | modulo: 3 %}
           {% assign imageId = "a" | uuidFilter %}
           {% if evenOdd == 0 %}
-            <div class="group rounded overflow-hidden relative mt-6">
+            <div class="group {{theme.container_rounding}} overflow-hidden relative mt-6">
               {% bookshop "generic/imageModal" image: imageContent.image classes: "aspect-[3/4]" id: imageId %}
               {% if imageContent.title and imageContent.title != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>
               {% elsif imageContent.description and imageContent.description != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>
@@ -45,15 +45,15 @@
           {% assign evenOdd = counter | modulo: 3 %}
           {% assign imageId = "a" | uuidFilter %}
           {% if evenOdd == 0 %}
-            <div class="group rounded overflow-hidden relative mt-6">
+            <div class="group {{theme.container_rounding}} overflow-hidden relative mt-6">
               {% bookshop "generic/imageModal" image: imageContent.image classes: "aspect-[3/4]" id: imageId %}
               {% if imageContent.title and imageContent.title != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>
               {% elsif imageContent.description and imageContent.description != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>
@@ -72,15 +72,15 @@
           {% assign evenOdd = counter | modulo: 3 %}
           {% assign imageId = "a" | uuidFilter %}
           {% if evenOdd == 0 %}
-            <div class="group rounded overflow-hidden relative mt-6">
+            <div class="group {{theme.container_rounding}} overflow-hidden relative mt-6">
               {% bookshop "generic/imageModal" image: imageContent.image classes: "aspect-[3/4]" id: imageId %}
               {% if imageContent.title and imageContent.title != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>
               {% elsif imageContent.description and imageContent.description != "" %}
-                <div class="absolute left-4 right-4 top-1/2 rounded bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
+                <div class="absolute left-4 right-4 top-1/2 {{theme.container_rounding}} bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor bg-opacity-70  bg-blur-sm bg-saturate-200 -translate-y-1/2 opacity-0 transition duration-300 group-hover:opacity-100 text-center p-6 lg:py-12">
                   <h5 class="font-medium text-xl">{{ imageContent.title }}</h5>
                   <p class="mb-0">{{ imageContent.description }}</p>
                 </div>

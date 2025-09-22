@@ -3,7 +3,7 @@ title: Simple Image Gallery
 layout: layouts/page.html
 eleventyNavigation:
   key: Simple Image Gallery
-  order: 14
+  order: 17
 tags: Sections
 draft: false
 _schema: default

@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Services Section"
   description:
   icon:
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading
+    heading: bookshop:structure:headingBlocks
     showNote: true
   styles:
     color_group: primary

@@ -3,7 +3,7 @@ title: Side By Side Animation
 layout: layouts/page.html
 eleventyNavigation:
   key: Side By Side Animation
-  order: 23
+  order: 30
 tags: Sections
 draft: false
 _schema: default

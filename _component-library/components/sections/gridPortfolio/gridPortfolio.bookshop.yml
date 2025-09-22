@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Image Grid Portfolio"
   description: Shows a portfolio of images in an offset grid
   icon:
@@ -12,7 +13,7 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     images: 
       - image: bookshop:generic/image
         title: 

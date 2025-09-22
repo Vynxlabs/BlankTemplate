@@ -1,0 +1,85 @@
+{% assign color_group = styles.color_group %}
+
+{% if env_bookshop_live %}
+{% assign listingsItems = collections.pages %}
+{% elsif tag %}
+  {% assign listingsItems = collections[tag] | collectionsFilter: page, pageCollections.tags, content.tags %} 
+{% else %}
+{% assign listingsItems = collections.pages | collectionsFilter: page, pageCollections.tags, content.tags, content.listingCount %} 
+{% endif %}
+
+{% capture listStyle %}
+{% if styles.listingCardStyle == "default" or styles.listingCardStyle == "member" %}
+ flex flex-wrap gap-8 justify-around
+{% else %}
+flex flex-col gap-12
+{% endif %}  
+{% endcapture %}
+{% comment %}
+  don't forget to make use of pagination.items
+
+{% endcomment %}
+{% assign listingCardStyle = 'generic/listings/' | append: styles.listingCardStyle | append: "ListingCard" %}
+<div class="c-collectionsAll componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full"
+    {% if content.sectionId %}
+              {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}>
+    {% if env_bookshop_live and content.showNote %}
+            {% bookshop "generic/notification" heading:"Incorrect visuals" text:"Sometimes 'ghost' cards will show up while live editing, but will show up correctly on the live site <br><br> Filterring will not work while editing, but will show up correctly on the live site" %}
+        {% endif %}
+        {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+    {% assign createdListings = 0 %}
+    <ul class="mt-20 {{listStyle}} justify-center ">
+        {% for listing in listingsItems %}
+          {% assign currentTime = "now" | date: "%Y-%m-%dT%H:%M:%S", 360  %}
+          {% assign listingTime = listing.data.expireDate | date: "%Y-%m-%dT%H:%M:%S", 360 %}
+
+          {% capture featuredImage %}
+            {% if listing.data.collectionImage and listing.data.collectionImage != "" %}
+             image:
+                imagePath: {{listing.data.collectionImage}}
+                imageAlt: {{listing.data.imageAltText}}
+            {% else %}
+            image:
+                imagePath: {{pageCollections.defaultImage.imagePath}}
+                imageAlt: {{pageCollections.defaultImage.imageAlt}}
+            {% endif %}
+          {% endcapture %}
+          {% capture card %}
+          listingTitle: {{listing.data.title | stringifyFilter}}
+          listingUrl: {{listing.url}}
+          keyInformation: {{listing.data.keyInformation | stringifyFilter}}
+          expires: {{listing.data.canExpire}}
+          listingExpiration: {{listing.data.expireDate}}
+          listingTags: {{listing.data.tags | ymlify | split: "," | json}}
+          {{featuredImage | strip | log}}
+          color_group: {{styles.card_color_group}}
+          colorFromGroup: {{styles.colorFromGroup}}
+          {% endcapture %}
+          {% assign card = card | ymlify %}
+          {% assign hasTag = false %}
+          {% for tag in listing.data.tags %}
+            {% if content.tags contains tag %}
+              {% assign hasTag = true %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {% if listing.data.tags contains tag  %}
+           {% assign hasTag = true %} 
+          {% endif %}
+          {% if hasTag %}
+           {% assign createdListings = createdListings | plus: 1 %} 
+          {% bookshop {{listingCardStyle}} bind: card %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if content.noItemsHeading and createdListings == 0 %}
+    {% bookshop {{content.noItemsHeading._bookshop_name}} bind: content.noItemsHeading %} 
+   {% endif %} 
+    
+    </section>
+</div>

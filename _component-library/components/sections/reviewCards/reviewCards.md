@@ -3,7 +3,7 @@ title: Review Cards
 layout: layouts/page.html
 eleventyNavigation:
   key: Review Cards
-  order: 21
+  order: 28
 tags: Sections
 draft: false
 _schema: default

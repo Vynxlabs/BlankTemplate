@@ -3,7 +3,7 @@ title: Image Compare
 layout: layouts/page.html
 eleventyNavigation:
   key: Image Compare
-  order: 13
+  order: 16
 tags: Sections
 draft: false
 _schema: default

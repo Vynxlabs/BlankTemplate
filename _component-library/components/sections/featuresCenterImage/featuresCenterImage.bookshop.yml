@@ -2,8 +2,9 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Features - Centered Image"
-  description: Features section with a central image 
+  description: Features section with a central image
   icon:
   tags: []
   tabbed: true
@@ -13,11 +14,11 @@ blueprint:
   content:
     showNote: true
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     cards:
       - heading: bookshop:generic/heading!
     image: bookshop:generic/image
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
     card_color_group: primary

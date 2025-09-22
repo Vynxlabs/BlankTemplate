@@ -5,7 +5,9 @@
     {{ happeningTitle }}
   {% endif %}
 {% endcapture %}
-
+{% capture imageClasses %}
+w-full {{theme.image_rounding}} transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]
+{% endcapture %}
 <div class="w-full ">
   <h3 class="hover:underline text-2xl">
     <a 
@@ -14,12 +16,12 @@
   </h3>
   <a 
   data-umami-event="{{happeningTitle}}-{{page.url}}-happeningCardImg"
-  class="relative" href="{{url}}">
-      {% bookshop "generic/image" bind: image class: "w-full rounded transition-all duration-300 scale-100 hover:scale-[1.03] object-cover aspect-[3/2]" %}
+  class="block relative" href="{{url}}">
+      {% bookshop "generic/image" bind: image class: imageClasses %}
       <time 
       {% if cancelled != true %}
         _="on load
-        set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+        set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%dT%H:%M:%S%z"}}')
         log happeningDate
         set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
         js(happeningDate,timezone)  
@@ -30,7 +32,7 @@
         "
       {% endif %}
       
-      class="absolute bottom-5 right-5 p-2 z-10 bg-white text-slate-800 rounded" datetime="{{ happeningDatetime | date: "%Y-%m-%d" }}">{% if cancelled %}CANCELLED{% else %}{{ happeningDatetime | date: "%Y-%m-%d %I:%M %P", 0 }} UTC{% endif %}</time>
+      class="absolute bottom-5 right-5 p-2 z-10 bg-white text-slate-800 {{theme.container_rounding}}" datetime="{{ happeningDatetime | date: "%Y-%m-%d" }}">{% if cancelled %}CANCELLED{% else %}{{ happeningDatetime | date: "%Y-%m-%d %I:%M %P", 0 }} UTC{% endif %}</time>
   </a>
   <ul class=" flex text-{{color_group}}-secondarycolor flex flex-wrap gap-x-4 overflow-hidden opacity-70">
     {% for tag in blogTags %}

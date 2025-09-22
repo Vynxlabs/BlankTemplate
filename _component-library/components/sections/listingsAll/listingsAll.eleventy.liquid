@@ -1,0 +1,172 @@
+{% assign color_group = styles.color_group %}
+{% if env_bookshop_live %}
+{% assign listingsItems = collections.listings %}
+{% elsif tag %}
+  {% assign listingsItems = collections[tag] | listingsFilter: page, listingTags, content.tags %} 
+{% elsif pagination.items %}
+ {% assign listingsItems = pagination.items | listingsFilter: page, listingTags, content.tags, content.listingCount %}
+{% else %}
+{% assign listingsItems = collections.listings | listingsFilter: page, listingTags, content.tags, content.listingCount %} 
+{% endif %}
+
+{% capture listStyle %}
+{% if styles.listingCardStyle == "default" or styles.listingCardStyle == "member" %}
+ flex flex-wrap gap-8 justify-around
+{% else %}
+flex flex-col gap-12
+{% endif %}  
+{% endcapture %}
+{% comment %}
+  don't forget to make use of pagination.items
+
+{% endcomment %}
+{% assign listingCardStyle = 'generic/listings/' | append: styles.listingCardStyle | append: "ListingCard" %}
+<div class="c-listingsAll componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section
+    class="basecontainer w-full"
+    {% if content.sectionId %}
+              {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}>
+    {% if env_bookshop_live and content.showNote %}
+            {% bookshop "generic/notification" heading:"Incorrect visuals" text:"It is common for the corner tag to not show up correctly when live editing, but will show up on correctly on the live site. <br><br> Sometimes 'ghost' cards will show up while live editing, but will show up correctly on the live site <br><br> Filterring will not work while editing, but will show up on the live site" %}
+        {% endif %}
+        {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+    {% assign createdListings = 0 %}
+    <ul class="mt-20 {{listStyle}} justify-center ">
+        {% for listing in listingsItems %}
+          {% if env_bookshop_live and not listing.data.title and listing.data.title or listing.data.title == "" %}
+            {% continue %}
+          {% endif %}
+          {% assign currentTime = "now" | date: "%Y-%m-%dT%H:%M:%S", 360  %}
+          {% assign listingTime = listing.data.expireDate | date: "%Y-%m-%dT%H:%M:%S", 360 %}
+{% assign showListing = false %}
+
+{%- if listing.data.canExpire == true and listingTime <= currentTime -%}
+  {% assign logger = "expired" | log %}
+  {%- if content.showExpired -%}
+    {% assign showListing = true %}
+    {% assign logger = "expired true" | log %}
+  {%- else -%}
+    {%- assign logger = "expired false" | log -%}
+    {%- continue -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- unless showListing -%}
+  {%- assign isDisqualified = false -%}
+  {%- for tag in listing.data.tags -%}
+    {%- if listings.disqualificationTags contains tag -%}
+      {% assign loogger = "disqualified contains" | log %}
+      {%- assign isDisqualified = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if isDisqualified -%}
+    {%- if content.showDisqualified -%}
+      {% assign logger = "disqualified true" | log %}
+      {% assign showListing = true %}
+    {%- else -%}
+      {% assign logger = "disqualified false" | log %}
+      {%- continue -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endunless -%}
+
+{%- unless showListing -%}
+  {%- assign isAvailable = false -%}
+  {%- for tag in listing.data.tags -%}
+    {%- if listings.availableTags contains tag -%}
+      {%- assign logger = "available contains" | log %}
+      {%- assign isAvailable = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if isAvailable -%}
+    {%- if content.showAvailable -%}
+      {% assign logger = "available true" | log %}
+      {% assign showListing = true %}
+    {%- else -%}
+      {% assign logger = "available false" | log %}
+      {%- continue -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endunless -%}
+
+{%- unless showListing -%}
+  {%- assign isGeneral = true -%}
+  {%- for tag in listing.data.tags -%}
+    {%- if listings.availableTags contains tag or listings.disqualificationTags contains tag -%}
+      {%- assign logger = "general contains false" | log %}
+      {%- assign isGeneral = false -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if isGeneral  -%}
+    {%- if content.showGeneral -%}
+      {% assign logger = "general true" | log %}
+      {% assign showListing = true %}
+    {%- endif -%}
+  {%- endif -%}
+{%- endunless -%}
+          {% capture featuredImage %}
+            {% if listing.data.listingImage and listing.data.listingImage != "" %}
+             image:
+                imagePath: {{listing.data.listingImage}}
+                imageAlt: {{listing.data.imageAltText}}
+            {% else %}
+            image:
+                imagePath: {{listings.defaultImage.imagePath}}
+                imageAlt: {{listings.defaultImage.imageAlt}}
+            {% endif %}
+          {% endcapture %}
+          {% capture card %}
+          listingTitle: {{listing.data.title | stringifyFilter}}
+          listingUrl: {{listing.url}}
+          keyInformation: {{listing.data.keyInformation | stringifyFilter}}
+          expires: {{listing.data.canExpire}}
+          listingExpiration: {{listing.data.expireDate}}
+          listingTags: {{listing.data.tags | ymlify | split: "," | json}}
+          {{featuredImage | strip | log}}
+          color_group: {{styles.card_color_group}}
+          colorFromGroup: {{styles.colorFromGroup}}
+          {% endcapture %}
+          {% assign card = card | ymlify %}
+          {% if showListing %}
+           {% assign createdListings = createdListings | plus: 1 %} 
+          {% bookshop {{listingCardStyle}} bind: card %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if content.noListingsHeading and createdListings == 0 %}
+    {% bookshop {{content.noListingsHeading._bookshop_name}} bind: content.noListingsHeading %}
+  {% endif %} 
+    
+    
+    </section>
+</div>
+
+{% comment %}
+<script type="module">
+      document.addEventListener("DOMContentLoaded", async () => {
+        const pagefind = await import("/pagefind/pagefind.js");
+    // Initialize Pagefind
+    await pagefind.init();
+
+    // Example function to filter by tags
+    async function filterListings(tag) {
+      const results = await pagefind.search("", { filters: { tag: [tag] } });
+
+      // Render results
+      renderResults(results.results);
+    }
+
+    console.log("Pagefind initialized.");
+    // Example trigger for filtering
+    document.querySelectorAll('.filter-button').forEach(button => {
+      button.addEventListener('click', () => filterListings(button.dataset.tag));
+    });
+  });
+</script>
+{% endcomment %}

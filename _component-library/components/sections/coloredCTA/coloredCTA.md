@@ -3,7 +3,7 @@ title: Colored Call to Action
 layout: layouts/page.html
 eleventyNavigation:
   key: Colored Call to Action
-  order: 6
+  order: 7
 tags: Sections
 draft: false
 _schema: default

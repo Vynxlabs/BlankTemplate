@@ -2,6 +2,7 @@
 spec:
   structures:
     - content_blocks
+    - extra_blocks
   label: "Pricing Cards"
   description: Show your pricing through cards!
   icon:
@@ -12,12 +13,11 @@ spec:
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
+    heading: bookshop:structure:headingBlocks
     cards: [bookshop:generic/pricingCard!]
-    buttons: [bookshop:generic/button]
+    buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
-
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

@@ -1,0 +1,87 @@
+{% assign availableTag = '' %}
+{% assign disqualifiedTag = '' %}
+{% assign tagToUse = '' %}
+
+{% for tag in listingTags %}
+  {% if listings.availableTags contains tag %}
+    {% assign availableTag = tag %}
+    {% assign variable = value %}
+    {% break %}
+  {% else %}
+  {% endif %}
+{% endfor %}
+
+
+{% for tag in listingTags %}
+  {% if listings.disqualificationTags contains tag %}
+    {% assign disqualifiedTag = tag %}
+    {% break %}
+  {% else %}
+  {% endif %}
+{% endfor %}
+
+{% if disqualifiedTag and disqualifiedTag != '' %}
+  {% assign tagClasses = 'bg-red-100 text-red-700 border-red-700 hover:bg-red-200' %}
+  {% assign tagToUse = disqualifiedTag %}
+{% elsif availableTag and availableTag != '' %}
+  {% assign tagClasses = 'bg-green-100 text-green-700 border-green-700 hover:bg-green-200' %}
+  {% assign tagToUse = availableTag %}
+{% else %}
+{% endif %}
+
+{% capture imageClasses %}
+    w-full object-cover object-center aspect-[3/4] {{theme.image_rounding}}
+  {% if listingUrl and listingUrl != '' %} transition-all duration-300 scale-100 hover:scale-105 {% endif %}
+{% endcapture %}
+{% capture iconClasses %}
+  stroke-{{color_group}}-highcontrast-{{colorFromGroup}}color
+{% endcapture %}
+{% if listingUrl and listingUrl != '' %} <a 
+data-umami-event="{{content.name}}-{{page.url}}-memberCard"
+href="{{ listingUrl }}">{% endif %}
+
+<li class="c-memberListingCard max-w-[350px] flex flex-col justify-center {% if listingUrl and listingUrl != '' %} cursor-pointer{% endif %}">
+  <div class="block relative">
+    
+    {% if tagToUse and tagToUse != '' %}
+
+      <div class="z-10 absolute top-5 right-5 inline-block px-2 py-0.5 text-xs font-medium border-2 rounded-full transition {{tagClasses}} ">{{ tagToUse }}</div>
+    {% endif %}
+      {% if expires  %}
+        <div class="absolute bottom-5 right-5 p-2 z-10 bg-white text-slate-800 {{theme.container_rounding}}">
+          <p >Expires at:</p>
+                <time
+          _="on load
+          set happeningDate to Date.parse('{{listingExpiration | date: "%Y-%m-%dT%H:%M:%S%z"}}')
+          log happeningDate
+          set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
+          js(happeningDate,timezone)
+          today = new Date();
+          dt = new Date(happeningDate);
+          console.log(dt);
+          if (dt < today) {
+            return 'EXPIRED'
+          }
+          return dt.toLocaleString('en-US', { timeZone: timezone }) end
+          put it into my.innerHTML
+          "
+                
+                class="" datetime="{{ listitngExpiration | date: "%Y-%m-%d" }}">{{ listingExpiration | date: "%Y-%m-%d %I:%M %P", 0 }} UTC</time>
+        </div>
+      {% endif %}
+  {% bookshop "generic/image" bind: image class: imageClasses %}</div>
+  {% if listingTitle or keyInformation %}
+    <div class="sm:px-6 px-4 -mt-[30px] {% if listingUrl and listingUrl != '' %} relative z-10{% endif %}">
+      {% if listingUrl and listingUrl != '' %}
+        <div class="absolute top-2 right-8">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "arrow-top-right-on-square" iconType: "outline" iconSize: 'micro' roundedBorder: false classOverride: iconClasses %}</div>
+      {% endif %}
+
+      <div class="p-3 bg-{{color_group}}-{{colorFromGroup}}color bg-opacity-90 text-{{color_group}}-highcontrast-{{colorFromGroup}}color {{theme.container_rounding}} shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] text-center">
+        <h3 class="text-[1.375rem] font-bold opacity-85 px-4{% if listingUrl and listingUrl != '' %} hover:underline {% endif %}">{{ listingTitle }}</h3>
+        <p class="opacity-75">{{ keyInformation }}</p>
+      </div>
+    </div>
+  {% endif %}
+
+</li>
+{% if listingUrl and listingUrl != '' %} </a>{% endif %}

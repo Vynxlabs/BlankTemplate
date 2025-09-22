@@ -13,23 +13,22 @@ blueprint:
   content:
     highlightEyebrow: false
     eyebrow: >-
-      
+
     headline: >-
       heading
     description: >-
-      
-    buttons: [bookshop:generic/button]
+
+    buttons: [bookshop:structure:buttons]
     headingHierarchy: h2
   styles:
     contentAlignment: center
     textAlignment: center
     visualInterest: none
-    visualInterestColor: '#000000'
+    visualInterestColor: "#000000"
     highContrast: false
     contrastColorGroup:
     contrastAgainst:
     textClassOverride:
-
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -141,16 +140,16 @@ _inputs:
           id: right
           icon: format_align_right
   headingHierarchy:
-      hidden: true
-      type: select
-      options:
-        values:
-          - h1
-          - h2
-          - h3
-          - h4
-          - h5
-          - h6
+    hidden: true
+    type: select
+    options:
+      values:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
   visualInterest:
     type: choice
     options:

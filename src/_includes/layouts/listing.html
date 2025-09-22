@@ -1,0 +1,15 @@
+
+{% layout "layouts/base.html" %} 
+
+{% block content %}
+<div
+data-pagefind-meta="keyInfo:{{keyInformation}}, tags:{{tags | join:','}}"
+data-pagefind-filter="tag:{{tags | join:','}}"
+></div>
+{% if content and content != "" %}
+<div class="flex justify-center">
+  <section class="w-full max-w-[720px] cs-mainContent">{{ content }}</section>
+</div>
+{% endif %}
+
+ {% endblock %}

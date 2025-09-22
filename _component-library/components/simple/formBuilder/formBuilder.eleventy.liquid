@@ -1,3 +1,10 @@
+{% capture formName %}
+ {% if formName and formName != "" %}
+  {{formName}} 
+ {% else %}
+ {{page.url}}
+ {% endif %} 
+{% endcapture %}
 <div class="w-full flex flex-col justify-center items-center">
   <form
     {% if successPage %}
@@ -6,7 +13,7 @@
     method="POST"
     data-netlify="true"
     data-netlify-recaptcha="true"
-    name="{{ formName }}"
+    name="{{ formName | strip }}"
     class="w-full max-w-[512px]">
 
   {% if sectionId %}

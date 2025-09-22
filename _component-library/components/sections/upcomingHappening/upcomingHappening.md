@@ -3,7 +3,7 @@ title: Upcoming Happening
 layout: layouts/page.html
 eleventyNavigation:
   key: Upcoming Happening
-  order: 30
+  order: 36
 tags: Sections
 draft: false
 _schema: default

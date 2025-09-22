@@ -3,7 +3,7 @@ title: Simple Hero
 layout: layouts/page.html
 eleventyNavigation:
   key: Simple Hero
-  order: 27
+  order: 34
 tags: Sections
 draft: false
 _schema: default

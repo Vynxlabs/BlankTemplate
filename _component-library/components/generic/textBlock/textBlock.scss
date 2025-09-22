@@ -1,3 +1,28 @@
 .c-textBlock {
 
+  p {
+    margin-top: 12px;
+  }
+  ol,
+  ul {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 32px;
+  }
+
+  .cs-headingLink {
+    a{
+      color: #5FB6E0;
+      
+    }
+  }
+  
+  
+
+  ul > li {
+    list-style-type: circle;
+  }
+  ol > li {
+    list-style-type: decimal;
+  }
 }

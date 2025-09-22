@@ -3,7 +3,7 @@ title: Image Gallery Masonry 5
 layout: layouts/page.html
 eleventyNavigation:
   key: Image Gallery Masonry 5
-  order: 16
+  order: 19
 tags: Sections
 draft: false
 _schema: default

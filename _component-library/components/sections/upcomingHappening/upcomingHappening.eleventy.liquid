@@ -14,17 +14,16 @@
 
 <div class=" {% if postListItems.size <= 0 %} bg-{{styles.color_group}}-backgroundcolor componentcontainer {% endif %}">
   {% if postListItems.size > 0 %}
-    <div
-      class="">
+    <div class="">
 
-  {% if contents.sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: contents.sectionId %}
-  {% endif %}
+      {% if contents.sectionId %}
+        {% bookshop "util/IdScrollEvent" sectionId: contents.sectionId %}
+      {% endif %}
       {% if env_bookshop_live and contents.showNote %}
         {% bookshop "generic/notification" heading: "No Filtering or Countdown and UTC" text: "The filtering do not work while editing, but works correctly on the live site. <br>The countdown will not tick down while editing, but will show up on the live site <br><br> The time will show up as UTC while live editing but will show up as local time on the live site" %}
       {% endif %}
       {% for entry in postListItems %}
-        {% assign temp = entry.data.cancelled | log %}
+        {% assign temp = entry.data.cancelled %}
         {% if contents.showCancelled != true and entry.data.cancelled == true %}
           {%- continue -%}
         {% endif %}
@@ -74,16 +73,16 @@
         {% if counter < 1 %}
           <div class="c-upcomingHappening cs-w-full relative flex flex-col items-center min-h-[70vh] overflow-hidden pb-16">
             <div class="absolute inset-0 -z-10 flex items-center justify-between after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
-              {% assign image = image | strip | ymlify | log %}
+              {% assign image = image | strip | ymlify %}
               {% bookshop "generic/image" bind: image.image class: "min-h-[70vh] h-full w-screen object-cover " %}
             </div>
 
             <section class="basecontainer w-full flex flex-col h-full min-h-[70vh] justify-between text-white">
               <div class="  flex justify-center flex-wrap gap-x-8">
-                {% assign summaryShort = entry.data.summary  %}
+                {% assign summaryShort = entry.data.summary %}
                 {% assign summaryCharCount = entry.data.summary | size %}
                 {% if summaryCharCount > 700 %}
-                  {% assign summaryShort = summaryShort| slice: 0, 700 |  append: '...' %}
+                  {% assign summaryShort = summaryShort | slice: 0, 700 | append: '...' %}
                 {% endif %}
                 {% capture headingHappening %}
                       content:
@@ -98,13 +97,13 @@
                 {% assign headingHappening = headingHappening | ymlify %}
                 {% assign dateUUID = "" | uuidFilter %}
                 {% if contents.showCountdown %}
-                  <div 
-                  {% if entry.data.cancelled != true %}
+                  <div
+                    {% if entry.data.cancelled != true %}
                     _="on intersection(intersecting) having threshold 0.1
                   set $started to false
                   repeat while intersecting and not :started
                   set :currentTime to Date.now()
-                  set :happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+                  set :happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%dT%H:%M:%S%z"}}')
                   set :timeDifference to :happeningDate - :currentTime
                   set :days to Math.floor(:timeDifference / (1000 * 60 * 60 * 24))
                   set :hours to Math.floor((:timeDifference mod (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
@@ -127,32 +126,31 @@
                   if intersecting !== true then break end
                   end
                   "
-                  {% endif %}
-                  >
+                    {% endif %}>
                     <div id="{{"countdown-" |  append: dateUUID}}" class="font-bold text-4xl sm:text-5xl uppercase flex flex-wrap gap-10 text-center mt-10 justify-center ">
-                    {% if entry.data.cancelled != true %}
-                      <div class="flex gap-x-10 ">
-                        <div>
-                          <p id="{{"days-" |  append: dateUUID}}" class="">-·-</p>
-                          <p class="opacity-80 font-bold text-lg">Days</p>
+                      {% if entry.data.cancelled != true %}
+                        <div class="flex gap-x-10 ">
+                          <div>
+                            <p id="{{"days-" |  append: dateUUID}}" class="">-·-</p>
+                            <p class="opacity-80 font-bold text-lg">Days</p>
+                          </div>
+                          <div>
+                            <p id="{{"hours-" |  append: dateUUID}}" class="">-·-</p>
+                            <p class="opacity-80 font-bold text-lg">Hours</p>
+                          </div>
                         </div>
-                        <div>
-                          <p id="{{"hours-" |  append: dateUUID}}" class="">-·-</p>
-                          <p class="opacity-80 font-bold text-lg">Hours</p>
+                        <div class="flex gap-x-10">
+                          <div>
+                            <p id="{{"minutes-" |  append: dateUUID}}" class="">-·-</p>
+                            <p class="opacity-80 font-bold text-lg">Minutes</p>
+                          </div>
+                          <div>
+                            <p id="{{"seconds-" |  append: dateUUID}}" class="">-·-</p>
+                            <p class="opacity-80 font-bold text-lg">seconds</p>
+                          </div>
                         </div>
-                      </div>
-                      <div class="flex gap-x-10">
-                        <div>
-                          <p id="{{"minutes-" |  append: dateUUID}}" class="">-·-</p>
-                          <p class="opacity-80 font-bold text-lg">Minutes</p>
-                        </div>
-                        <div>
-                          <p id="{{"seconds-" |  append: dateUUID}}" class="">-·-</p>
-                          <p class="opacity-80 font-bold text-lg">seconds</p>
-                        </div>
-                      </div>
-                    {% endif %}  
-                    
+                      {% endif %}
+
                     </div>
                   </div>
 
@@ -163,9 +161,9 @@
                 <div>
                   <p class="uppercase font-bold text-2xl sm:text-4xl opacity-70">When:</p>
                   <p
-                  {% if entry.data.cancelled != true %}
+                    {% if entry.data.cancelled != true %}
                     _="on load
-                  set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P",0}} +0000')
+                  set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%dT%H:%M:%S%z"}}')
                   log happeningDate
                   set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
                   js(happeningDate,timezone)  
@@ -174,12 +172,14 @@
                   return dt.toLocaleString('en-US', { timeZone: timezone }) end
                   put it into my.innerHTML
                   "
-                  {% endif %}
-                   class="text-3xl sm:text-5xl font-bold opacity-90"> {% if entry.data.cancelled %}
-                    CANCELLED
+                    {% endif %}
+                    class="text-3xl sm:text-5xl font-bold opacity-90">
+                    {% if entry.data.cancelled %}
+                      CANCELLED
                     {% else %}
-                    {{ entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P", 0 }} UTC
-                  {% endif %}</p>
+                      {{ entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P", 0 }} UTC
+                    {% endif %}
+                  </p>
                   <ul class="  flex flex-wrap gap-x-4 overflow-hidden ">
                     {% for tag in entry.data.tags %}
                       {% if tag != 'undefined' %}
@@ -190,9 +190,10 @@
                     {% endfor %}
                   </ul>
                 </div>
-                <a 
-                data-umami-event="{{entry.data.title}}-upcomingHappening-{{page.url}}-link"
-                class="text-3xl sm:text-5xl font-bold opacity-80 underline transition-all hover:scale-105" href="{{entry.url}}">Learn more</a>
+                <a
+                  data-umami-event="{{entry.data.title}}-upcomingHappening-{{page.url}}-link"
+                  class="text-3xl sm:text-5xl font-bold opacity-80 underline transition-all hover:scale-105"
+                  href="{{entry.url}}">Learn more</a>
               </div>
             </section>
           </div>

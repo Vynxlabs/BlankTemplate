@@ -24,7 +24,10 @@
                     
                 {% endif %}
               <p>{{service.data.title}}</p>
-              {% bookshop "generic/image" bind: image class: "w-full rounded object-cover aspect-[3/2]" %}
+              {% capture imageClasses %}
+                w-full {{theme.image_rounding}} object-cover aspect-[3/2]
+              {% endcapture %}
+              {% bookshop "generic/image" bind: image class: imageClasses %}
               {% endif %}
           {% endfor %}
         {% endfor %}

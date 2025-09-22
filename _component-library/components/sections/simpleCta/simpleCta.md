@@ -3,7 +3,7 @@ title: Simple Call To Action
 layout: layouts/page.html
 eleventyNavigation:
   key: Simple Call To Action
-  order: 25
+  order: 32
 tags: Sections
 draft: false
 _schema: default

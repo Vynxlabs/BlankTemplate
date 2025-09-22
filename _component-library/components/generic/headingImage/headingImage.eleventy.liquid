@@ -1,0 +1,84 @@
+{% capture contentAlignment %}
+{% if styles.contentAlignment == 'left' %} items-start {% elsif styles.contentAlignment == 'center' %} items-center {% else %} items-end {% endif %}
+{% endcapture %}
+{% capture textAlignment %}
+{% if styles.textAlignment == 'left' %} text-left {% elsif styles.textAlignment == 'center' %} text-center {% else %} text-right {% endif %}
+{% endcapture %}
+{% capture buttonAlignment %}
+{% if styles.textAlignment == 'left' %}  {% elsif styles.textAlignment == 'center' %} justify-center {% else %} justify-end {% endif %}
+{% endcapture %}
+{% if content.headingHierarchy == "h1" %}
+  {% assign margin = "md:mb-24 mb-12" %}
+  {% assign headingSize = "md:text-6xl text-5xl" %}
+{% elsif content.headingHierarchy == "h2" %}
+  {% assign headingSize = "md:text-5xl text-4xl" %}
+{% elsif content.headingHierarchy == "h3" %}
+  {% assign headingSize = "text-3xl" %}
+{% elsif content.headingHierarchy == "h4" %}
+  {% assign headingSize = "text-2xl" %}
+{% elsif content.headingHierarchy == "h5" %}
+  {% assign headingSize = "text-xl" %}
+{% endif %}
+
+{% capture headingClasses %}
+  {% if styles.visualInterest == 'dash' %}
+    cs-visualInterest-dash
+  {% elsif styles.visualInterest == 'underline' %}
+    cs-visualInterest-underline
+  {% elsif styles.visualInterest == 'sideLine' %}
+    cs-visualInterest-sideLine
+  {% endif %}
+{% endcapture %}
+{% capture textClass %}
+{% if styles.highContrast %} text-{{styles.contrastColorGroup}}-highcontrast-{{styles.contrastAgainst}}color {% else %} text-{{color_group}}-textcolor {% endif %}
+{% if styles.textClassOverride %} {{styles.textClassOverride}} {% endif %}
+{% endcapture %}
+{% capture imageClasses %}
+object-cover object-center w-full {{theme.image_rounding}} aspect-[3/2]
+{% endcapture %}
+{% capture containerClasses %}
+        
+        flex gap-x-10 gap-y-4  lg:gap-20 items-center 
+        {% if styles.imageRight %}flex-wrap-reverse {% else %}flex-wrap{% endif %}
+{% endcapture %}
+{% capture textDivClasses %}
+    {% if styles.imageRight %}order-0 {% else %}order-1 {% endif %} flex-1 grow-[1.5] flex justify-center items-center min-w-[300px]
+{% endcapture %}
+
+{% capture imageDivClasses %}
+        flex-1 grow-[1] w-full min-w-[275px]
+    {% endcapture %}
+
+
+<div class="{{containerClasses}} {{margin}}">
+  <div class="{{textDivClasses}}">
+    <header class="c-headingImage w-full flex flex-col justify-center {{contentAlignment}} {{textClass}} ">
+      <div class="{{textAlignment}} max-w-[700px]">
+        {% if content.eyebrow %}
+          <div class=" {% if content.highlightEyebrow %} text-{{color_group}}-accentcolor {% endif %} ">{% bookshop "generic/textBlock" text: content.eyebrow %}</div>
+        {% endif %}
+        <{{content.headingHierarchy | default: "h2" }} class="cs-visualInterest {{headingClasses}} font-bold mt-1 {{headingSize}}" style="--c-visualColor: {{styles.visualInterestColor}}">
+          {% bookshop "generic/textBlock" text: content.headline %}
+          </{{content.headingHierarchy | default: "h2" }}>
+          <div class="mt-4 cs-headingLink">
+            {% if content.description %}
+              {% bookshop "generic/textBlock" text: content.description %}{% endif %}
+          </div>
+          {% if content.buttons %}
+            <div class="mt-3 flex w-full gap-8 flex-wrap {{buttonAlignment}}">
+              {% for button in content.buttons %}
+                {% bookshop "{{button._bookshop_name}}" bind: button %}
+              {% endfor %}
+
+            </div>
+          {% endif %}
+        </div>
+        {% if styles.highContrast %}
+          {% assign temp = styles  %}
+        {% endif %}
+
+      </header>
+    </div>
+
+    <div class="{{imageDivClasses}}">{% bookshop "generic/image" bind: content.image class: imageClasses %}</div>
+  </div>
