@@ -1,10 +1,11 @@
 defaultImage:
-  imagePath: "/assets/uploads/listing.jpeg"
-  imageAlt: "Listing placeholder image"
+  imagePath: /assets/uploads/listing.jpeg
+  imageAlt: Listing placeholder image
 tags:
   - People
   - Case Studies
 _inputs:
   tags:
     comment: >-
-      These tags can be applied to a standard page. Tagging a page will make it part of that collection.
+      These tags can be applied to a standard page. Tagging a page will make it
+      part of that collection.
