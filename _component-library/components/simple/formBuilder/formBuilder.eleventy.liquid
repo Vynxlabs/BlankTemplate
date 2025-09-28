@@ -13,32 +13,56 @@
     method="POST"
     data-netlify="true"
     data-netlify-recaptcha="true"
+    netlify-honeypot="_gotcha"
     name="{{ formName | strip }}"
     class="w-full max-w-[512px]">
 
-  {% if sectionId %}
-    {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
-  {% endif %}
+    {% if sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
+    {% endif %}
     {% for element in form_elements %}
       <div class="mt-4">{% bookshop "{{element._bookshop_name}}" bind: element %}</div>
     {% endfor %}
+    {% comment %} Honeypot {% endcomment %}
+    <p style="display: none">
+      <label>Maiden Name:<input name="_gotcha"></label>
+    </p>
+    {% if subject and subject != "" %}
+      {% if site.config.host == "cloudcannon" %}
+        <input
+          type="hidden"
+          name="inbox_key"
+          value="{{inboxKey}}">
+        <input
+          type="hidden"
+          name="_subject"
+          value="{{subject}}" />
+      {% elsif site.config.host == "netlify" %}
+        <input
+          type="hidden"
+          name="subject"
+          value="{{subject}}" />
+      {% endif %}
+    {% endif %}
     <div class="mt-4" data-netlify-recaptcha="true"></div>
     <div class="mt-5 flex justify-end">{% bookshop "generic/button" bind: submitButton %}</div>
     <div class="flex justify-center">
       <ul class="underline text-sm flex flex-wrap overflow-hidden gap-x-4 gap-y-1 ">
         {% if site.termsAndConditionsUrl and site.termsAndConditionsUrl != "" %}
-        <li class="hover:underline after:absolute after:content-['|'] after:scale-150 relative before:content-[' '] after:left-[-11px] after:text-lg">
-          <a
-            data-umami-event="TermsAndConditions-footer"
-            href="{{ site.termsAndConditionsUrl }}" target="_blank">Terms & Conditions</a>
-        </li>
+          <li class="hover:underline after:absolute after:content-['|'] after:scale-150 relative before:content-[' '] after:left-[-11px] after:text-lg">
+            <a
+              data-umami-event="TermsAndConditions-footer"
+              href="{{ site.termsAndConditionsUrl }}"
+              target="_blank">Terms & Conditions</a>
+          </li>
         {% endif %}
         {% if site.privacyPolicyUrl and site.privacyPolicyUrl != "" %}
-        <li class="hover:underline after:absolute after:content-['|'] after:scale-150 relative before:content-[' '] after:left-[-11px] after:text-lg">
-          <a
-            data-umami-event="PrivacyPolicy-footer"
-            href="{{ site.privacyPolicyUrl }}" target="_blank">Privacy Policy</a>
-        </li>
+          <li class="hover:underline after:absolute after:content-['|'] after:scale-150 relative before:content-[' '] after:left-[-11px] after:text-lg">
+            <a
+              data-umami-event="PrivacyPolicy-footer"
+              href="{{ site.privacyPolicyUrl }}"
+              target="_blank">Privacy Policy</a>
+          </li>
         {% endif %}
       </ul>
     </div>

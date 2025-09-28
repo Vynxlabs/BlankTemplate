@@ -1,33 +1,31 @@
 # Metadata about this component, to be used in the CMS
 spec:
   structures:
-    - hero_blocks
-  label: "Banner Image Hero"
-  description: A simple hero section with image as banner
-  icon: feed
+    - content_blocks
+  label: "Menu"
+  description: A menu with categories
+  icon: menu_book_2
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
   content:
     sectionId:
-    heading: bookshop:generic/heading!
-    backgroundImage: bookshop:generic/image
+    heading: bookshop:structure:headingBlocks
+    menuGroups:
+      - category:
+        group:
+        - label:
+          price:
+          description:
+          image: bookshop:generic/image
   styles:
     color_group: primary
-    backgroundOpacity: 50
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
-  backgroundOpacity:
-    type: range
-    options:
-      min: 0
-      max: 100
-      step: 5
-      default: 50
-    comment: Set the opacity percentage of the background
+  group:
+    label: "Menu Item"

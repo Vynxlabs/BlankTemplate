@@ -1,20 +1,27 @@
-
+{% assign label = label | strip %}
+{% if label == "Email" %}
+  {% assign label = label | downcase %}
+{% endif %}
 <div class="">
   <label class="block text-xs uppercase font-bold text-{{color_group}}-textcolor" for="{{ id }}">{{ label }}{% if required %}
       *{% endif %}
-      <input
-    class="block text-base appearance-none {{theme.container_rounding}} font-normal w-full border border-{{color_group}}-textcolor py-1 px-2 bg-{{color_group}}-backgroundcolor hover:border-{{color_group}}-accentcolor"
-    type="email"
-    id="{{ id }}"
-    name="email"
-    placeholder="{{ placeholder }}"
-    {% if required %}
-    required{% endif %}
-    {% if helperText %}
-    aria-describedby="{{ id }}--helper"
-    {% endif %}>
+    <input
+      class="block text-base appearance-none {{theme.container_rounding}} font-normal w-full border border-{{color_group}}-textcolor py-1 px-2 bg-{{color_group}}-backgroundcolor hover:border-{{color_group}}-accentcolor"
+      type="email"
+      id="{{ id }}"
+      {% if site.config.host == "cloudcannon" and label == "email" %}
+      name="_replyto"
+      {% else %}
+      name="{{ label }}"
+      {% endif %}
+      placeholder="{{ placeholder }}"
+      {% if required %}
+      required{% endif %}
+      {% if helperText %}
+      aria-describedby="{{ id }}--helper"
+      {% endif %}>
   </label>
-  
+
 
   {% if helperText and helperText != '' %}
     <div class="mt-2">{% bookshop "generic/form/helperText" id: id helperText: helperText %}</div>

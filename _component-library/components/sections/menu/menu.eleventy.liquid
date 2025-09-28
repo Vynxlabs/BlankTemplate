@@ -1,0 +1,94 @@
+{% comment %}
+  The menu data is now sourced directly from the component's `content` object,
+  which is populated by the blueprint in menu.bookshop.yml.
+  The old nunjucks helper lines have been removed.
+{% endcomment %}
+
+{% assign color_group = styles.color_group %}
+{% assign menuId = "menu" | uuidFilter | replace: "-", "" %}
+
+<div class="componentcontainer bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor">
+  <section
+    class="waiting{{menuId}} basecontainer w-full"
+    _="
+      on loaded
+        log $isFocused{{menuId}}
+        if $isFocused{{menuId}} is 0 add .link to first <button/> in me"
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+  >
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+
+    {% if content.menuGroups %}
+      <div class="mt-12 mb-10 flex justify-center border-b border-t border-{{styles.color_group}}-textcolor py-6">
+        <div class="relative m-[1em] max-w-3xl overflow-hidden">
+          <ul id="categories" class="ml-[-20px] flex flex-wrap justify-between">
+            {% for menuGroup in content.menuGroups %}
+              {% assign category_slug = menuGroup.category | slugify %}
+              <li class="cs-menu-category relative mx-0 my-[.25em] flex-grow basis-[auto] px-6 text-center after:absolute after:opacity-60 after:content-['·—·'] after:scale-125 after:-top-0  after:-left-2  before:content-[' '] ">
+                <h3>
+                  <button
+                    id="{{category_slug}}"
+                    class="menu-categories{{menuId}} font-bold transition-colors z-20 decoration-{{color_group}}-accentcolor"
+                    _="on click or focus
+                         remove .link from .menu-categories{{menuId}}
+                         add .link to me
+                         add .hidden to .categories
+                         remove .hidden from .{{category_slug}}
+                         set $isFocused{{menuId}} to 1 log $isFocused{{menuId}}"
+                  >
+                    {{ menuGroup.category }}
+                  </button>
+                </h3>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="waiting{{menuId}}"
+        _="on loaded if $isFocused{{menuId}} is 0 remove .hidden from the next <ul/>"
+      ></div>
+
+      {% for menuGroup in content.menuGroups %}
+        {% assign category_slug = menuGroup.category | slugify %}
+        
+        <ul class="categories {{ category_slug }} {% if env_bookshop_live and menuGroup == content.menuGroups.first %}{% else %} hidden  {% endif %} flex flex-wrap justify-around lg:justify-between gap-10">
+          {% for menuItem in menuGroup.group %}
+            <li class="h-30 flex min-w-min max-w-xl flex-shrink flex-grow basis-[450px] gap-4">
+              {% if menuItem.image %}
+                <div class="min-w-[125px] sm:min-w-[150px] max-w-[150px]">
+                  {% comment %} The 'bind' assumes the image object from YAML matches what the generic/image component expects. {% endcomment %}
+                   {% capture imageClasses %}
+                   {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor 
+                   {% endcapture %}
+                  {% bookshop "generic/image" bind: menuItem.image class: imageClasses %}
+                </div>
+              {% endif %}
+              <div class="flex-shrink flex-grow">
+            <div class="flex justify-between gap-2">
+              <h4 class="text-xl font-semibold">{{ menuItem.label }}</h4>
+              <div
+                class="h-2.5 flex-1 self-center border-b border-t border-{{styles.color_group}}-textcolor opacity-40"
+              ></div>
+              <p class="">{{ menuItem.price }}</p>
+            </div>
+                <p>{{ menuItem.description }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    {% endif %}
+  </section>
+</div>
+
+<script defer type="text/hyperscript">
+  on load if $isFocused{{menuId}} is not 1 set $isFocused{{menuId}} to 0 send loaded to .waiting{{menuId}} end
+</script>
+
+{% comment %} The removeDash function is no longer needed as we are using the raw category for display and a slugified version for IDs/classes. {% endcomment %}

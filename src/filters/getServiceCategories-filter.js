@@ -1,6 +1,9 @@
 const slugify = require('slugify');
 
 module.exports = (collection) => {
+    if (!collection || !collection[Symbol.iterator]) {
+      return [];
+    }
     const CATEGORIES = new Map();
     for (const item of collection) {
       if (item.data.draft) continue;

@@ -26,3 +26,5 @@ _inputs:
   id:
     instance_value: UUID
     hidden: true
+  label:
+    comment: To set the reply to email address in notifications, set this to "Email" without quotes. If not set to whatever you want.

@@ -9,8 +9,10 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  formName:
   sectionId:
+  inboxKey:
+  formName:
+  subject:
   successPage:
   form_elements: [bookshop:structure:form_blocks]
   submitButton: 
@@ -33,3 +35,9 @@ _inputs:
     label: Black Text
   formSubmit:
     hidden: true
+  subject:
+    comment: The subject for the notifcation email when someone submits the form
+  formName:
+    comment: (Netlify only) The name of the form
+  inboxKey:
+    comment: (CloudCannon only) The key that you configured for your cloudcannon inbox. If not set it will go to the default inbox you set up. Instructions for setting up an inbox key can be found 

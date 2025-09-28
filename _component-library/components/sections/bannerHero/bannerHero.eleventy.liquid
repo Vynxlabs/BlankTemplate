@@ -1,7 +1,6 @@
 {% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
 {% endcapture %}
 {% assign color_group = styles.color_group %}
-
 {% capture heading %}
     content:
         highlightEyebrow: {{content.heading.content.highlightEyebrow}}
@@ -16,6 +15,7 @@
         textAlignment: {{content.heading.styles.textAlignment}}
         visualInterest: {{content.heading.styles.visualInterest}}
         visualInterestColor: "{{content.heading.styles.visualInterestColor}}"
+        textClassOverride: "text-white"
 {% endcapture %}
 {% assign heading = heading | ymlify %}
 
@@ -27,7 +27,7 @@
   <div class="absolute inset-0 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
     {% bookshop "generic/image" bind: content.backgroundImage class: "h-full w-screen object-cover " %}
   </div>
-  <section class="basecontainer w-full z-10 flex flex-col min-h-[30vh] justify-center ">
+  <section class=" basecontainer w-full z-10 flex flex-col min-h-[30vh] justify-center ">
     {% bookshop "generic/heading" bind: heading %}
   </section>
 </div>

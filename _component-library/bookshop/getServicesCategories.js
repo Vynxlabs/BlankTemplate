@@ -2,6 +2,9 @@ import slugify from 'slugify';
 
 module.exports = function (Liquid) {
     this.registerFilter('categoriesFilter', (collection) => {
+        if (!collection || !collection[Symbol.iterator]) {
+            return [];
+        }
         const CATEGORIES = new Map();
         for (const item of collection) {
             if (item.data.draft) continue;

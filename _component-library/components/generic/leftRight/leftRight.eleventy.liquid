@@ -1,8 +1,8 @@
-{% assign color_group = styles.color_group %}
 
 
 {% assign evenOdd = content.entryNumber | modulo: 2 %}
-
+{% if fullWidth %}
+{% assign color_group = styles.color_group %}
 {% capture entryHeading %}
     content:
         highlightEyebrow: {{content.heading.content.highlightEyebrow}}
@@ -17,7 +17,27 @@
         textAlignment: {{content.heading.styles.textAlignment}}
         visualInterest: {{content.heading.styles.visualInterest}}
         visualInterestColor: "{{content.heading.styles.visualInterestColor}}"
-  {% endcapture %}
+        highContrast: true
+        contrastColorGroup: "{{styles.color_group}}"
+        contrastAgainst: "{{styles.colorFromGroup}}"
+{% endcapture %}
+{% else %}
+{% capture entryHeading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow | stringifyFilter}}
+        headline: {{content.heading.content.headline | stringifyFilter}}
+        description: {{content.heading.content.description | stringifyFilter}}
+        headingHierarchy: "h3"
+        buttons:
+          {{content.heading.content.buttons | json}}
+    styles:
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: "{{content.heading.styles.visualInterestColor}}"
+{% endcapture %}
+{% endif %}
   {% assign entryHeading = entryHeading | ymlify %}
   {% if fullWidth %}
     {% capture containerClasses %}
@@ -25,7 +45,7 @@
         {% if evenOdd == 0 %}md:flex-wrap flex-wrap-reverse{% else %}flex-wrap-reverse{% endif %} 
     {% endcapture %}
     {% capture textClasses %}
-        {% if evenOdd == 0 %} order-1 lg:cs-w-full-r  {% else %} lg:cs-w-full-l {% endif %} p-4 lg:p-8 md:cs-w-full  flex justify-center items-center min-w-[300px] bg-{{styles.color_group}}-backgroundcolor  bg-opacity-60 text-{{styles.color_group}}-highcontrast-backgroundcolor lg:bg-opacity-100
+        {% if evenOdd == 0 %} order-1 lg:cs-w-full-r  {% else %} lg:cs-w-full-l {% endif %} w-full p-4 lg:p-8 md:cs-w-full  flex justify-center items-center min-w-[300px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color  bg-opacity-60  lg:bg-opacity-100
     {% endcapture %}
     {% capture imageDivClasses %}
         {% if evenOdd == 0 %} order-1 lg:cs-w-full-l  {% else %} lg:cs-w-full-r {% endif %} -z-10 md:cs-w-full   flex items-end justify-center 

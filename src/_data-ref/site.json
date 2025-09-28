@@ -55,6 +55,9 @@
   "nav_color_group": "primary",
   "color_group": "primary",
   "footer_color_group": "5c9075f8-80f9-4482-b041-91cffdfe02be",
+  "config": {
+    "host": "netlify"
+  },
   "_inputs": {
     "footerUseNav":{
       "label": "Use Top Navigation in Footer",
@@ -71,6 +74,21 @@
       "type":"array",
       "options": {
         "structures": "_structures.links"
+      }
+    },
+    "host": {
+      "type": "select",
+      "options": {
+        "values": [
+          {
+            "id": "netlify",
+            "name": "Netlify"
+          },
+          {
+            "id": "cloudcannon",
+            "name": "Cloudcannon"
+          }
+        ]
       }
     },
     "privacyPolicyUrl": {
