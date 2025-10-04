@@ -60,7 +60,7 @@
                    {% capture imageClasses %}
                    {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor 
                    {% endcapture %}
-                  {% bookshop "generic/image" bind: menuItem.image class: imageClasses %}
+                  {% bookshop "generic/image" bind: menuItem.image class: imageClasses imageWidths: 200 %}
                 </div>
               {% endif %}
               <div class="flex-shrink flex-grow">
