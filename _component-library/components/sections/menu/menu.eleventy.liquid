@@ -1,6 +1,8 @@
 
 {% assign color_group = styles.color_group %}
 {% assign menuId = "menu" | uuidFilter | replace: "-", "" %}
+{% assign widths = "200," %}
+{% assign widths = widths |  split: "," %}
 
 <div class="componentcontainer bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor">
   <section
@@ -60,7 +62,7 @@
                    {% capture imageClasses %}
                    {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor 
                    {% endcapture %}
-                  {% bookshop "generic/image" bind: menuItem.image class: imageClasses imageWidths: 200 %}
+                  {% bookshop "generic/image" bind: menuItem.image class: imageClasses imageWidths: widths %}
                 </div>
               {% endif %}
               <div class="flex-shrink flex-grow">
