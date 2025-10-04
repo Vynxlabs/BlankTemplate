@@ -58,9 +58,9 @@
           {% for menuItem in menuGroup.group %}
             <li class="h-30 flex min-w-min max-w-xl flex-shrink flex-grow basis-[450px] gap-4">
               {% if menuItem.image %}
-                <div class="min-w-[125px] sm:min-w-[150px] max-w-[150px] max-h-[200px]">
+                <div class="min-w-[125px] sm:min-w-[150px] max-w-[150px] ">
                    {% capture imageClasses %}
-                   {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor 
+                   {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor max-h-[200px]
                    {% endcapture %}
                   {% bookshop "generic/image" bind: menuItem.image class: imageClasses imageWidths: widths %}
                 </div>
