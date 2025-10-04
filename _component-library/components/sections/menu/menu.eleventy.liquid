@@ -1,8 +1,3 @@
-{% comment %}
-  The menu data is now sourced directly from the component's `content` object,
-  which is populated by the blueprint in menu.bookshop.yml.
-  The old nunjucks helper lines have been removed.
-{% endcomment %}
 
 {% assign color_group = styles.color_group %}
 {% assign menuId = "menu" | uuidFilter | replace: "-", "" %}
@@ -61,8 +56,7 @@
           {% for menuItem in menuGroup.group %}
             <li class="h-30 flex min-w-min max-w-xl flex-shrink flex-grow basis-[450px] gap-4">
               {% if menuItem.image %}
-                <div class="min-w-[125px] sm:min-w-[150px] max-w-[150px]">
-                  {% comment %} The 'bind' assumes the image object from YAML matches what the generic/image component expects. {% endcomment %}
+                <div class="min-w-[125px] sm:min-w-[150px] max-w-[150px] max-h-[200px]">
                    {% capture imageClasses %}
                    {{theme.image_rounding}} border border-{{styles.color_group}}-textcolor 
                    {% endcapture %}
@@ -91,4 +85,3 @@
   on load if $isFocused{{menuId}} is not 1 set $isFocused{{menuId}} to 0 send loaded to .waiting{{menuId}} end
 </script>
 
-{% comment %} The removeDash function is no longer needed as we are using the raw category for display and a slugified version for IDs/classes. {% endcomment %}
