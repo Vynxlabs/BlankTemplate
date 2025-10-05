@@ -1,12 +1,23 @@
 ---
-title: Listings Section
-layout: layouts/page.html
-eleventyNavigation:
-  key: Listings
-  order: 24
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Listings Section"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Listings"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 
 ## Overview

@@ -1,12 +1,23 @@
 ---
-title: Review Cards
-layout: layouts/page.html
-eleventyNavigation:
-  key: Review Cards
-  order: 28
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Review Cards"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Review Cards"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:**  
@@ -36,5 +47,3 @@ The Review Cards section is designed to showcase customer reviews in an engaging
 ## Ideas
 **Suggested Combinations:**  
 - **Call to Action:** Place below the reviews to encourage further engagement or sign-ups based on positive feedback.
-
-

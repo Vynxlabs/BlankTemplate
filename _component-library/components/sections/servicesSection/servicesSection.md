@@ -1,12 +1,23 @@
 ---
-title: Services Section
-layout: layouts/page.html
-eleventyNavigation:
-  key: Services Section
-  order: 29
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Services Section"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Services Section"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Services Section component organizes multiple service offerings into a tabbed layout, making it easy for users to view and navigate between different categories. Each service is displayed as a card with details like title, and image, allowing for a clean and user-friendly experience that is ideal for highlighting various services or product categories.

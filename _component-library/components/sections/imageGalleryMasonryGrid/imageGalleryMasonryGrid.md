@@ -1,12 +1,23 @@
 ---
-title: Image Gallery Masonry 8
-layout: layouts/page.html
-eleventyNavigation:
-  key: Image Gallery Masonry 8
-  order: 18
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Image Gallery Masonry 8"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Image Gallery Masonry 8"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Image Gallery Masonry 8 component displays images in a dynamic masonry layout, ideal for showcasing visuals in a more artistic and staggered format. This component works in sets of 8 images; any images beyond a multiple of 8 will not be displayed. It’s ideal for visual collections where the structure of a masonry layout adds aesthetic value.
@@ -35,4 +46,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a "Simple Hero" to introduce the gallery, or follow it with a Contact Form section to encourage inquiries from interested visitors.
-

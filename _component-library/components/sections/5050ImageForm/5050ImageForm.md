@@ -1,12 +1,23 @@
 ---
-title: 50/50 Image and Form
-layout: layouts/page.html
-eleventyNavigation:
-  key: 50/50 Image and Form
-  order: 1
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "50/50 Image and Form"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "50/50 Image and Form"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 The 50/50 Image and Form component is designed to split a page section into two distinct halves: one side showcases an image, while the other presents a form and headline. This layout can appear on landing pages, contact pages, or service sign-up sections, where you want to capture user information alongside a visual highlight.
@@ -24,5 +35,3 @@ Avoid using this component with images that contain text or fine details, as the
 ## FAQ, pro tips, and troubleshooting
 **Pro tip**
 Because the image grows to take up 50% of the screen at large screen sizes, images with a higher resolution are recommended. However, avoid going bigger than 1920x1080 (landscape) or 1080x1920 (portrait) as images larger than this will take up more space without increasing the displayed quality of the image of on the website.
-
-

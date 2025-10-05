@@ -1,12 +1,23 @@
 ---
-title: Image Carousel
-layout: layouts/page.html
-eleventyNavigation:
-  key: Image Carousel
-  order: 15
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Image Carousel"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Image Carousel"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 
 ## Overview
@@ -44,4 +55,3 @@ The Image Carousel is a dynamic and responsive component that displays a collect
   
 - **Why aren't my images sliding?**  
   Sliding functionality might is disabled while live editing. Ensure the carousel is viewed on a live site for full functionality.
-

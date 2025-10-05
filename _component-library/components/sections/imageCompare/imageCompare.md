@@ -1,12 +1,23 @@
 ---
-title: Image Compare
-layout: layouts/page.html
-eleventyNavigation:
-  key: Image Compare
-  order: 16
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Image Compare"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Image Compare"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Image Compare component allows users to compare two images interactively by using a sliding bar to reveal differences between the left and right images. This feature is perfect for before-and-after showcases, product comparisons, or any visual content where highlighting changes is essential.
@@ -38,4 +49,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a testimonial section to provide context and social proof for the comparison showcased.
-

@@ -1,12 +1,23 @@
 ---
-title: Large Embed
-layout: layouts/page.html
-eleventyNavigation:
-  key: Large Embed
-  order: 21
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Large Embed"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Large Embed"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Large Embed section allows for the embedding of external media or custom content, such as YouTube or Vimeo videos, or custom HTML embeds. This section is ideal for showcasing video content or other embedded media in a prominent and visually appealing way.
@@ -37,4 +48,3 @@ _schema: default
 **Suggested Combinations:** 
 - **Simple Call To Action:** Add below the video to direct viewers to related content or actions.
 - **Text Break Review:** Place before or after the embed to feature customer reviews related to the video content.
-

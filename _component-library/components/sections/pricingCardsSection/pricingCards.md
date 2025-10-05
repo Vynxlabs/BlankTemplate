@@ -1,12 +1,23 @@
 ---
-title: Pricing Cards
-layout: layouts/page.html
-eleventyNavigation:
-  key: Pricing Cards
-  order: 27
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Pricing Cards"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Pricing Cards"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Pricing Cards component displays a set of cards tailored to showcase different pricing tiers or service packages. Each card includes customizable options for the plan name, price, short description, and detailed features, making it easy for users to compare options and make decisions.
@@ -34,5 +45,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a "Call to Action" section to encourage immediate sign-ups or inquiries, or follow it with a "Testimonials" section to provide social proof for each pricing tier. Also consider adding a features section before or after the pricing cards where users can get more details about the features provided with each plan and to keep the pricing card information more concise.
-
-

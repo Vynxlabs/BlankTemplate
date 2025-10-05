@@ -1,12 +1,23 @@
 ---
-title: Menu
-layout: layouts/page.html
-eleventyNavigation:
-  key: Members
-  order: 26
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Menu"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Menu"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The **Menu** component is designed to present a collection of items, typically food, products, or services, organized by **categories**. It uses a **tabbed navigation** interface, allowing visitors to quickly switch between menu sections without leaving the page. Each menu item can include a **label**, **price**, **description**, and an optional **image**.
@@ -46,4 +57,3 @@ _schema: default
 | **Pro Tip: Grouping** | Keep the number of items within each category manageable (e.g., 5-15 items) to prevent excessively long scrolling sections. |
 | **Troubleshooting: Styling** | If colors aren't displaying correctly, ensure the `color group` value (e.g., `primary`) is correctly defined in your theme's configuration. |
 | **Accessibility** | The category tabs are implemented as `<button>` elements, making them keyboard-focusable and accessible for navigation. |
-

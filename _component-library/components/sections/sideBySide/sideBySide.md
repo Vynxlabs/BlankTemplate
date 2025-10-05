@@ -1,12 +1,23 @@
 ---
-title: Side By Side Animation
-layout: layouts/page.html
-eleventyNavigation:
-  key: Side By Side Animation
-  order: 30
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Side By Side Animation"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Side By Side Animation"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Side By Side Animation component creates an interactive section where text and images appear side by side with animated transitions as users scroll. This component is ideal for storytelling, highlighting key features, or showcasing sequential content with visual support, providing an engaging and dynamic user experience.
@@ -32,5 +43,3 @@ _schema: default
 ## FAQ, pro tips, and troubleshooting
 - **Pro Tip:** Use high-quality images and concise, impactful text to maintain a professional appearance and keep users engaged.
 - **Troubleshooting:** The animation will not work while in the editing preview. The animation will work on the live site.
-
-
