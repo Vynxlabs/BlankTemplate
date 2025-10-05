@@ -1,12 +1,23 @@
 ---
-title: Simple Form Section
-layout: layouts/page.html
-eleventyNavigation:
-  key: Simple Form Section
-  order: 33
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Simple Form Section"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Simple Form Section"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Simple Form Section component displays a straightforward form, allowing users to submit information for inquiries, sign-ups, or feedback. The section includes an optional heading and customizable form fields, making it versatile for various purposes across a website.

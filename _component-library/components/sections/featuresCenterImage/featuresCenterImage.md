@@ -1,12 +1,23 @@
 ---
-title: Features - Centered Image
-layout: layouts/page.html
-eleventyNavigation:
-  key: Features - Centered Image
-  order: 8
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Features - Centered Image"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Features - Centered Image"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Features - Centered Image component displays a series of feature highlights positioned on either side of a central image. This layout is designed to visually balance the page while drawing attention to key aspects of a product or service. It's an effective way to showcase multiple features with an engaging visual anchor in the center.

@@ -1,12 +1,23 @@
 ---
-title: Full Screen Image Hero
-layout: layouts/page.html
-eleventyNavigation:
-  key: Full Screen Image Hero
-  order: 9
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Full Screen Image Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Full Screen Image Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Full Screen Image Hero component is a visually impactful section designed to cover the entire screen with a background image, headline, subheadline, description, and action buttons. This component is typically used as the first section on a page to immediately capture attention and set the tone for the content that follows.

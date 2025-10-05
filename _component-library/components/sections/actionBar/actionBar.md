@@ -1,12 +1,23 @@
 ---
-title: Action Bar
-layout: layouts/page.html
-eleventyNavigation:
-  key: Action Bar
-  order: 2
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Action Bar"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Action Bar"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 
 ## Overview
@@ -40,4 +51,3 @@ The Action Bar is a versatile call-to-action component that remains fixed at the
 
 - **What if my modal doesn’t open when the button is clicked?**
   For normal buttons, make sure that you have set up a url for the button. For modal buttons, make sure the modal has been given a resource to open.
-

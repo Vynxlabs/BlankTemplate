@@ -1,12 +1,23 @@
 ---
-title: Upcoming Happening
-layout: layouts/page.html
-eleventyNavigation:
-  key: Upcoming Happening
-  order: 36
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Upcoming Happening"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Upcoming Happening"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Upcoming Happening component showcases an upcoming event, drawing information from the upcoming hapenings. It displays essential details, such as the event title, date, countdown timer, and a "Learn More" link, making it ideal for promoting upcoming events on your website.
@@ -36,4 +47,3 @@ If the countdown is incorrect it is likley that you did not set up the happening
 **Suggested Combinations:** 
 - **Simple Call To Action:** Add this after the event to guide users toward signing up or RSVPing.
 - **Happening Cards:** Display this above a list of other events to highlight one that is most relevant or urgent.
-

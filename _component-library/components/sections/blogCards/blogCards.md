@@ -1,12 +1,23 @@
 ---
-title: Blog Cards - All Posts
-layout: layouts/page.html
-eleventyNavigation:
-  key: Blog Cards - All Posts
-  order: 5
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Blog Cards - All Posts"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Blog Cards - All Posts"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Blog Cards - All Posts section dynamically displays blog posts in a grid layout, showcasing each post’s title, author, date, estimated read time, and tags. It features a large "Featured Post" card at the top, with the rest arranged in smaller blog cards below. This the go section to be used as on your blog page, helping visitors quickly browse all available content.

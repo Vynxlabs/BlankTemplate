@@ -1,12 +1,23 @@
 ---
-title: Banner Image Hero
-layout: layouts/page.html
-eleventyNavigation:
-  key: Banner Image Hero
-  order: 3
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Banner Image Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Banner Image Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 The Banner Image Hero component is a large, visually impactful section designed to appear at the top of a page. It displays a full-width background image with an dark overlay effect, accompanied by a prominent headline and optional buttons for calls to action. This section is commonly used for supporting pages. 

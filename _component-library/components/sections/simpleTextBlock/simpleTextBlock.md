@@ -1,12 +1,23 @@
 ---
-title: Simple Text Block
-layout: layouts/page.html
-eleventyNavigation:
-  key: Simple Text Block
-  order: 35
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Simple Text Block"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Simple Text Block"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Simple Text Block component presents a single, straightforward text section on a page. This component is ideal for conveying information in a concise, readable format, with customizable heading and text content, and optional styling for color and layout.
@@ -33,4 +44,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a "Simple Hero" for an quick straightforward introduction, or follow it with an "Image Gallery" to add visual interest after the text.
-

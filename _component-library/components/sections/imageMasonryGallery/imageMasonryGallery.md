@@ -1,12 +1,23 @@
 ---
-title: Image Gallery Masonry 5
-layout: layouts/page.html
-eleventyNavigation:
-  key: Image Gallery Masonry 5
-  order: 19
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Image Gallery Masonry 5"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Image Gallery Masonry 5"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Image Gallery Masonry 5 component displays images in a masonry layout, perfect for showcasing visuals in a creative, staggered format. This component displays images in sets of 5; any images beyond a complete set of 5 will not be displayed, making it ideal for collections that fit well in this structure.

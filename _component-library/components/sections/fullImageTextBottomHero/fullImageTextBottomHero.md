@@ -1,12 +1,23 @@
 ---
-title: Full Screen Image Text Bottom Hero
-layout: layouts/page.html
-eleventyNavigation:
-  key: Full Screen Image Text Bottom Hero
-  order: 10
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Full Screen Image Text Bottom Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Full Screen Image Text Bottom Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Full Screen Image Text Bottom Hero component displays a full-screen background image with text content positioned at the bottom. It includes an eyebrow, headline, description, and call-to-action buttons, designed to engage users with a bold visual experience while keeping the focus on key messaging at the screen’s base.

@@ -1,12 +1,23 @@
 ---
-title: Form Overlapping Image
-layout: layouts/page.html
-eleventyNavigation:
-  key: Form Overlapping Image
-  order: 4
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Form Overlapping Image"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Form Overlapping Image"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Form Overlapping Image section is a visually appealing section designed to present a form overlaid on an image. This layout is effective for capturing user information alongside a compelling visual, making it suitable for lead generation, sign-ups, and other interactions. The overlapping design adds a modern, layered effect, making it visually engaging.

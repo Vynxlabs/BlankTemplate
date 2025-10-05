@@ -1,12 +1,23 @@
 ---
-title: Colored Call to Action
-layout: layouts/page.html
-eleventyNavigation:
-  key: Colored Call to Action
-  order: 7
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Colored Call to Action"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Colored Call to Action"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Colored Call to Action component is designed to grab attention with a bold, colored background, encouraging users to take a specific action. It typically includes a headline, description, and one or more buttons for clear calls to action. This section is often used on homepages, service pages, or any location where a strong, persuasive prompt is needed.

@@ -1,12 +1,23 @@
 ---
-title: Simple Image Gallery
-layout: layouts/page.html
-eleventyNavigation:
-  key: Simple Image Gallery
-  order: 17
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Simple Image Gallery"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Simple Image Gallery"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Simple Image Gallery component presents a grid of images in a clean, organized layout, perfect for showcasing collections, portfolios, or visual highlights. Each image is displayed in a responsive grid and can be enlarged in a modal view upon clicking, providing an interactive user experience.

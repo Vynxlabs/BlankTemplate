@@ -1,12 +1,23 @@
 ---
-title: Media Cards
-layout: layouts/page.html
-eleventyNavigation:
-  key: Media Cards
-  order: 25
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Media Cards"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Media Cards"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Media Cards component displays a grid of cards designed for showcasing images, each accompanied by a title, description, and optional buttons. This component is ideal for pages that need to present multiple media items in a structured, visually engaging format.
@@ -32,4 +43,3 @@ _schema: default
 ## FAQ, pro tips, and troubleshooting
 - **Pro Tip:** Use high-quality images that aligns with the purpose of each card to maintain a polished and engaging appearance.
 - **Troubleshooting:** If cards are not displaying uniformly, check that media dimensions and content length are consistent across all cards.
-
