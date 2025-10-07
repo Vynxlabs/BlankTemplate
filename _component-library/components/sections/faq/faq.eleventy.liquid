@@ -1,0 +1,110 @@
+{% comment %}
+  A unique ID is generated to scope the Hyperscript logic, ensuring
+  this component's interactivity doesn't clash with others on the page.
+{% endcomment %}
+{% assign faqId = "faq" | uuidFilter | replace: "-", "" %}
+{% assign color_group = styles.color_group | default: "primary" %}
+
+<div class="c-faq componentcontainer bg-{{color_group}}-backgroundcolor text-{{color_group}}-textcolor">
+  <section
+    class="waiting{{faqId}} basecontainer w-full"
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    _="
+      on loaded
+        if $isFocused{{faqId}} is 0
+          add .active to the first <button/> in .category-buttons{{faqId}}
+        end
+    "
+  >
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+
+    {% if content.categories %}
+      {% comment %} Category Filter Buttons {% endcomment %}
+      <div class="category-buttons{{faqId}} my-12 flex flex-wrap justify-center gap-4 border-y border-{{color_group}}-textcolor py-6">
+        {% for category in content.categories %}
+          {% assign category_slug = category.name | slugify %}
+          <button
+            id="{{category_slug}}"
+            class="faq-category-btn{{faqId}} rounded-lg border px-5 py-2 font-bold uppercase transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
+            _="on click or focus
+                remove .active from .faq-category-btn{{faqId}}
+                add .active to me
+
+                add .hidden to .faq-group
+                remove .hidden from .{{category_slug}}
+
+                set $isFocused{{faqId}} to 1"
+          >
+            {{ category.name }}
+          </button>
+        {% endfor %}
+      </div>
+
+      {% comment %}
+        This empty div is a helper for Hyperscript to correctly
+        target and show the first FAQ group on initial load.
+      {% endcomment %}
+      <div
+        class="waiting{{faqId}}"
+        _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <ul/>"
+      ></div>
+
+      {% comment %} FAQ Accordion Groups {% endcomment %}
+      <div class="relative">
+        {% for category in content.categories %}
+          {% assign category_slug = category.name | slugify %}
+          <ul class="faq-group {{ category_slug }} flex flex-col gap-4 {% if forloop.first == false %}hidden{% endif %}">
+            {% for item in category.faq %}
+              <li class="faq-item rounded-xl border border-{{color_group}}-textcolor/20 bg-{{color_group}}-backgroundcolor shadow-sm transition-all has-[.active]:bg-{{color_group}}-backgroundcolor/80"
+                  _="on click toggle .active on .faq-question in me">
+                <button
+                  class="faq-question w-full p-6 text-left"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-lg font-semibold">{{ item.heading }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-5 w-5 flex-shrink-0 transition-transform duration-300 group-[.active]:rotate-45">
+                        <path d="M5 12h14"/>
+                        <path d="M12 5v14"/>
+                    </svg>
+                  </div>
+                  <div class="faq-answer grid grid-rows-[0fr] transition-all duration-500 ease-in-out group-[.active]:grid-rows-[1fr]">
+                      <div class="overflow-hidden">
+                          <p class="pt-4 text-{{color_group}}-textcolor/80">{{ item.description }}</p>
+                      </div>
+                  </div>
+                </button>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+</div>
+
+{% comment %}
+  This style block defines the behavior for the 'active' state on buttons and accordions.
+  Using a style tag is often cleaner for state-driven UI changes like this.
+{% endcomment %}
+<style>
+  .faq-category-btn{{faqId}}.active {
+    color: var(--{{color_group}}-accentcolor);
+    border-color: var(--{{color_group}}-accentcolor);
+    background-color: var(--{{color_group}}-accentcolor-t);
+  }
+  .faq-question.active + .faq-answer {
+      display: block;
+  }
+</style>
+
+<script defer type="text/hyperscript">
+  on load
+    if $isFocused{{faqId}} is not 1
+      set $isFocused{{faqId}} to 0
+      send loaded to .waiting{{faqId}}
+    end
+</script>
