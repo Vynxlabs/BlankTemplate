@@ -29,7 +29,7 @@
           {% assign category_slug = category.name | slugify %}
           <button
             id="{{category_slug}}"
-            class="faq-category-btn{{faqId}} rounded-lg border px-5 py-2 font-bold uppercase transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
+            class="faq-category-btn{{faqId}} {{theme.container_rounding}} border px-5 py-2 font-bold  transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
             _="on click or focus
                 remove .active from .faq-category-btn{{faqId}}
                 remove .border-{{styles.color_group}}-accentcolor from .faq-category-btn{{faqId}}
@@ -60,9 +60,9 @@
           {% assign category_slug = category.name | slugify %}
           <ul class="faq-group {{ category_slug }} flex flex-col gap-4 {% if forloop.first == false %}hidden{% endif %}">
             {% for item in category.faq %}
-              <li class="px-6 pb-6 border border-opacity-20  bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item rounded-xl  shadow-sm transition-all"
+              <li class="px-6 pb-6 border border-opacity-20  bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}}  shadow-sm transition-all"
                   >
-                  <button class="pt-6 w-full flex items-center justify-between border-opacity-50 border-b border-{{color_group}}-textcolor"
+                  <button class="pt-6 w-full flex items-center justify-between border-opacity-50  border-{{color_group}}-textcolor"
                   {% if opened %}
                   aria-expanded="true"
                   {% else %}
