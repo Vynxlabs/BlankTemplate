@@ -24,7 +24,7 @@
 
     {% if content.categories %}
       {% comment %} Category Filter Buttons {% endcomment %}
-      <div class="category-buttons{{faqId}} my-12 flex flex-wrap justify-center gap-4 border-y border-{{color_group}}-textcolor py-6">
+      <div class="category-buttons{{faqId}} my-12 flex flex-wrap justify-center gap-4  py-6">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
           <button
@@ -57,26 +57,35 @@
       <div class="relative">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
-          <ul class="faq-group {{ category_slug }} flex flex-col gap-4 {% if forloop.first == false %}hidden{% endif %}">
+          <ul class="faq-group {{ category_slug }} flex flex-col gap-12 {% if forloop.first == false %}hidden{% endif %}">
             {% for item in category.faq %}
-              <li class="faq-item rounded-xl border border-{{color_group}}-textcolor/20 bg-{{color_group}}-backgroundcolor shadow-sm transition-all has-[.active]:bg-{{color_group}}-backgroundcolor/80"
-                  _="on click toggle .active on .faq-question in me">
-                <button
-                  class="faq-question w-full p-6 text-left"
-                >
-                  <div class="flex items-center justify-between">
-                    <span class="text-lg font-semibold">{{ item.heading }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-5 w-5 flex-shrink-0 transition-transform duration-300 group-[.active]:rotate-45">
-                        <path d="M5 12h14"/>
-                        <path d="M12 5v14"/>
-                    </svg>
+              <li class=" faq-item rounded-xl  bg-{{color_group}}-backgroundcolor shadow-sm transition-all"
+                  >
+                  <button class=" w-full flex items-center justify-between border-b border-{{color_group}}-textcolor"
+                  {% if opened %}
+                  aria-expanded="true"
+                  {% else %}
+                  aria-expanded="false"
+                  {% endif %}
+                  _="
+                        on click
+                          set content to the next <div/>
+                          set @aria-expanded to ( @aria-expanded == 'false' )
+                          set *height of content to (content's scrollHeight * ( @aria-expanded == 'true' )) + 'px'
+                          toggle .rotate-45 on <span/> in me
+                        end
+                  ">
+                    <div class="text-lg font-semibold">{{ item.heading }}</div>
+                    <span class="transition-all duration-300 ease-in-out">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-5 w-5 flex-shrink-0 transition-transform duration-300 group-[.active]:rotate-45">
+                          <path d="M5 12h14"/>
+                          <path d="M12 5v14"/>
+                      </svg>
+                    </span>
+                  </button>
+                  <div class="h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-90">
+                    {% bookshop "generic/textBlock" text: item.description %}
                   </div>
-                  <div class="faq-answer grid grid-rows-[0fr] transition-all duration-500 ease-in-out group-[.active]:grid-rows-[1fr]">
-                      <div class="overflow-hidden">
-                          <p class="pt-4 text-{{color_group}}-textcolor/80">{{ item.description }}</p>
-                      </div>
-                  </div>
-                </button>
               </li>
             {% endfor %}
           </ul>
