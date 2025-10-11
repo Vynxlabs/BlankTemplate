@@ -2,9 +2,9 @@
 spec:
   structures:
     - content_blocks
-  label: "Faq"
-  description:
-  icon:
+  label: "Accordion Content (FAQ)"
+  description: A section with information in an accordion
+  icon: unfold_more
   tags: []
 
 # Defines the structure of this component, as well as the default values
@@ -39,9 +39,11 @@ _inputs:
     comment: "single or double"
     type: select
     options:
-      - label: Single
-        id: single
-      - label: Double
-        id: double
+      value_key: id
+      values:
+        - name: Single
+          id: single
+        - name: Double
+          id: double
 
 
