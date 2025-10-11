@@ -1,7 +1,3 @@
-{% comment %}
-  A unique ID is generated to scope the Hyperscript logic, ensuring
-  this component's interactivity doesn't clash with others on the page.
-{% endcomment %}
 {% assign faqId = "faq" | uuidFilter | replace: "-", "" %}
 {% assign color_group = styles.color_group | default: "primary" %}
 
@@ -23,13 +19,15 @@
     {% endif %}
 
     {% if content.categories %}
-      {% comment %} Category Filter Buttons {% endcomment %}
-      <div class="category-buttons{{faqId}} mt-12 flex flex-wrap justify-center gap-4  py-6">
+      {% comment %}
+      {# Category Filter Buttons #}
+      {% endcomment %}
+      <div class="category-buttons{{faqId}} mt-12 flex flex-wrap justify-center gap-4 py-6">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
           <button
             id="{{category_slug}}"
-            class="faq-category-btn{{faqId}} {{theme.container_rounding}} border px-5 py-2 font-bold  transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
+            class="faq-category-btn{{faqId}} {{theme.container_rounding}} border px-5 py-2 font-bold transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
             _="on click or focus
                 remove .active from .faq-category-btn{{faqId}}
                 remove .border-{{styles.color_group}}-accentcolor from .faq-category-btn{{faqId}}
@@ -44,71 +42,59 @@
           </button>
         {% endfor %}
       </div>
+      {% comment %}
+      {# Helper for showing the first FAQ group on initial load #}
+      {% endcomment %}
+      <div class="waiting{{faqId}}" _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <div/>"></div>
 
       {% comment %}
-        This empty div is a helper for Hyperscript to correctly
-        target and show the first FAQ group on initial load.
+      {# FAQ Accordion Groups #}
       {% endcomment %}
-      <div
-        class="waiting{{faqId}}"
-        _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <ul/>"
-      ></div>
-        {% if styles.contentStyle == "single" %} flex-col{% endif %}
-          
-      {% comment %} FAQ Accordion Groups {% endcomment %}
       <div class="relative mt-12 text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
-          <ul class="faq-group {{ category_slug }} flex flex-wrap  gap-4 {% if forloop.first == false %}hidden{% endif %}">
-            {% for item in category.faq %}
-              {% if styles.openAll %}
-                {% assign opened = styles.openAll %}
-              {% else %}
-                {% assign opened = item.opened %}
-              {% endif %}
-              <li class="w-full {% if styles.contentStyle == "double" %} h-min min-w-[290px] md:min-w-[320px] lg:min-w-[450px] flex-1{% endif %}  px-6 pb-6 border border-opacity-20  bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}}  shadow-sm transition-all"
+          <div class="faq-group {{ category_slug }} {% if forloop.first == false %}hidden{% endif %}">
+            <ul class="grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %}">
+              {% for item in category.faq %}
+                {% if styles.openAll %}
+                  {% assign opened = styles.openAll %}
+                {% else %}
+                  {% assign opened = item.opened %}
+                {% endif %}
+
+                <li class="w-full h-min px-6 pb-6 border border-opacity-20 bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}} shadow-sm transition-all">
+                  <button class="pt-6 w-full flex items-center justify-between border-opacity-50 border-{{color_group}}-textcolor"
+                    {% if opened %} aria-expanded="true" {% else %} aria-expanded="false" {% endif %}
+                    _="
+                      on click
+                        set content to the next <div/>
+                        set @aria-expanded to ( @aria-expanded == 'false' )
+                        set *height of content to (content's scrollHeight * ( @aria-expanded == 'true' )) + 'px'
+                        toggle .rotate-45 on <span/> in me
+                      end
+                    "
                   >
-                  <button class="pt-6 w-full flex items-center justify-between border-opacity-50  border-{{color_group}}-textcolor"
-                  {% if opened %}
-                  aria-expanded="true"
-                  {% else %}
-                  aria-expanded="false"
-                  {% endif %}
-                  _="
-                        on click
-                          set content to the next <div/>
-                          set @aria-expanded to ( @aria-expanded == 'false' )
-                          set *height of content to (content's scrollHeight * ( @aria-expanded == 'true' )) + 'px'
-                          toggle .rotate-45 on <span/> in me
-                        end
-                  ">
                     <div class="text-lg font-semibold">{{ item.heading }}</div>
                     <span class="transition-all duration-300 ease-in-out {% if opened %} rotate-45 {% endif %}">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-5 w-5 flex-shrink-0 transition-transform duration-300 group-[.active]:rotate-45">
-                          <path d="M5 12h14"/>
-                          <path d="M12 5v14"/>
+                        <path d="M5 12h14"/>
+                        <path d="M12 5v14"/>
                       </svg>
                     </span>
                   </button>
-                  <div class="{% if opened %} {% else %} h-0 {% endif %} overflow-hidden transition-all duration-500 ease-in-out opacity-90">
+
+                  <div class="{% if opened %}{% else %} h-0 {% endif %} overflow-hidden transition-all duration-500 ease-in-out opacity-90">
                     {% bookshop "generic/textBlock" text: item.description %}
                   </div>
-              </li>
-              {% assign loopModulo = forloop.index | modulo: 2 %}
-              {% if forloop.last and loopModulo == 1 %}
-                
-              <li class="px-6 w-full  h-min min-w-[290px] md:min-w-[320px] lg:min-w-[500px] flex-1">
-
-              </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         {% endfor %}
       </div>
     {% endif %}
   </section>
 </div>
-
 
 <script defer type="text/hyperscript">
   on load
