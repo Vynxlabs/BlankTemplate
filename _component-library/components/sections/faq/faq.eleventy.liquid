@@ -59,9 +59,9 @@
           {% assign category_slug = category.name | slugify %}
           <ul class="faq-group {{ category_slug }} flex flex-col gap-12 {% if forloop.first == false %}hidden{% endif %}">
             {% for item in category.faq %}
-              <li class=" faq-item rounded-xl  bg-{{color_group}}-backgroundcolor shadow-sm transition-all"
+              <li class="px-6 pb-6 border border-{{color_group}}-textcolor faq-item rounded-xl  bg-{{color_group}}-backgroundcolor shadow-sm transition-all"
                   >
-                  <button class=" w-full flex items-center justify-between border-b border-{{color_group}}-textcolor"
+                  <button class="pt-6 w-full flex items-center justify-between border-b border-{{color_group}}-textcolor"
                   {% if opened %}
                   aria-expanded="true"
                   {% else %}
