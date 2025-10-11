@@ -15,15 +15,22 @@ blueprint:
     categories:
       - name:
         faq:
-        - heading:
+        - opened: false
+          heading:
           description: 
   styles:
     color_group: primary
     card_color_group: primary
     colorFromGroup: background
+    openAll: false
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  opened:
+    label: Open by default
+    comment: The page will load with the accordion open by default
+  categories.faq.heading:
+    comment: The title of the accordion / FAQ
