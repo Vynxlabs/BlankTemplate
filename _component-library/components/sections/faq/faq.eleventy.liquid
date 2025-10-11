@@ -1,3 +1,10 @@
+{% comment %}
+  Responsive FAQ grid + per-category Open/Close All toggle
+  - Small screens: always single column
+  - If styles.contentStyle == "double": use two columns from md and up
+  - Uses CSS Grid instead of flex/min-width hacks
+  - Adds an Open/Close All button that toggles all items in the visible category
+{% endcomment %}
 {% assign faqId = "faq" | uuidFilter | replace: "-", "" %}
 {% assign color_group = styles.color_group | default: "primary" %}
 
@@ -19,9 +26,7 @@
     {% endif %}
 
     {% if content.categories %}
-      {% comment %}
-      {# Category Filter Buttons #}
-      {% endcomment %}
+      {% comment %} Category Filter Buttons {% endcomment %}
       <div class="category-buttons{{faqId}} mt-12 flex flex-wrap justify-center gap-4 py-6">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
@@ -42,27 +47,62 @@
           </button>
         {% endfor %}
       </div>
-      {% comment %}
-      {# Helper for showing the first FAQ group on initial load #}
-      {% endcomment %}
+
+      {% comment %} Helper to show the first FAQ group on initial load {% endcomment %}
       <div class="waiting{{faqId}}" _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <div/>"></div>
 
-      {% comment %}
-      {# FAQ Accordion Groups #}
-      {% endcomment %}
+      {% comment %} FAQ Accordion Groups {% endcomment %}
       <div class="relative mt-12 text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
           <div class="faq-group {{ category_slug }} {% if forloop.first == false %}hidden{% endif %}">
-            <ul class="grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %}">
-              {% for item in category.faq %}
-                {% if styles.openAll %}
-                  {% assign opened = styles.openAll %}
-                {% else %}
-                  {% assign opened = item.opened %}
-                {% endif %}
+            {% if styles.openAll %}
+              {% assign opened = styles.openAll %}
+            {% else %}
+              {% assign opened = item.opened %}
+            {% endif %}
+            <div class="flex items-center justify-end">
+              <button 
+                class="{{theme.button_rounding}} border border-{{color_group}}-textcolor px-2 py-1 text-sm"
+                _="
+                  on click
+                    set group to closest .faq-group
+                    set toggles to <button[aria-expanded]/> in group
 
-                <li class="w-full h-min px-6 pb-6 border border-opacity-20 bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}} shadow-sm transition-all">
+                    set shouldOpen to false
+                    for t in toggles
+                      if t@aria-expanded is 'false'
+                        set shouldOpen to true
+                        break
+                      end
+                    end
+
+                    for t in toggles
+                      set content to the next <div/> from t
+                      if shouldOpen
+                        set t@aria-expanded to 'true'
+                        set *height of content to content's scrollHeight + 'px'
+                        add .rotate-45 to <span/> in t
+                      else
+                        set t@aria-expanded to 'false'
+                        set *height of content to '0px'
+                        remove .rotate-45 from <span/> in t
+                      end
+                    end
+
+                    if shouldOpen
+                      set me.innerHTML to 'Close All'
+                    else
+                      set me.innerHTML to 'Open All'
+                    end
+                "
+              >{% if opened %} Close All{% else %} Open All{% endif %}</button>
+            </div>
+
+            <ul class="mt-4 grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %}">
+              {% for item in category.faq %}
+
+                <li class="faq-item{{ category_slug }} w-full h-min px-6 pb-6 border border-opacity-20 bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}} shadow-sm transition-all">
                   <button class="pt-6 w-full flex items-center justify-between border-opacity-50 border-{{color_group}}-textcolor"
                     {% if opened %} aria-expanded="true" {% else %} aria-expanded="false" {% endif %}
                     _="
