@@ -23,6 +23,7 @@ blueprint:
     card_color_group: primary
     colorFromGroup: background
     openAll: false
+    contentStyle: single
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -34,3 +35,13 @@ _inputs:
     comment: The page will load with the accordion open by default
   categories.faq.heading:
     comment: The title of the accordion / FAQ
+  contentStyle:
+    comment: "single or double"
+    type: select
+    options:
+      - label: Single
+        id: single
+      - label: Double
+        id: double
+
+

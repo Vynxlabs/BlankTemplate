@@ -53,19 +53,20 @@
         class="waiting{{faqId}}"
         _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <ul/>"
       ></div>
-
+        {% if styles.contentStyle == "single" %} flex-col{% endif %}
+          
       {% comment %} FAQ Accordion Groups {% endcomment %}
       <div class="relative mt-12 text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
-          <ul class="faq-group {{ category_slug }} flex flex-col gap-4 {% if forloop.first == false %}hidden{% endif %}">
+          <ul class="faq-group {{ category_slug }} flex flex-wrap  gap-4 {% if forloop.first == false %}hidden{% endif %}">
             {% for item in category.faq %}
               {% if styles.openAll %}
                 {% assign opened = styles.openAll %}
               {% else %}
                 {% assign opened = item.opened %}
               {% endif %}
-              <li class="px-6 pb-6 border border-opacity-20  bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}}  shadow-sm transition-all"
+              <li class="w-full {% if styles.contentStyle == "double" %} h-min min-w-[290px] md:min-w-[320px] lg:min-w-[450px] flex-1{% endif %}  px-6 pb-6 border border-opacity-20  bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}}  shadow-sm transition-all"
                   >
                   <button class="pt-6 w-full flex items-center justify-between border-opacity-50  border-{{color_group}}-textcolor"
                   {% if opened %}
@@ -93,6 +94,13 @@
                     {% bookshop "generic/textBlock" text: item.description %}
                   </div>
               </li>
+              {% assign loopModulo = forloop.index | modulo: 2 %}
+              {% if forloop.last and loopModulo == 1 %}
+                
+              <li class="px-6 w-full  h-min min-w-[290px] md:min-w-[320px] lg:min-w-[500px] flex-1">
+
+              </li>
+              {% endif %}
             {% endfor %}
           </ul>
         {% endfor %}
