@@ -216,11 +216,11 @@ function appendTailwindUtilityClasses(colorSet,id){
   
     
     //border color
-    cssString += `.border-${id}-textcolor { border-color: ${colorSet.textColor}; }\n`;
-    cssString += `.border-${id}-backgroundcolor { border-color: ${colorSet.backgroundColor}; }\n`;
-    cssString += `.border-${id}-primarycolor { border-color: ${colorSet.primaryColor}; }\n`;
-    cssString += `.border-${id}-secondarycolor { border-color: ${colorSet.secondaryColor}; }\n`;
-    cssString += `.border-${id}-accentcolor { border-color: ${colorSet.accentColor}; }\n`;
+    cssString += `.border-${id}-textcolor { --tw-border-opacity:1; border-color: rgb(${hexToRgbCss(colorSet.textColor)} / var(--tw-border-opacity));  }\n`;
+    cssString += `.border-${id}-backgroundcolor { --tw-border-opacity:1; border-color: rgb(${hexToRgbCss(colorSet.backgroundColor)} / var(--tw-border-opacity)); }\n`;
+    cssString += `.border-${id}-primarycolor { --tw-border-opacity:1; border-color: rgb(${hexToRgbCss(colorSet.primaryColor)} / var(--tw-border-opacity)); }\n`;
+    cssString += `.border-${id}-secondarycolor { --tw-border-opacity:1; border-color: rgb(${hexToRgbCss(colorSet.secondaryColor)} / var(--tw-border-opacity)); }\n`;
+    cssString += `.border-${id}-accentcolor { --tw-border-opacity:1; border-color: rgb(${hexToRgbCss(colorSet.accentColor)} / var(--tw-border-opacity)); }\n`;
     //border color hover
     cssString += `.hover\\:border-${id}-textcolor:hover { border-color: ${colorSet.textColor}; }\n`;
     cssString += `.hover\\:border-${id}-backgroundcolor:hover { border-color: ${colorSet.backgroundColor}; }\n`;
