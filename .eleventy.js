@@ -259,7 +259,8 @@ function loadSiteTokens() {
   }
 }
 
-module.exports = (eleventyConfig) => {
+module.exports = async function (eleventyConfig) {
+  const { InputPathToUrlTransformPlugin } = await import("@11ty/eleventy");
   // Markdown
   let options = {
     html: true,
@@ -290,6 +291,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addAsyncShortcode("image", imageShortcode);
   eleventyConfig.addAsyncShortcode("logo", logoShortcode);
   eleventyConfig.addShortcode("cssBackground", imageCssBackground);
+  eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
   eleventyConfig.addPlugin(rssPlugin);
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(pluginTOC, {
