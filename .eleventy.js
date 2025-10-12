@@ -57,6 +57,9 @@ const imageShortcode = async (
     inputFilePath = src;
     isRemoteUrl = true;
   }
+  if (!widths){
+    widths = [200, 400, 850, 1280, 1600];
+  }
 
   const cacheDuration = "365d";
   const imageMetadata = await Image(inputFilePath, {
@@ -259,7 +262,8 @@ function loadSiteTokens() {
   }
 }
 
-module.exports = (eleventyConfig) => {
+module.exports = async function (eleventyConfig) {
+  const { InputPathToUrlTransformPlugin } = await import("@11ty/eleventy");
   // Markdown
   let options = {
     html: true,
@@ -290,6 +294,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addAsyncShortcode("image", imageShortcode);
   eleventyConfig.addAsyncShortcode("logo", logoShortcode);
   eleventyConfig.addShortcode("cssBackground", imageCssBackground);
+  eleventyConfig.addPlugin(InputPathToUrlTransformPlugin);
   eleventyConfig.addPlugin(rssPlugin);
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(pluginTOC, {
