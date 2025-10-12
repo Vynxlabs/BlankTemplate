@@ -57,6 +57,9 @@ const imageShortcode = async (
     inputFilePath = src;
     isRemoteUrl = true;
   }
+  if (!widths){
+    widths = [200, 400, 850, 1280, 1600];
+  }
 
   const cacheDuration = "365d";
   const imageMetadata = await Image(inputFilePath, {
