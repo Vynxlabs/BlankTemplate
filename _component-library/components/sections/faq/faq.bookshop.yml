@@ -1,0 +1,49 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+  label: "Accordion Content (FAQ)"
+  description: A section with information in an accordion
+  icon: unfold_more
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  content:
+    sectionId:
+    heading: bookshop:structure:headingBlocks
+    categories:
+      - name:
+        faq:
+        - heading:
+          description: 
+          opened: false
+  styles:
+    color_group: primary
+    card_color_group: primary
+    colorFromGroup: background
+    openAll: false
+    contentStyle: single
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  opened:
+    label: Open by default
+    comment: The page will load with the accordion open by default
+  categories.faq.heading:
+    comment: The title of the accordion / FAQ
+  contentStyle:
+    comment: "single or double"
+    type: select
+    options:
+      value_key: id
+      values:
+        - name: Single
+          id: single
+        - name: Double
+          id: double
+
+

@@ -1,0 +1,144 @@
+{% comment %}
+  Responsive FAQ grid + per-category Open/Close All toggle
+  - Small screens: always single column
+  - If styles.contentStyle == "double": use two columns from md and up
+  - Uses CSS Grid instead of flex/min-width hacks
+  - Adds an Open/Close All button that toggles all items in the visible category
+{% endcomment %}
+{% assign faqId = "faq" | uuidFilter | replace: "-", "" %}
+{% assign color_group = styles.color_group | default: "primary" %}
+
+<div class="c-faq componentcontainer bg-{{color_group}}-backgroundcolor text-{{color_group}}-textcolor">
+  <section
+    class="waiting{{faqId}} basecontainer w-full"
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    _="
+      on loaded
+        if $isFocused{{faqId}} is 0
+          add .border-{{styles.color_group}}-accentcolor to the first <button/> in .category-buttons{{faqId}}
+        end
+    "
+  >
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+
+    {% if content.categories %}
+      {% comment %} Category Filter Buttons {% endcomment %}
+      <div class="category-buttons{{faqId}} mt-12 flex flex-wrap justify-center gap-4 py-6">
+        {% for category in content.categories %}
+          {% assign category_slug = category.name | slugify %}
+          <button
+            id="{{category_slug}}"
+            class="faq-category-btn{{faqId}} {{theme.container_rounding}} border px-5 py-2 font-bold transition-all duration-300 hover:bg-{{color_group}}-accentcolor/10 hover:border-{{color_group}}-accentcolor"
+            _="on click or focus
+                remove .active from .faq-category-btn{{faqId}}
+                remove .border-{{styles.color_group}}-accentcolor from .faq-category-btn{{faqId}}
+                add .border-{{styles.color_group}}-accentcolor to me
+
+                add .hidden to .faq-group
+                remove .hidden from .{{category_slug}}
+
+                set $isFocused{{faqId}} to 1"
+          >
+            {{ category.name }}
+          </button>
+        {% endfor %}
+      </div>
+
+      {% comment %} Helper to show the first FAQ group on initial load {% endcomment %}
+      <div class="waiting{{faqId}}" _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <div/>"></div>
+
+      {% comment %} FAQ Accordion Groups {% endcomment %}
+      <div class="relative mt-12 ">
+        {% for category in content.categories %}
+          {% assign category_slug = category.name | slugify %}
+          <div class="faq-group {{ category_slug }} {% if forloop.first == false %}hidden{% endif %}">
+            <div class="flex items-center justify-end">
+              <button 
+                class="{{theme.button_rounding}} border border-{{color_group}}-textcolor px-2 py-1 text-sm"
+                _="
+                  on click
+                    set group to closest .faq-group
+                    set toggles to <button[aria-expanded]/> in group
+
+                    set shouldOpen to false
+                    for t in toggles
+                      if t@aria-expanded is 'false'
+                        set shouldOpen to true
+                        break
+                      end
+                    end
+
+                    for t in toggles
+                      set content to the next <div/> from t
+                      if shouldOpen
+                        set t@aria-expanded to 'true'
+                        set *height of content to content's scrollHeight + 'px'
+                        add .rotate-45 to <span/> in t
+                      else
+                        set t@aria-expanded to 'false'
+                        set *height of content to '0px'
+                        remove .rotate-45 from <span/> in t
+                      end
+                    end
+
+                    if shouldOpen
+                      set me.innerHTML to 'Close All'
+                    else
+                      set me.innerHTML to 'Open All'
+                    end
+                "
+              >{% if styles.openAll %} Close All{% else %} Open All{% endif %}</button>
+            </div>
+
+            <ul class="mt-4 grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %} text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
+              {% for item in category.faq %}
+                  {% if styles.openAll %}
+                    {% assign opened = styles.openAll %}
+                  {% else %}
+                    {% assign opened = item.opened %}
+                  {% endif %}
+                <li class="faq-item{{ category_slug }} w-full h-min px-6 pb-6 border border-opacity-20 bg-{{styles.card_color_group}}-{{styles.colorFromGroup}}color border-{{color_group}}-textcolor faq-item {{theme.container_rounding}} shadow-sm transition-all">
+                  <button class="pt-6 w-full flex items-center justify-between border-opacity-50 border-{{color_group}}-textcolor"
+                    {% if opened %} aria-expanded="true" {% else %} aria-expanded="false" {% endif %}
+                    _="
+                      on click
+                        set content to the next <div/>
+                        set @aria-expanded to ( @aria-expanded == 'false' )
+                        set *height of content to (content's scrollHeight * ( @aria-expanded == 'true' )) + 'px'
+                        toggle .rotate-45 on <span/> in me
+                      end
+                    "
+                  >
+                    <div class="text-lg font-semibold">{{ item.heading }}</div>
+                    <span class="transition-all duration-300 ease-in-out {% if opened %} rotate-45 {% endif %}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus h-5 w-5 flex-shrink-0 transition-transform duration-300 group-[.active]:rotate-45">
+                        <path d="M5 12h14"/>
+                        <path d="M12 5v14"/>
+                      </svg>
+                    </span>
+                  </button>
+
+                  <div class="{% if opened %}{% else %} h-0 {% endif %} overflow-hidden transition-all duration-500 ease-in-out opacity-90">
+                    {% bookshop "generic/textBlock" text: item.description %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+</div>
+
+<script defer type="text/hyperscript">
+  on load
+    if $isFocused{{faqId}} is not 1
+      set $isFocused{{faqId}} to 0
+      send loaded to .waiting{{faqId}}
+    end
+</script>
