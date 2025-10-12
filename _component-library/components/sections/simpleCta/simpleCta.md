@@ -1,12 +1,23 @@
 ---
-title: Simple Call To Action
-layout: layouts/page.html
-eleventyNavigation:
-  key: Simple Call To Action
-  order: 32
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Simple Call To Action"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Simple Call To Action"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Simple Call To Action (CTA) component presents a clear, concise message with a button or link, encouraging users to take a specific action. This component is ideal for prompting sign-ups, inquiries, downloads, or other actions that align with business goals.
@@ -34,4 +45,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Combine this component with a "Services Section" to provide context before prompting action, or use it after a "Testimonials" section to leverage social proof and encourage engagement.
-

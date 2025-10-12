@@ -1,12 +1,23 @@
 ---
-title: Members
-layout: layouts/page.html
-eleventyNavigation:
-  key: Members
-  order: 26
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Members"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Members"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Members component displays a grid of individual member profiles, each with customizable fields for a photo, name, role, and description. This layout is ideal for presenting team members, board members, or featured individuals in a clean and organized manner.
@@ -36,4 +47,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a "Simple Hero" at the top to introduce the team section, or follow it with a "Call to Action" section to encourage inquiries or connections now that they know the team they'll be working with.
-

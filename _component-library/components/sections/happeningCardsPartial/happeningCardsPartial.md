@@ -1,12 +1,23 @@
 ---
-title: Happening Cards
-layout: layouts/page.html
-eleventyNavigation:
-  key: Happening Cards
-  order: 13
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Happening Cards"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Happening Cards"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Happening Cards component displays up to 3 happenings or blog post cards, each showing a title, date, image, and tags. This component is designed to highlight a curated selection of recent or upcoming happenings, allowing users to quickly view relevant details. It's ideal for sections of a website where limited event or news previews are needed.
@@ -38,4 +49,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Combine this component with a "Full Screen Image Hero" to introduce the event or blog section, or follow it with a "Call to Action" to prompt further engagement with upcoming happenings.
-

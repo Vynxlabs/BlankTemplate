@@ -1,12 +1,23 @@
 ---
-title: Blog Cards - 3 Posts
-layout: layouts/page.html
-eleventyNavigation:
-  key: Blog Cards - 3 Posts
-  order: 6
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Blog Cards - 3 Posts"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Blog Cards - 3 Posts"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Blog Cards - 3 Posts component displays a selection of three blog posts in a visually appealing card layout. Each card includes the blog post's title, author, date, estimated reading time, and tags. This component is ideal for highlighting recent or random posts.

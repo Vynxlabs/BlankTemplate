@@ -1,12 +1,23 @@
 ---
-title: Information Cards
-layout: layouts/page.html
-eleventyNavigation:
-  key: Information Cards
-  order: 20
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Information Cards"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Information Cards"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Information Cards section displays a series of cards, each containing a title, description, optional eyebrow text, and call-to-action buttons. It’s perfect for summarizing key information, services, or features in an organized, visually appealing way, with flexible styling options for a cohesive look across the site.
@@ -33,4 +44,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** This section works well with most all pairings. 
-

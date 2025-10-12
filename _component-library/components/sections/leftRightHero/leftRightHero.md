@@ -1,12 +1,23 @@
 ---
-title: Left Right Hero
-layout: layouts/page.html
-eleventyNavigation:
-  key: Left Right Hero
-  order: 23
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Left Right Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Left Right Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:**  

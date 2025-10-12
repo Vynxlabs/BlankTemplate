@@ -17,6 +17,7 @@ blueprint:
   imageAlt:
   yAxisPosition:
   imageSizes:
+  imageWidths:
   class:
   imageNumber:
 
@@ -28,6 +29,8 @@ preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  imageWidths:
+    hidden: true
   imageSizes:
     hidden: true  
   class:

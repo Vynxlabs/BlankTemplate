@@ -1,12 +1,23 @@
 ---
-title: Text Break Review
-layout: layouts/page.html
-eleventyNavigation:
-  key: Text Break Review
-  order: 29
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Text Break Review"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Text Break Review"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Text Break Review component displays testimonials from your website's testimonial data file, providing social proof in a visually appealing format. This component highlights selected testimonials, making it easy to add customer feedback in a structured and impactful way.
@@ -33,4 +44,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair this component with a "Services Section" to showcase customer reviews alongside service offerings or follow it with a "Simple Call To Action" to encourage next steps after viewing positive feedback.
-

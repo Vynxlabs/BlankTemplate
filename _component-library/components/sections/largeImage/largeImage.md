@@ -1,12 +1,23 @@
 ---
-title: Large Image
-layout: layouts/page.html
-eleventyNavigation:
-  key: Large Image
-  order: 22
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Large Image"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Large Image"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Large Image component is designed to display a single, prominent image in a full-width layout, making it perfect for emphasizing key visuals. This section can include a heading, description, and optional call-to-action buttons, enhancing its versatility for impactful displays.
@@ -35,4 +46,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Combining this with testimonials if its a product or end result being shown off is a great choice. 
-

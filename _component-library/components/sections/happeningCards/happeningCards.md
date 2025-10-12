@@ -1,12 +1,23 @@
 ---
-title: Happening Cards Full
-layout: layouts/page.html
-eleventyNavigation:
-  key: Happening Cards Full
-  order: 12
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Happening Cards Full"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Happening Cards Full"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Happening Cards Full component displays a grid of happenings, organized in visually appealing cards. Each card includes a title, date, image, tags, and an optional summary. This component is ideal for promoting upcoming events, recent updates, or news in an engaging layout.
@@ -34,4 +45,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Combine this section with a "Simple Hero" to immediately drive attention to the happenings.
-

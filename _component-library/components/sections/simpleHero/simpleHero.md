@@ -1,12 +1,23 @@
 ---
-title: Simple Hero
-layout: layouts/page.html
-eleventyNavigation:
-  key: Simple Hero
-  order: 34
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Simple Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Simple Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Simple Hero component introduces a page with a strong visual heading, often acting as the first section users see. With customizable headings, subheadings, descriptions, and buttons, this hero section is perfect for delivering a clear and compelling message.
@@ -34,5 +45,3 @@ _schema: default
 
 ## Ideas
 **Suggested Combinations:** Pair the Simple Hero with a "Services Section" immediately below to introduce the main offerings, or add a "Testimonials" section afterward to build credibility.
-
-

@@ -1,12 +1,23 @@
 ---
-title: Image Grid Portfolio
-layout: layouts/page.html
-eleventyNavigation:
-  key: Image Grid Portfolio
-  order: 11
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Image Grid Portfolio"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Image Grid Portfolio"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Image Grid Portfolio component displays a grid of images, ideal for showcasing a portfolio, gallery, or visual content collection. Each image can include a title and description that appears on hover, creating an interactive experience for users. This layout is useful for visually-driven pages where multiple images need to be presented in a structured and engaging way.

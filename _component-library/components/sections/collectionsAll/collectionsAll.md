@@ -1,12 +1,23 @@
 ---
-title: Collections
-layout: layouts/page.html
-eleventyNavigation:
-  key: Collections
-  order: 0
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Collections"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Collections"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:**  

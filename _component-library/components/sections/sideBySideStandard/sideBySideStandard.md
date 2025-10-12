@@ -1,12 +1,23 @@
 ---
-title: Side By Side Standard
-layout: layouts/page.html
-eleventyNavigation:
-  key: Side By Side Standard
-  order: 31
-tags: Sections
-draft: false
 _schema: default
+draft: false
+title: "Side By Side Standard"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Side By Side Standard"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
 ---
 ## Overview
 **Introduction:** The Side By Side Standard component displays content and images in a side-by-side layout, with each section alternating the position of the text and image. This layout is perfect for showcasing information in a visually balanced, easy-to-read format, with customizable options to adjust the order and appearance.
@@ -32,4 +43,3 @@ _schema: default
 ## FAQ, pro tips, and troubleshooting
 - **Pro Tip:** Use concise, impactful text to complement each image for a clean, professional look.
 - **Troubleshooting:** If the layout does not alternate as expected, ensure that the start image position setting is properly configured.
-
