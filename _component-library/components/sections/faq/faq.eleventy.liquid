@@ -52,7 +52,7 @@
       <div class="waiting{{faqId}}" _="on loaded if $isFocused{{faqId}} is 0 remove .hidden from the next <div/>"></div>
 
       {% comment %} FAQ Accordion Groups {% endcomment %}
-      <div class="relative mt-12 text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
+      <div class="relative mt-12 ">
         {% for category in content.categories %}
           {% assign category_slug = category.name | slugify %}
           <div class="faq-group {{ category_slug }} {% if forloop.first == false %}hidden{% endif %}">
@@ -94,7 +94,7 @@
               >{% if styles.openAll %} Close All{% else %} Open All{% endif %}</button>
             </div>
 
-            <ul class="mt-4 grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %}">
+            <ul class="mt-4 grid grid-cols-1 gap-4{% if styles.contentStyle == 'double' %} md:grid-cols-2{% endif %} text-{{styles.card_color_group}}-highcontrast-{{styles.colorFromGroup}}color">
               {% for item in category.faq %}
                   {% if styles.openAll %}
                     {% assign opened = styles.openAll %}
