@@ -104,6 +104,7 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/page.md
+      new_preview_url: /
     schema_key: null
   blog:
     path: posts
@@ -207,6 +208,7 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/happening.md
+      new_preview_url: /
   services:
     path: services
     output: true
@@ -249,6 +251,7 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/service.md
+      new_preview_url: /
   listings:
     path: listings
     output: true
@@ -280,6 +283,7 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/listing.md
+      new_preview_url: /
 _inputs:
   helperText:
     type: markdown
