@@ -45,7 +45,7 @@
         {% if evenOdd == 0 %}md:flex-wrap flex-wrap-reverse{% else %}flex-wrap-reverse{% endif %} 
     {% endcapture %}
     {% capture textClasses %}
-        {% if evenOdd == 0 %} order-1 lg:cs-w-full-r  {% else %} lg:cs-w-full-l {% endif %} w-full p-4 lg:p-8 md:cs-w-full  flex justify-center items-center min-w-[300px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color  bg-opacity-60  lg:bg-opacity-100
+        {% if evenOdd == 0 %} order-1 lg:cs-w-full-r  {% else %} lg:cs-w-full-l {% endif %} w-full p-4 lg:p-8 md:cs-w-full  flex justify-center items-center min-w-[300px] bg-{{styles.color_group}}-{{styles.colorFromGroup}}color bg-opacity-100 md:bg-opacity-70  lg:bg-opacity-100
     {% endcapture %}
     {% capture imageDivClasses %}
         {% if evenOdd == 0 %} order-1 lg:cs-w-full-l  {% else %} lg:cs-w-full-r {% endif %} -z-10 md:cs-w-full   flex items-end justify-center 
