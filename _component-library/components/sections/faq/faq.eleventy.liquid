@@ -11,15 +11,15 @@
 <div class="c-faq componentcontainer bg-{{color_group}}-backgroundcolor text-{{color_group}}-textcolor">
   <section
     class="waiting{{faqId}} basecontainer w-full"
-    {% if content.sectionId %}
-      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-    {% endif %}
     _="
       on loaded
         if $isFocused{{faqId}} is 0
           add .border-{{styles.color_group}}-accentcolor to the first <button/> in .category-buttons{{faqId}}
         end
     "
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
   >
     {% if content.heading %}
       {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
