@@ -1,0 +1,105 @@
+{% assign color_group = styles.color_group %}
+{% assign source = source | default: "manual" %}
+{% assign cardStyle = cardStyle | default: "standard" %}
+{% assign columns = columns | default: 3 %}
+
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.highlightEyebrow}}
+        eyebrow: {{content.eyebrow | stringifyFilter}}
+        headline: {{content.headline | stringifyFilter}}
+        description: {{content.description | stringifyFilter}}
+        buttons:
+          {{content.buttons | json}}
+        headingHierarchy: "h2"
+    styles:
+        contentAlignment: {{styles.contentAlignment}}
+        textAlignment: {{styles.textAlignment}}
+        visualInterest: {{styles.visualInterest}}
+        visualInterestColor: {{styles.visualInterestColor}}
+        highContrast: {{styles.highContrast}}
+        contrastColorGroup: {{styles.contrastColorGroup}}
+        contrastAgainst: {{styles.contrastAgainst}} 
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+{% comment %} Data Fetching Logic {% endcomment %}
+{% assign items = "" %}
+{% if source == 'blog' %}
+    {% assign items = collections.blog %}
+{% elsif source == 'services' %}
+    {% assign items = collections.services %}
+{% elsif source == 'happenings' %}
+    {% assign items = collections.happenings %}
+{% else %}
+    {% assign items = content.items %}
+{% endif %}
+
+{% comment %} Grid Class Logic {% endcomment %}
+{% capture gridClasses %}
+    grid gap-8 w-full
+    {% if columns == 2 %}md:grid-cols-2
+    {% elsif columns == 3 %}md:grid-cols-2 lg:grid-cols-3
+    {% elsif columns == 4 %}md:grid-cols-2 lg:grid-cols-4
+    {% endif %}
+{% endcapture %}
+
+<section class="c-cards componentcontainer w-full py-20 bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor">
+    {% if content.sectionId %}
+        {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+
+    <div class="basecontainer w-full flex flex-col items-center">
+        {% bookshop "generic/heading" bind: heading %}
+
+        <div class="{{gridClasses}} mt-12">
+            {% for item in items %}
+                {% comment %} Normalize Item Data {% endcomment %}
+                {% if source == 'manual' %}
+                    {% assign cardData = item %}
+                {% else %}
+                    {% capture cardData %}
+                        title: {{ item.data.title | stringifyFilter }}
+                        description: {{ item.data.summary | default: item.data.description | stringifyFilter }}
+                        url: {{ item.url }}
+                        image:
+                            imagePath: {{ item.data.image | default: item.data.blogImage | default: item.data.serviceImage }}
+                            imageAlt: {{ item.data.imageAltText }}
+                        date: {{ item.date }}
+                        author: {{ item.data.author }}
+                    {% endcapture %}
+                    {% assign cardData = cardData | ymlify %}
+                {% endif %}
+
+                {% comment %} Render Card {% endcomment %}
+                <div class="flex flex-col h-full bg-{{styles.color_group}}-surfacecolor rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                    {% if cardData.image.imagePath %}
+                        <a href="{{cardData.url}}" class="block aspect-video overflow-hidden">
+                             {% bookshop "generic/image" bind: cardData.image class: "w-full h-full object-cover hover:scale-105 transition-transform duration-500" %}
+                        </a>
+                    {% endif %}
+                    
+                    <div class="p-6 flex flex-col flex-grow">
+                        {% if cardData.date %}
+                            <div class="text-sm opacity-70 mb-2">{{ cardData.date | date: "%B %d, %Y" }}</div>
+                        {% endif %}
+                        
+                        <a href="{{cardData.url}}" class="block">
+                            <h3 class="text-xl font-bold mb-3 hover:opacity-80">{{ cardData.title }}</h3>
+                        </a>
+                        
+                        {% if cardData.description %}
+                            <p class="opacity-90 mb-4 flex-grow">{{ cardData.description }}</p>
+                        {% endif %}
+                        
+                        {% if cardData.url %}
+                            <a href="{{cardData.url}}" class="inline-flex items-center font-semibold text-{{styles.color_group}}-primarycolor hover:underline mt-auto">
+                                Read More <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

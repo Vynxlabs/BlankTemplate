@@ -1,0 +1,67 @@
+{% assign color_group = styles.color_group %}
+{% assign layout = layout | default: "simple" %}
+
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.highlightEyebrow}}
+        eyebrow: {{content.eyebrow | stringifyFilter}}
+        headline: {{content.headline | stringifyFilter}}
+        description: {{content.description | stringifyFilter}}
+        buttons:
+          {{content.buttons | json}}
+        headingHierarchy: "h1"
+    styles:
+        contentAlignment: {{styles.contentAlignment}}
+        textAlignment: {{styles.textAlignment}}
+        visualInterest: {{styles.visualInterest}}
+        visualInterestColor: {{styles.visualInterestColor}}
+        highContrast: {{styles.highContrast}}
+        contrastColorGroup: {{styles.contrastColorGroup}}
+        contrastAgainst: {{styles.contrastAgainst}} 
+        textClassOverride: {% if layout == 'fullImage' %}text-white{% endif %}
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+<section class="c-hero componentcontainer w-full relative overflow-hidden
+    {% if layout == 'simple' or layout == 'split' %}
+        bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor
+    {% endif %}
+">
+    {% if content.sectionId %}
+        {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+
+    {% if layout == 'simple' %}
+        <div class="basecontainer w-full pt-20 pb-20 flex flex-col items-center justify-center">
+            {% bookshop "generic/heading" bind: heading %}
+        </div>
+
+    {% elsif layout == 'split' %}
+        {% capture direction %}
+            {% if styles.imagePosition == 'left' %}flex-row-reverse{% else %}flex-row{% endif %}
+        {% endcapture %}
+        
+        <div class="basecontainer w-full flex {{direction}} flex-wrap gap-10 py-12 items-center">
+            <div class="flex-1 min-w-[300px]">
+                {% bookshop "generic/heading" bind: heading %}
+            </div>
+            <div class="flex-1 min-w-[300px]">
+                 {% bookshop "generic/image" bind: content.image class: "w-full h-full object-cover rounded-lg" %}
+            </div>
+        </div>
+
+    {% elsif layout == 'fullImage' %}
+        {% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]{% endcapture %}
+        
+        <div class="absolute inset-0 -z-10 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black {{opacity}}">
+             {% bookshop "generic/image" bind: content.image class: "h-full w-full object-cover" %}
+        </div>
+        
+        <div class="basecontainer w-full h-screen flex flex-col justify-center items-center relative z-10 text-white">
+
+             <div class="max-w-[800px]">
+                {% bookshop "generic/heading" bind: heading %}
+             </div>
+        </div>
+    {% endif %}
+</section>
