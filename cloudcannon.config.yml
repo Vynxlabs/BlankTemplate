@@ -7,38 +7,52 @@ paths:
   layouts: _includes
   includes: _includes
 data_config:
-  fonts: true
-  authors: true
-  blogTags: true
-  reviews: true
-  blog: true
-  happenings: true
-  tokens: true
-  listingTags: true
-  listings: true
-  pageCollections: true
+  authors:
+    path: _data/authors.json
+  banner:
+    path: _data/banner.yml
+  blog:
+    path: _data/blog.json
+  blogTags:
+    path: _data/blogTags.json
+  fonts:
+    path: _data/fonts.json
+  happenings:
+    path: _data/happenings.yml
+  listings:
+    path: _data/listings.yml
+  listingTags:
+    path: _data/listingTags.json
+  pageCollections:
+    path: _data/pageCollections.yml
+  reviews:
+    path: _data/reviews.yml
+  site:
+    path: _data/site.json
+  theme:
+    path: _data/theme.yml
+  tokens:
+    path: _data/tokens.yml 
 collections_config_override: true
 collections_config:
   data:
     path: _data
-    output: false
     icon: settings
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    glob:
+      - '!helpers.js'
   pages:
     path: pages
-    output: true
-    url: dist/pages
-    filter:
-      exclude:
-        - robots.njk
-        - rss.njk
-        - sitemap.njk
-        - tags.md
-        - pages.json
-        - 404.md
-    parse_branch_index: null
+    glob:
+      - '!robots.njk'
+      - '!rss.njk'
+      - '!sitemap.njk'
+      - '!tags.md'
+      - '!pages.json'
+      - '!404.md'
     name: Pages
     description: All your pages
     icon: description
@@ -107,11 +121,8 @@ collections_config:
     schema_key: null
   blog:
     path: posts
-    output: true
-    url: dist/blog
-    filter:
-      exclude:
-        - posts.json
+    glob:
+      - '!posts.json'
     _enabled_editors:
       - content
     _inputs:
@@ -167,13 +178,10 @@ collections_config:
         path: .cloudcannon/schemas/post.md
   happenings:
     path: happenings
-    output: true
-    url: dist/happenings
     icon: event
     new_preview_url: /
-    filter:
-      exclude:
-        - happenings.json
+    glob:
+      - '!happenings.json'
     _enabled_editors:
       - content
       - visual
@@ -210,8 +218,6 @@ collections_config:
         path: .cloudcannon/schemas/happening.md
   services:
     path: services
-    output: true
-    url: dist/services
     name: Services
     description: All your services
     icon: design_services
@@ -219,9 +225,8 @@ collections_config:
     documentation: null
     preview:
       gallery: design_services
-    filter:
-      exclude:
-        - services.json
+    glob:
+      - '!services.json'
     _enabled_editors:
       - content
       - visual
@@ -253,8 +258,6 @@ collections_config:
         path: .cloudcannon/schemas/service.md
   listings:
     path: listings
-    output: true
-    url: dist/listings
     name: Listings
     description: All your listings
     icon: lists
@@ -262,9 +265,8 @@ collections_config:
     documentation: null
     preview:
       gallery: lists
-    filter:
-      exclude:
-        - listings.json
+    glob:
+      - '!listings.json'
     _enabled_editors:
       - content
       - visual
