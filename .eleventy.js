@@ -28,7 +28,10 @@ const markdownIt = require("markdown-it"),
     linkify: false,
     typographer: true,
   });
-md.disable(["code", "blockquote"]);
+md.disable(["code"]);
+
+const ultree = require('markdown-it-ultree');
+
 const markdownItAnchor = require("markdown-it-anchor");
 const pluginTOC = require("eleventy-plugin-toc");
 const pluginBookshop = require("@bookshop/eleventy-bookshop");
@@ -264,6 +267,9 @@ function loadSiteTokens() {
 
 module.exports = async function (eleventyConfig) {
   const { InputPathToUrlTransformPlugin } = await import("@11ty/eleventy");
+  const { default: pluginMermaid } = await import(
+    "@kevingimbel/eleventy-plugin-mermaid"
+  );
   // Markdown
   let options = {
     html: true,
@@ -272,7 +278,7 @@ module.exports = async function (eleventyConfig) {
   };
   eleventyConfig.setLibrary(
     "md",
-    markdownIt(options).disable(["code"]).use(markdownItAnchor),
+    markdownIt(options).disable(["code"]).use(markdownItAnchor).use(ultree),
   );
   eleventyConfig.addWatchTarget("./_component-library/**/*");
 
@@ -308,6 +314,12 @@ module.exports = async function (eleventyConfig) {
       pathPrefix: "",
     }),
   );
+    eleventyConfig.addPlugin(pluginMermaid, {
+    mermaid_config: {
+      startOnLoad: true,
+      theme: "dark",
+    },
+  });
 
   // Returns a collection of blog posts in reverse date order
   eleventyConfig.addCollection("blog", (collection) => {
