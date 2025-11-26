@@ -613,6 +613,33 @@ _snippets:
               name: Youtube
             - id: vimeo
               name: Vimeo
+  styledText:
+    template: eleventy_liquid_bookshop_component
+    inline: true
+    preview:
+      text: Styled Text
+    definitions:
+      component_name: generic/styledText
+      named_args:
+        - editor_key: text
+          type: string
+        - editor_key: style
+          type: string
+    _inputs:
+      style:
+        comment: "The style of the text"
+        type: select
+        options:
+          value_key: id
+          values:
+            - id: green label
+              name: Green Label
+            - id: red label
+              name: Red Label
+            - id: blue label
+              name: Blue Label
+            - id: kbd
+              name: Keyboard
 _select_data: {}
 _structures:
   extra_blocks:
