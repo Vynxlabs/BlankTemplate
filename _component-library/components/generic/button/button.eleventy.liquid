@@ -3,8 +3,6 @@
   <button  
   data-umami-event="{{text}}-{{page.url}}-formBtn"
   data-contrast="true"
-  data-editable="text"
-  data-prop="text"
   type="submit" class=" {% if ghostButton %} border-2 border-{{color_group}}-{{colorFromGroup}}color {% else %}bg-{{color_group}}-{{colorFromGroup}}color text-{{color_group}}-highcontrast-{{colorFromGroup}}color
   
   {% endif %}  px-3 py-2 {{theme.button_rounding}} font-bold text-sm uppercase transition-all hover:scale-105 ">
@@ -13,8 +11,6 @@
     data-umami-event="{{text}}-{{page.url}}-btn"
     data-contrast="true"
     href="{{url}}"
-    data-editable="text"
-    data-prop="text"
     class="  {% if ghostButton %} border-2 border-{{color_group}}-{{colorFromGroup}}color  {% else %}bg-{{color_group}}-{{colorFromGroup}}color text-{{color_group}}-highcontrast-{{colorFromGroup}}color
   
   {% endif %}  px-3 py-2  {{theme.button_rounding}} font-bold text-sm uppercase transition-all hover:scale-105 "
