@@ -11,7 +11,7 @@ spec:
 blueprint:
   tasks:
     - checked: false
-      markdownContent: "To do"
+      text: "To do"
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

@@ -2,8 +2,8 @@
 spec:
   structures:
     - content_blocks
-  label: "EditorialContent"
-  description:
+  label: "Editorial Content"
+  description: A rich editing experience with call outs, quotes, and more.
   icon:
   tags: []
 
@@ -14,7 +14,7 @@ blueprint:
     heading: bookshop:structure:headingBlocks
     editorials: [bookshop:structure:editorial_blocks!(generic/textBlock)]
   styles:
-    color_group: "primary"
+    color_group: primary
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
