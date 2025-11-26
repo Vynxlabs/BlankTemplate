@@ -1,0 +1,15 @@
+{% for accordion in accordions %}    
+        
+    
+<details {% if accordion.opened %}open{% endif %} >
+
+  <summary>
+    <span class="details-marker"></span>{{accordion.title}}</summary>
+  <div class="details-content">
+    {% for editorial_block in accordion.editorials %}
+        
+    {% bookshop {{editorial_block._bookshop_name}} bind: editorial_block %}
+    {% endfor %}
+  </div>
+</details>
+{% endfor %}

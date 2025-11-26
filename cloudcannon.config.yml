@@ -650,6 +650,8 @@ _structures:
   content_blocks:
     label: Content Sections
     style: modal
+  editorial_blocks:
+    style: modal
   hero_blocks:
     style: modal
   links:
