@@ -3,6 +3,7 @@ spec:
   structures:
     - content_blocks
   label: "Editorial Content"
+  tabbed: true
   description: A rich editing experience with call outs, quotes, and more.
   icon:
   tags: []
