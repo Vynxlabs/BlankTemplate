@@ -25,12 +25,12 @@ const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const markdownIt = require("markdown-it"),
   md = markdownIt({
     html: true,
-    linkify: false,
+    linkify: true,
     typographer: true,
   });
 md.disable(["code"]);
 
-const ultree = require('markdown-it-ultree');
+const ultree = require("markdown-it-ultree");
 
 const markdownItAnchor = require("markdown-it-anchor");
 const pluginTOC = require("eleventy-plugin-toc");
@@ -60,7 +60,7 @@ const imageShortcode = async (
     inputFilePath = src;
     isRemoteUrl = true;
   }
-  if (!widths){
+  if (!widths) {
     widths = [200, 400, 850, 1280, 1600];
   }
 
@@ -73,28 +73,32 @@ const imageShortcode = async (
     urlPath: "/assets/images",
     cacheOptions: {
       duration: cacheDuration,
-    }
+    },
   });
   if (!(Image.getHash(inputFilePath) in imageHashes) && !isRemoteUrl) {
-    imageHashes[Image.getHash(inputFilePath)] =
-      await Fetch(async function() {
-
-		return generateLQIP(inputFilePath);
-	}, {
-		// must supply a unique id for the callback
-		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
-    duration: cacheDuration
-	});
+    imageHashes[Image.getHash(inputFilePath)] = await Fetch(
+      async function () {
+        return generateLQIP(inputFilePath);
+      },
+      {
+        // must supply a unique id for the callback
+        requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+        duration: cacheDuration,
+      },
+    );
   } else if (!(Image.getHash(inputFilePath) in imageHashes) && isRemoteUrl) {
-    imageHashes[Image.getHash(inputFilePath)] = await Fetch(async function() {
-    let imageBuffer = await Fetch(inputFilePath, { type: "buffer" });
+    imageHashes[Image.getHash(inputFilePath)] = await Fetch(
+      async function () {
+        let imageBuffer = await Fetch(inputFilePath, { type: "buffer" });
 
-		return generateLQIP(imageBuffer);
-	}, {
-		// must supply a unique id for the callback
-		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
-    duration: cacheDuration
-	});
+        return generateLQIP(imageBuffer);
+      },
+      {
+        // must supply a unique id for the callback
+        requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+        duration: cacheDuration,
+      },
+    );
   }
 
   const imageAttributes = {
@@ -147,7 +151,6 @@ const logoShortcode = async (
     return `<img class='${cls}' src='${src}' alt='${alt}'>`;
   }
 };
-
 
 function generateImages(src, widths = [200, 400, 850, 1920, 2500]) {
   let source = src;
@@ -253,7 +256,10 @@ function loadSiteTokens() {
       if (contactFields[key]) {
         let contactKey = slugify(`contactInfo.${key}`);
         console.log(contactKey);
-        flattenedTokens[contactKey] = key=="email" || key=="phone" ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>` : contactFields[key];
+        flattenedTokens[contactKey] =
+          key == "email" || key == "phone"
+            ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>`
+            : contactFields[key];
       }
     });
 
@@ -276,10 +282,11 @@ module.exports = async function (eleventyConfig) {
     linkify: true,
     typographer: true,
   };
-  eleventyConfig.setLibrary(
-    "md",
-    markdownIt(options).disable(["code"]).use(markdownItAnchor).use(ultree),
-  );
+  const md = markdownIt(options)
+    .disable(["code"])
+    .use(markdownItAnchor)
+    .use(ultree);
+  eleventyConfig.setLibrary("md", md);
   eleventyConfig.addWatchTarget("./_component-library/**/*");
 
   eleventyConfig.addDataExtension("yaml", (contents) => yaml.load(contents));
@@ -314,7 +321,7 @@ module.exports = async function (eleventyConfig) {
       pathPrefix: "",
     }),
   );
-    eleventyConfig.addPlugin(pluginMermaid, {
+  eleventyConfig.addPlugin(pluginMermaid, {
     mermaid_config: {
       startOnLoad: true,
       theme: "dark",
@@ -406,7 +413,6 @@ module.exports = async function (eleventyConfig) {
         }
       });
   });
-
 
   eleventyConfig.addFilter("dateFilter", dateFilter);
   eleventyConfig.addFilter("w3DateFilter", w3DateFilter);
