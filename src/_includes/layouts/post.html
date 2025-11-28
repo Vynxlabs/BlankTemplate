@@ -90,7 +90,7 @@
 <div class=" mt-40">
   <h1 data-editable="text" data-prop="title" class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
   {% if env_bookshop_live  %}
-  <picture><img data-editable="image" data-propr-src="blogImage" data-prop-alt="imageAltText" class="{{blogImageClasses}}" src="{{ blogImage }}" alt="{{ imageAltText }}"></picture>
+  <picture><img data-editable="image" data-prop-src="blogImage" data-prop-alt="imageAltText" class="{{blogImageClasses}}" src="{{ blogImage }}" alt="{{ imageAltText }}"></picture>
   {% else %}
   {% bookshop "generic/image" bind: image class: imageComponentclasses  %}
   {% endif %}
