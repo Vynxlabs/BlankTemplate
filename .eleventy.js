@@ -276,6 +276,7 @@ function loadSiteTokens() {
 
 module.exports = async function (eleventyConfig) {
   const { InputPathToUrlTransformPlugin } = await import("@11ty/eleventy");
+  const { RenderPlugin } = await import("@11ty/eleventy");
   const { default: pluginMermaid } = await import(
     "@kevingimbel/eleventy-plugin-mermaid"
   );
@@ -331,6 +332,7 @@ module.exports = async function (eleventyConfig) {
       theme: "dark",
     },
   });
+  eleventyConfig.addPlugin(RenderPlugin);
 
   // Returns a collection of blog posts in reverse date order
   eleventyConfig.addCollection("blog", (collection) => {

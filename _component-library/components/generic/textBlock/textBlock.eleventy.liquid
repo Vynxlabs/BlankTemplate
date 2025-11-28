@@ -4,6 +4,6 @@
     </div>
 {% elsif text %}
 <div class="c-textBlock w-full">    
-        {{ text | evalLiquid | markdownify  }}
+        {{ text | renderContent | markdownify  }}
     </div>
 {% endif %}
