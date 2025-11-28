@@ -44,6 +44,7 @@ collections_config:
     disable_file_actions: true
     glob:
       - '!helpers.js'
+      - '!color_groups.yml'
   pages:
     path: pages
     glob:
@@ -362,9 +363,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.color_groups
   nav_color_group:
     type: select
     options:
@@ -375,9 +374,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.color_groups
   footer_color_group:
     type: select
     options:
@@ -388,9 +385,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.color_groups
   card_color_group:
     type: select
     options:
@@ -401,9 +396,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.color_groups
   form_color_group:
     type: select
     options:
@@ -414,9 +407,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.color_groups
   id:
     hidden: true
     instance_value: UUID
