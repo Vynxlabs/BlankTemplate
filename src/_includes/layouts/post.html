@@ -140,7 +140,9 @@
     {% if tocExists %}
     <div id="mobile-navbar" class="xl:hidden sticky top-0 z-10 w-full bg-body p-4 border-b border-borderColor-primary">
       <div class="flex justify-end gap-4 opacity-75">
-        {# If you want search / nav buttons here later, you can add them #}
+    {%- comment -%}
+        Search and dark mode buttons could go here 
+    {%- endcomment -%}
       </div>
 
       <div class="mt-2 relative w-full">
@@ -190,14 +192,18 @@
     {%- endcomment -%}
     <div class="mt-8 flex gap-8">
 
-      {# Main content column #}
+    {%- comment -%}
+      Main content column 
+    {%- endcomment -%}
       <div class="flex-1 min-w-0">
         <div class="flex justify-center">
           <section
             class="w-full max-w-[720px] cs-docs cs-docs--{{ site.color_group }} {{ site.color_group | docsModeFilter }}"
           >
-            {# You already rendered the H1 title above the article,
-               so we just do editorial blocks + body here #}
+            {%- comment -%}
+              You already rendered the H1 title above the article,
+                so we just do editorial blocks + body here
+            {%- endcomment -%}
 
             {{ bookshopContent }}
 
@@ -210,7 +216,9 @@
         </div>
       </div>
 
-      {# Desktop/tablet right-hand TOC #}
+      {%- comment -%}
+        Desktop/tablet right-hand TOC
+      {%- endcomment -%}
       {% if tocExists %}
       <aside class="hidden xl:block w-72 shrink-0 h-full">
         <div class="sticky top-24 flex flex-col gap-4">
