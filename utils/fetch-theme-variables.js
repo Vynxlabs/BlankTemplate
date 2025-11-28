@@ -346,7 +346,7 @@ function appendDocsTheme(colorSet, id) {
   const docsBgSurface  = lighten(bg, 0.04);
   const docsBgHover    = lighten(bg, 0.08);
   const muted          = mix(text, bg, 0.6);
-  const border         = mix(text, bg, 0.2);
+  const border         = mix(text, bg, 0.8);
   const accentHover    = lighten(primary, 0.08);
   const secondaryHover = lighten(secondary, 0.08);
   const codeBgInline   = mix(bg, '#000000', isLight(bg) ? 0.06 : 0.3);
