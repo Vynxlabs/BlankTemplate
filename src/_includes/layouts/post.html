@@ -79,13 +79,21 @@
 {% endif %}
 {% assign infoPosts = infoPosts | ymlify %}
 
+{% assign infoPosts = infoPosts | ymlify %}
 
+{% capture blogImageClasses %}
+  w-full rounded  object-cover aspect-video mt-4 {{theme.image_rounding}}
+{% endcapture %}
 
 {% block content %}
 
 <div class=" mt-40">
-  <h1 class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
-  {% bookshop "generic/image" bind: image class: "w-full rounded  object-cover aspect-video mt-4"  %}
+  <h1 data-editable="text" data-prop="title" class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
+  {% if env_bookshop_live  %}
+  <picture><img data-editable="image" data-propr-src="blogImage" data-prop-alt="imageAltText" class="{{blogImageClasses}}" src="{{ blogImage }}" alt="{{ imageAltText }}"></picture>
+  {% else %}
+  {% bookshop "generic/image" bind: image class: imageComponentclasses  %}
+  {% endif %}
   <div class="flex gap-2 mt-4">
     {% bookshop "generic/image" imagePath: blogAuthor.imagePath imageAlt: blogAuthor.name  class: "rounded object-cover aspect-square w-20 "  %}
     <div class="flex flex-col justify-between">
