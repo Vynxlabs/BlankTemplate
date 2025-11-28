@@ -34,6 +34,7 @@ const ultree = require("markdown-it-ultree");
 
 const markdownItAnchor = require("markdown-it-anchor");
 const pluginTOC = require("eleventy-plugin-toc");
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginBookshop = require("@bookshop/eleventy-bookshop");
 const yaml = require("js-yaml");
 const { execSync } = require("child_process");
@@ -313,6 +314,7 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginTOC, {
     tags: ["h1", "h2", "h3", "h4", "h5", "h6"],
   });
+  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(svgContents);
 
   eleventyConfig.addPlugin(
