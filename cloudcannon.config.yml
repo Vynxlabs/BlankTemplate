@@ -15,6 +15,8 @@ data_config:
     path: _data/blog.json
   blogTags:
     path: _data/blogTags.json
+  color_groups:
+    path: _data/color_groups.yml
   fonts:
     path: _data/fonts.json
   happenings:
