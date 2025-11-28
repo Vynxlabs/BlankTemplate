@@ -200,9 +200,9 @@
       Main content column 
     {%- endcomment -%}
       <div class="flex-1 min-w-0">
-        <div class="flex justify-center">
+        <div class="flex justify-center {{ site.color_group | docsModeFilter }}">
           <section
-            class="w-full max-w-[720px] cs-docs cs-docs--{{ site.color_group }} {{ site.color_group | docsModeFilter }}"
+            class="w-full max-w-[720px] cs-docs cs-docs--{{ site.color_group }} "
           >
             {%- comment -%}
               You already rendered the H1 title above the article,
