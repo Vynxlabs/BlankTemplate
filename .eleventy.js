@@ -498,6 +498,30 @@ module.exports = async function (eleventyConfig) {
       });
     }
     return content;
+  });  
+  
+  eleventyConfig.addTransform("wrap-tables", function(content, outputPath) {
+    // 1. Check if the file is an HTML file before processing.
+    if (outputPath && outputPath.endsWith(".html")) {
+      
+      // 2. Use a regular expression to find all HTML tables.
+      // - The /g flag ensures we find ALL tables on the page.
+      // - The /s flag (dotAll) allows '.' to match newlines, which is crucial
+      //   because tables span multiple lines.
+      const tableRegex = /<table[\s\S]*?<\/table>/gs;
+
+      // 3. Use String.prototype.replace() to wrap each match.
+      // The callback function receives the matched table string (`match`)
+      // and returns it wrapped in the <table-saw> element.
+      const transformedContent = content.replace(tableRegex, (match) => {
+        return `<table-saw>${match}</table-saw>`;
+      });
+
+      return transformedContent;
+    }
+
+    // Return the content untouched for non-HTML files.
+    return content;
   });
 
   eleventyConfig.on("eleventy.before", () => {
