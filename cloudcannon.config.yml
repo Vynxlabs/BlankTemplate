@@ -128,6 +128,7 @@ collections_config:
       - '!posts.json'
     _enabled_editors:
       - content
+      - visual
     _inputs:
       title:
         label: Page Title
