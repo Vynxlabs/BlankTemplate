@@ -158,6 +158,12 @@
     font-style: italic;
   }
 
+  .mermaid{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
 /*
   Task List Styling
   For markdown-it-task-lists plugin output.
@@ -169,6 +175,7 @@
   list-style: none;
   padding-left: 0;
   margin: 24px 0;
+  width: 100%;
 }
 
 // --- List Item ---
@@ -262,6 +269,7 @@
 */
 .tabs-tabs-wrapper {
   margin: 24px 0;
+  width: 100%;
 }
 
 .tabs-tabs-header {
@@ -326,6 +334,7 @@ details {
   border: 1px solid var(--border-primary);
   border-radius: 8px;
   overflow: hidden; // Keeps child corners rounded
+  width: 100%;
 
   // --- Nested Accordions ---
   // Style adjustments for accordions inside other accordions.
@@ -496,6 +505,7 @@ details[open] {
   margin: 24px 0;
   border-radius: 8px;
   border-left: 4px solid;
+  width: 100%;
 
   > :first-child {
     margin-top: 0;
@@ -554,6 +564,7 @@ details[open] {
   margin: 24px 0;
   font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
   font-size: 0.9rem;
+  width: 100%;
 
   // --- Reset Default List Styles ---
   ul {
