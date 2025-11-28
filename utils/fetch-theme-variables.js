@@ -3,6 +3,7 @@ const yaml = require('js-yaml')
 const path = require('path');
 
 // read theme colors and fonts from _data/theme.yml
+const generatedWith = "Generated with fetch-theme-variables.js";
 let dataFile = yaml.load(fs.readFileSync('src/_data/theme.yml','utf-8'))
     
 /* 
@@ -24,6 +25,8 @@ config['_inputs']['color_group']['options']['values'] = []
 config['_inputs']['footer_color_group']['options']['values'] = []
 config['_inputs']['card_color_group']['options']['values'] = []
 config['_inputs']['form_color_group']['options']['values'] = []
+
+const colorGroupsDataPath = "src/_data/color_groups.yml";
 
 /* 
     remove any existing color_groups.scss file and create a new one
@@ -437,11 +440,12 @@ css_string_component += `}\n`
 css_string_nav = addColorDefinitions(css_string_nav, 'primary')      
 css_string_footer = addColorDefinitions(css_string_footer, 'primary') 
 
-config['_inputs']['nav_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['footer_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['card_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['form_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
+const colorGroupsData = [
+	{
+		id: "primary",
+		name: primaryColorGroup.name,
+	},
+];
 
 /* 
     iterate through all the user defined color_groups and:
@@ -461,12 +465,7 @@ color_groups = color_groups.forEach((color_set, i) => {
     let foreground = color_set.foreground_color
     let interaction = color_set.interaction_color
     
-    let obj = { name, id }
-    config['_inputs']['nav_color_group']['options']['values'].push(obj)
-    config['_inputs']['color_group']['options']['values'].push(obj)
-    config['_inputs']['footer_color_group']['options']['values'].push(obj)
-    config['_inputs']['card_color_group']['options']['values'].push(obj)
-    config['_inputs']['form_color_group']['options']['values'].push(obj)
+    colorGroupsData.push({id, name})
     
     css_string_root += `--${id}__background : ${background};\n`
     css_string_root += `--${id}__foreground : ${foreground};\n`
@@ -495,8 +494,8 @@ css_string_footer += `}\n\n`
 //config['_inputs']['nav_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 //config['_inputs']['footer_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 
-// write the config file with the new options
-fs.writeFileSync(configFileLocation, yaml.dump(config))
+console.log(`[fetch-theme-variables] Writing ${colorGroupsDataPath}`);
+fs.writeFileSync(colorGroupsDataPath, `# ${generatedWith}\n\n` + yaml.dump(colorGroupsData));
 
 // write the css strings into a single file
 let css_string = `${css_string_root}${css_string_utilities}${css_string_docs}${css_string_component}${css_string_nav}${css_string_footer}`
