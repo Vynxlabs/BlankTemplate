@@ -443,7 +443,7 @@ css_string_footer = addColorDefinitions(css_string_footer, 'primary')
 const colorGroupsData = [
 	{
 		id: "primary",
-		name: primaryColorGroup.name,
+		name: primary_color.name,
 	},
 ];
 
