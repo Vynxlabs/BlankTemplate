@@ -365,7 +365,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values: data.color_groups
+      values: data.theme..[?(@.primaryColor)]
   nav_color_group:
     type: select
     options:
@@ -376,7 +376,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values: data.color_groups
+      values: data.theme..[?(@.primaryColor)]
   footer_color_group:
     type: select
     options:
@@ -387,7 +387,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values: data.color_groups
+      values: data.theme..[?(@.primaryColor)]
   card_color_group:
     type: select
     options:
@@ -398,7 +398,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values: data.color_groups
+      values: data.theme..[?(@.primaryColor)]
   form_color_group:
     type: select
     options:
@@ -409,7 +409,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values: data.color_groups
+      values: data.theme..[?(@.primaryColor)]
   id:
     hidden: true
     instance_value: UUID
