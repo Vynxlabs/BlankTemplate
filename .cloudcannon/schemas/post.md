@@ -23,6 +23,7 @@ permalink: >-
     /blog/{% assign title = title | slugify %}{{ page.filePathStem | fileSubstringFilter | append: title | downcase }}/index.html
 socialImage: >- 
     {{ image }}
+editorial_blocks: []
 _inputs:
   headCode:
     type: "code"
@@ -31,5 +32,3 @@ _inputs:
     type: "code"
     comment: "Add code before the </body> tag"
 ---
-## Once upon a time...
-There was a...
