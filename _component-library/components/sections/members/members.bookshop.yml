@@ -8,7 +8,6 @@ spec:
   description: Show of memebers and a little about them
   icon:
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

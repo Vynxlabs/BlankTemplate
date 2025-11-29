@@ -8,7 +8,6 @@ spec:
   description: Shows up to 3 blog cards. Either the most recent or random
   icon:
   tags: [connected]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

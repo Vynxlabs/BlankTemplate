@@ -8,7 +8,6 @@ spec:
   description: A section dedicated to showing off a single image
   icon: image
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

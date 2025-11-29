@@ -8,7 +8,6 @@ spec:
   description: A form that overlaps an image of your choosing
   icon:
   tags: [form]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

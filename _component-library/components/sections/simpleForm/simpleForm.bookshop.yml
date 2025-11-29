@@ -8,7 +8,6 @@ spec:
   description: A simple form section with a heading
   icon:
   tags: [form]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -18,7 +17,6 @@ blueprint:
     form: bookshop:simple/formBuilder!
   styles:
     color_group: primary
-    
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

@@ -4,10 +4,9 @@ spec:
   structures:
     - hero_blocks
   label: "Bottom Media Hero"
-  description: 
+  description:
   icon: feed
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -22,8 +21,6 @@ blueprint:
     topColorFromGroup: background
     bottomColorFromGroup: background
 
-
-
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
 
@@ -33,7 +30,7 @@ _inputs:
     label: Media
   benefits:
     type: array
-    comment: A quick mention of your most important benefits. 1-2 words per benefit is recommened. 
+    comment: A quick mention of your most important benefits. 1-2 words per benefit is recommened.
   topColorFromGroup:
     label: Top Color
     type: select

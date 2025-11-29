@@ -8,7 +8,6 @@ spec:
   description: Show off your information in straight forward cards
   icon:
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -21,7 +20,6 @@ blueprint:
     color_group: primary
     card_color_group: primary
     cardBackground: true
-    
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

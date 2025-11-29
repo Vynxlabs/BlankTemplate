@@ -7,7 +7,6 @@ spec:
   description: Header text for you content
   icon: view_headline
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

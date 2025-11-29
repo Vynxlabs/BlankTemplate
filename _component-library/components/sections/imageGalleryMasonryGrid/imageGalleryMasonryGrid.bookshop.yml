@@ -8,7 +8,6 @@ spec:
   description: Masonry grid of images 8 images per set
   icon: space_dashboard
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

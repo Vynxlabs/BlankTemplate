@@ -8,7 +8,6 @@ spec:
   description: An embed focused section that is centered on the screen
   icon:
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

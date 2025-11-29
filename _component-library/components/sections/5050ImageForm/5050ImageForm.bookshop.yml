@@ -8,7 +8,6 @@ spec:
   description: A form where half is an image and half is a form
   icon: splitscreen_landscape
   tags: [form]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

@@ -8,7 +8,6 @@ spec:
   description: A visually loud call to action sure to get attention
   icon: exclamation
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -29,4 +28,3 @@ _inputs:
     comment: "Select the color group of the call to action card"
   colorFromGroup:
     comment: "This determines the background color of the call to action card based on the card color group options"
-

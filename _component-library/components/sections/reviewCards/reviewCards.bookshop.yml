@@ -8,7 +8,6 @@ spec:
   description: Straight forward reviews
   icon: reviews
   tags: [review, connected]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

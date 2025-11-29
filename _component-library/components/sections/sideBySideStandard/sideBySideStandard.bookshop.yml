@@ -8,7 +8,6 @@ spec:
   description: A versile section with alternating text and images from left to right
   icon: ballot
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

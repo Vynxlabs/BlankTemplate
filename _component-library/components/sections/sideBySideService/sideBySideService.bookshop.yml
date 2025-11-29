@@ -6,7 +6,6 @@ spec:
   description: A versatile section that combines text, images, and and a animation transitions between them.
   icon: ballot
   tags: []
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -18,7 +17,7 @@ blueprint:
   styles:
     color_group: primary
     imagePosition: left
-    imageVisualInterest: 
+    imageVisualInterest:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

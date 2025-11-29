@@ -8,7 +8,6 @@ spec:
   description: Shows up to 3 upcoming happenings
   icon:
   tags: [happenings, connected]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -53,4 +52,3 @@ _inputs:
     comment: >-
       The heading to show when there are no happenings.
       If no heading is given, this section will be hidden when there are no happenings.
-

@@ -8,7 +8,6 @@ spec:
   description: A result image review where the text breaks out of the image frame
   icon: reviews
   tags: [review, connected]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
@@ -20,7 +19,6 @@ blueprint:
       - review:
   styles:
     color_group: primary
-
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

@@ -8,7 +8,6 @@ spec:
   description: Shows the very next upcoming happening (only shows one).
   icon:
   tags: [happenings, connected]
-  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
