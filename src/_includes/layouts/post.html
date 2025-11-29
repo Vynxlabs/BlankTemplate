@@ -142,7 +142,7 @@
     Mobile TOC dropdown (Vellum-style), shown only if there is something to show
     {%- endcomment -%}
     {% if tocExists %}
-    <div id="mobile-navbar" class="xl:hidden sticky top-0 z-10 w-full bg-body p-4 border-b border-borderColor-primary">
+    <div id="mobile-navbar" class="xl:hidden sticky top-0 z-10 w-full bg-body p-4 border-b border-opacity-50 border-{{site.color_group}}-textcolor bg-{{site.color_group}}-backgroundcolor">
       <div class="flex justify-end gap-4 opacity-75">
     {%- comment -%}
         Search and dark mode buttons could go here 
@@ -180,7 +180,7 @@
         <div
           id="mobile-toc-dropdown"
           aria-expanded="false"
-          class="absolute top-full left-1 mt-1 w-[calc(100%-8px)] bg-interactive-hover border border-borderColor-primary rounded-md shadow-lg transition-all duration-300 origin-top invisible scale-y-0 max-h-[60vh] overflow-y-auto z-10"
+          class="absolute top-full left-1 mt-1 w-[calc(100%-8px)] bg-{{site.color_group}}-backgroundcolor border border-opacity-50 border-{{site.color_group}}-textcolor {{theme.container_rounding}} shadow-lg transition-all duration-300 origin-top invisible scale-y-0 max-h-[60vh] overflow-y-auto z-10"
         >
           <div class="px-4 py-2 opacity-80 text-sm">
             {{ bookshopTOC }}
@@ -202,7 +202,7 @@
       <div class="flex-1 min-w-0">
         <div class="flex justify-center {{ site.color_group | docsModeFilter }}">
           <section
-            class="w-full max-w-[720px] cs-docs cs-docs--{{ site.color_group }} "
+            class="w-full max-w-4xl cs-docs cs-docs--{{ site.color_group }} "
           >
             {%- comment -%}
               You already rendered the H1 title above the article,
