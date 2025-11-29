@@ -465,7 +465,6 @@ color_groups = color_groups.forEach((color_set, i) => {
     let foreground = color_set.foreground_color
     let interaction = color_set.interaction_color
     
-    colorGroupsData.push({id, name})
     
     css_string_root += `--${id}__background : ${background};\n`
     css_string_root += `--${id}__foreground : ${foreground};\n`
@@ -494,8 +493,6 @@ css_string_footer += `}\n\n`
 //config['_inputs']['nav_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 //config['_inputs']['footer_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 
-console.log(`[fetch-theme-variables] Writing ${colorGroupsDataPath}`);
-fs.writeFileSync(colorGroupsDataPath, `# ${generatedWith}\n\n` + yaml.dump(colorGroupsData));
 
 // write the css strings into a single file
 let css_string = `${css_string_root}${css_string_utilities}${css_string_docs}${css_string_component}${css_string_nav}${css_string_footer}`
