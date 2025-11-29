@@ -1,5 +1,6 @@
 # Metadata about this component, to be used in the CMS
 spec:
+  tabbed: true
   structures:
     - content_blocks
     - extra_blocks
@@ -17,7 +18,6 @@ blueprint:
     images: [bookshop:generic/image]
   styles:
     color_group: primary
-
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
