@@ -7,38 +7,55 @@ paths:
   layouts: _includes
   includes: _includes
 data_config:
-  fonts: true
-  authors: true
-  blogTags: true
-  reviews: true
-  blog: true
-  happenings: true
-  tokens: true
-  listingTags: true
-  listings: true
-  pageCollections: true
+  authors:
+    path: _data/authors.json
+  banner:
+    path: _data/banner.yml
+  blog:
+    path: _data/blog.json
+  blogTags:
+    path: _data/blogTags.json
+  color_groups:
+    path: _data/color_groups.yml
+  fonts:
+    path: _data/fonts.json
+  happenings:
+    path: _data/happenings.yml
+  listings:
+    path: _data/listings.yml
+  listingTags:
+    path: _data/listingTags.json
+  pageCollections:
+    path: _data/pageCollections.yml
+  reviews:
+    path: _data/reviews.yml
+  site:
+    path: _data/site.json
+  theme:
+    path: _data/theme.yml
+  tokens:
+    path: _data/tokens.yml 
 collections_config_override: true
 collections_config:
   data:
     path: _data
-    output: false
     icon: settings
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    glob:
+      - '!helpers.js'
+      - '!color_groups.yml'
   pages:
     path: pages
-    output: true
-    url: dist/pages
-    filter:
-      exclude:
-        - robots.njk
-        - rss.njk
-        - sitemap.njk
-        - tags.md
-        - pages.json
-        - 404.md
-    parse_branch_index: null
+    glob:
+      - '!robots.njk'
+      - '!rss.njk'
+      - '!sitemap.njk'
+      - '!tags.md'
+      - '!pages.json'
+      - '!404.md'
     name: Pages
     description: All your pages
     icon: description
@@ -107,13 +124,11 @@ collections_config:
     schema_key: null
   blog:
     path: posts
-    output: true
-    url: dist/blog
-    filter:
-      exclude:
-        - posts.json
+    glob:
+      - '!posts.json'
     _enabled_editors:
       - content
+      - visual
     _inputs:
       title:
         label: Page Title
@@ -167,13 +182,10 @@ collections_config:
         path: .cloudcannon/schemas/post.md
   happenings:
     path: happenings
-    output: true
-    url: dist/happenings
     icon: event
     new_preview_url: /
-    filter:
-      exclude:
-        - happenings.json
+    glob:
+      - '!happenings.json'
     _enabled_editors:
       - content
       - visual
@@ -210,8 +222,6 @@ collections_config:
         path: .cloudcannon/schemas/happening.md
   services:
     path: services
-    output: true
-    url: dist/services
     name: Services
     description: All your services
     icon: design_services
@@ -219,9 +229,8 @@ collections_config:
     documentation: null
     preview:
       gallery: design_services
-    filter:
-      exclude:
-        - services.json
+    glob:
+      - '!services.json'
     _enabled_editors:
       - content
       - visual
@@ -253,8 +262,6 @@ collections_config:
         path: .cloudcannon/schemas/service.md
   listings:
     path: listings
-    output: true
-    url: dist/listings
     name: Listings
     description: All your listings
     icon: lists
@@ -262,9 +269,8 @@ collections_config:
     documentation: null
     preview:
       gallery: lists
-    filter:
-      exclude:
-        - listings.json
+    glob:
+      - '!listings.json'
     _enabled_editors:
       - content
       - visual
@@ -283,6 +289,21 @@ collections_config:
     schemas:
       default:
         path: .cloudcannon/schemas/listing.md
+collection_groups:
+  - heading: Pages
+    collections:
+      - pages
+  - heading: Connected Pages
+    collections:
+      - listings
+      - services
+      - happenings
+  - heading: Blogging
+    collections:
+      - blog
+  - heading: Config
+    collections:
+      - data
 _inputs:
   helperText:
     type: markdown
@@ -345,9 +366,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.theme..[?(@.primaryColor)]
   nav_color_group:
     type: select
     options:
@@ -358,9 +377,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.theme..[?(@.primaryColor)]
   footer_color_group:
     type: select
     options:
@@ -371,9 +388,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.theme..[?(@.primaryColor)]
   card_color_group:
     type: select
     options:
@@ -384,9 +399,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.theme..[?(@.primaryColor)]
   form_color_group:
     type: select
     options:
@@ -397,9 +410,7 @@ _inputs:
           - key: name
         icon:
           - key: icon
-      values:
-        - id: primary
-          name: Primary
+      values: data.theme..[?(@.primaryColor)]
   id:
     hidden: true
     instance_value: UUID
@@ -596,6 +607,33 @@ _snippets:
               name: Youtube
             - id: vimeo
               name: Vimeo
+  styledText:
+    template: eleventy_liquid_bookshop_component
+    inline: true
+    preview:
+      text: Styled Text
+    definitions:
+      component_name: generic/styledText
+      named_args:
+        - editor_key: text
+          type: string
+        - editor_key: style
+          type: string
+    _inputs:
+      style:
+        comment: "The style of the text"
+        type: select
+        options:
+          value_key: id
+          values:
+            - id: green label
+              name: Green Label
+            - id: red label
+              name: Red Label
+            - id: blue label
+              name: Blue Label
+            - id: kbd
+              name: Keyboard
 _select_data: {}
 _structures:
   extra_blocks:
@@ -605,6 +643,8 @@ _structures:
     style: modal
   content_blocks:
     label: Content Sections
+    style: modal
+  editorial_blocks:
     style: modal
   hero_blocks:
     style: modal

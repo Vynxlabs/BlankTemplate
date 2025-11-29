@@ -1,0 +1,97 @@
+{% assign color_group = styles.color_group %}
+{% assign layout = layout | default: "imageRight" %}
+
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.highlightEyebrow}}
+        eyebrow: {{content.eyebrow | stringifyFilter}}
+        headline: {{content.headline | stringifyFilter}}
+        description: {{content.description | stringifyFilter}}
+        buttons:
+          {{content.buttons | json}}
+        headingHierarchy: "h2"
+    styles:
+        contentAlignment: {{styles.contentAlignment}}
+        textAlignment: {{styles.textAlignment}}
+        visualInterest: {{styles.visualInterest}}
+        visualInterestColor: {{styles.visualInterestColor}}
+        highContrast: {{styles.highContrast}}
+        contrastColorGroup: {{styles.contrastColorGroup}}
+        contrastAgainst: {{styles.contrastAgainst}} 
+{% endcapture %}
+{% assign heading = heading | ymlify %}
+
+<section class="c-feature componentcontainer w-full py-20 bg-{{styles.color_group}}-backgroundcolor text-{{styles.color_group}}-textcolor">
+    {% if content.sectionId %}
+        {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+
+    <div class="basecontainer w-full">
+        {% if layout == 'textOnly' %}
+            <div class="flex flex-col items-center justify-center max-w-4xl mx-auto">
+                {% bookshop "generic/heading" bind: heading %}
+                {% if content.listItems %}
+                    <ul class="mt-8 grid gap-4 md:grid-cols-2 w-full">
+                        {% for item in content.listItems %}
+                            <li class="flex items-start gap-3">
+                                {% if item.icon %}
+                                    <span class="material-symbols-outlined text-{{styles.color_group}}-primarycolor">{{item.icon}}</span>
+                                {% endif %}
+                                <span>{{item.text}}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+        {% elsif layout == 'imageCenter' %}
+            <div class="flex flex-col items-center justify-center gap-12">
+                <div class="max-w-4xl mx-auto text-center">
+                    {% bookshop "generic/heading" bind: heading %}
+                </div>
+                <div class="w-full max-w-5xl">
+                     {% bookshop "generic/image" bind: content.image class: "w-full h-auto object-cover rounded-lg shadow-lg" %}
+                </div>
+                 {% if content.listItems %}
+                    <ul class="mt-8 grid gap-6 md:grid-cols-3 w-full max-w-5xl">
+                        {% for item in content.listItems %}
+                            <li class="flex flex-col items-center text-center gap-3">
+                                {% if item.icon %}
+                                    <span class="material-symbols-outlined text-4xl text-{{styles.color_group}}-primarycolor">{{item.icon}}</span>
+                                {% endif %}
+                                <span class="font-medium">{{item.text}}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+        {% else %}
+            {% comment %} Split Layouts (Left/Right) {% endcomment %}
+            {% capture direction %}
+                {% if layout == 'imageLeft' %}flex-row-reverse{% else %}flex-row{% endif %}
+            {% endcapture %}
+            
+            <div class="flex {{direction}} flex-wrap gap-10 md:gap-20 items-center">
+                <div class="flex-1 min-w-[300px]">
+                    {% bookshop "generic/heading" bind: heading %}
+                    {% if content.listItems %}
+                        <ul class="mt-8 grid gap-4 w-full">
+                            {% for item in content.listItems %}
+                                <li class="flex items-start gap-3">
+                                    {% if item.icon %}
+                                        <span class="material-symbols-outlined text-{{styles.color_group}}-primarycolor">{{item.icon}}</span>
+                                    {% endif %}
+                                    <span>{{item.text}}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="flex-1 min-w-[300px]">
+                     {% bookshop "generic/image" bind: content.image class: "w-full h-full object-cover rounded-lg shadow-md" %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>

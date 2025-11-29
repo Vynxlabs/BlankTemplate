@@ -6,6 +6,7 @@ spec:
   description: A menu with categories
   icon: menu_book_2
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

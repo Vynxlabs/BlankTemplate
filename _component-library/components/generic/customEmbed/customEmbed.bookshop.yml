@@ -4,6 +4,7 @@ spec:
     - embeds
     - assets
     - resource
+    - editorial_blocks
   label: "Custom Embed"
   description:
   icon: iframe

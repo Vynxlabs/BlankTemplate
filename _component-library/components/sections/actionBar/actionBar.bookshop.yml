@@ -7,6 +7,7 @@ spec:
   description: "A persistent call to action at the bottom of a page"
   icon: bottom_navigation
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

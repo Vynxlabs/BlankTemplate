@@ -1,0 +1,82 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+  label: "Hero"
+  description: "A versatile hero section with multiple layout options"
+  icon: "web"
+  tags: ["hero", "header"]
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  layout: "simple"
+  content:
+    eyebrow: "Welcome"
+    headline: "Your Headline Here"
+    description: "A short description of what this page is about."
+    buttons: [bookshop:structure:buttons]
+    image: bookshop:structure:imgvid
+  styles:
+    color_group: "primary"
+    textAlignment: "center"
+    contentAlignment: "center"
+    backgroundOpacity: 50
+    imagePosition: "right" # For split layout
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  layout: "simple"
+  content:
+    eyebrow: "Welcome"
+    headline: "Hero Component"
+    description: "This is a unified hero component."
+    buttons:
+      - text: "Get Started"
+        url: "#"
+        _bookshop_name: generic/button
+  styles:
+    color_group: "primary"
+    textAlignment: "center"
+    contentAlignment: "center"
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  layout:
+    type: select
+    options:
+      values:
+        - label: "Simple (Text Only)"
+          value: "simple"
+        - label: "Split (Text & Image)"
+          value: "split"
+        - label: "Full Image (Text Overlay)"
+          value: "fullImage"
+  styles:
+    textAlignment:
+      type: select
+      options:
+        values:
+          - label: "Left"
+            value: "left"
+          - label: "Center"
+            value: "center"
+          - label: "Right"
+            value: "right"
+    contentAlignment:
+      type: select
+      options:
+        values:
+          - label: "Top"
+            value: "start"
+          - label: "Center"
+            value: "center"
+          - label: "Bottom"
+            value: "end"
+    imagePosition:
+      type: select
+      hidden: "layout != 'split'"
+      options:
+        values:
+          - label: "Left"
+            value: "left"
+          - label: "Right"
+            value: "right"

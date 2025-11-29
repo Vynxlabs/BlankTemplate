@@ -1,4 +1,4 @@
-<div class="c-videoEmbed {% if thumbOnly %}  w-full h-full {% endif %}">
+<div class="c-videoEmbed w-full {% if thumbOnly %} h-full {% endif %}">
   {% if platform == 'youtube' %}
     <lite-youtube {% if thumbOnly %} thumbOnly class=" object-cover object-center w-full h-full" {% endif %} videoid="{{videoId}}" style="background-image: url('https://i.ytimg.com/vi/{{videoId}}/hqdefault.jpg');">
   <a href="https://youtube.com/watch?v={{videoId}}" class="lty-playbtn" title="Play Video">

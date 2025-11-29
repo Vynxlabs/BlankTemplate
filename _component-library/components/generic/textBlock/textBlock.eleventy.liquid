@@ -1,9 +1,9 @@
 {% if text and env_bookshop_live %}
-    <div class="c-textBlock">    
+    <div  class="c-textBlock w-full">    
         {{ text | markdownify  }}
     </div>
 {% elsif text %}
-<div class="c-textBlock">    
-        {{ text | evalLiquid | markdownify  }}
+<div class="c-textBlock w-full">    
+        {{ text | renderContent | markdownify  }}
     </div>
 {% endif %}

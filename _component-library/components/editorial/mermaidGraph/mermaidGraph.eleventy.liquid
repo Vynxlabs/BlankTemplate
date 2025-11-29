@@ -1,0 +1,6 @@
+{% capture mermaidGraph %}
+```mermaid
+{{mermaidCode}}
+```
+{% endcapture %}
+{{mermaidGraph | markdownify}}

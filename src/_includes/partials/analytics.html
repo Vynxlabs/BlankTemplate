@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
     el.setAttribute('data-website-id', '{{site.umamiAnalytics.websiteId}}');
     el.setAttribute('data-domains', '{{site.umamiAnalytics.dataDomains}}');
     document.body.appendChild(el);
+    var umamiKit = document.createElement('script');
+    umamiKit.setAttribute('src', '/assets/js/umami-kit.js');
+    document.body.appendChild(umamiKit);
   });
 </script>
 {% endif %}

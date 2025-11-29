@@ -1,7 +1,7 @@
 <!doctype html>
 <html
   lang="en"
-  class="mx-auto my-0 max-w-[1440px] scroll-pt-32 overflow-x-hidden"
+  class="mx-auto my-0 max-w-[1440px] scroll-pt-32 scroll-smooth overflow-x-hidden"
 >
   <head>
     <meta charset="UTF-8" />
@@ -19,13 +19,16 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <style defer>
       {{ css  }}
-    </style>
+    </style>    
+    <script type="module" src="/assets/js/table-saw.js"></script>
     {{site.customCode.headCode}}
     {{customCode.headCode}}
   </head>
   {% include "partials/analytics.html" %} {% include
   "partials/watermark.html" %}
   <body
+    data-umami-auto-track
+    data-umami-scroll-thresholds="20,40,60,80,100"
     class="mx-4 sm:mx-10  flex flex-col h-screen text-{{site.color_group}}-textcolor bg-{{site.color_group}}-backgroundcolor text-lg "
   >
   
@@ -47,6 +50,31 @@
     </main>
     {% include "partials/site-foot.html" %} 
     {% bookshop "util/textContrastScript"  %}
+    {% mermaid_js %}
+    <script>
+      const inactive = tab => tab.classList.remove('active')
+    const active = tab => tab.classList.add('active')
+    const tabClick = tab => tab.addEventListener('click', listener)
+
+    const listener = (event) => {
+      // id for the clicked button
+      const tabId = event.target.getAttribute('data-id')
+      // the parent container's id
+      const containerId = event.target.parentElement.parentElement.getAttribute('data-id')
+      // syntax sugar for self
+      const parentQuery = `.tabs-tabs-wrapper[data-id=${containerId}]`
+
+      // Set everything in this parent container to inactive
+      document.querySelectorAll(`${parentQuery} .tabs-tab-content`).forEach(inactive)
+      document.querySelectorAll(`${parentQuery} .tabs-tabs-header button`).forEach(inactive)
+
+      // Set the tab id's items to active
+      document.querySelectorAll(`[data-id=${tabId}]`).forEach(active)
+    }
+
+    // Set it up for all my homies (multiple tabs)
+    document.querySelectorAll('.tabs-tabs-header button').forEach(tabClick)
+    </script>
     <script defer>
       // Calculate contrast ratio based on RGB values
       function calculateContrast(rgb) {
