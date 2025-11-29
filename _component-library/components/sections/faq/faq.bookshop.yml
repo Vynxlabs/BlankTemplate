@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
     - content_blocks
   label: "Accordion Content (FAQ)"
@@ -16,9 +15,9 @@ blueprint:
     categories:
       - name:
         faq:
-          - heading:
-            description:
-            opened: false
+        - heading:
+          description: 
+          opened: false
   styles:
     color_group: primary
     card_color_group: primary
@@ -46,3 +45,5 @@ _inputs:
           id: single
         - name: Double
           id: double
+
+

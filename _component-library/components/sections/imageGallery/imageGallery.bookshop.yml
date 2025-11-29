@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
     - content_blocks
     - extra_blocks
@@ -8,6 +7,7 @@ spec:
   description: A simple media gallery
   icon: space_dashboard
   tags: []
+  tabbed: true
 
 # Make it so that the image set isn't an array of images but is just a single array.
 # Recreate it correctly and ymlify it back into the grid component

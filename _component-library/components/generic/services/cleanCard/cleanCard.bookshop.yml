@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
   label: "Cleanly Styled Service Card"
   description:
@@ -12,6 +11,7 @@ blueprint:
   url:
   title:
   image:
+  
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

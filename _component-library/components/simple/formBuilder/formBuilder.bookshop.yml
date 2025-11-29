@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
     - resource
   label: "Form Builder"
@@ -16,7 +15,7 @@ blueprint:
   subject:
   successPage:
   form_elements: [bookshop:structure:form_blocks]
-  submitButton:
+  submitButton: 
     text: "Submit"
     color_group: primary
     colorFromGroup: primary
@@ -29,8 +28,8 @@ preview:
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
   successPage:
-    type: url
-    comment: The page to redirect to after submission. If none provided a defualt confirmation page will be shown
+      type: url
+      comment:  The page to redirect to after submission. If none provided a defualt confirmation page will be shown
   blackText:
     type: switch
     label: Black Text
@@ -41,4 +40,4 @@ _inputs:
   formName:
     comment: (Netlify only) The name of the form
   inboxKey:
-    comment: (CloudCannon only) The key that you configured for your cloudcannon inbox. If not set it will go to the default inbox you set up. Instructions for setting up an inbox key can be found
+    comment: (CloudCannon only) The key that you configured for your cloudcannon inbox. If not set it will go to the default inbox you set up. Instructions for setting up an inbox key can be found 

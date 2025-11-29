@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
   label: "Helper text"
   description: Display a short explanatory text for a field
@@ -11,6 +10,7 @@ spec:
 blueprint:
   helperText: Helper text
   id:
+
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

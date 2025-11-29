@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
     - form_blocks
   label: "File Input"
@@ -32,14 +31,14 @@ _inputs:
     options:
       value_key: id
       values:
-        - name: Images
-          id: image/*
-        - name: Documents
-          id: application/*
-        - name: Audio
-          id: audio/*
-        - name: Video
-          id: video/*
+      - name: Images
+        id: image/*
+      - name: Documents
+        id: application/*
+      - name: Audio
+        id: audio/*
+      - name: Video
+        id: video/*
 
   acceptCSV:
     hidden: "!customAccept"
@@ -47,3 +46,4 @@ _inputs:
     comment: >-
       Customise the accepted file types for this input in a comma separated values format.
       Example ".png,.jpg,.csv,.pdf" Max file size is 8MB
+    

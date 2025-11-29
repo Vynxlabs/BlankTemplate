@@ -1,6 +1,5 @@
 # Metadata about this component, to be used in the CMS
 spec:
-  tabbed: true
   structures:
     - content_blocks
   label: "Menu"
@@ -16,10 +15,10 @@ blueprint:
     menuGroups:
       - category:
         group:
-          - label:
-            price:
-            description:
-            image: bookshop:generic/image
+        - label:
+          price:
+          description:
+          image: bookshop:generic/image
   styles:
     color_group: primary
 
