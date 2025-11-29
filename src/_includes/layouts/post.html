@@ -79,7 +79,6 @@
 {% endif %}
 {% assign infoPosts = infoPosts | ymlify %}
 
-{% assign infoPosts = infoPosts | ymlify %}
 
 {% capture blogImageClasses %}
   w-full  object-cover aspect-video mt-4 {{theme.image_rounding}}
@@ -225,7 +224,7 @@
       {%- endcomment -%}
       {% if tocExists %}
       <aside class="hidden xl:block w-72 shrink-0"> 
-        <div class="sticky top-24 flex flex-col gap-4">
+        <div class="sticky overflow-y-auto max-h-[80vh] top-24 flex flex-col gap-4">
           <p class="text-sm font-semibold opacity-75">On this page</p>
           <div class="opacity-80 text-sm">
             {{ bookshopTOC }}
