@@ -80,12 +80,15 @@
 {% assign infoPosts = infoPosts | ymlify %}
 
 
+{% capture blogImageClasses %}
+  w-full  object-cover aspect-video mt-4 {{theme.image_rounding}}
+{% endcapture %}
 
 {% block content %}
 
 <div class=" mt-40">
-  <h1 class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
-  {% bookshop "generic/image" bind: image class: "w-full rounded  object-cover aspect-video mt-4"  %}
+  <h1 data-editable="text" data-prop="title" class=" text-3xl sm:text-5xl font-semibold md:text-8xl" >{{title}}</h1>
+  {% bookshop "generic/image" bind: image class: blogImageClasses  %}
   <div class="flex gap-2 mt-4">
     {% bookshop "generic/image" imagePath: blogAuthor.imagePath imageAlt: blogAuthor.name  class: "rounded object-cover aspect-square w-20 "  %}
     <div class="flex flex-col justify-between">
@@ -108,41 +111,131 @@
   {% endfor %}
 </ul>
 {% endif %}
-  <article class="post-main-container">
-      {% if content | toc %}
-      <section class=" mt-8 "
-      _="
-      
-        on load
-        measure #table-of-contents height then set :height to it
-        set $tocHeight to :height.height
-        log $tocHeight
-        if $tocHeight >= 380
-        log 'true'
-        remove .hidden from #toggle-toc
-        end
-        end
-      "
-      >
-        <div id="table-of-contents" class="transition-all duration-300 ease-in underline max-h-96 overflow-hidden">{{ content | toc }}</div>
-        <button id="toggle-toc" class="mt-8 flex gap-2 items-center justify-center  hidden" _="
-        on click
-        toggle .max-h-96 on #table-of-contents
-        toggle .{'max-h-[90000px]'} on #table-of-contents
-        toggle .rotate-180 on #toggle-toc-icon
-        log $tocHeight
-        go to the top of #tags smoothly
-        end
-        " 
-        
-        
-        ><span>Toggle Table of Contents</span> <span id="toggle-toc-icon" class="">{% bookshop "generic/heroLibraryIcon" heroLibraryIconName:"arrow-down" iconType:"solid" iconSize:'micro' roundedBorder:false themeColor:true %}</span> </button>
-      </section>
+  <article class="post-main-container mt-8">
+
+    {%- comment -%}
+    Capture editorial blocks (if any) so we can:
+    - Render them in the body
+    - Generate a separate TOC for them
+    {%- endcomment -%}
+    {% capture bookshopContent %}
+      {% if editorial_blocks %}
+        {% bookshop_include "doc" editorial_blocks: editorial_blocks %}
       {% endif %}
-      <div class="mt-8 flex justify-center">
-        <section class="w-full max-w-[720px] cs-mainContent">{{ content }}</section>
+    {% endcapture %}
+
+    {% assign bookshopTOC = bookshopContent | toc %}
+    {% assign contentTOC = content | toc %}
+
+    {%- comment -%}
+    Determine if any TOC exists (either from editorial blocks or markdown content)
+    {%- endcomment -%}
+    {% if bookshopTOC and bookshopTOC != "" %}
+      {% assign tocExists = true %}
+    {% endif %}
+    {% if contentTOC and contentTOC != "" %}
+      {% assign tocExists = true %}
+    {% endif %}
+
+    {%- comment -%}
+    Mobile TOC dropdown (Vellum-style), shown only if there is something to show
+    {%- endcomment -%}
+    {% if tocExists %}
+    <div id="mobile-navbar" class="xl:hidden sticky top-0 z-10 w-full bg-body p-4 border-b border-opacity-50 border-{{site.color_group}}-textcolor bg-{{site.color_group}}-backgroundcolor">
+      <div class="flex justify-end gap-4 opacity-75">
+    {%- comment -%}
+        Search and dark mode buttons could go here 
+    {%- endcomment -%}
       </div>
+
+      <div class="mt-2 relative w-full">
+        <button
+          id="mobile-toc-button"
+          class="flex items-center opacity-50 justify-between w-full px-4 py-3 bg-interactive-hover border border-transparent rounded-md text-textColor-primary font-medium focus:outline-none focus:ring-1 focus:ring-accent-secondary transition-colors duration-200"
+          _="
+            on click
+            toggle .invisible on #mobile-toc-dropdown
+            toggle .scale-y-0 on #mobile-toc-dropdown
+            toggle .scale-y-100 on #mobile-toc-dropdown
+            toggle .transform on #toc-dropdown-arrow
+            toggle .rotate-180 on #toc-dropdown-arrow
+              halt
+            end
+            on click from elsewhere
+              add .scale-y-0 to #mobile-toc-dropdown
+              add .invisible to #mobile-toc-dropdown 
+              remove .scale-y-100 from #mobile-toc-dropdown
+              remove .rotate-180 from #toc-dropdown-arrow
+            end
+          "
+        >
+          <span class="text-sm opacity-80">On This Page</span>
+          <span id="toc-dropdown-arrow" class="transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </button>
+        <div
+          id="mobile-toc-dropdown"
+          aria-expanded="false"
+          class="absolute top-full left-1 mt-1 w-[calc(100%-8px)] bg-{{site.color_group}}-backgroundcolor border border-opacity-50 border-{{site.color_group}}-textcolor {{theme.container_rounding}} shadow-lg transition-all duration-300 origin-top invisible scale-y-0 max-h-[60vh] overflow-y-auto z-10"
+        >
+          <div class="px-4 py-2 opacity-80 text-sm">
+            {{ bookshopTOC }}
+            {{ contentTOC }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {%- comment -%}
+    Main content + optional right-hand TOC column
+    {%- endcomment -%}
+        <div class="mt-8 flex gap-8">
+
+    {%- comment -%}
+      Main content column 
+    {%- endcomment -%}
+      <div class="flex-1 min-w-0">
+        <div class="flex justify-center {{ site.color_group | docsModeFilter }}">
+          <section
+            class="w-full max-w-4xl cs-docs cs-docs--{{ site.color_group }} "
+          >
+            {%- comment -%}
+              You already rendered the H1 title above the article,
+                so we just do editorial blocks + body here
+            {%- endcomment -%}
+
+            {{ bookshopContent }}
+
+            {% if content and content != "" %}
+              <article data-cms-edit="content" class="">
+                {{ content }}
+              </article>
+            {% endif %}
+          </section>
+        </div>
+      </div>
+
+      {%- comment -%}
+        Desktop/tablet right-hand TOC
+      {%- endcomment -%}
+      {% if tocExists %}
+      <aside class="hidden xl:block w-72 shrink-0"> 
+        <div class="sticky overflow-y-auto max-h-[80vh] top-24 flex flex-col gap-4">
+          <p class="text-sm font-semibold opacity-75">On this page</p>
+          <div class="opacity-80 text-sm">
+            {{ bookshopTOC }}
+            {{ contentTOC }}
+          </div>
+        </div>
+      </aside>
+      {% endif %}
+    </div>
   </article>
+
   {% if recommendedPosts.size > 0 %}
   <div class="mt-24">{% bookshop {{componentBookshopName}} bind: infoPosts  %}</div>
   {% endif %}

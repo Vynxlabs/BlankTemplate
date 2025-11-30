@@ -20,17 +20,23 @@ const uuidHashFilter = require("./src/filters/uuid-hash-filter.js");
 const tagColorFilter = require("./src/filters/tag-color-filter.js");
 const collectionsFilter = require("./src/filters/collections-filter.js");
 const rot20_7 = require("./src/filters/rot20-7-filter.js");
+const docsModeFilter = require("./src/filters/docsDarkMode-filter.js");
+
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
 const markdownIt = require("markdown-it"),
   md = markdownIt({
     html: true,
-    linkify: false,
+    linkify: true,
     typographer: true,
   });
-md.disable(["code", "blockquote"]);
+md.disable(["code"]);
+
+const ultree = require("markdown-it-ultree");
+
 const markdownItAnchor = require("markdown-it-anchor");
 const pluginTOC = require("eleventy-plugin-toc");
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginBookshop = require("@bookshop/eleventy-bookshop");
 const yaml = require("js-yaml");
 const { execSync } = require("child_process");
@@ -57,7 +63,7 @@ const imageShortcode = async (
     inputFilePath = src;
     isRemoteUrl = true;
   }
-  if (!widths){
+  if (!widths) {
     widths = [200, 400, 850, 1280, 1600];
   }
 
@@ -70,28 +76,32 @@ const imageShortcode = async (
     urlPath: "/assets/images",
     cacheOptions: {
       duration: cacheDuration,
-    }
+    },
   });
   if (!(Image.getHash(inputFilePath) in imageHashes) && !isRemoteUrl) {
-    imageHashes[Image.getHash(inputFilePath)] =
-      await Fetch(async function() {
-
-		return generateLQIP(inputFilePath);
-	}, {
-		// must supply a unique id for the callback
-		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
-    duration: cacheDuration
-	});
+    imageHashes[Image.getHash(inputFilePath)] = await Fetch(
+      async function () {
+        return generateLQIP(inputFilePath);
+      },
+      {
+        // must supply a unique id for the callback
+        requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+        duration: cacheDuration,
+      },
+    );
   } else if (!(Image.getHash(inputFilePath) in imageHashes) && isRemoteUrl) {
-    imageHashes[Image.getHash(inputFilePath)] = await Fetch(async function() {
-    let imageBuffer = await Fetch(inputFilePath, { type: "buffer" });
+    imageHashes[Image.getHash(inputFilePath)] = await Fetch(
+      async function () {
+        let imageBuffer = await Fetch(inputFilePath, { type: "buffer" });
 
-		return generateLQIP(imageBuffer);
-	}, {
-		// must supply a unique id for the callback
-		requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
-    duration: cacheDuration
-	});
+        return generateLQIP(imageBuffer);
+      },
+      {
+        // must supply a unique id for the callback
+        requestId: `imagelqip-${Image.getHash(inputFilePath)}`,
+        duration: cacheDuration,
+      },
+    );
   }
 
   const imageAttributes = {
@@ -144,7 +154,6 @@ const logoShortcode = async (
     return `<img class='${cls}' src='${src}' alt='${alt}'>`;
   }
 };
-
 
 function generateImages(src, widths = [200, 400, 850, 1920, 2500]) {
   let source = src;
@@ -250,7 +259,10 @@ function loadSiteTokens() {
       if (contactFields[key]) {
         let contactKey = slugify(`contactInfo.${key}`);
         console.log(contactKey);
-        flattenedTokens[contactKey] = key=="email" || key=="phone" ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>` : contactFields[key];
+        flattenedTokens[contactKey] =
+          key == "email" || key == "phone"
+            ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>`
+            : contactFields[key];
       }
     });
 
@@ -264,16 +276,21 @@ function loadSiteTokens() {
 
 module.exports = async function (eleventyConfig) {
   const { InputPathToUrlTransformPlugin } = await import("@11ty/eleventy");
+  const { RenderPlugin } = await import("@11ty/eleventy");
+  const { default: pluginMermaid } = await import(
+    "@kevingimbel/eleventy-plugin-mermaid"
+  );
   // Markdown
   let options = {
     html: true,
     linkify: true,
     typographer: true,
   };
-  eleventyConfig.setLibrary(
-    "md",
-    markdownIt(options).disable(["code"]).use(markdownItAnchor),
-  );
+  const md = markdownIt(options)
+    .disable(["code"])
+    .use(markdownItAnchor)
+    .use(ultree);
+  eleventyConfig.setLibrary("md", md);
   eleventyConfig.addWatchTarget("./_component-library/**/*");
 
   eleventyConfig.addDataExtension("yaml", (contents) => yaml.load(contents));
@@ -300,6 +317,7 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginTOC, {
     tags: ["h1", "h2", "h3", "h4", "h5", "h6"],
   });
+  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(svgContents);
 
   eleventyConfig.addPlugin(
@@ -308,6 +326,13 @@ module.exports = async function (eleventyConfig) {
       pathPrefix: "",
     }),
   );
+  eleventyConfig.addPlugin(pluginMermaid, {
+    mermaid_config: {
+      startOnLoad: true,
+      theme: "dark",
+    },
+  });
+  eleventyConfig.addPlugin(RenderPlugin);
 
   // Returns a collection of blog posts in reverse date order
   eleventyConfig.addCollection("blog", (collection) => {
@@ -395,7 +420,6 @@ module.exports = async function (eleventyConfig) {
       });
   });
 
-
   eleventyConfig.addFilter("dateFilter", dateFilter);
   eleventyConfig.addFilter("w3DateFilter", w3DateFilter);
   eleventyConfig.addFilter("readTimeFilter", readTimeFilter);
@@ -421,6 +445,7 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("uuidHashFilter", uuidHashFilter);
   eleventyConfig.addFilter("tagColorFilter", tagColorFilter);
   eleventyConfig.addFilter("rot20Filter", rot20_7);
+  eleventyConfig.addFilter("docsModeFilter", docsModeFilter);
 
   // Load and flatten tokens
   const tokens = loadTokens();
@@ -479,6 +504,30 @@ module.exports = async function (eleventyConfig) {
         return evaluateToken(siteTokens, path); // Match normalized site tokens
       });
     }
+    return content;
+  });  
+  
+  eleventyConfig.addTransform("wrap-tables", function(content, outputPath) {
+    // 1. Check if the file is an HTML file before processing.
+    if (outputPath && outputPath.endsWith(".html")) {
+      
+      // 2. Use a regular expression to find all HTML tables.
+      // - The /g flag ensures we find ALL tables on the page.
+      // - The /s flag (dotAll) allows '.' to match newlines, which is crucial
+      //   because tables span multiple lines.
+      const tableRegex = /<table[\s\S]*?<\/table>/gs;
+
+      // 3. Use String.prototype.replace() to wrap each match.
+      // The callback function receives the matched table string (`match`)
+      // and returns it wrapped in the <table-saw> element.
+      const transformedContent = content.replace(tableRegex, (match) => {
+        return `<table-saw>${match}</table-saw>`;
+      });
+
+      return transformedContent;
+    }
+
+    // Return the content untouched for non-HTML files.
     return content;
   });
 

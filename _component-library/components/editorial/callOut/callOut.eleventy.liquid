@@ -1,0 +1,7 @@
+<div class="{{type}}">
+
+    {% for editorial_block in editorials %}
+        
+    {% bookshop {{editorial_block._bookshop_name}} bind: editorial_block %}
+    {% endfor %}
+</div>

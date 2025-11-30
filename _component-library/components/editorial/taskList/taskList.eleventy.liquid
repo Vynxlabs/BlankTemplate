@@ -1,0 +1,17 @@
+<ul class="task-list-container">
+    {% for task in tasks %}
+  <li class="task-list-item">
+    <p><input
+        type="checkbox"
+        class="task-list-item-checkbox"
+        id="task-item-{{ forloop.index }}"
+        {% if task.checked %}
+        checked="checked"
+        {% endif %}
+        disabled="disabled"><label class="task-list-item-label" for="task-item-{{ forloop.index }}">
+            {% bookshop "generic/textBlock" text: task.text %}
+        </label>
+    </p>
+  </li>
+    {% endfor %}
+</ul>

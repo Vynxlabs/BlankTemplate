@@ -1,0 +1,82 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+  label: "Feature"
+  description: "A versatile content section for displaying text, images, and features"
+  icon: "article"
+  tags: ["feature", "content"]
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  layout: "imageRight"
+  content:
+    eyebrow: "Feature"
+    headline: "Feature Headline"
+    description: "Description of the feature."
+    buttons: [bookshop:structure:buttons]
+    image: bookshop:structure:imgvid
+    listItems:
+      - text: "Feature point 1"
+        icon: "check"
+      - text: "Feature point 2"
+        icon: "check"
+  styles:
+    color_group: "primary"
+    textAlignment: "left"
+    contentAlignment: "center"
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  layout: "imageRight"
+  content:
+    eyebrow: "Feature"
+    headline: "Feature Component"
+    description: "This is a unified feature component."
+    buttons:
+      - text: "Learn More"
+        url: "#"
+        _bookshop_name: generic/button
+    image:
+      _bookshop_name: generic/image
+      imagePath: "https://via.placeholder.com/600x400"
+      imageAlt: "Placeholder image"
+  styles:
+    color_group: "primary"
+    textAlignment: "left"
+    contentAlignment: "center"
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  layout:
+    type: select
+    options:
+      values:
+        - label: "Image Right"
+          value: "imageRight"
+        - label: "Image Left"
+          value: "imageLeft"
+        - label: "Image Center"
+          value: "imageCenter"
+        - label: "Text Only"
+          value: "textOnly"
+  styles:
+    textAlignment:
+      type: select
+      options:
+        values:
+          - label: "Left"
+            value: "left"
+          - label: "Center"
+            value: "center"
+          - label: "Right"
+            value: "right"
+    contentAlignment:
+      type: select
+      options:
+        values:
+          - label: "Top"
+            value: "start"
+          - label: "Center"
+            value: "center"
+          - label: "Bottom"
+            value: "end"

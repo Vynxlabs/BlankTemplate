@@ -7,10 +7,8 @@
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
 
-{% if content.heading or content.text %}
-    <div class='basecontainer flex flex-col justify-center items-center w-full max-w-[750px]'>
+    <div class='basecontainer flex flex-col justify-center items-center w-full max-w-4xl'>
       {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
         <div class="c-simpleTextBlock">{% if content.text %}{% bookshop "generic/textBlock" bind:content.text %}{% endif %}</div>
     </div>
-{% endif %}
 </section>

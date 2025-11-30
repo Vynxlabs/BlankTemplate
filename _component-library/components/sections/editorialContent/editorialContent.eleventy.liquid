@@ -1,0 +1,19 @@
+{% assign color_group = styles.color_group %}
+
+
+<section  
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+  {% endif %}
+class=' {{styles.color_group | docsModeFilter}}  cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor'>
+
+
+{% if content.heading or content.text %}
+    <div class='cs-docs cs-docs--{{ styles.color_group | default: 'primary' }} basecontainer flex flex-col justify-center items-center w-full max-w-4xl'>
+      {% if content.heading %} {% bookshop {{content.heading._bookshop_name}} bind: content.heading %} {% endif %}
+        {% for editorial in content.editorials %}
+            {% bookshop "{{editorial._bookshop_name}}" bind: editorial %}
+        {% endfor %}
+    </div>
+{% endif %}
+</section>

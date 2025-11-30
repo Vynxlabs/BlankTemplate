@@ -24,6 +24,8 @@
   }
 }
 
+@import "prismtheme.scss";
+@import "content.scss";
 @import "variables.scss";
 @import "color_groups.scss";
 @import "nav.scss";
@@ -159,7 +161,6 @@ body {
 }
 
 .toc {
-  margin-bottom: 40px;
   max-width: 400px;
   li{
     margin-top: 8px;

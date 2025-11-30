@@ -40,7 +40,7 @@
     {% if content.eyebrow %}
       <div class=" {% if content.highlightEyebrow %} text-{{color_group}}-accentcolor {% endif %} ">{% bookshop "generic/textBlock" text: content.eyebrow %}</div>
     {% endif %}
-    <{{content.headingHierarchy | default: "h2" }} class="cs-visualInterest {{headingClasses}} font-bold mt-1 {{headingSize}}" style="--c-visualColor: {{styles.visualInterestColor}}">
+    <{{content.headingHierarchy | default: "h2" }}  class="cs-visualInterest {{headingClasses}} font-bold mt-1 {{headingSize}}" style="--c-visualColor: {{styles.visualInterestColor}}">
       {% bookshop "generic/textBlock" text: content.headline %}
       </{{content.headingHierarchy | default: "h2" }}>
       <div class="mt-4 cs-headingLink">

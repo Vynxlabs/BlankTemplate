@@ -1,0 +1,20 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - editorial_blocks
+  label: "Task List"
+  description:
+  icon: checklist
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  tasks:
+    - checked: false
+      text: "To do"
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:

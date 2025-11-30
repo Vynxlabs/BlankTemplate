@@ -3,6 +3,7 @@ const yaml = require('js-yaml')
 const path = require('path');
 
 // read theme colors and fonts from _data/theme.yml
+const generatedWith = "Generated with fetch-theme-variables.js";
 let dataFile = yaml.load(fs.readFileSync('src/_data/theme.yml','utf-8'))
     
 /* 
@@ -24,6 +25,8 @@ config['_inputs']['color_group']['options']['values'] = []
 config['_inputs']['footer_color_group']['options']['values'] = []
 config['_inputs']['card_color_group']['options']['values'] = []
 config['_inputs']['form_color_group']['options']['values'] = []
+
+const colorGroupsDataPath = "src/_data/color_groups.yml";
 
 /* 
     remove any existing color_groups.scss file and create a new one
@@ -49,6 +52,25 @@ let css_string_component = `.component {\n`
 let css_string_nav = `.c-navigation {\n`
 let css_string_footer = `.c-footer {\n`
 let css_string_utilities = ``
+let css_string_docs = `
+/* Vellum editorial docs theme adapter */
+.cs-docs {
+/* Map docs tokens to the Vellum variable names */
+--background-body: var(--docs-background-body);
+--background-surface: var(--docs-background-surface);
+--background-interactive-hover: var(--docs-background-interactive-hover);
+--text-primary: var(--docs-text-primary);
+--text-muted: var(--docs-text-muted);
+--border-primary: var(--docs-border-primary);
+--accent-primary: var(--docs-accent-primary);
+--accent-hover: var(--docs-accent-hover);
+--accent-secondary: var(--docs-accent-secondary);
+--accent-secondary-hover: var(--docs-accent-secondary-hover);
+--code-inline-background: var(--docs-code-inline-background);
+--code-inline-text: var(--docs-code-inline-text);
+--code-block-background: var(--docs-code-block-background);
+}
+`;
 console.log(color_groups)
 // css_string_utilities += `.text-primary-textcolor { color: ${primary_color.textColor}; }\n`
 // css_string_utilities += `.text-primary-primarycolor { color: ${primary_color.primaryColor}; }\n`
@@ -58,6 +80,67 @@ console.log(color_groups)
 // css_string_utilities += `.bg-primary-primarycolor { background-color: ${primary_color.primaryColor}; }\n`
 // css_string_utilities += `.bg-primary-secondarycolor { background-color: ${primary_color.secondaryColor}; }\n`
 // css_string_utilities += `.bg-primary-accentcolor { background-color: ${primary_color.accentColor}; }\n\n`
+
+function hexToHsl(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  let rN = r / 255, gN = g / 255, bN = b / 255;
+  const max = Math.max(rN, gN, bN), min = Math.min(rN, gN, bN);
+  let h, s, l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0;
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case rN: h = (gN - bN) / d + (gN < bN ? 6 : 0); break;
+      case gN: h = (bN - rN) / d + 2; break;
+      case bN: h = (rN - gN) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return { h, s, l };
+}
+
+function hslToHex(h, s, l) {
+  function hue2rgb(p, q, t) {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+  }
+  let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  let p = 2 * l - q;
+  let r = hue2rgb(p, q, h + 1/3);
+  let g = hue2rgb(p, q, h);
+  let b = hue2rgb(p, q, h - 1/3);
+  const toHex = v => (Math.round(v * 255)).toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function lighten(hex, amount) {
+  const { h, s, l } = hexToHsl(hex);
+  const newL = Math.max(0, Math.min(1, l + amount));
+  return hslToHex(h, s, newL);
+}
+
+function mix(hex1, hex2, t) {
+  const a = hexToRgb(hex1);
+  const b = hexToRgb(hex2);
+  const mixChannel = (x, y) => Math.round(x + (y - x) * t);
+  const r = mixChannel(a.r, b.r);
+  const g = mixChannel(a.g, b.g);
+  const bC = mixChannel(a.b, b.b);
+  return `#${[r,g,bC].map(v => v.toString(16).padStart(2, '0')).join('')}`;
+}
+
+function isLight(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const luminance = (r * 299 + g * 587 + b * 114) / 1000;
+  return luminance > 128;
+}
 
 // Helper function to convert hex to RGB
 function hexToRgb(hex) {
@@ -249,6 +332,51 @@ function appendTailwindUtilityClasses(colorSet,id){
     return cssString
 }
 
+function appendDocsTheme(colorSet, id) {
+  // Ensure values
+  colorSet.textColor       = colorSet.textColor       || '#ffffff';
+  colorSet.backgroundColor = colorSet.backgroundColor || '#000000';
+  colorSet.primaryColor    = colorSet.primaryColor    || colorSet.accentColor || '#2563eb';
+  colorSet.secondaryColor  = colorSet.secondaryColor  || colorSet.primaryColor;
+  colorSet.accentColor     = colorSet.accentColor     || colorSet.secondaryColor;
+
+  const bg   = colorSet.backgroundColor;
+  const text = colorSet.textColor;
+  const primary   = colorSet.primaryColor;
+  const secondary = colorSet.secondaryColor;
+  const accent    = colorSet.accentColor;
+
+  const docsBgSurface  = lighten(bg, 0.04);
+  const docsBgHover    = lighten(bg, 0.08);
+  const muted          = mix(text, bg, 0.6);
+  const border         = mix(text, bg, 0.8);
+  const accentHover    = lighten(primary, 0.08);
+  const secondaryHover = lighten(secondary, 0.08);
+  const codeBgInline   = mix(bg, '#000000', isLight(bg) ? 0.06 : 0.3);
+  const codeBgBlock    = mix(bg, '#000000', isLight(bg) ? 0.10 : 0.4);
+
+  return `
+.cs-docs--${id} {
+--docs-background-body: ${bg};
+--docs-background-surface: ${docsBgSurface};
+--docs-background-interactive-hover: ${docsBgHover};
+
+--docs-text-primary: ${text};
+--docs-text-muted: ${muted};
+--docs-border-primary: ${border};
+
+--docs-accent-primary: ${primary};
+--docs-accent-hover: ${accentHover};
+--docs-accent-secondary: ${secondary};
+--docs-accent-secondary-hover: ${secondaryHover};
+
+--docs-code-inline-background: ${codeBgInline};
+--docs-code-inline-text: ${accent};
+--docs-code-block-background: ${codeBgBlock};
+}
+`;
+}
+
 function generateTailwindUtilityClasses(color_groups,id) {
     let cssString = ''; // Initialize an empty string to store CSS rules
 
@@ -270,7 +398,7 @@ function generateTailwindUtilityClasses(color_groups,id) {
 
 css_string_utilities+=appendTailwindUtilityClasses(primary_color,'primary')
 css_string_root += appendHighContrastClasses(primary_color, 'primary');
-
+css_string_docs += appendDocsTheme(primary_color, 'primary');
 
 css_string_component += `--main-background-color: #3B3B3D;\n`
 css_string_component += `--main-text-color: #F9F9FB;\n`
@@ -283,6 +411,10 @@ css_string_nav += `--main-text-color: #D9D9DC;\n`
 
 css_string_footer += `--main-background-color: #1B1B1D;\n`
 css_string_footer += `--main-text-color: #D9D9DC;\n`
+
+
+// For primary group
+
 
 /*
     Function to build the CSS rules:
@@ -308,11 +440,12 @@ css_string_component += `}\n`
 css_string_nav = addColorDefinitions(css_string_nav, 'primary')      
 css_string_footer = addColorDefinitions(css_string_footer, 'primary') 
 
-config['_inputs']['nav_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['footer_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['card_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
-config['_inputs']['form_color_group']['options']['values'].push({id: 'primary', name: primary_color.name})
+const colorGroupsData = [
+	{
+		id: "primary",
+		name: primary_color.name,
+	},
+];
 
 /* 
     iterate through all the user defined color_groups and:
@@ -332,12 +465,6 @@ color_groups = color_groups.forEach((color_set, i) => {
     let foreground = color_set.foreground_color
     let interaction = color_set.interaction_color
     
-    let obj = { name, id }
-    config['_inputs']['nav_color_group']['options']['values'].push(obj)
-    config['_inputs']['color_group']['options']['values'].push(obj)
-    config['_inputs']['footer_color_group']['options']['values'].push(obj)
-    config['_inputs']['card_color_group']['options']['values'].push(obj)
-    config['_inputs']['form_color_group']['options']['values'].push(obj)
     
     css_string_root += `--${id}__background : ${background};\n`
     css_string_root += `--${id}__foreground : ${foreground};\n`
@@ -351,6 +478,7 @@ color_groups = color_groups.forEach((color_set, i) => {
     
     css_string_utilities+=appendTailwindUtilityClasses(color_set,id)
     css_string_root += appendHighContrastClasses(color_set, id);
+    css_string_docs += appendDocsTheme(color_set, id);
     css_string_component = addColorDefinitions(css_string_component, id)      
     css_string_nav = addColorDefinitions(css_string_nav, id)      
     css_string_footer = addColorDefinitions(css_string_footer, id)        
@@ -365,11 +493,9 @@ css_string_footer += `}\n\n`
 //config['_inputs']['nav_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 //config['_inputs']['footer_color_group']['options']['values'] = Array.from(config['_inputs']['color_group']['options']['values'])
 
-// write the config file with the new options
-fs.writeFileSync(configFileLocation, yaml.dump(config))
 
 // write the css strings into a single file
-let css_string = `${css_string_root}${css_string_utilities}${css_string_component}${css_string_nav}${css_string_footer}`
+let css_string = `${css_string_root}${css_string_utilities}${css_string_docs}${css_string_component}${css_string_nav}${css_string_footer}`
 fs.appendFileSync(colorsFileLocation, css_string)
 
 

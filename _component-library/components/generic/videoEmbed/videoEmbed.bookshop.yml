@@ -5,6 +5,7 @@ spec:
     - assets
     - resource
     - media
+    - editorial_blocks
   label: "Video Embed"
   description:
   icon: smart_display
