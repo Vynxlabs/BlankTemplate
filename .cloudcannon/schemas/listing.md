@@ -14,7 +14,7 @@ tags:
 canExpire: false
 expireDate:
 permalink: >-
-  /listings/{% assign id = id | uuidHashFilter%}{% capture varPagePath %}{% if pageLink%}{% assign pageLink = pageLink | slugify%}{{  page.filePathStem |fileSubstringFilter | append: pageLink | append: "-" | append: id  }}{% else %}{{  page.filePathStem |fileSubstringFilter | append: id }}{% endif %}{% endcapture %}/{{varPagePath | strip}}/index.html
+  /listings/{% capture varPagePath %}{% if pageLink%}{% assign pageLink = pageLink | slugify%}{{  page.filePathStem |fileSubstringFilter | append: pageLink }}{% else %}{% assign title = title | slugify%}{{  page.filePathStem |fileSubstringFilter | append: title }}{% endif %}{% endcapture %}/{{varPagePath | strip}}/index.html
 layout: "layouts/listing.html"
 listingImage:
 imageAltText:
