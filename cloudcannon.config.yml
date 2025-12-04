@@ -57,6 +57,7 @@ collections_config:
       - '!pages.json'
       - '!404.md'
     name: Pages
+    url: /[relative_base_path]/{pageLink|default=title|lowercase|slugify}/
     description: All your pages
     icon: description
     documentation: null
@@ -124,6 +125,7 @@ collections_config:
     schema_key: null
   blog:
     path: posts
+    url: /blog/[relative_base_path]/{title|lowercase|slugify}/
     glob:
       - '!posts.json'
     _enabled_editors:
@@ -184,6 +186,7 @@ collections_config:
     path: happenings
     icon: event
     new_preview_url: /
+    url: /happenings/[relative_base_path]/{title|lowercase|slugify}/
     glob:
       - '!happenings.json'
     _enabled_editors:
@@ -227,6 +230,7 @@ collections_config:
     icon: design_services
     new_preview_url: /
     documentation: null
+    url: /services/[relative_base_path]/{pageLink|default=title|lowercase|slugify}/
     preview:
       gallery: design_services
     glob:
@@ -267,6 +271,7 @@ collections_config:
     icon: lists
     new_preview_url: /
     documentation: null
+    url: /listings/[relative_base_path]/{pageLink|default=title|lowercase|slugify}/
     preview:
       gallery: lists
     glob:
