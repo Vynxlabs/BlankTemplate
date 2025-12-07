@@ -448,6 +448,9 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("rot20Filter", rot20_7);
   eleventyConfig.addFilter("docsModeFilter", docsModeFilter);
   eleventyConfig.addFilter("jsonPathFilter", jsonPathFilter);
+  eleventyConfig.addFilter("dateToRfc3339", rssPlugin.dateToRfc3339);
+  eleventyConfig.addFilter("dateToRfc882", rssPlugin.dateToRfc822);
+  eleventyConfig.addFilter("getNewestCollectionItemDate",rssPlugin.getNewestCollectionItemDate);
 
   // Load and flatten tokens
   const tokens = loadTokens();

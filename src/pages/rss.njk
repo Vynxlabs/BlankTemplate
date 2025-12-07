@@ -2,7 +2,7 @@
 title: 'Blog'
 summary: 'A feed of the latest posts from our blog.'
 permalink: '/feed.xml'
-templateEngineOverride: njk
+templateEngineOverride: liquid
 layout:
 ---
 <?xml version="1.0" encoding="utf-8"?>
@@ -11,21 +11,21 @@ layout:
 	<subtitle>{{ summary }}</subtitle>
 	<link href="{{ site.url }}{{ permalink }}" rel="self"/>
 	<link href="{{ site.url }}/"/>
-	<updated>{{ collections.blog | rssLastUpdatedDate }}</updated>
+	<updated>{{ collections.blog | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
 	<id>{{ site.url }}</id>
 	{% for post in collections.blog %}
-    {% set absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endset %}
+    {% capture absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endcapture %}
     <entry>
       <title>{{ post.data.title }}</title>
       <link href="{{ absolutePostUrl }}"/>
-      <updated>{{ post.date | rssDate }}</updated>
+      <updated>{{ post.date | dateToRfc882 }}</updated>
       <id>{{ absolutePostUrl }}</id>
       <author>
-        {% set query= "$[?(@.id == '"+post.data.author+ "')].name" %}
-        {% set authorName= authors | jsonPathFilter(query) %}
+        {% assign query= "$[?(@.id == '"| append: post.data.author | append: "')].name" %}
+        {% assign authorName= authors | jsonPathFilter: query %}
         <name>{{ authorName[0] }}</name>
       </author>
-      <content type="html"><![CDATA[{{ post.templateContent | renderTransforms | safe }}]]></content>
+      <content type="html"><![CDATA[{{ post.templateContent | renderTransforms }}]]></content>
     </entry>
 	{% endfor %}
 </feed>
