@@ -32,7 +32,7 @@ layout:
       </author>
       <link rel="enclosure" href="{{ post.data.blogImage | default: blog.defaultImage  }}" type="{{ post.data.blogImage | default: blog.defaultImage | getMimeType }}" />
       <media:content medium="image" url="{{site.url}}{{ post.data.blogImage | default: blog.defaultImage  }}" />
-      <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms }}]]></content>
+      <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms | sanitizeRss }}]]></content>
     </entry>
 	{% endfor %}
 </feed>

@@ -23,6 +23,7 @@ const rot20_7 = require("./src/filters/rot20-7-filter.js");
 const docsModeFilter = require("./src/filters/docsDarkMode-filter.js");
 const jsonPathFilter = require("./src/filters/jsonPath-filter.js");
 const mime = require('mime-types')
+const sanitizeRssFilter = require("./src/filters/sanitizeRss-filter.js");
 
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
@@ -453,6 +454,7 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("dateToRfc882", rssPlugin.dateToRfc822);
   eleventyConfig.addFilter("getNewestCollectionItemDate",rssPlugin.getNewestCollectionItemDate);
   eleventyConfig.addFilter("getMimeType", (path) => mime.lookup(path));
+  eleventyConfig.addFilter("sanitizeRss", sanitizeRssFilter);
 
   // Load and flatten tokens
   const tokens = loadTokens();
