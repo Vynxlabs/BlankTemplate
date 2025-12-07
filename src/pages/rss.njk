@@ -13,10 +13,6 @@ layout:
 	<link href="{{ site.url }}/"/>
 	<updated>{{ collections.blog | rssLastUpdatedDate }}</updated>
 	<id>{{ site.url }}</id>
-	<author>
-    {% assign query= "$[?(@.id == '"| append: post.data.author | append: "')].name" %}
-    <name>{{ authors | jsonPathFilter: query  }}</name>
-	</author>
 	{% for post in collections.blog %}
     {% set absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endset %}
     <entry>
@@ -24,7 +20,11 @@ layout:
       <link href="{{ absolutePostUrl }}"/>
       <updated>{{ post.date | rssDate }}</updated>
       <id>{{ absolutePostUrl }}</id>
-      <content type="html"><![CDATA[{{ post.templateContent | safe }}]]></content>
+      <author>
+        {% set query= "$[?(@.id == '"+post.data.author+ "')].name" %}
+        <name>{{ authors | jsonPathFilter(query)  }}</name>
+      </author>
+      <content type="html"><![CDATA[{{ post.templateContent | renderTransforms | safe }}]]></content>
     </entry>
 	{% endfor %}
 </feed>
