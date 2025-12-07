@@ -47,6 +47,7 @@
     "liquidjs": "^10.10.2",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-ultree": "^1.0.0",
+    "mime-types": "^3.0.2",
     "moment": "^2.29.4",
     "netlify-plugin-cache": "^1.0.3",
     "node-fetch": "^3.3.2",

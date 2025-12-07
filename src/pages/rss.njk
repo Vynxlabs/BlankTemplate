@@ -30,6 +30,7 @@ layout:
         {% assign authorName= authors | jsonPathFilter: query %}
         <name>{{ authorName[0] }}</name>
       </author>
+      <link rel="enclosure" href="{{ post.data.blogImage | default: blog.defaultImage  }}" type="{{ post.data.blogImage | default: blog.defaultImage | getMimeType }}" />
       <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms }}]]></content>
     </entry>
 	{% endfor %}
