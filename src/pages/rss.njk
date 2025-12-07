@@ -22,7 +22,8 @@ layout:
       <id>{{ absolutePostUrl }}</id>
       <author>
         {% set query= "$[?(@.id == '"+post.data.author+ "')].name" %}
-        <name>{{ authors | jsonPathFilter(query)  }}</name>
+        {% set authorName= authors | jsonPathFilter(query) %}
+        <name>{{ authorName[0] }}</name>
       </author>
       <content type="html"><![CDATA[{{ post.templateContent | renderTransforms | safe }}]]></content>
     </entry>
