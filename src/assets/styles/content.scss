@@ -27,27 +27,22 @@
 }
 
 .cs-docs {
-.heading-wrapper {
+h1, h2, h3, h4 {
     display: flex;
-    align-items: flex-end;
-    
-    // 1. Target the anchor class
+    align-items: flex-start; // Keeps the anchor aligned with the text baseline
+
     .anchor {
-      // Hide by default
-      opacity: 0; 
-      // Add a transition for a smooth fade-in effect
-      transition: opacity 0.2s ease-in-out; 
-      
+      opacity: 0; // Hidden by default
       margin-left: .25em;
       font-size: .75em;
-      text-decoration: none; // Optional: remove underline
+      text-decoration: none;
+      transition: opacity 0.2s ease-in-out;
     }
 
-    // 2. When the wrapper is hovered, change the child .anchor style
-    &:hover {
-      .anchor {
-        opacity: 0.8; // Or 1, depending on preference
-      }
+    // Show anchor on hover
+    &:hover .anchor,
+    .anchor:focus {
+      opacity: 1;
     }
   }
   margin-bottom: 20px;
@@ -57,27 +52,27 @@
     font-size: 3rem;
     line-height: 1;
   }
-  .h2 {
+  h2 {
     margin-top: 48px;
     font-size: 2.25rem;
     line-height: 2.5rem;
   }
-  .h3 {
+  h3 {
     margin-top: 32px;
     font-size: 2rem;
     line-height: 2.25rem;
   }
-  .h4 {
+  h4 {
     margin-top: 32px;
     font-size: 1.75rem;
     line-height: 2rem;
   }
-  .h5 {
+  h5 {
     margin-top: 28px;
     font-size: 1.5rem;
     line-height: 2rem;
   }
-  .h6 {
+  h6 {
     margin-top: 24px;
     font-size: 1.25rem;
     line-height: 1.75rem;
