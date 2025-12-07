@@ -21,6 +21,7 @@ const tagColorFilter = require("./src/filters/tag-color-filter.js");
 const collectionsFilter = require("./src/filters/collections-filter.js");
 const rot20_7 = require("./src/filters/rot20-7-filter.js");
 const docsModeFilter = require("./src/filters/docsDarkMode-filter.js");
+const jsonPathFilter = require("./src/filters/jsonPath-filter.js");
 
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
@@ -446,6 +447,7 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("tagColorFilter", tagColorFilter);
   eleventyConfig.addFilter("rot20Filter", rot20_7);
   eleventyConfig.addFilter("docsModeFilter", docsModeFilter);
+  eleventyConfig.addFilter("jsonPathFilter", jsonPathFilter);
 
   // Load and flatten tokens
   const tokens = loadTokens();
