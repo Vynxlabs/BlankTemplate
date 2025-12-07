@@ -37,7 +37,48 @@ md.disable(["code"]);
 
 const ultree = require("markdown-it-ultree");
 
+const slugify = require("slugify");
+
 const markdownItAnchor = require("markdown-it-anchor");
+
+const linkAfterHeader = markdownItAnchor.permalink.linkAfterHeader({
+  class: "anchor",
+  symbol: "<span >#</span>",
+  style: "aria-labelledby",
+});
+const markdownItAnchorOptions = {
+  level: [1, 2, 3],
+  slugify: (str) =>
+    slugify(str, {
+      lower: true,
+      strict: true,
+      remove: /["]/g,
+    }),
+  tabIndex: false,
+  permalink(slug, opts, state, idx) {
+    state.tokens.splice(
+      idx,
+      0,
+      Object.assign(new state.Token("div_open", "div", 1), {
+        // Add class "header-wrapper [h1 or h2 or h3]"
+        attrs: [["class", `heading-wrapper ${state.tokens[idx].tag}`]],
+        block: true,
+      })
+    );
+
+    state.tokens.splice(
+      idx + 4,
+      0,
+      Object.assign(new state.Token("div_close", "div", -1), {
+        block: true,
+      })
+    );
+
+    linkAfterHeader(slug, opts, state, idx + 1);
+  },
+};
+
+
 const pluginTOC = require("eleventy-plugin-toc");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginBookshop = require("@bookshop/eleventy-bookshop");
@@ -191,12 +232,6 @@ function imageCssBackground(src, selector, widths) {
   return markup.join("");
 }
 
-const slugify = (key) =>
-  key
-    .toLowerCase()
-    .replace(/[^a-z0-9._]+/g, "-")
-    .replace(/^-|-$/g, "");
-
 const evaluateToken = (tokens, inputPath) => {
   const normalizedPath = slugify(inputPath);
   return tokens[normalizedPath] || "";
@@ -291,7 +326,7 @@ module.exports = async function (eleventyConfig) {
   };
   const md = markdownIt(options)
     .disable(["code"])
-    .use(markdownItAnchor)
+    .use(markdownItAnchor, markdownItAnchorOptions)
     .use(ultree);
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addWatchTarget("./_component-library/**/*");
