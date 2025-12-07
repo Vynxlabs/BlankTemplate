@@ -14,6 +14,11 @@ layout:
 	<updated>{{ collections.blog | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
 	<id>{{ site.url }}</id>
 	{% for post in collections.blog %}
+    {% capture bookshopContent %}
+      {% if editorial_blocks %}
+        {% bookshop_include "doc" editorial_blocks: editorial_blocks %}
+      {% endif %}
+    {% endcapture %}
     {% capture absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endcapture %}
     <entry>
       <title>{{ post.data.title }}</title>
@@ -25,7 +30,7 @@ layout:
         {% assign authorName= authors | jsonPathFilter: query %}
         <name>{{ authorName[0] }}</name>
       </author>
-      <content type="html"><![CDATA[{{ post.templateContent | renderTransforms }}]]></content>
+      <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms }}]]></content>
     </entry>
 	{% endfor %}
 </feed>
