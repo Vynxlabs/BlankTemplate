@@ -6,7 +6,7 @@ templateEngineOverride: liquid
 layout:
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <title>{{ title }}</title>
 	<subtitle>{{ summary }}</subtitle>
 	<link href="{{ site.url }}{{ permalink }}" rel="self"/>
@@ -31,6 +31,7 @@ layout:
         <name>{{ authorName[0] }}</name>
       </author>
       <link rel="enclosure" href="{{ post.data.blogImage | default: blog.defaultImage  }}" type="{{ post.data.blogImage | default: blog.defaultImage | getMimeType }}" />
+      <media:content medium="image" url="{{ post.data.blogImage | default: blog.defaultImage  }}" />
       <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms }}]]></content>
     </entry>
 	{% endfor %}
