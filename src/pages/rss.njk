@@ -15,8 +15,8 @@ layout:
 	<id>{{ site.url }}</id>
 	{% for post in collections.blog %}
     {% capture bookshopContent %}
-      {% if editorial_blocks %}
-        {% bookshop_include "doc" editorial_blocks: editorial_blocks %}
+      {% if post.data.editorial_blocks %}
+        {% bookshop_include "doc" editorial_blocks: post.data.editorial_blocks %}
       {% endif %}
     {% endcapture %}
     {% capture absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endcapture %}
