@@ -22,10 +22,10 @@ flex flex-col gap-12
 {% assign listingCardStyle = 'generic/listings/' | append: styles.listingCardStyle | append: "ListingCard" %}
 <div class="c-collectionsAll componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
   <section
-    class="basecontainer w-full"
+    class="basecontainer w-full">
     {% if content.sectionId %}
               {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
-    {% endif %}>
+    {% endif %}
     {% if env_bookshop_live and content.showNote %}
             {% bookshop "generic/notification" heading:"Incorrect visuals" text:"Sometimes 'ghost' cards will show up while live editing, but will show up correctly on the live site <br><br> Filterring will not work while editing, but will show up correctly on the live site" %}
         {% endif %}

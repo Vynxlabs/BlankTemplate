@@ -208,7 +208,7 @@
                 so we just do editorial blocks + body here
             {%- endcomment -%}
 
-            {{ bookshopContent }}
+            {% bookshop_include "doc" editorial_blocks: editorial_blocks %}
 
             {% if content and content != "" %}
               <article data-cms-edit="content" class="">

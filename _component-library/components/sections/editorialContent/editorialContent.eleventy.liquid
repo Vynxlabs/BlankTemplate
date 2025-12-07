@@ -2,10 +2,10 @@
 
 
 <section  
+class=' {{styles.color_group | docsModeFilter}}  cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor'>
   {% if content.sectionId %}
     {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
   {% endif %}
-class=' {{styles.color_group | docsModeFilter}}  cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor'>
 
 
 {% if content.heading or content.text %}
