@@ -2,31 +2,37 @@
 title: 'Blog'
 summary: 'A feed of the latest posts from our blog.'
 permalink: '/feed.xml'
-templateEngineOverride: njk
+templateEngineOverride: liquid
 layout:
 ---
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
   <title>{{ title }}</title>
 	<subtitle>{{ summary }}</subtitle>
 	<link href="{{ site.url }}{{ permalink }}" rel="self"/>
 	<link href="{{ site.url }}/"/>
-	<updated>{{ collections.blog | rssLastUpdatedDate }}</updated>
+	<updated>{{ collections.blog | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
 	<id>{{ site.url }}</id>
-	<author>
-    <name>{{ site.authorName }}</name>
-    <email>{{ site.authorEmail }}</email>
-	</author>
 	{% for post in collections.blog %}
-    {% set absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endset %}
+    {% capture bookshopContent %}
+      {% if post.data.editorial_blocks %}
+        {% bookshop_include "doc" editorial_blocks: post.data.editorial_blocks %}
+      {% endif %}
+    {% endcapture %}
+    {% capture absolutePostUrl %}{{ site.url }}{{ post.url | url }}{% endcapture %}
     <entry>
       <title>{{ post.data.title }}</title>
       <link href="{{ absolutePostUrl }}"/>
-      <updated>{{ post.date | rssDate }}</updated>
+      <updated>{{ post.date | dateToRfc882 }}</updated>
       <id>{{ absolutePostUrl }}</id>
-      <content type="html"><![CDATA[
-        {{ post.templateContent | safe }}
-      ]]></content>
+      <author>
+        {% assign query= "$[?(@.id == '"| append: post.data.author | append: "')].name" %}
+        {% assign authorName= authors | jsonPathFilter: query %}
+        <name>{{ authorName[0] }}</name>
+      </author>
+      <link rel="enclosure" href="{{ post.data.blogImage | default: blog.defaultImage  }}" type="{{ post.data.blogImage | default: blog.defaultImage | getMimeType }}" />
+      <media:content medium="image" url="{{site.url}}{{ post.data.blogImage | default: blog.defaultImage  }}" />
+      <content type="html"><![CDATA[{{ bookshopContent | append: post.templateContent | renderTransforms | sanitizeRss }}]]></content>
     </entry>
 	{% endfor %}
 </feed>
