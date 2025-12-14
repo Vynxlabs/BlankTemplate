@@ -21,6 +21,9 @@ const tagColorFilter = require("./src/filters/tag-color-filter.js");
 const collectionsFilter = require("./src/filters/collections-filter.js");
 const rot20_7 = require("./src/filters/rot20-7-filter.js");
 const docsModeFilter = require("./src/filters/docsDarkMode-filter.js");
+const jsonPathFilter = require("./src/filters/jsonPath-filter.js");
+const mime = require('mime-types')
+const sanitizeRssFilter = require("./src/filters/sanitizeRss-filter.js");
 
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
 const eleventyNavigationPlugin = require("@11ty/eleventy-navigation");
@@ -34,7 +37,29 @@ md.disable(["code"]);
 
 const ultree = require("markdown-it-ultree");
 
+const slugify = require("slugify");
+
 const markdownItAnchor = require("markdown-it-anchor");
+
+const linkAfterHeader = markdownItAnchor.permalink.linkInsideHeader({
+  class: "anchor",
+  symbol: "<span >#</span>",
+  style: "aria-labelledby",
+});
+const markdownItAnchorOptions = {
+  level: [1, 2, 3],
+  slugify: (str) =>
+    slugify(str, {
+      lower: true,
+      strict: true,
+      remove: /["]/g,
+    }),
+  tabIndex: false,
+  // simply use the constant defined above
+  permalink: linkAfterHeader, 
+};
+
+
 const pluginTOC = require("eleventy-plugin-toc");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginBookshop = require("@bookshop/eleventy-bookshop");
@@ -188,12 +213,6 @@ function imageCssBackground(src, selector, widths) {
   return markup.join("");
 }
 
-const slugify = (key) =>
-  key
-    .toLowerCase()
-    .replace(/[^a-z0-9._]+/g, "-")
-    .replace(/^-|-$/g, "");
-
 const evaluateToken = (tokens, inputPath) => {
   const normalizedPath = slugify(inputPath);
   return tokens[normalizedPath] || "";
@@ -288,7 +307,7 @@ module.exports = async function (eleventyConfig) {
   };
   const md = markdownIt(options)
     .disable(["code"])
-    .use(markdownItAnchor)
+    .use(markdownItAnchor, markdownItAnchorOptions)
     .use(ultree);
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addWatchTarget("./_component-library/**/*");
@@ -446,6 +465,12 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("tagColorFilter", tagColorFilter);
   eleventyConfig.addFilter("rot20Filter", rot20_7);
   eleventyConfig.addFilter("docsModeFilter", docsModeFilter);
+  eleventyConfig.addFilter("jsonPathFilter", jsonPathFilter);
+  eleventyConfig.addFilter("dateToRfc3339", rssPlugin.dateToRfc3339);
+  eleventyConfig.addFilter("dateToRfc882", rssPlugin.dateToRfc822);
+  eleventyConfig.addFilter("getNewestCollectionItemDate",rssPlugin.getNewestCollectionItemDate);
+  eleventyConfig.addFilter("getMimeType", (path) => mime.lookup(path));
+  eleventyConfig.addFilter("sanitizeRss", sanitizeRssFilter);
 
   // Load and flatten tokens
   const tokens = loadTokens();
