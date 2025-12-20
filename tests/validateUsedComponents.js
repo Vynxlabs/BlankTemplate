@@ -4,7 +4,7 @@ const yaml = require("js-yaml");
 const matter = require("gray-matter");
 
 const componentsDir = "./_component-library/components";
-const pagesDirs = ["./src/pages", "./src/services", "./src/happenings"];
+const pagesDirs = ["./src/pages", "./src/services", "./src/happenings", "./src/listings"];
 const componentBlueprints = {};
 const componentsInUse = [];
 let hasWarnings = false;
