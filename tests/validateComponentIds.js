@@ -4,7 +4,7 @@ const matter = require("gray-matter");
 
 // Configuration
 const registryPath = "./_component-library/componentRegistry.json";
-const pagesDirs = ["./src/pages", "./src/services", "./src/happenings"];
+const pagesDirs = ["./src/pages", "./src/services", "./src/happenings", "./src/listings"];
 
 // 1. Load and Validate Registry
 if (!fs.existsSync(registryPath)) {
