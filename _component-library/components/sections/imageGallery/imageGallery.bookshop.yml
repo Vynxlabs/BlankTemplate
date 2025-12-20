@@ -13,6 +13,7 @@ spec:
 # Recreate it correctly and ymlify it back into the grid component
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: imageGallery-45012dd5-6abc-4c54-b759-0fdda0474674
   content:
     sectionId:
     heading: bookshop:structure:headingBlocks

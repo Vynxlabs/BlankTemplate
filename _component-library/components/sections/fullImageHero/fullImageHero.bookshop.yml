@@ -10,6 +10,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: fullImageHero-01f39e7d-cffe-4566-b971-7a8012a0085e
   content:
     highlightEybrow: false
     sectionId:
