@@ -5,10 +5,12 @@ spec:
   label: "Accordion Content (FAQ)"
   description: A section with information in an accordion
   icon: unfold_more
+  tabbed: true
   tags: []
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: faq-681e1b95-8001-4b43-88c8-d09ec9e7f444
   content:
     sectionId:
     heading: bookshop:structure:headingBlocks

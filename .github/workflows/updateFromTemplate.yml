@@ -90,6 +90,9 @@ jobs:
       - name: Install dependencies
         run: npm install --prefer-offline --no-audit --no-progress --production
 
+      - name: Run componentId and path validation
+        run: cd _component-library; chmod +x generate_registry.sh; ./generate_registry.sh; cd ..; npm run test:componentIds
+
       - name: Run component validation and sync site.json
         run: npm run test:componentUse
 

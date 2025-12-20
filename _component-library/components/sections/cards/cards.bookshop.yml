@@ -8,6 +8,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: cards-0b30a011-3cf9-4ddd-b65b-e7e6d5869c0c
   source: "manual"
   cardStyle: "standard"
   columns: 3

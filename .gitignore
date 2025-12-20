@@ -15,7 +15,9 @@ repomix-output.md
 src/css
 src/images/favicon
 
+
 # Node modules and output
 **/node_modules/**
 dist
 .unlighthouse
+_component-library/componentRegistry.json
