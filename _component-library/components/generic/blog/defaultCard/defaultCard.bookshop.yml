@@ -9,6 +9,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: defaultCard-68c286aa-185e-4974-8ec7-f65ac5805774
   blogTitle: "something about blog"
   url: "#"
   author: "Jane Doe"

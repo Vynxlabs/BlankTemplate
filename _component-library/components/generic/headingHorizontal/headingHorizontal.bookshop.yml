@@ -10,6 +10,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: headingHorizontal-96565188-1c97-459d-8be1-ba39502ecbc1
   content:
     highlightEyebrow: false
     eyebrow:

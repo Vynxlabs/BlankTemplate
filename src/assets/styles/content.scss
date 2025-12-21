@@ -26,12 +26,17 @@
   white-space: nowrap;
 }
 
+.anchor{
+  display: none;
+}
+
 .cs-docs {
 h1, h2, h3, h4 {
     display: flex;
     align-items: flex-start; // Keeps the anchor aligned with the text baseline
 
     .anchor {
+      display: inline;
       opacity: 0; // Hidden by default
       margin-left: .25em;
       font-size: .75em;

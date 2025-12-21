@@ -10,6 +10,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: menu-44dcbcb0-b75a-4808-8e31-e5952f15699c
   content:
     sectionId:
     heading: bookshop:structure:headingBlocks

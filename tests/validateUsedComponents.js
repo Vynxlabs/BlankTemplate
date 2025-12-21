@@ -4,7 +4,7 @@ const yaml = require("js-yaml");
 const matter = require("gray-matter");
 
 const componentsDir = "./_component-library/components";
-const pagesDirs = ["./src/pages", "./src/services", "./src/happenings"];
+const pagesDirs = ["./src/pages", "./src/services", "./src/happenings", "./src/listings"];
 const componentBlueprints = {};
 const componentsInUse = [];
 let hasWarnings = false;
@@ -169,15 +169,17 @@ const validateAndResolveParameters = (
         `Warning: Missing parameter "${key}" in component "${componentName}". File: ${filename}`,
       );
       hasWarnings = true;
-      if (
+      //Commented out if to always set missing optional parameters
+      /*if (
         blueprintParameters[key] === null ||
         blueprintParameters[key] === undefined ||
       (typeof blueprintParameters[key] === 'string' && blueprintParameters[key].includes("bookshop:")) || 
       (Array.isArray(blueprintParameters[key]) && blueprintParameters[key][0]?.includes("bookshop:")) 
-      ) {
-        blueprintParameters[key] = null; // Set to null to allow cloud cannon to handle inputs in the UI
-        usedParameters[key] = blueprintParameters[key]; // Add missing optional parameter
-      }
+      ) {*/
+        // Use default value if it exists
+        //blueprintParameters[key] = null; // Set to null to allow cloud cannon to handle inputs in the UI
+        usedParameters[key] = blueprintParameters[key]; // Add missing parameter
+      //}
     }
   }
 };

@@ -310,6 +310,8 @@ collection_groups:
     collections:
       - data
 _inputs:
+  _componentId:
+    hidden: true
   helperText:
     type: markdown
     options:

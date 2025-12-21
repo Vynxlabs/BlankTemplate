@@ -8,6 +8,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: feature-ea81f3f9-543f-4433-8214-595880238b42
   layout: "imageRight"
   content:
     eyebrow: "Feature"
