@@ -169,17 +169,17 @@ const validateAndResolveParameters = (
         `Warning: Missing parameter "${key}" in component "${componentName}". File: ${filename}`,
       );
       hasWarnings = true;
-      //Commented out if to always set missing optional parameters
-      /*if (
+      if (
         blueprintParameters[key] === null ||
         blueprintParameters[key] === undefined ||
       (typeof blueprintParameters[key] === 'string' && blueprintParameters[key].includes("bookshop:")) || 
       (Array.isArray(blueprintParameters[key]) && blueprintParameters[key][0]?.includes("bookshop:")) 
-      ) {*/
-        // Use default value if it exists
-        //blueprintParameters[key] = null; // Set to null to allow cloud cannon to handle inputs in the UI
+      ) {
+        blueprintParameters[key] = null; // Set to null to allow cloud cannon to handle inputs in the UI
         usedParameters[key] = blueprintParameters[key]; // Add missing parameter
-      //}
+      } else {
+        usedParameters[key] = blueprintParameters[key];
+      }
     }
   }
 };
