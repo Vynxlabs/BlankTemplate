@@ -169,7 +169,6 @@ const validateAndResolveParameters = (
         `Warning: Missing parameter "${key}" in component "${componentName}". File: ${filename}`,
       );
       hasWarnings = true;
-      //Commented out if to always set missing optional parameters
       if (
         blueprintParameters[key] === null ||
         blueprintParameters[key] === undefined ||
