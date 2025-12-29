@@ -20,6 +20,9 @@
 
 
 <header class="c-bigText w-full flex flex-col justify-center {{textAlignment}}  {{contentAlignment}} {{textClass}}">
+    {% if env_bookshop_live and content.showNote %}
+      {% bookshop "generic/notification" heading: "No large text in Live Editor" text: "The large text will not show up while editing, but will show up on the live site" %}
+    {% endif %}
     <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-none"
     data-maxfontsize="{{styles.maxFontSize}}"
     >
