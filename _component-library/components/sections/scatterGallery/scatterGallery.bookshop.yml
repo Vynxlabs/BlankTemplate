@@ -12,9 +12,10 @@ spec:
 blueprint:
   _componentId: scatterGallery-e67d93a5-7ea1-4230-990b-72427ef2f030
   content:
+    showNote: true
     sectionId:
     heading: bookshop:structure:headingBlocks
-    medias: [bookshop:structure:media]
+    images: [bookshop:generic/image]
     buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
