@@ -39,6 +39,8 @@ _inputs:
     comment: "The maximum font size in pixels"
   headline:
     type: markdown
+    label: Large Text Heading
+    comment: "Text placed here will be converted to large text"
     options:
       link: false
       blockquote: false
