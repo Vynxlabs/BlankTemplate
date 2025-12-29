@@ -20,10 +20,10 @@
 
 
 <header class="c-bigText w-full flex flex-col justify-center  {{contentAlignment}} {{textClass}}">
-    <div id="{{"bigtext-" | uuidFilter}}"
+    <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-tight"
     data-maxfontsize="{{styles.maxFontSize}}"
     >
-      {% bookshop "generic/textBlock" text: content.headline %}
+    {{content.headline | markdownify}}
     </div>
   <div class="{{textAlignment}} max-w-[700px]">
       <div class="mt-4">

@@ -953,7 +953,7 @@ document.addEventListener("DOMContentLoaded", () => {
         init: function() {
             if (!document.getElementById(BigText.GLOBAL_STYLE_ID)) {
                 const globalStyles = [
-                    '.bigtext * { white-space: nowrap; }',
+                    //'.bigtext * { white-space: nowrap; }',
                     // Added margin: 0 and padding: 0 to handle h1-h6 and p tags correctly
                     '.bigtext > * { display: block; margin: 0; padding: 0; box-sizing: border-box; }', 
                     '.bigtext .' + BigText.EXEMPT_CLASS + ', .bigtext .' + BigText.EXEMPT_CLASS + ' * { white-space: normal; }'
