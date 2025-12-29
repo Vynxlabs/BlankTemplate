@@ -1,0 +1,34 @@
+{% assign color_group = styles.color_group %}
+
+<div class="c-scatterGallery componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section class="basecontainer w-full">
+
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if content.heading %}
+      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+    {% endif %}
+    <div class="mt-12">
+      <div class="c-imageGrid cs-w-full">
+        <div id="{{"ffka_sc_wrap_" | uuidFilter}}" class="flex gap-1 flex-wrap justify-center"
+        
+        >
+          {% for image in content.images %}
+            {% assign imageId = "a" | uuidFilter %}
+            {% assign test = image %}
+            {% bookshop "generic/imageModal" image: image classes: "max-w-[210px] md:max-w-[420px] md:min-w-[320px] min-w-[160px] flex-1" id: imageId %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% if content.buttons %}
+      <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+        {% for button in content.buttons %}
+          {% bookshop "{{button._bookshop_name}}" bind: button %}
+        {% endfor %}
+
+      </div>
+    {% endif %}
+  </section>
+</div>

@@ -598,6 +598,320 @@ Listener.prototype.__onInteraction = function () {
 	this.decode();
 };
   </script>
+  <script defer>
+/**
+ * Scattered Gallery Class
+ * encapsulation of logic to support multiple instances
+ */
+class ScatteredGallery {
+    constructor(element) {
+        this.container = element;
+        
+        // 1. Default Settings
+        const defaults = {
+            photoSize: 599,
+            borderSize: 10,
+            photoShadow: 30,
+            screen: false,      // true = fullscreen, false = container size
+            scattering: true,
+            arstr: 1,          // 1-scattered, 2-straight, 3-scattered3D, 4-straight3D
+            showInfo: true,
+            infoStyle: 2,      // 1-under, 2-below box, 3-overlay
+            autoSlide: false,
+            duration: 3
+        };
+
+        // 2. Merge Defaults with Data Attributes
+        // Converts hyphenated-attributes (data-photo-size) to camelCase (photoSize)
+        this.settings = { ...defaults };
+        for (const key in defaults) {
+            // Check dataset for overriding values
+            const dataVal = this.container.dataset[key];
+            if (dataVal !== undefined) {
+                // simple type conversion
+                if(dataVal === "true") this.settings[key] = true;
+                else if(dataVal === "false") this.settings[key] = false;
+                else if(!isNaN(dataVal)) this.settings[key] = Number(dataVal);
+                else this.settings[key] = dataVal;
+            }
+        }
+
+        this.images = [];
+        this.elements = [];
+        this.activeIndex = -1;
+        this.zIndexCounter = 100;
+        this.autoSlideInterval = null;
+
+        this.init();
+    }
+
+    init() {
+        // Extract images from DOM
+        const imgs = this.container.querySelectorAll('img');
+        if (imgs.length === 0) return;
+
+        imgs.forEach(img => {
+            this.images.push({
+                src: img.src,
+                alt: img.alt || '',
+                srcset: img.srcset || ''
+            });
+        });
+
+        // Clear container and rebuild
+        this.container.innerHTML = '';
+        
+        // Re-add loader (it was removed by innerHTML clear)
+        this.loader = document.createElement('div');
+        this.loader.className = 'ffka-loader';
+        this.loader.innerHTML = '<div class="spinner"></div>';
+        this.container.appendChild(this.loader);
+
+        this.buildGallery();
+        this.addNavigation();
+        
+        // Initial Layout
+        setTimeout(() => {
+            this.loader.classList.add('loaded');
+            this.container.style.opacity = 1;
+            this.scatterPhotos();
+            
+            // Select random first image
+            const randIndex = Math.floor(Math.random() * this.elements.length);
+            this.selectImage(randIndex);
+            
+            if(this.settings.autoSlide) this.startAutoSlide();
+        }, 500);
+
+        // Bind Window Resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => this.scatterPhotos(true), 100);
+        });
+
+        // Bind Keyboard
+        document.addEventListener('keydown', (e) => {
+            // Only if this gallery is in view or active? 
+            // For simplicity, arrow keys control all galleries or check hover
+            // We will limit it to if the container is being hovered for better UX on multi-gallery pages
+            if(this.container.matches(':hover')) {
+                if(e.key === "ArrowLeft") this.prev();
+                if(e.key === "ArrowRight") this.next();
+            }
+        });
+    }
+
+    buildGallery() {
+        const fragment = document.createDocumentFragment();
+
+        this.images.forEach((imgData, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'photo-container';
+            wrapper.dataset.index = index;
+
+            // Info Block
+            let infoHtml = '';
+            if (this.settings.showInfo && imgData.alt) {
+                infoHtml = `<div class="photo-info info-style-${this.settings.infoStyle}">
+                                <span>${imgData.alt}</span>
+                            </div>`;
+            }
+
+            // Image HTML
+            wrapper.innerHTML = `
+                <div class="photo-inner" style="padding:${this.settings.borderSize}px">
+                    <img src="${imgData.src}" srcset="${imgData.srcset}" alt="${imgData.alt}">
+                    ${infoHtml}
+                </div>
+            `;
+
+            // Click Event
+            wrapper.addEventListener('click', (e) => {
+                // Prevent bubbling if clicking internal elements
+                e.stopPropagation();
+                this.selectImage(index);
+                this.stopAutoSlide(); // Interaction stops autoplay
+            });
+
+            // Touch support for dragging logic could go here, 
+            // but we are using swipe on container for nav instead.
+
+            this.elements.push(wrapper);
+            fragment.appendChild(wrapper);
+        });
+
+        this.container.appendChild(fragment);
+    }
+
+    addNavigation() {
+        // Arrows
+        const prevBtn = document.createElement('div');
+        prevBtn.className = 'sc-nav-arrow sc-prev';
+        prevBtn.innerHTML = '<span class="arrow-icon"></span>';
+        
+        const nextBtn = document.createElement('div');
+        nextBtn.className = 'sc-nav-arrow sc-next';
+        nextBtn.innerHTML = '<span class="arrow-icon"></span>';
+
+        // Events
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); this.prev(); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); this.next(); });
+        
+        // Touch Swipe Logic
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        this.container.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        this.container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+        }, {passive: true});
+
+        this.handleSwipe = () => {
+            const threshold = 50; // min distance
+            if (touchEndX < touchStartX - threshold) this.next();
+            if (touchEndX > touchStartX + threshold) this.prev();
+        };
+
+        this.container.appendChild(prevBtn);
+        this.container.appendChild(nextBtn);
+    }
+
+    scatterPhotos(preserveSelected = false) {
+        const cw = this.container.offsetWidth;
+        const ch = this.container.offsetHeight;
+        
+        // Determine area boundaries
+        // If settings.screen is true, we might use window dimensions, 
+        // but it's safer to rely on the container's relative size.
+        
+        // Boundary Logic: Keep images somewhat within view
+        const padding = this.settings.photoSize / 2;
+        const safeW = cw - padding;
+        const safeH = ch - padding;
+
+        this.elements.forEach((el, index) => {
+            if (preserveSelected && index === this.activeIndex) return;
+
+            // Reset Styles
+            el.classList.remove('selected');
+            
+            // Random Position
+            const rX = Math.random() * (safeW - padding) + padding / 2;
+            const rY = Math.random() * (safeH - padding) + padding / 2;
+            
+            let transform = '';
+
+            // Variation Styles
+            switch(this.settings.arstr) {
+                case 1: // Scattered
+                    transform = `rotate(${this.randomInt(-20, 20)}deg) scale(0.6)`;
+                    break;
+                case 2: // Straight
+                    transform = `scale(0.6)`;
+                    break;
+                case 3: // Scattered 3D
+                    transform = `rotate(${this.randomInt(-20, 20)}deg) perspective(500px) rotateY(${this.randomInt(-20, 20)}deg) scale(0.6)`;
+                    break;
+                case 4: // Straight 3D
+                    transform = `perspective(500px) rotateY(${this.randomInt(-30, 30)}deg) scale(0.6)`;
+                    break;
+                default:
+                    transform = `scale(0.6)`;
+            }
+
+            el.style.left = `${rX}px`;
+            el.style.top = `${rY}px`;
+            el.style.transform = transform;
+            el.style.zIndex = Math.floor(Math.random() * 50);
+            
+            // Adjust inner image size
+            const innerImg = el.querySelector('img');
+            innerImg.style.maxWidth = `${this.settings.photoSize}px`;
+            innerImg.style.maxHeight = `${this.settings.photoSize}px`;
+        });
+
+        // Re-apply selected state if resizing
+        if(preserveSelected && this.activeIndex > -1) {
+            this.selectImage(this.activeIndex);
+        }
+    }
+
+    selectImage(index) {
+        if (index < 0 || index >= this.elements.length) return;
+        
+        // Scatter the previously selected image back to the pile
+        if (this.activeIndex !== -1 && this.activeIndex !== index) {
+            const prevEl = this.elements[this.activeIndex];
+            prevEl.classList.remove('selected');
+            
+            // Re-apply random transform for the "put back" effect
+            const transform = this.settings.arstr === 2 ? 
+                `scale(0.6)` : 
+                `rotate(${this.randomInt(-20, 20)}deg) scale(0.6)`;
+                
+            prevEl.style.transform = transform;
+            prevEl.style.zIndex = Math.floor(Math.random() * 50);
+        }
+
+        this.activeIndex = index;
+        const el = this.elements[index];
+
+        // Bring to front and center
+        this.zIndexCounter++;
+        el.style.zIndex = this.zIndexCounter;
+        el.classList.add('selected');
+        
+        // Remove inline transform to let CSS class handle centering
+        // Note: The CSS .selected class uses !important to override inline styles
+    }
+
+    next() {
+        this.stopAutoSlide();
+        let newIndex = this.activeIndex + 1;
+        if (newIndex >= this.elements.length) newIndex = 0;
+        this.selectImage(newIndex);
+    }
+
+    prev() {
+        this.stopAutoSlide();
+        let newIndex = this.activeIndex - 1;
+        if (newIndex < 0) newIndex = this.elements.length - 1;
+        this.selectImage(newIndex);
+    }
+
+    startAutoSlide() {
+        this.autoSlideInterval = setInterval(() => {
+            let newIndex = this.activeIndex + 1;
+            if (newIndex >= this.elements.length) newIndex = 0;
+            this.selectImage(newIndex);
+        }, this.settings.duration * 1000);
+    }
+
+    stopAutoSlide() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
+    }
+
+    randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+}
+
+// Bootstrap
+document.addEventListener("DOMContentLoaded", () => {
+    // Find all containers starting with the specific ID pattern
+    const galleries = document.querySelectorAll('[id^="ffka_sc_wrap"]');
+    galleries.forEach(el => new ScatteredGallery(el));
+});
+
+  </script>
     {{site.customCode.bodyCode}}
     {{customCode.bodyCode}}
   </body>

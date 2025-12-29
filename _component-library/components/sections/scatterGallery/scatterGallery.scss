@@ -1,0 +1,164 @@
+.c-scatterGallery {
+    .ffka-loader {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #222;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.5s ease;
+    }
+    .ffka-loader.loaded {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* --- Gallery Container --- */
+    [id^="ffka_sc_wrap"] {
+        position: relative; /* Default relative, JS can make it fixed/fullscreen */
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 1s;
+        perspective: 1000px; /* For 3D transforms */
+    }
+
+    /* --- Photos --- */
+    .photo-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform-origin: center center;
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        cursor: pointer;
+        z-index: 10;
+        /* Hardware acceleration hint */
+        will-change: transform, left, top;
+    }
+
+    .photo-inner {
+        position: relative;
+        background: #fff;
+        padding: 0; /* Border size handled by JS or padding here */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        overflow: hidden;
+        display: block;
+    }
+    
+    .photo-inner img {
+        display: block;
+        width: 100%;
+        height: auto;
+        pointer-events: none; /* Prevent drag issues on img */
+    }
+
+    /* Selected State */
+    .photo-container.selected {
+        z-index: 100 !important;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1) !important;
+        left: 50% !important;
+        top: 50% !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    /* --- Info Overlay Styles --- */
+    .photo-info {
+        position: absolute;
+        transition: opacity 0.4s;
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    /* Style 1: Simple caption bottom */
+    .info-style-1 {
+        bottom: -30px; left: 0; width: 100%;
+        text-align: center; color: #fff;
+        font-size: 14px;
+        text-shadow: 0 1px 2px #000;
+    }
+    /* Style 2: Box below */
+    .info-style-2 {
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 10px;
+        width: 100%;
+        bottom: 0;
+        transform: translateY(100%);
+    }
+    /* Style 3: Overlay on hover */
+    .info-style-3 {
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        align-items: flex-end;
+        padding: 15px;
+        color: white;
+    }
+
+    .photo-container.selected .photo-info {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    /* Hide info 2 and 3 until selected */
+    .photo-container:not(.selected) .info-style-2, 
+    .photo-container:not(.selected) .info-style-3 {
+        opacity: 0;
+    }
+
+    /* --- Navigation Controls --- */
+    .sc-nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 200;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background 0.3s, transform 0.2s;
+        backdrop-filter: blur(2px);
+    }
+    .sc-nav-arrow:hover {
+        background: rgba(255,255,255,0.4);
+        transform: translateY(-50%) scale(1.1);
+    }
+    .sc-nav-arrow:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+    .sc-prev { left: 20px; }
+    .sc-next { right: 20px; }
+
+    /* Arrow Icons (CSS Only) */
+    .arrow-icon {
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 6px;
+    }
+    .sc-next .arrow-icon { transform: rotate(-45deg); margin-left: -4px; }
+    .sc-prev .arrow-icon { transform: rotate(135deg); margin-left: 4px; }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .sc-nav-arrow { width: 40px; height: 40px; background: rgba(0,0,0,0.3); }
+        .info-style-1 { font-size: 12px; bottom: -25px; }
+    }
+}
