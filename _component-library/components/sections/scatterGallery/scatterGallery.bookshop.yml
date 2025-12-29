@@ -18,7 +18,7 @@ blueprint:
   styles:
     color_group: primary
     galleryStyling:
-      altTextFont:
+      imageModal: true
       photoSize: 500
       borderSize: 10
       arstr: 1

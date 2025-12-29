@@ -601,34 +601,30 @@ Listener.prototype.__onInteraction = function () {
   <script defer>
 /**
  * Scattered Gallery Class
- * encapsulation of logic to support multiple instances
+ * Refactored to support component structures (Button + Dialog) AND Picture tags
  */
 class ScatteredGallery {
     constructor(element) {
         this.container = element;
         
-        // 1. Default Settings
         const defaults = {
             photoSize: 599,
             borderSize: 10,
             photoShadow: 30,
-            screen: false,      // true = fullscreen, false = container size
+            screen: true,
             scattering: true,
-            arstr: 1,          // 1-scattered, 2-straight, 3-scattered3D, 4-straight3D
+            arstr: 1,
             showInfo: true,
-            infoStyle: 2,      // 1-under, 2-below box, 3-overlay
+            infoStyle: 2,
             autoSlide: false,
             duration: 3
         };
 
-        // 2. Merge Defaults with Data Attributes
-        // Converts hyphenated-attributes (data-photo-size) to camelCase (photoSize)
         this.settings = { ...defaults };
+        // Read data attributes
         for (const key in defaults) {
-            // Check dataset for overriding values
             const dataVal = this.container.dataset[key];
             if (dataVal !== undefined) {
-                // simple type conversion
                 if(dataVal === "true") this.settings[key] = true;
                 else if(dataVal === "false") this.settings[key] = false;
                 else if(!isNaN(dataVal)) this.settings[key] = Number(dataVal);
@@ -636,7 +632,6 @@ class ScatteredGallery {
             }
         }
 
-        this.images = [];
         this.elements = [];
         this.activeIndex = -1;
         this.zIndexCounter = 100;
@@ -646,55 +641,69 @@ class ScatteredGallery {
     }
 
     init() {
-        // Extract images from DOM
-        const imgs = this.container.querySelectorAll('img');
-        if (imgs.length === 0) return;
+        // PRESERVATION LOGIC:
+        // We do not destroy innerHTML. We consume children and wrap them.
+        
+        // 1. Identify valid items (Buttons, Imgs, or Pictures) and move Dialogs to Body
+        const rawChildren = Array.from(this.container.children);
+        const scatterItems = [];
+        let loaderElement = null;
 
-        imgs.forEach(img => {
-            this.images.push({
-                src: img.src,
-                alt: img.alt || '',
-                srcset: img.srcset || ''
-            });
+        rawChildren.forEach(child => {
+            if (child.tagName === 'DIALOG') {
+                // CRITICAL: Move dialogs to body. 
+                // Transforms on parent (the scatter div) will break fixed position of dialogs.
+                document.body.appendChild(child); 
+            } else if (child.classList.contains('ffka-loader')) {
+                loaderElement = child;
+            } else if (
+                child.matches('img') || 
+                child.matches('picture') || 
+                child.matches('button') || 
+                child.classList.contains('c-imageModal')
+            ) {
+                // This is a scatterable item
+                scatterItems.push(child);
+            }
         });
 
-        // Clear container and rebuild
+        // 2. Clear Container (The dialogs are safe in body, items are in memory)
         this.container.innerHTML = '';
         
-        // Re-add loader (it was removed by innerHTML clear)
-        this.loader = document.createElement('div');
-        this.loader.className = 'ffka-loader';
-        this.loader.innerHTML = '<div class="spinner"></div>';
-        this.container.appendChild(this.loader);
+        // Restore loader
+        if(!loaderElement) {
+            loaderElement = document.createElement('div');
+            loaderElement.className = 'ffka-loader';
+            loaderElement.innerHTML = '<div class="spinner"></div>';
+        }
+        this.container.appendChild(loaderElement);
+        this.loader = loaderElement;
 
-        this.buildGallery();
+        // 3. Build Gallery
+        this.buildGallery(scatterItems);
         this.addNavigation();
         
-        // Initial Layout
+        // 4. Initial Layout
         setTimeout(() => {
             this.loader.classList.add('loaded');
             this.container.style.opacity = 1;
             this.scatterPhotos();
             
-            // Select random first image
+            // Randomly select one to bring to front
             const randIndex = Math.floor(Math.random() * this.elements.length);
             this.selectImage(randIndex);
             
             if(this.settings.autoSlide) this.startAutoSlide();
         }, 500);
 
-        // Bind Window Resize
+        // Events
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => this.scatterPhotos(true), 100);
         });
 
-        // Bind Keyboard
         document.addEventListener('keydown', (e) => {
-            // Only if this gallery is in view or active? 
-            // For simplicity, arrow keys control all galleries or check hover
-            // We will limit it to if the container is being hovered for better UX on multi-gallery pages
             if(this.container.matches(':hover')) {
                 if(e.key === "ArrowLeft") this.prev();
                 if(e.key === "ArrowRight") this.next();
@@ -702,40 +711,55 @@ class ScatteredGallery {
         });
     }
 
-    buildGallery() {
+    buildGallery(items) {
         const fragment = document.createDocumentFragment();
 
-        this.images.forEach((imgData, index) => {
+        items.forEach((item, index) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'photo-container';
             wrapper.dataset.index = index;
 
-            // Info Block
-            let infoHtml = '';
-            if (this.settings.showInfo && imgData.alt) {
-                infoHtml = `<div class="photo-info info-style-${this.settings.infoStyle}">
-                                <span>${imgData.alt}</span>
-                            </div>`;
+            const inner = document.createElement('div');
+            inner.className = 'photo-inner';
+            inner.style.padding = `${this.settings.borderSize}px`;
+
+            // Append the actual DOM node (preserves events/hyperscript)
+            inner.appendChild(item);
+
+            // Add Info if it's a plain image or picture (Components usually handle their own info)
+            // We only add the JS-generated info overlay if it is NOT a button/modal component
+            const isInteractive = item.matches('button') || item.classList.contains('c-imageModal');
+            
+            if (this.settings.showInfo && !isInteractive) {
+                // Find the IMG tag directly or nested within Picture
+                const imgEl = item.tagName === 'IMG' ? item : item.querySelector('img');
+                const alt = imgEl ? imgEl.alt : '';
+                
+                if(alt) {
+                    const info = document.createElement('div');
+                    info.className = `photo-info info-style-${this.settings.infoStyle}`;
+                    info.innerHTML = `<span>${alt}</span>`;
+                    inner.appendChild(info);
+                }
             }
 
-            // Image HTML
-            wrapper.innerHTML = `
-                <div class="photo-inner" style="padding:${this.settings.borderSize}px">
-                    <img src="${imgData.src}" srcset="${imgData.srcset}" alt="${imgData.alt}">
-                    ${infoHtml}
-                </div>
-            `;
+            wrapper.appendChild(inner);
 
-            // Click Event
+            // Click Logic - INTERCEPTION
+            // Use capture phase (true) to intercept clicks before they reach the button/modal trigger.
             wrapper.addEventListener('click', (e) => {
-                // Prevent bubbling if clicking internal elements
-                e.stopPropagation();
-                this.selectImage(index);
-                this.stopAutoSlide(); // Interaction stops autoplay
-            });
-
-            // Touch support for dragging logic could go here, 
-            // but we are using swipe on container for nav instead.
+                if (this.activeIndex !== index) {
+                    // Item is NOT currently selected:
+                    // Stop event from reaching the child (button) to prevent modal opening.
+                    e.stopPropagation(); 
+                    e.preventDefault(); 
+                    
+                    // Select it instead.
+                    this.selectImage(index);
+                    this.stopAutoSlide();
+                }
+                // If it IS selected, we let the event fall through to the child button.
+            }, true); // <--- Capture Phase is crucial here
 
             this.elements.push(wrapper);
             fragment.appendChild(wrapper);
@@ -745,7 +769,6 @@ class ScatteredGallery {
     }
 
     addNavigation() {
-        // Arrows
         const prevBtn = document.createElement('div');
         prevBtn.className = 'sc-nav-arrow sc-prev';
         prevBtn.innerHTML = '<span class="arrow-icon"></span>';
@@ -754,11 +777,9 @@ class ScatteredGallery {
         nextBtn.className = 'sc-nav-arrow sc-next';
         nextBtn.innerHTML = '<span class="arrow-icon"></span>';
 
-        // Events
         prevBtn.addEventListener('click', (e) => { e.stopPropagation(); this.prev(); });
         nextBtn.addEventListener('click', (e) => { e.stopPropagation(); this.next(); });
         
-        // Touch Swipe Logic
         let touchStartX = 0;
         let touchEndX = 0;
         
@@ -772,7 +793,7 @@ class ScatteredGallery {
         }, {passive: true});
 
         this.handleSwipe = () => {
-            const threshold = 50; // min distance
+            const threshold = 50;
             if (touchEndX < touchStartX - threshold) this.next();
             if (touchEndX > touchStartX + threshold) this.prev();
         };
@@ -784,12 +805,6 @@ class ScatteredGallery {
     scatterPhotos(preserveSelected = false) {
         const cw = this.container.offsetWidth;
         const ch = this.container.offsetHeight;
-        
-        // Determine area boundaries
-        // If settings.screen is true, we might use window dimensions, 
-        // but it's safer to rely on the container's relative size.
-        
-        // Boundary Logic: Keep images somewhat within view
         const padding = this.settings.photoSize / 2;
         const safeW = cw - padding;
         const safeH = ch - padding;
@@ -797,31 +812,20 @@ class ScatteredGallery {
         this.elements.forEach((el, index) => {
             if (preserveSelected && index === this.activeIndex) return;
 
-            // Reset Styles
             el.classList.remove('selected');
             
-            // Random Position
             const rX = Math.random() * (safeW - padding) + padding / 2;
             const rY = Math.random() * (safeH - padding) + padding / 2;
             
             let transform = '';
+            const deg = this.randomInt(-20, 20);
 
-            // Variation Styles
             switch(this.settings.arstr) {
-                case 1: // Scattered
-                    transform = `rotate(${this.randomInt(-20, 20)}deg) scale(0.6)`;
-                    break;
-                case 2: // Straight
-                    transform = `scale(0.6)`;
-                    break;
-                case 3: // Scattered 3D
-                    transform = `rotate(${this.randomInt(-20, 20)}deg) perspective(500px) rotateY(${this.randomInt(-20, 20)}deg) scale(0.6)`;
-                    break;
-                case 4: // Straight 3D
-                    transform = `perspective(500px) rotateY(${this.randomInt(-30, 30)}deg) scale(0.6)`;
-                    break;
-                default:
-                    transform = `scale(0.6)`;
+                case 1: transform = `rotate(${deg}deg) scale(0.6)`; break;
+                case 2: transform = `scale(0.6)`; break;
+                case 3: transform = `rotate(${deg}deg) perspective(500px) rotateY(${deg}deg) scale(0.6)`; break;
+                case 4: transform = `perspective(500px) rotateY(${this.randomInt(-30, 30)}deg) scale(0.6)`; break;
+                default: transform = `scale(0.6)`;
             }
 
             el.style.left = `${rX}px`;
@@ -829,13 +833,15 @@ class ScatteredGallery {
             el.style.transform = transform;
             el.style.zIndex = Math.floor(Math.random() * 50);
             
-            // Adjust inner image size
+            // Constrain Size
+            // We search for img deeply (works for picture > img or button > picture > img)
             const innerImg = el.querySelector('img');
-            innerImg.style.maxWidth = `${this.settings.photoSize}px`;
-            innerImg.style.maxHeight = `${this.settings.photoSize}px`;
+            if(innerImg) {
+                innerImg.style.maxWidth = `${this.settings.photoSize}px`;
+                innerImg.style.maxHeight = `${this.settings.photoSize}px`;
+            }
         });
 
-        // Re-apply selected state if resizing
         if(preserveSelected && this.activeIndex > -1) {
             this.selectImage(this.activeIndex);
         }
@@ -844,30 +850,21 @@ class ScatteredGallery {
     selectImage(index) {
         if (index < 0 || index >= this.elements.length) return;
         
-        // Scatter the previously selected image back to the pile
         if (this.activeIndex !== -1 && this.activeIndex !== index) {
             const prevEl = this.elements[this.activeIndex];
             prevEl.classList.remove('selected');
-            
-            // Re-apply random transform for the "put back" effect
             const transform = this.settings.arstr === 2 ? 
                 `scale(0.6)` : 
                 `rotate(${this.randomInt(-20, 20)}deg) scale(0.6)`;
-                
             prevEl.style.transform = transform;
             prevEl.style.zIndex = Math.floor(Math.random() * 50);
         }
 
         this.activeIndex = index;
         const el = this.elements[index];
-
-        // Bring to front and center
         this.zIndexCounter++;
         el.style.zIndex = this.zIndexCounter;
         el.classList.add('selected');
-        
-        // Remove inline transform to let CSS class handle centering
-        // Note: The CSS .selected class uses !important to override inline styles
     }
 
     next() {
@@ -904,9 +901,8 @@ class ScatteredGallery {
     }
 }
 
-// Bootstrap
+// Init
 document.addEventListener("DOMContentLoaded", () => {
-    // Find all containers starting with the specific ID pattern
     const galleries = document.querySelectorAll('[id^="ffka_sc_wrap"]');
     galleries.forEach(el => new ScatteredGallery(el));
 });

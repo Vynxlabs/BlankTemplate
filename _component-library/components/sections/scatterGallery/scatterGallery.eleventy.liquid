@@ -1,4 +1,7 @@
 {% assign color_group = styles.color_group %}
+{% capture imageClasses %}
+  w-full h-full object-cover object-center {{theme.image_rounding}}
+  {% endcapture %}
 
 <div class="c-scatterGallery componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
   <section class="basecontainer w-full">
@@ -11,20 +14,24 @@
     {% endif %}
     <div class="mt-12">
       <div class="c-imageGrid cs-w-full">
-        <div id="{{"ffka_sc_wrap_" | uuidFilter}}" class="flex gap-1 flex-wrap justify-center"
-        data-photo-size="{{styles.galleryStyling.photoSize}}"
-        data-border-size="{{styles.galleryStyling.borderSize}}"
-        data-arstr="{{styles.galleryStyling.arstr}}"
-        data-show-info="{{styles.galleryStyling.showInfo}}"
-        data-info-style="{{styles.galleryStyling.infoStyle}}"
-        data-auto-slide="{{styles.galleryStyling.autoSlide}}"
-        data-duration="{{styles.galleryStyling.duration}}"
-        
-        >
+        <div
+          id="{{"ffka_sc_wrap_" | uuidFilter}}"
+          class="flex gap-1 flex-wrap justify-center"
+          data-photo-size="{{styles.galleryStyling.photoSize}}"
+          data-border-size="{{styles.galleryStyling.borderSize}}"
+          data-arstr="{{styles.galleryStyling.arstr}}"
+          data-show-info="{{styles.galleryStyling.showInfo}}"
+          data-info-style="{{styles.galleryStyling.infoStyle}}"
+          data-auto-slide="{{styles.galleryStyling.autoSlide}}"
+          data-duration="{{styles.galleryStyling.duration}}">
           {% for media in content.medias %}
-            {% assign imageId = "a" | uuidFilter %}
-            {% assign test = image %}
-            {% bookshop "generic/imageModal" image: media classes: "max-w-[210px] md:max-w-[420px] md:min-w-[320px] min-w-[160px] flex-1" id: imageId %}
+            {% if styles.galleryStyling.imageModal %}
+              {% assign imageId = "a" | uuidFilter %}
+              {% assign test = image %}
+              {% bookshop "generic/imageModal" image: media classes: imageClasses id: imageId %}
+            {% else %}
+              {% bookshop "{{image._bookshop_name}}" bind: image class: imageClasses hoverPlay: true thumbOnly: true %}
+            {% endif %}
           {% endfor %}
         </div>
       </div>
