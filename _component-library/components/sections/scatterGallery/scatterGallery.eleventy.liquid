@@ -12,7 +12,7 @@
       {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
     {% endif %}
     {% if env_bookshop_live %}
-      {% bookshop "section/imageGallery" bind: content %}
+      {% bookshop "sections/imageGallery" bind: content %}
     {% else %}
       {% if content.heading %}
         <div class="py-10 md:py-20">{% bookshop {{content.heading._bookshop_name}} bind: content.heading %}</div>
