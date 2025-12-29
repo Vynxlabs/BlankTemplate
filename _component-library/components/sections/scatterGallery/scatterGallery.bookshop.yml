@@ -23,9 +23,9 @@ blueprint:
       imageModal: true
       photoSize: 500
       borderSize: 10
-      arstr: 1
+      arstr: "1"
       showInfo: false
-      infoStyle: 1
+      infoStyle: "1"
       autoSlide: false
       duration: 2
 
@@ -47,13 +47,13 @@ _inputs:
     options:
       value_key: id
       values:
-        - id: 1
+        - id: "1"
           name: Scattered
-        - id: 2
+        - id: "2"
           name: Straight
-        - id: 3
+        - id: "3"
           name: Scattered 3D
-        - id: 4
+        - id: "4"
           name: Straight 3D
   showInfo:
     comment: "If true, the image alt text will be shown"
@@ -63,11 +63,11 @@ _inputs:
     options:
       value_key: id
       values:
-        - id: 1
+        - id: "1"
           name: Under
-        - id: 2
+        - id: "2" 
           name: Part of the image
-        - id: 3
+        - id: "3" 
           name: Overlay
   autoSlide:
     comment: "If true, the images will automatically slide. This always gets turned off if someone manually selects and image or slides the gallery"
