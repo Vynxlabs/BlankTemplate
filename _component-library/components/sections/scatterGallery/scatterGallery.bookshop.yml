@@ -35,3 +35,41 @@ preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  imageModal:
+    comment: "If true, the selected image will open in a modal (made bigger) when clicked"
+  photoSize:
+    comment: "The size of the image in pixels"
+  borderSize:
+    comment: "The size of the border in pixels. This gives the images a polaroid look. 0 for no border. "
+  arstr:
+    comment: "The scattering effect of the images."
+    type: select
+    options:
+      value_key: id
+      values:
+        - id: 1
+          name: Scattered
+        - id: 2
+          name: Straight
+        - id: 3
+          name: Scattered 3D
+        - id: 4
+          name: Straight 3D
+  showInfo:
+    comment: "If true, the image alt text will be shown"
+  infoStyle:
+    comment: "The style of the image alt text."
+    type: select
+    options:
+      value_key: id
+      values:
+        - id: 1
+          name: Under
+        - id: 2
+          name: Part of the image
+        - id: 3
+          name: Overlay
+  autoSlide:
+    comment: "If true, the images will automatically slide. This always gets turned off if someone manually selects and image or slides the gallery"
+  duration:
+    comment: "The duration of the slide in seconds"
