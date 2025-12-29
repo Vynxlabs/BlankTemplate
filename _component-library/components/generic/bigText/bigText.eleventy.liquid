@@ -19,13 +19,13 @@
 
 
 
-<header class="c-bigText w-full flex flex-col justify-center  {{contentAlignment}} {{textClass}}">
-    <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-tight"
+<header class="c-bigText w-full flex flex-col justify-center {{textAlignment}}  {{contentAlignment}} {{textClass}}">
+    <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-none"
     data-maxfontsize="{{styles.maxFontSize}}"
     >
     {{content.headline | markdownify}}
     </div>
-  <div class="{{textAlignment}} max-w-[700px]">
+  <div class=" max-w-[700px]">
       <div class="mt-4">
         {% if content.description %}
           {% bookshop "generic/textBlock" text: content.description %}{% endif %}
