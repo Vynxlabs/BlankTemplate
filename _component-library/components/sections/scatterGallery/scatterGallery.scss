@@ -56,7 +56,6 @@
         background: #fff;
         padding: 0; /* Padding is set dynamically by JS based on borderSize */
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        overflow: hidden;
         display: block;
     }
 
@@ -101,14 +100,31 @@
         pointer-events: auto;
     }
     
+    /* Style 1: Simple caption bottom */
+    .info-style-1 {
+        bottom: -30px; left: 0; width: 100%;
+        text-align: center; color: #fff;
+        font-size: 14px;
+        text-shadow: 0 1px 2px #000;
+    }
     /* Style 2: Box below */
     .info-style-2 {
-        background: rgba(0,0,0,0.8);
-        color: #fff;
+        left: 0;
+        background: rgba(255, 255, 255, 1);
+        color: #000000;
         padding: 10px;
         width: 100%;
         bottom: 0;
         transform: translateY(100%);
+    }
+    /* Style 3: Overlay on hover */
+.info-style-3 {
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4));
+        display: flex;
+        align-items: flex-end;
+        padding: 15px;
+        color: white;
     }
 
     /* --- Navigation Controls --- */
