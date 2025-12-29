@@ -13,7 +13,7 @@ blueprint:
   content:
     sectionId:
     heading: bookshop:structure:headingBlocks
-    media: [bookshop:structure:media]
+    medias: [bookshop:structure:media]
     buttons: [bookshop:structure:buttons]
   styles:
     color_group: primary
