@@ -6,6 +6,7 @@ spec:
   description: An image gallery where the images are scattered randomly
   icon:
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

@@ -10,9 +10,9 @@
       {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
     {% endif %}
     {% if content.heading %}
-      {% bookshop {{content.heading._bookshop_name}} bind: content.heading %}
+      <div class="py-10 md:py-20">{% bookshop {{content.heading._bookshop_name}} bind: content.heading %}</div>
     {% endif %}
-    <div class="mt-12">
+    <div class="">
       <div class="c-imageGrid cs-w-full">
         <div
           id="{{"ffka_sc_wrap_" | uuidFilter}}"
@@ -30,7 +30,7 @@
               {% assign test = image %}
               {% bookshop "generic/imageModal" image: media classes: imageClasses id: imageId %}
             {% else %}
-              {% bookshop "{{image._bookshop_name}}" bind: image class: imageClasses hoverPlay: true thumbOnly: true %}
+              {% bookshop "{{media._bookshop_name}}" bind: media class: imageClasses hoverPlay: true thumbOnly: true %}
             {% endif %}
           {% endfor %}
         </div>
