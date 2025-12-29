@@ -908,6 +908,352 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
   </script>
+  <script defer>
+(function(window) {
+    "use strict";
+
+    let counter = 0;
+    const headCache = document.head;
+
+    const BigText = {
+        DEBUG_MODE: false,
+        DEFAULT_MIN_FONT_SIZE_PX: null,
+        DEFAULT_MAX_FONT_SIZE_PX: 2000,
+        GLOBAL_STYLE_ID: 'bigtext-style',
+        STYLE_ID: 'bigtext-id',
+        LINE_CLASS_PREFIX: 'bigtext-line',
+        EXEMPT_CLASS: 'bigtext-exempt',
+        resizeListeners: {},
+
+        supports: {
+            wholeNumberFontSizeOnly: (function() {
+                if (!('getComputedStyle' in window)) {
+                    return true;
+                }
+                const test = document.createElement('div');
+                Object.assign(test.style, {
+                    position: 'absolute',
+                    fontSize: '14.1px'
+                });
+                
+                const firstScript = document.getElementsByTagName('script')[0];
+                if (firstScript) {
+                    firstScript.parentNode.insertBefore(test, firstScript);
+                } else {
+                    document.body.appendChild(test);
+                }
+
+                const computedStyle = window.getComputedStyle(test, null);
+                const ret = computedStyle && computedStyle.getPropertyValue('font-size') === '14px';
+                test.remove();
+                return ret;
+            })()
+        },
+
+        init: function() {
+            if (!document.getElementById(BigText.GLOBAL_STYLE_ID)) {
+                const globalStyles = [
+                    '.bigtext * { white-space: nowrap; }',
+                    // Added margin: 0 and padding: 0 to handle h1-h6 and p tags correctly
+                    '.bigtext > * { display: block; margin: 0; padding: 0; box-sizing: border-box; }', 
+                    '.bigtext .' + BigText.EXEMPT_CLASS + ', .bigtext .' + BigText.EXEMPT_CLASS + ' * { white-space: normal; }'
+                ];
+                headCache.appendChild(BigText.generateStyleTag(BigText.GLOBAL_STYLE_ID, globalStyles));
+            }
+        },
+
+        bindResize: function(eventName, id) {
+            let timeoutId;
+
+            if(BigText.resizeListeners[id]) {
+                window.removeEventListener('resize', BigText.resizeListeners[id]);
+            }
+            
+            const resizeFunction = () => {
+                 if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                timeoutId = setTimeout(() => {
+                    const element = document.getElementById(id);
+                    if(element) {
+                        BigText.jQueryMethod.call(element, element.bigTextOptions);
+                    }
+                }, 100);
+            };
+
+            window.addEventListener('resize', resizeFunction);
+            BigText.resizeListeners[id] = resizeFunction;
+        },
+
+        getStyleId: function(id) {
+            return BigText.STYLE_ID + '-' + id;
+        },
+
+        generateStyleTag: function(id, css) {
+            const style = document.createElement('style');
+            style.id = id;
+            style.textContent = css.join('\n');
+            return style;
+        },
+
+        clearCss: function(id) {
+            const styleId = BigText.getStyleId(id);
+            const styleElement = document.getElementById(styleId);
+            if (styleElement) {
+                styleElement.remove();
+            }
+        },
+
+        generateCss: function(id, linesFontSizes, lineWordSpacings, minFontSizes) {
+            const css = [];
+            BigText.clearCss(id);
+
+            for (let j = 0, k = linesFontSizes.length; j < k; j++) {
+                const lineSelector = '#' + id + ' .' + BigText.LINE_CLASS_PREFIX + j;
+                let rules = '';
+                if (minFontSizes[j]) {
+                    rules += ' white-space: normal;';
+                }
+                if (linesFontSizes[j]) {
+                    rules += ' font-size: ' + linesFontSizes[j] + 'px;';
+                }
+                if (lineWordSpacings[j]) {
+                    rules += ' word-spacing: ' + lineWordSpacings[j] + 'px;';
+                }
+                if(rules) {
+                    css.push(lineSelector + ' {' + rules + '}');
+                }
+            }
+
+            return BigText.generateStyleTag(BigText.getStyleId(id), css);
+        },
+        
+        jQueryMethod: function(options) {
+            BigText.init();
+
+            const element = this;
+
+            // 1. Defaults
+            const defaults = {
+                minfontsize: BigText.DEFAULT_MIN_FONT_SIZE_PX,
+                maxfontsize: BigText.DEFAULT_MAX_FONT_SIZE_PX,
+                childSelector: '',
+                resize: true
+            };
+
+            // 2. Data Attributes (parse them from the DOM element)
+            // Attributes like data-maxfontsize="100" become element.dataset.maxfontsize
+            const dataOptions = {};
+            if (element.dataset) {
+                if (element.dataset.maxfontsize) dataOptions.maxfontsize = Number(element.dataset.maxfontsize);
+                if (element.dataset.minfontsize) dataOptions.minfontsize = Number(element.dataset.minfontsize);
+                if (element.dataset.childSelector) dataOptions.childSelector = element.dataset.childSelector;
+                if (element.dataset.resize) dataOptions.resize = element.dataset.resize === 'true';
+            }
+
+            // 3. Merge: Defaults < Data Attributes < Explicit Options
+            options = Object.assign({}, defaults, dataOptions, options || {});
+
+            element.classList.add('bigtext');
+            element.bigTextOptions = options; 
+
+            let id = element.id;
+            if (!id) {
+                id = 'bigtext-id' + (counter++);
+                element.id = id;
+            }
+
+            const maxWidth = element.offsetWidth;
+            const children = options.childSelector ? Array.from(element.querySelectorAll(options.childSelector)) : Array.from(element.children);
+
+            if (options.resize) {
+                BigText.bindResize('resize.bigtext-event-' + id, id);
+            }
+
+            BigText.clearCss(id);
+            
+            children.forEach((child, lineNumber) => {
+                child.className = child.className.replace(new RegExp('\\b' + BigText.LINE_CLASS_PREFIX + '\\d+\\b'), '');
+                child.classList.add(BigText.LINE_CLASS_PREFIX + lineNumber);
+            });
+            
+            const sizes = BigText.calculateSizes(element, children, maxWidth, options.maxfontsize, options.minfontsize);
+            headCache.appendChild(BigText.generateCss(id, sizes.fontSizes, sizes.wordSpacings, sizes.minFontSizes));
+
+            element.dispatchEvent(new CustomEvent('bigtext:complete', { bubbles: true, cancelable: true }));
+        },
+
+        testLineDimensions: function(line, maxWidth, property, size, interval, units, previousWidth) {
+            previousWidth = typeof previousWidth === 'number' ? previousWidth : 0;
+            const styleProp = property.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            line.style[styleProp] = size + units;
+
+            const width = line.offsetWidth;
+
+            if (width >= maxWidth) {
+                line.style[styleProp] = '';
+
+                if (width === maxWidth) {
+                    return {
+                        match: 'exact',
+                        size: parseFloat((parseFloat(size) - 0.1).toFixed(3))
+                    };
+                }
+
+                const under = maxWidth - previousWidth;
+                const over = width - maxWidth;
+
+                return {
+                    match: 'estimate',
+                    size: parseFloat((parseFloat(size) - (property === 'word-spacing' && previousWidth && (over < under) ? 0 : interval)).toFixed(3))
+                };
+            }
+
+            return width;
+        },
+
+        calculateSizes: function(element, children, maxWidth, maxFontSize, minFontSize) {
+            const clone = element.cloneNode(true);
+            clone.classList.add('bigtext-cloned');
+            
+            const elementStyle = window.getComputedStyle(element);
+
+            Object.assign(clone.style, {
+                fontFamily: elementStyle.fontFamily,
+                textTransform: elementStyle.textTransform,
+                wordSpacing: elementStyle.wordSpacing,
+                letterSpacing: elementStyle.letterSpacing,
+                position: 'absolute',
+                left: BigText.DEBUG_MODE ? '0' : '-9999px',
+                top: BigText.DEBUG_MODE ? '0' : '-9999px'
+            });
+
+            document.body.appendChild(clone);
+            
+            const clonedChildren = Array.from(clone.children);
+
+            const fontSizes = [];
+            const wordSpacings = [];
+            const minFontSizes = [];
+            const ratios = [];
+
+            clonedChildren.forEach(line => {
+                line.style.float = 'left';
+
+                if (line.classList.contains(BigText.EXEMPT_CLASS)) {
+                    fontSizes.push(null);
+                    ratios.push(null);
+                    minFontSizes.push(false);
+                    return;
+                }
+                
+                const intervals = BigText.supports.wholeNumberFontSizeOnly ? [8, 4, 1] : [8, 4, 1, 0.1];
+                let lineMax;
+                let newFontSize;
+
+                const autoGuessSubtraction = 32;
+                const currentFontSize = parseFloat(window.getComputedStyle(line).fontSize);
+                const ratio = (line.offsetWidth / currentFontSize).toFixed(6);
+
+                newFontSize = parseInt(maxWidth / ratio, 10) - autoGuessSubtraction;
+
+                outer: for (let m = 0, n = intervals.length; m < n; m++) {
+                    inner: for (let j = 1, k = 10; j <= k; j++) {
+                        if (newFontSize + j * intervals[m] > maxFontSize) {
+                            newFontSize = maxFontSize;
+                            break outer;
+                        }
+
+                        lineMax = BigText.testLineDimensions(line, maxWidth, 'font-size', newFontSize + j * intervals[m], intervals[m], 'px', lineMax);
+                        if (typeof lineMax !== 'number') {
+                            newFontSize = lineMax.size;
+
+                            if (lineMax.match === 'exact') {
+                                break outer;
+                            }
+                            break inner;
+                        }
+                    }
+                }
+
+                ratios.push(maxWidth / newFontSize);
+
+                if (newFontSize > maxFontSize) {
+                    fontSizes.push(maxFontSize);
+                    minFontSizes.push(false);
+                } else if (!!minFontSize && newFontSize < minFontSize) {
+                    fontSizes.push(minFontSize);
+                    minFontSizes.push(true);
+                } else {
+                    fontSizes.push(newFontSize);
+                    minFontSizes.push(false);
+                }
+            });
+
+            clonedChildren.forEach((line, lineNumber) => {
+                let wordSpacing = 0;
+                const interval = 1;
+                let maxWordSpacing;
+
+                if (line.classList.contains(BigText.EXEMPT_CLASS)) {
+                    wordSpacings.push(null);
+                    return;
+                }
+                
+                line.style.fontSize = fontSizes[lineNumber] + 'px';
+
+                for (let m = 1, n = 3; m < n; m += interval) {
+                    maxWordSpacing = BigText.testLineDimensions(line, maxWidth, 'word-spacing', m, interval, 'px', maxWordSpacing);
+                    if (typeof maxWordSpacing !== 'number') {
+                        wordSpacing = maxWordSpacing.size;
+                        break;
+                    }
+                }
+                
+                line.style.fontSize = '';
+                wordSpacings.push(wordSpacing);
+            });
+            
+            clonedChildren.forEach(child => child.removeAttribute('style'));
+
+            if (!BigText.DEBUG_MODE) {
+                clone.remove();
+            } else {
+                clone.style.backgroundColor = 'rgba(255,255,255,.4)';
+            }
+
+            return {
+                fontSizes: fontSizes,
+                wordSpacings: wordSpacings,
+                ratios: ratios,
+                minFontSizes: minFontSizes
+            };
+        }
+    };
+
+    // Public API
+    window.bigText = function(selector, options) {
+        const elements = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+        if(!elements) return;
+        
+        const elementsArray = (elements.length === undefined) ? [elements] : Array.from(elements);
+        
+        elementsArray.forEach(element => {
+            BigText.jQueryMethod.call(element, options);
+        });
+    };
+
+    // Auto-initialize for IDs starting with "bigtext"
+    document.addEventListener('DOMContentLoaded', function() {
+        const autoElements = document.querySelectorAll('[id^="bigtext"]');
+        autoElements.forEach(element => {
+            // Options are parsed from data-attributes inside jQueryMethod
+            BigText.jQueryMethod.call(element);
+        });
+    });
+
+})(this);
+  </script>
     {{site.customCode.bodyCode}}
     {{customCode.bodyCode}}
   </body>
