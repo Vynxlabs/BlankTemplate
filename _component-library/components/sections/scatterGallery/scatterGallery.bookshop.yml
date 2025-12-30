@@ -2,7 +2,7 @@
 spec:
   structures:
     - content_blocks
-  label: "Scattered Media Gallery"
+  label: "Scattered Images Gallery"
   description: An image gallery where the images are scattered randomly
   icon:
   tags: []
