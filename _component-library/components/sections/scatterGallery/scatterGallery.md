@@ -1,3 +1,24 @@
+---
+_schema: default
+draft: false
+title: "Scattered Images Gallery"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Scattered Images Gallery"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
+---
 ## Overview
 **Introduction**  
 **Scattered Images Gallery** displays a set of photos with a playful, “polaroid-on-a-table” feel. Images are automatically scattered or aligned (based on your settings), and can open in a larger **modal** when clicked. Use it to add personality to case studies, events, portfolios, or behind-the-scenes pages.

@@ -1,3 +1,24 @@
+---
+_schema: default
+draft: false
+title: "Big Text Hero"
+eleventyExcludeFromCollections: false
+eleventyNavigation:
+  key: "Big Text Hero"
+  order: 
+  title: 
+  parent: "Sections"
+  url: 
+  icon: 
+pageLink: ""
+metaDesc: ""
+socialImage: ""
+customCode:
+  headCode: ""
+  bodyCode: ""
+tags: docs
+editorial_blocks: []
+---
 ## Overview
 **Introduction:**  
 **Big Text Hero** is a bold, full-width header section designed to grab attention with an oversized headline, short supporting text, and optional buttons. You can place it over a background image/video or use a solid color background. It’s ideal for homepages, landing pages, or any page that needs a strong, simple opener.
