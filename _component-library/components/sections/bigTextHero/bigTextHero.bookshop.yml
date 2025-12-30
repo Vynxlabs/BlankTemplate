@@ -19,6 +19,7 @@ blueprint:
     color_group: primary
     colorFromGroup: white
     backgroundOpacity: 50
+    verticalAlignment: top
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -55,3 +56,15 @@ _inputs:
           name: Secondary
         - id: accent
           name: Accent
+  verticalAlignment:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: top
+          name: Top
+        - id: middle
+          name: Middle
+        - id: bottom
+          name: Bottom

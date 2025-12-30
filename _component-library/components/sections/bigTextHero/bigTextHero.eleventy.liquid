@@ -9,6 +9,16 @@
     text-{{styles.color_group}}-{{styles.colorFromGroup}}color
 {% endif %}
 {% endcapture %}
+{% capture verticalAlignment %}
+   {% if styles.verticalAlignment == "top" %}
+   justify-start 
+   {% elsif styles.verticalAlignment == "middle" %}
+    justify-center
+   {% elsif styles.verticalAlignment == "bottom" %}
+    justify-end
+    
+   {% endif %} 
+{% endcapture %}
 {% capture heading %}
     content:
         highlightEyebrow: {{content.heading.content.highlightEyebrow}}
@@ -47,12 +57,12 @@
   {% comment %}
     Potentially make the justification a an opiton that can be set.
   {% endcomment %}
-  <section class=" w-full flex flex-col h-full justify-end ">
+  <section class=" w-full flex flex-col h-full {{verticalAlignment}} items-center ">
 
     {% if content.sectionId %}
       {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
     {% endif %}
-    <div class="w-full max-w-[80vw] lg:flex-1">
+    <div class="w-full max-w-[80vw] ">
       {% bookshop "generic/bigText" bind: heading %}
     </div>
   </section>
