@@ -24,6 +24,7 @@
       {% bookshop "generic/notification" heading: "No large text in Live Editor" text: "The large text will not show up while editing, but will show up on the live site" %}
     {% endif %}
     <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-none"
+    data-minfontsize="{{styles.minFontSize}}"
     data-maxfontsize="{{styles.maxFontSize}}"
     >
     {{content.headline | markdownify}}

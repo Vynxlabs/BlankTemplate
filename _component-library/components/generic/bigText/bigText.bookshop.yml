@@ -19,6 +19,7 @@ blueprint:
 
     buttons: [bookshop:structure:buttons]
   styles:
+    minFontSize: 32
     maxFontSize: 2000
     contentAlignment: center
     textAlignment: center
@@ -33,6 +34,8 @@ preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  minFontSize:
+    comment: "The minimum font size in pixels"
   maxFontSize:
     comment: "The maximum font size in pixels"
   headline:
