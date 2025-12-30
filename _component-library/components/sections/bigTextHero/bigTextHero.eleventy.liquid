@@ -49,7 +49,7 @@
 {% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
 {% endcapture %}
 
-<div class="c-bigTextHero cs-w-full relative flex flex-col items-center {% if content.image %} min-h-screen {% else %} bg-{{styles.color_group}}-backgroundcolor min-h-[50vh] {% endif %} overflow-hidden pb-16">
+<div class="c-bigTextHero cs-w-full relative flex flex-col items-center {% if content.image %} min-h-screen pb-16 {% else %} py-16 bg-{{styles.color_group}}-backgroundcolor min-h-[60vh] {% endif %} overflow-hidden ">
   {% if content.image %}
     <div class="absolute inset-0 -z-10 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
       {% bookshop "{{content.image._bookshop_name}}" bind: content.image class: "min-h-screen h-full w-screen object-cover" %}
