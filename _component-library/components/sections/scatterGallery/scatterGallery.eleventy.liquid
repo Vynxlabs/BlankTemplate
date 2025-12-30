@@ -1,0 +1,53 @@
+{% assign color_group = styles.color_group %}
+{% capture imageClasses %}
+  w-full h-full object-cover object-center {{theme.image_rounding}}
+  {% endcapture %}
+<div class="c-scatterGallery componentcontainer bg-{{styles.color_group}}-backgroundcolor  text-{{styles.color_group}}-textcolor">
+  <section class="basecontainer w-full">
+
+    {% if env_bookshop_live and content.showNote %}
+      {% bookshop "generic/notification" heading: "No Scatter in Live Editor" text: "The scatter effect will not show up while editing, but will show up on the live site" %}
+    {% endif %}
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    {% if env_bookshop_live %}
+      {% bookshop "sections/imageGallery" bind: content %}
+    {% else %}
+      {% if content.heading %}
+        <div class="py-10 md:py-20">{% bookshop {{content.heading._bookshop_name}} bind: content.heading %}</div>
+      {% endif %}
+      <div class="">
+        <div class="c-imageGrid cs-w-full">
+          <div
+            id="{{"ffka_sc_wrap_" | uuidFilter}}"
+            class="flex gap-1 flex-wrap justify-center"
+            data-photo-size="{{styles.galleryStyling.photoSize}}"
+            data-border-size="{{styles.galleryStyling.borderSize}}"
+            data-arstr="{{styles.galleryStyling.arstr}}"
+            data-show-info="{{styles.galleryStyling.showInfo}}"
+            data-info-style="{{styles.galleryStyling.infoStyle}}"
+            data-auto-slide="{{styles.galleryStyling.autoSlide}}"
+            data-duration="{{styles.galleryStyling.duration}}">
+            {% for image in content.images %}
+              {% if styles.galleryStyling.imageModal %}
+                {% assign imageId = "a" | uuidFilter %}
+                {% bookshop "generic/imageModal" image: image classes: imageClasses id: imageId %}
+              {% else %}
+                {% bookshop "{{image._bookshop_name}}" bind: image class: imageClasses hoverPlay: true thumbOnly: true %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% if content.buttons %}
+        <div class="mt-14 flex w-full gap-8 flex-wrap justify-center">
+          {% for button in content.buttons %}
+            {% bookshop "{{button._bookshop_name}}" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+    {% endif %}
+  </section>
+</div>

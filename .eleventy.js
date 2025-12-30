@@ -22,7 +22,7 @@ const collectionsFilter = require("./src/filters/collections-filter.js");
 const rot20_7 = require("./src/filters/rot20-7-filter.js");
 const docsModeFilter = require("./src/filters/docsDarkMode-filter.js");
 const jsonPathFilter = require("./src/filters/jsonPath-filter.js");
-const mime = require('mime-types')
+const mime = require("mime-types");
 const sanitizeRssFilter = require("./src/filters/sanitizeRss-filter.js");
 
 const rssPlugin = require("@11ty/eleventy-plugin-rss");
@@ -56,9 +56,8 @@ const markdownItAnchorOptions = {
     }),
   tabIndex: false,
   // simply use the constant defined above
-  permalink: linkAfterHeader, 
+  permalink: linkAfterHeader,
 };
-
 
 const pluginTOC = require("eleventy-plugin-toc");
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
@@ -309,6 +308,15 @@ module.exports = async function (eleventyConfig) {
     .disable(["code"])
     .use(markdownItAnchor, markdownItAnchorOptions)
     .use(ultree);
+  md.core.ruler.before("normalize", "strip_bookshop_live_comments", (state) => {
+    if (!state.src || !state.src.includes("bookshop-live")) return;
+
+    // remove bookshop live markers (meta/name/end, etc.)
+    state.src = state.src.replace(/<!--\s*bookshop-live[\s\s]*?-->/g, "");
+
+    // clean up extra blank lines left behind (prevents paragraph breaks)
+    state.src = state.src.replace(/\n{3,}/g, "\n\n");
+  });
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addWatchTarget("./_component-library/**/*");
 
@@ -468,7 +476,10 @@ module.exports = async function (eleventyConfig) {
   eleventyConfig.addFilter("jsonPathFilter", jsonPathFilter);
   eleventyConfig.addFilter("dateToRfc3339", rssPlugin.dateToRfc3339);
   eleventyConfig.addFilter("dateToRfc882", rssPlugin.dateToRfc822);
-  eleventyConfig.addFilter("getNewestCollectionItemDate",rssPlugin.getNewestCollectionItemDate);
+  eleventyConfig.addFilter(
+    "getNewestCollectionItemDate",
+    rssPlugin.getNewestCollectionItemDate,
+  );
   eleventyConfig.addFilter("getMimeType", (path) => mime.lookup(path));
   eleventyConfig.addFilter("sanitizeRss", sanitizeRssFilter);
 
@@ -530,12 +541,11 @@ module.exports = async function (eleventyConfig) {
       });
     }
     return content;
-  });  
-  
-  eleventyConfig.addTransform("wrap-tables", function(content, outputPath) {
+  });
+
+  eleventyConfig.addTransform("wrap-tables", function (content, outputPath) {
     // 1. Check if the file is an HTML file before processing.
     if (outputPath && outputPath.endsWith(".html")) {
-      
       // 2. Use a regular expression to find all HTML tables.
       // - The /g flag ensures we find ALL tables on the page.
       // - The /s flag (dotAll) allows '.' to match newlines, which is crucial

@@ -598,6 +598,663 @@ Listener.prototype.__onInteraction = function () {
 	this.decode();
 };
   </script>
+  <script defer>
+/**
+ * Scattered Gallery Class
+ * Refactored to support component structures (Button + Dialog) AND Picture tags
+ */
+class ScatteredGallery {
+    constructor(element) {
+        this.container = element;
+        
+        const defaults = {
+            photoSize: 599,
+            borderSize: 10,
+            photoShadow: 30,
+            screen: true,
+            scattering: true,
+            arstr: 1,
+            showInfo: true,
+            infoStyle: 2,
+            autoSlide: false,
+            duration: 3
+        };
+
+        this.settings = { ...defaults };
+        // Read data attributes
+        for (const key in defaults) {
+            const dataVal = this.container.dataset[key];
+            if (dataVal !== undefined) {
+                if(dataVal === "true") this.settings[key] = true;
+                else if(dataVal === "false") this.settings[key] = false;
+                else if(!isNaN(dataVal)) this.settings[key] = Number(dataVal);
+                else this.settings[key] = dataVal;
+            }
+        }
+
+        this.elements = [];
+        this.activeIndex = -1;
+        this.zIndexCounter = 100;
+        this.autoSlideInterval = null;
+
+        this.init();
+    }
+
+    init() {
+        // PRESERVATION LOGIC:
+        // We do not destroy innerHTML. We consume children and wrap them.
+        
+        // 1. Identify valid items (Buttons, Imgs, or Pictures) and move Dialogs to Body
+        const rawChildren = Array.from(this.container.children);
+        const scatterItems = [];
+        let loaderElement = null;
+
+        rawChildren.forEach(child => {
+            if (child.tagName === 'DIALOG') {
+                // CRITICAL: Move dialogs to body. 
+                // Transforms on parent (the scatter div) will break fixed position of dialogs.
+                document.body.appendChild(child); 
+            } else if (child.classList.contains('ffka-loader')) {
+                loaderElement = child;
+            } else if (
+                child.matches('img') || 
+                child.matches('picture') || 
+                child.matches('button') || 
+                child.classList.contains('c-imageModal')
+            ) {
+                // This is a scatterable item
+                scatterItems.push(child);
+            }
+        });
+
+        // 2. Clear Container (The dialogs are safe in body, items are in memory)
+        this.container.innerHTML = '';
+        
+        // Restore loader
+        if(!loaderElement) {
+            loaderElement = document.createElement('div');
+            loaderElement.className = 'ffka-loader';
+            loaderElement.innerHTML = '<div class="spinner"></div>';
+        }
+        this.container.appendChild(loaderElement);
+        this.loader = loaderElement;
+
+        // 3. Build Gallery
+        this.buildGallery(scatterItems);
+        this.addNavigation();
+        
+        // 4. Initial Layout
+        setTimeout(() => {
+            this.loader.classList.add('loaded');
+            this.container.style.opacity = 1;
+            this.scatterPhotos();
+            
+            // Randomly select one to bring to front
+            const randIndex = Math.floor(Math.random() * this.elements.length);
+            this.selectImage(randIndex);
+            
+            if(this.settings.autoSlide) this.startAutoSlide();
+        }, 500);
+
+        // Events
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => this.scatterPhotos(true), 100);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if(this.container.matches(':hover')) {
+                if(e.key === "ArrowLeft") this.prev();
+                if(e.key === "ArrowRight") this.next();
+            }
+        });
+    }
+
+    buildGallery(items) {
+        const fragment = document.createDocumentFragment();
+
+        items.forEach((item, index) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'photo-container';
+            wrapper.dataset.index = index;
+
+            const inner = document.createElement('div');
+            inner.className = 'photo-inner';
+            inner.style.padding = `${this.settings.borderSize}px`;
+
+            // Append the actual DOM node (preserves events/hyperscript)
+            inner.appendChild(item);
+
+            // Add Info if it's a plain image or picture (Components usually handle their own info)
+            // We only add the JS-generated info overlay if it is NOT a button/modal component
+            const isInteractive = item.matches('button') || item.classList.contains('c-imageModal');
+            
+            if (this.settings.showInfo && !isInteractive) {
+                // Find the IMG tag directly or nested within Picture
+                const imgEl = item.tagName === 'IMG' ? item : item.querySelector('img');
+                const alt = imgEl ? imgEl.alt : '';
+                
+                if(alt) {
+                    const info = document.createElement('div');
+                    info.className = `photo-info info-style-${this.settings.infoStyle}`;
+                    info.innerHTML = `<span>${alt}</span>`;
+                    inner.appendChild(info);
+                }
+            }
+
+            wrapper.appendChild(inner);
+
+            // Click Logic - INTERCEPTION
+            // Use capture phase (true) to intercept clicks before they reach the button/modal trigger.
+            wrapper.addEventListener('click', (e) => {
+                if (this.activeIndex !== index) {
+                    // Item is NOT currently selected:
+                    // Stop event from reaching the child (button) to prevent modal opening.
+                    e.stopPropagation(); 
+                    e.preventDefault(); 
+                    
+                    // Select it instead.
+                    this.selectImage(index);
+                    this.stopAutoSlide();
+                }
+                // If it IS selected, we let the event fall through to the child button.
+            }, true); // <--- Capture Phase is crucial here
+
+            this.elements.push(wrapper);
+            fragment.appendChild(wrapper);
+        });
+
+        this.container.appendChild(fragment);
+    }
+
+    addNavigation() {
+        const prevBtn = document.createElement('div');
+        prevBtn.className = 'sc-nav-arrow sc-prev';
+        prevBtn.innerHTML = '<span class="arrow-icon"></span>';
+        
+        const nextBtn = document.createElement('div');
+        nextBtn.className = 'sc-nav-arrow sc-next';
+        nextBtn.innerHTML = '<span class="arrow-icon"></span>';
+
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); this.prev(); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); this.next(); });
+        
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        this.container.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        this.container.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+        }, {passive: true});
+
+        this.handleSwipe = () => {
+            const threshold = 50;
+            if (touchEndX < touchStartX - threshold) this.next();
+            if (touchEndX > touchStartX + threshold) this.prev();
+        };
+
+        this.container.appendChild(prevBtn);
+        this.container.appendChild(nextBtn);
+    }
+
+    scatterPhotos(preserveSelected = false) {
+        const cw = this.container.offsetWidth;
+        const ch = this.container.offsetHeight;
+        const padding = this.settings.photoSize / 2;
+        const safeW = cw - padding;
+        const safeH = ch - padding;
+
+        this.elements.forEach((el, index) => {
+            if (preserveSelected && index === this.activeIndex) return;
+
+            el.classList.remove('selected');
+            
+            const rX = Math.random() * (safeW - padding) + padding / 2;
+            const rY = Math.random() * (safeH - padding) + padding / 2;
+            
+            let transform = '';
+            const deg = this.randomInt(-20, 20);
+
+            switch(this.settings.arstr) {
+                case 1: transform = `rotate(${deg}deg) scale(0.6)`; break;
+                case 2: transform = `scale(0.6)`; break;
+                case 3: transform = `rotate(${deg}deg) perspective(500px) rotateY(${deg}deg) scale(0.6)`; break;
+                case 4: transform = `perspective(500px) rotateY(${this.randomInt(-30, 30)}deg) scale(0.6)`; break;
+                default: transform = `scale(0.6)`;
+            }
+
+            el.style.left = `${rX}px`;
+            el.style.top = `${rY}px`;
+            el.style.transform = transform;
+            el.style.zIndex = Math.floor(Math.random() * 50);
+            
+            // Constrain Size
+            // We search for img deeply (works for picture > img or button > picture > img)
+            const innerImg = el.querySelector('img');
+            if(innerImg) {
+                innerImg.style.maxWidth = `${this.settings.photoSize}px`;
+                innerImg.style.maxHeight = `${this.settings.photoSize}px`;
+            }
+        });
+
+        if(preserveSelected && this.activeIndex > -1) {
+            this.selectImage(this.activeIndex);
+        }
+    }
+
+    selectImage(index) {
+        if (index < 0 || index >= this.elements.length) return;
+        
+        if (this.activeIndex !== -1 && this.activeIndex !== index) {
+            const prevEl = this.elements[this.activeIndex];
+            prevEl.classList.remove('selected');
+            const transform = this.settings.arstr === 2 ? 
+                `scale(0.6)` : 
+                `rotate(${this.randomInt(-20, 20)}deg) scale(0.6)`;
+            prevEl.style.transform = transform;
+            prevEl.style.zIndex = Math.floor(Math.random() * 50);
+        }
+
+        this.activeIndex = index;
+        const el = this.elements[index];
+        this.zIndexCounter++;
+        el.style.zIndex = this.zIndexCounter;
+        el.classList.add('selected');
+    }
+
+    next() {
+        this.stopAutoSlide();
+        let newIndex = this.activeIndex + 1;
+        if (newIndex >= this.elements.length) newIndex = 0;
+        this.selectImage(newIndex);
+    }
+
+    prev() {
+        this.stopAutoSlide();
+        let newIndex = this.activeIndex - 1;
+        if (newIndex < 0) newIndex = this.elements.length - 1;
+        this.selectImage(newIndex);
+    }
+
+    startAutoSlide() {
+        this.autoSlideInterval = setInterval(() => {
+            let newIndex = this.activeIndex + 1;
+            if (newIndex >= this.elements.length) newIndex = 0;
+            this.selectImage(newIndex);
+        }, this.settings.duration * 1000);
+    }
+
+    stopAutoSlide() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
+    }
+
+    randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+}
+
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+    const galleries = document.querySelectorAll('[id^="ffka_sc_wrap"]');
+    galleries.forEach(el => new ScatteredGallery(el));
+});
+
+  </script>
+  <script defer>
+(function(window) {
+    "use strict";
+
+    let counter = 0;
+    const headCache = document.head;
+
+    const BigText = {
+        DEBUG_MODE: false,
+        DEFAULT_MIN_FONT_SIZE_PX: null,
+        DEFAULT_MAX_FONT_SIZE_PX: 2000,
+        GLOBAL_STYLE_ID: 'bigtext-style',
+        STYLE_ID: 'bigtext-id',
+        LINE_CLASS_PREFIX: 'bigtext-line',
+        EXEMPT_CLASS: 'bigtext-exempt',
+        resizeListeners: {},
+
+        supports: {
+            wholeNumberFontSizeOnly: (function() {
+                if (!('getComputedStyle' in window)) {
+                    return true;
+                }
+                const test = document.createElement('div');
+                Object.assign(test.style, {
+                    position: 'absolute',
+                    fontSize: '14.1px'
+                });
+                
+                const firstScript = document.getElementsByTagName('script')[0];
+                if (firstScript) {
+                    firstScript.parentNode.insertBefore(test, firstScript);
+                } else {
+                    document.body.appendChild(test);
+                }
+
+                const computedStyle = window.getComputedStyle(test, null);
+                const ret = computedStyle && computedStyle.getPropertyValue('font-size') === '14px';
+                test.remove();
+                return ret;
+            })()
+        },
+
+        init: function() {
+            if (!document.getElementById(BigText.GLOBAL_STYLE_ID)) {
+                const globalStyles = [
+                    '.bigtext * { white-space: nowrap; }',
+                    // Added margin: 0 and padding: 0 to handle h1-h6 and p tags correctly
+                    '.bigtext > * { display: block; margin: 0; padding: 0; box-sizing: border-box; }', 
+                    '.bigtext .' + BigText.EXEMPT_CLASS + ', .bigtext .' + BigText.EXEMPT_CLASS + ' * { white-space: normal; }',
+                    '@media (max-width: 639px) { .bigtext * { white-space: normal; } }'
+                ];
+                headCache.appendChild(BigText.generateStyleTag(BigText.GLOBAL_STYLE_ID, globalStyles));
+            }
+        },
+
+        bindResize: function(eventName, id) {
+            let timeoutId;
+
+            if(BigText.resizeListeners[id]) {
+                window.removeEventListener('resize', BigText.resizeListeners[id]);
+            }
+            
+            const resizeFunction = () => {
+                 if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                timeoutId = setTimeout(() => {
+                    const element = document.getElementById(id);
+                    if(element) {
+                        BigText.jQueryMethod.call(element, element.bigTextOptions);
+                    }
+                }, 100);
+            };
+
+            window.addEventListener('resize', resizeFunction);
+            BigText.resizeListeners[id] = resizeFunction;
+        },
+
+        getStyleId: function(id) {
+            return BigText.STYLE_ID + '-' + id;
+        },
+
+        generateStyleTag: function(id, css) {
+            const style = document.createElement('style');
+            style.id = id;
+            style.textContent = css.join('\n');
+            return style;
+        },
+
+        clearCss: function(id) {
+            const styleId = BigText.getStyleId(id);
+            const styleElement = document.getElementById(styleId);
+            if (styleElement) {
+                styleElement.remove();
+            }
+        },
+
+        generateCss: function(id, linesFontSizes, lineWordSpacings, minFontSizes) {
+            const css = [];
+            BigText.clearCss(id);
+
+            for (let j = 0, k = linesFontSizes.length; j < k; j++) {
+                const lineSelector = '#' + id + ' .' + BigText.LINE_CLASS_PREFIX + j;
+                let rules = '';
+                if (minFontSizes[j]) {
+                    rules += ' white-space: normal;';
+                }
+                if (linesFontSizes[j]) {
+                    rules += ' font-size: ' + linesFontSizes[j] + 'px;';
+                }
+                if (lineWordSpacings[j]) {
+                    rules += ' word-spacing: ' + lineWordSpacings[j] + 'px;';
+                }
+                if(rules) {
+                    css.push(lineSelector + ' {' + rules + '}');
+                }
+            }
+
+            return BigText.generateStyleTag(BigText.getStyleId(id), css);
+        },
+        
+        jQueryMethod: function(options) {
+            BigText.init();
+
+            const element = this;
+
+            // 1. Defaults
+            const defaults = {
+                minfontsize: BigText.DEFAULT_MIN_FONT_SIZE_PX,
+                maxfontsize: BigText.DEFAULT_MAX_FONT_SIZE_PX,
+                childSelector: '',
+                resize: true
+            };
+
+            // 2. Data Attributes (parse them from the DOM element)
+            // Attributes like data-maxfontsize="100" become element.dataset.maxfontsize
+            const dataOptions = {};
+            if (element.dataset) {
+                if (element.dataset.maxfontsize) dataOptions.maxfontsize = Number(element.dataset.maxfontsize);
+                if (element.dataset.minfontsize) dataOptions.minfontsize = Number(element.dataset.minfontsize);
+                if (element.dataset.childSelector) dataOptions.childSelector = element.dataset.childSelector;
+                if (element.dataset.resize) dataOptions.resize = element.dataset.resize === 'true';
+            }
+
+            // 3. Merge: Defaults < Data Attributes < Explicit Options
+            options = Object.assign({}, defaults, dataOptions, options || {});
+
+            element.classList.add('bigtext');
+            element.bigTextOptions = options; 
+
+            let id = element.id;
+            if (!id) {
+                id = 'bigtext-id' + (counter++);
+                element.id = id;
+            }
+
+            const maxWidth = element.offsetWidth;
+            const children = options.childSelector ? Array.from(element.querySelectorAll(options.childSelector)) : Array.from(element.children);
+
+            if (options.resize) {
+                BigText.bindResize('resize.bigtext-event-' + id, id);
+            }
+
+            BigText.clearCss(id);
+            
+            children.forEach((child, lineNumber) => {
+                child.className = child.className.replace(new RegExp('\\b' + BigText.LINE_CLASS_PREFIX + '\\d+\\b'), '');
+                child.classList.add(BigText.LINE_CLASS_PREFIX + lineNumber);
+            });
+            
+            const sizes = BigText.calculateSizes(element, children, maxWidth, options.maxfontsize, options.minfontsize);
+            headCache.appendChild(BigText.generateCss(id, sizes.fontSizes, sizes.wordSpacings, sizes.minFontSizes));
+
+            element.dispatchEvent(new CustomEvent('bigtext:complete', { bubbles: true, cancelable: true }));
+        },
+
+        testLineDimensions: function(line, maxWidth, property, size, interval, units, previousWidth) {
+            previousWidth = typeof previousWidth === 'number' ? previousWidth : 0;
+            const styleProp = property.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            line.style[styleProp] = size + units;
+
+            const width = line.offsetWidth;
+
+            if (width >= maxWidth) {
+                line.style[styleProp] = '';
+
+                if (width === maxWidth) {
+                    return {
+                        match: 'exact',
+                        size: parseFloat((parseFloat(size) - 0.1).toFixed(3))
+                    };
+                }
+
+                const under = maxWidth - previousWidth;
+                const over = width - maxWidth;
+
+                return {
+                    match: 'estimate',
+                    size: parseFloat((parseFloat(size) - (property === 'word-spacing' && previousWidth && (over < under) ? 0 : interval)).toFixed(3))
+                };
+            }
+
+            return width;
+        },
+
+        calculateSizes: function(element, children, maxWidth, maxFontSize, minFontSize) {
+            const clone = element.cloneNode(true);
+            clone.classList.add('bigtext-cloned');
+            
+            const elementStyle = window.getComputedStyle(element);
+
+            Object.assign(clone.style, {
+                fontFamily: elementStyle.fontFamily,
+                textTransform: elementStyle.textTransform,
+                wordSpacing: elementStyle.wordSpacing,
+                letterSpacing: elementStyle.letterSpacing,
+                position: 'absolute',
+                left: BigText.DEBUG_MODE ? '0' : '-9999px',
+                top: BigText.DEBUG_MODE ? '0' : '-9999px'
+            });
+
+            document.body.appendChild(clone);
+            
+            const clonedChildren = Array.from(clone.children);
+
+            const fontSizes = [];
+            const wordSpacings = [];
+            const minFontSizes = [];
+            const ratios = [];
+
+            clonedChildren.forEach(line => {
+                line.style.float = 'left';
+
+                if (line.classList.contains(BigText.EXEMPT_CLASS)) {
+                    fontSizes.push(null);
+                    ratios.push(null);
+                    minFontSizes.push(false);
+                    return;
+                }
+                
+                const intervals = BigText.supports.wholeNumberFontSizeOnly ? [8, 4, 1] : [8, 4, 1, 0.1];
+                let lineMax;
+                let newFontSize;
+
+                const autoGuessSubtraction = 32;
+                const currentFontSize = parseFloat(window.getComputedStyle(line).fontSize);
+                const ratio = (line.offsetWidth / currentFontSize).toFixed(6);
+
+                newFontSize = parseInt(maxWidth / ratio, 10) - autoGuessSubtraction;
+
+                outer: for (let m = 0, n = intervals.length; m < n; m++) {
+                    inner: for (let j = 1, k = 10; j <= k; j++) {
+                        if (newFontSize + j * intervals[m] > maxFontSize) {
+                            newFontSize = maxFontSize;
+                            break outer;
+                        }
+
+                        lineMax = BigText.testLineDimensions(line, maxWidth, 'font-size', newFontSize + j * intervals[m], intervals[m], 'px', lineMax);
+                        if (typeof lineMax !== 'number') {
+                            newFontSize = lineMax.size;
+
+                            if (lineMax.match === 'exact') {
+                                break outer;
+                            }
+                            break inner;
+                        }
+                    }
+                }
+
+                ratios.push(maxWidth / newFontSize);
+
+                if (newFontSize > maxFontSize) {
+                    fontSizes.push(maxFontSize);
+                    minFontSizes.push(false);
+                } else if (!!minFontSize && newFontSize < minFontSize) {
+                    fontSizes.push(minFontSize);
+                    minFontSizes.push(true);
+                } else {
+                    fontSizes.push(newFontSize);
+                    minFontSizes.push(false);
+                }
+            });
+
+            clonedChildren.forEach((line, lineNumber) => {
+                let wordSpacing = 0;
+                const interval = 1;
+                let maxWordSpacing;
+
+                if (line.classList.contains(BigText.EXEMPT_CLASS)) {
+                    wordSpacings.push(null);
+                    return;
+                }
+                
+                line.style.fontSize = fontSizes[lineNumber] + 'px';
+
+                for (let m = 1, n = 3; m < n; m += interval) {
+                    maxWordSpacing = BigText.testLineDimensions(line, maxWidth, 'word-spacing', m, interval, 'px', maxWordSpacing);
+                    if (typeof maxWordSpacing !== 'number') {
+                        wordSpacing = maxWordSpacing.size;
+                        break;
+                    }
+                }
+                
+                line.style.fontSize = '';
+                wordSpacings.push(wordSpacing);
+            });
+            
+            clonedChildren.forEach(child => child.removeAttribute('style'));
+
+            if (!BigText.DEBUG_MODE) {
+                clone.remove();
+            } else {
+                clone.style.backgroundColor = 'rgba(255,255,255,.4)';
+            }
+
+            return {
+                fontSizes: fontSizes,
+                wordSpacings: wordSpacings,
+                ratios: ratios,
+                minFontSizes: minFontSizes
+            };
+        }
+    };
+
+    // Public API
+    window.bigText = function(selector, options) {
+        const elements = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+        if(!elements) return;
+        
+        const elementsArray = (elements.length === undefined) ? [elements] : Array.from(elements);
+        
+        elementsArray.forEach(element => {
+            BigText.jQueryMethod.call(element, options);
+        });
+    };
+
+    // Auto-initialize for IDs starting with "bigtext"
+    document.addEventListener('DOMContentLoaded', function() {
+        const autoElements = document.querySelectorAll('[id^="bigtext"]');
+        autoElements.forEach(element => {
+            // Options are parsed from data-attributes inside jQueryMethod
+            BigText.jQueryMethod.call(element);
+        });
+    });
+
+})(this);
+  </script>
     {{site.customCode.bodyCode}}
     {{customCode.bodyCode}}
   </body>

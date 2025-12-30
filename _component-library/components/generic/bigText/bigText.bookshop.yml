@@ -1,0 +1,132 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - headingBlocks
+  label: "Big Text"
+  description: "Big Text heading"
+  icon:
+  tags: []
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: bigText-398d7844-7b44-4e40-aa42-8cfc28c6b2d4
+  content:
+    showNote: true
+    headline: >-
+      heading
+    description: >-
+
+    buttons: [bookshop:structure:buttons]
+  styles:
+    minFontSize: 32
+    maxFontSize: 2000
+    contentAlignment: center
+    textAlignment: center
+    highContrast: false
+    contrastColorGroup:
+    contrastAgainst:
+    textClassOverride:
+    blendMode: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  minFontSize:
+    comment: "The minimum font size in pixels"
+  maxFontSize:
+    comment: "The maximum font size in pixels"
+  headline:
+    type: markdown
+    label: Large Text Heading
+    comment: "Text placed here will be converted to large text"
+    options:
+      link: false
+      blockquote: false
+      format: p h1 h2 h3 h4 h5 h6
+      bold: false
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: false
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 150
+  description:
+    type: markdown
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: true
+      numberedlist: true
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+  contentAlignment:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Left
+          id: left
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: Right
+          id: right
+          icon: format_align_right
+  textAlignment:
+    type: choice
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Left
+          id: left
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: Right
+          id: right
+          icon: format_align_right
+  highContrast:
+    hidden: true
+  contrastAgainst:
+    hidden: true
+  contrastColorGroup:
+    hidden: true
+  textClassOverride:
+    hidden: true
+  blendMode:
+    hidden: true

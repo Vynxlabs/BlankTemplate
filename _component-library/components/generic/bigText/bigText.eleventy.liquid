@@ -1,0 +1,50 @@
+
+{% capture contentAlignment %}
+{% if styles.contentAlignment == 'left' %} items-start {% elsif styles.contentAlignment == 'center' %} items-center {% else %} items-end {% endif %}
+{% endcapture %}
+{% capture textAlignment %}
+{% if styles.textAlignment == 'left' %} text-left {% elsif styles.textAlignment == 'center' %} text-center {% else %} text-right {% endif %}
+{% endcapture %}
+{% capture buttonAlignment %}
+{% if styles.textAlignment == 'left' %}  {% elsif styles.textAlignment == 'center' %} justify-center {% else %} justify-end {% endif %}
+{% endcapture %}
+
+{% capture textClass %}
+{% if styles.highContrast %} text-{{styles.contrastColorGroup}}-highcontrast-{{styles.contrastAgainst}}color {% else %} text-{{color_group}}-textcolor {% endif %}
+{% if styles.textClassOverride %} {{styles.textClassOverride}} {% endif %}
+{% if styles.blendMode %}
+    text-white mix-blend-difference
+{% endif %}
+{% endcapture %}
+
+
+
+<header class="c-bigText w-full flex flex-col justify-center {{textAlignment}}  {{contentAlignment}} {{textClass}}">
+    {% if env_bookshop_live and content.showNote %}
+      {% bookshop "generic/notification" heading: "No large text in Live Editor" text: "The large text will not show up while editing, but will show up on the live site" %}
+    {% endif %}
+    <div id="{{"bigtext-" | uuidFilter}}" class="w-full leading-none"
+    data-minfontsize="{{styles.minFontSize}}"
+    data-maxfontsize="{{styles.maxFontSize}}"
+    >
+    {{content.headline | markdownify}}
+    </div>
+  <div class=" max-w-[700px]">
+      <div class="mt-4">
+        {% if content.description %}
+          {% bookshop "generic/textBlock" text: content.description %}{% endif %}
+      </div>
+      {% if content.buttons %}
+        <div class="mt-3 flex w-full gap-8 flex-wrap {{buttonAlignment}}">
+          {% for button in content.buttons %}
+            {% bookshop "{{button._bookshop_name}}" bind: button %}
+          {% endfor %}
+
+        </div>
+      {% endif %}
+    </div>
+    {% if styles.highContrast %}
+      {% assign temp = styles  %}
+    {% endif %}
+
+  </header>
