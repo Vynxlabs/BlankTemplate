@@ -10,7 +10,7 @@
 {% endcapture %}
 {% assign imageComponentclasses = imageComponentclasses | removeExtraWhitespace | strip %}
 {% assign imagePath = imagePath | pathExists %}
-{% if env_bookshop_live or meta.env == 'cloudcannon' %}
+{% if env_bookshop_live or meta.env == 'cloudcannon' or imagePath contains '.gif' %}
 {% comment %} Div wrap to simulate block level element of picture that real short code generates {% endcomment %}
 <picture><img class="{{imageComponentclasses}}" src="{{ imagePath }}" alt="{{ imageAlt }}"></picture>
 
