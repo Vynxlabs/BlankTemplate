@@ -1,0 +1,67 @@
+{% assign color_group = styles.color_group %}
+{% capture textClassOverride %}
+    
+{% if styles.colorFromGroup == "white" %}
+   text-white
+   {% elsif styles.colorFromGroup == "diff" %}
+    text-white mix-blend-difference 
+    {% else %}
+    text-{{styles.color_group}}-{{styles.colorFromGroup}}color
+{% endif %}
+{% endcapture %}
+{% capture verticalAlignment %}
+   {% if styles.verticalAlignment == "top" %}
+   justify-start 
+   {% elsif styles.verticalAlignment == "middle" %}
+    justify-center
+   {% elsif styles.verticalAlignment == "bottom" %}
+    justify-end
+    
+   {% endif %} 
+{% endcapture %}
+{% capture heading %}
+    content:
+        highlightEyebrow: {{content.heading.content.highlightEyebrow}}
+        eyebrow: {{content.heading.content.eyebrow| stringifyFilter}}
+        headline: {{content.heading.content.headline| stringifyFilter}}
+        description: {{content.heading.content.description| stringifyFilter}}
+        image:
+          {{content.heading.content.image | json}}
+        buttons:
+          {{content.heading.content.buttons | json}}
+        headingHierarchy: "h1"
+    styles:
+        maxFontSize: {{content.heading.styles.maxFontSize}}
+        imageRight: {{content.heading.styles.imageRight}}
+        headingRight: {{content.heading.styles.headingRight}}
+        contentAlignment: {{content.heading.styles.contentAlignment}}
+        textAlignment: {{content.heading.styles.textAlignment}}
+        visualInterest: {{content.heading.styles.visualInterest}}
+        visualInterestColor: {{content.heading.styles.visualInterestColor}}
+        highContrast: false
+        contrastColorGroup: {{styles.color_group}}
+        contrastAgainst: {{styles.topColorFromGroup}} 
+        textClassOverride: {{textClassOverride | strip}}
+{% endcapture %}
+{% assign heading = heading | ymlify  %}
+
+
+{% capture opacity %}after:bg-opacity-[{{ styles.backgroundOpacity }}%]
+{% endcapture %}
+
+<div class="c-bigTextHero cs-w-full relative flex flex-col items-center {% if content.image %} min-h-screen pb-16 {% else %} py-16 bg-{{styles.color_group}}-backgroundcolor min-h-[60vh] {% endif %} overflow-hidden ">
+  {% if content.image %}
+    <div class="absolute inset-0 -z-10 flex items-center justify-center after:contents[''] after:absolute after:inset-0 after:bg-black after:bg-op {{opacity}} ">
+      {% bookshop "{{content.image._bookshop_name}}" bind: content.image class: "min-h-screen h-full w-screen object-cover" %}
+    </div>
+  {% endif %}
+  <section class=" w-full flex flex-col h-full {{verticalAlignment}} items-center ">
+
+    {% if content.sectionId %}
+      {% bookshop "util/IdScrollEvent" sectionId: content.sectionId %}
+    {% endif %}
+    <div class="w-full max-w-[80vw] ">
+      {% bookshop "generic/bigText" bind: heading %}
+    </div>
+  </section>
+</div>

@@ -11,6 +11,13 @@ transition #modal-{{id}} opacity to 1 over 0.2s
 "
 >
 {% if image %}
+{% capture modalImageClasses %}
+ {% if classes %}
+ {{classes}}
+ {% else %}
+   aspect-square object-cover object-center w-full h-full
+ {% endif %} 
+{% endcapture %}
   
 {% bookshop "{{image._bookshop_name}}" bind: image class: " aspect-square object-cover object-center w-full h-full" hoverPlay: true thumbOnly: true %}
 {% endif %}
