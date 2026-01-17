@@ -1,0 +1,17 @@
+.c-testimonial {
+  max-width: 42rem;
+
+  &__quote {
+    line-height: 1.6;
+  }
+
+  &__quote-mark {
+    font-size: 1.25em;
+    opacity: 0.5;
+  }
+
+  &__author-info {
+    display: flex;
+    flex-direction: column;
+  }
+}

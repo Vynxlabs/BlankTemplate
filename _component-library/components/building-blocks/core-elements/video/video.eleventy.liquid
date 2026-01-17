@@ -1,0 +1,61 @@
+{%- comment -%}
+  Video - Core element component
+  Embedded video from YouTube, Vimeo, or local source
+{%- endcomment -%}
+
+{%- assign videoType = content.type | default: "youtube" -%}
+
+<div class="c-video aspect-video w-full">
+  {%- case videoType -%}
+    {%- when "youtube" -%}
+      {%- if content.id -%}
+        <iframe
+          class="w-full h-full"
+          src="https://www.youtube.com/embed/{{ content.id }}"
+          title="{{ content.title | default: 'YouTube video' }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      {%- else -%}
+        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+          <span class="text-gray-500">Enter a YouTube video ID</span>
+        </div>
+      {%- endif -%}
+
+    {%- when "vimeo" -%}
+      {%- if content.id -%}
+        <iframe
+          class="w-full h-full"
+          src="https://player.vimeo.com/video/{{ content.id }}"
+          title="{{ content.title | default: 'Vimeo video' }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      {%- else -%}
+        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+          <span class="text-gray-500">Enter a Vimeo video ID</span>
+        </div>
+      {%- endif -%}
+
+    {%- when "local-source" -%}
+      {%- if content.source -%}
+        <video
+          class="w-full h-full object-cover"
+          controls
+          preload="metadata"
+          {%- if content.thumbnail %} poster="{{ content.thumbnail }}"{% endif %}
+        >
+          <source src="{{ content.source }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {%- else -%}
+        <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+          <span class="text-gray-500">Select a video file</span>
+        </div>
+      {%- endif -%}
+  {%- endcase -%}
+</div>
