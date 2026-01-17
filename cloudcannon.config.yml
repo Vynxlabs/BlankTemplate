@@ -655,6 +655,11 @@ _structures:
     style: modal
   hero_blocks:
     style: modal
+  content_sections:
+    label: Content Blocks
+    comment: >-
+      Add content blocks inside wrappers like Card, Split, Grid, etc.
+    style: modal
   links:
     style: select
     values:
