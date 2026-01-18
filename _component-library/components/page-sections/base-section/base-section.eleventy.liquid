@@ -155,7 +155,7 @@
   <div class="c-base-section__container relative z-10 flex flex-col {{ heightClass | strip }} {{ verticalAlignClass | strip }} {{ horizontalAlignClass | strip }} {{ paddingTopClass | strip }} {{ paddingBottomClass | strip }} {{ paddingHorizontalClass | strip }}">
     <div class="c-base-section__content w-full {{ maxWidthClass | strip }} mx-auto">
       {%- if contentSections.size > 0 -%}
-        {% bookshop "shared/renderBlocks" blocks: contentSections %}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
       {%- else -%}
         <p class="text-gray-400 italic text-center">Add content to this section</p>
       {%- endif -%}
