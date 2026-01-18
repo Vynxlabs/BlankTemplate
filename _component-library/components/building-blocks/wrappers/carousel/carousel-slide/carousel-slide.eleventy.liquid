@@ -8,7 +8,7 @@
 
 <div class="c-carousel__slide" data-carousel-slide="{{ index }}">
   {%- if contentSections.size > 0 -%}
-    {% bookshop "shared/renderBlocks" blocks: contentSections %}
+    {% bookshop_include "renderBlocks" blocks: contentSections %}
   {%- else -%}
     <p class="text-gray-400 italic text-center py-8">Add content to this slide</p>
   {%- endif -%}

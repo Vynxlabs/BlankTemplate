@@ -103,13 +103,13 @@
   <div class="c-card__inner relative">
     {%- if showBeforeAfter and beforeContentSections.size > 0 -%}
       <div class="c-card__before">
-        {% bookshop "shared/renderBlocks" blocks: beforeContentSections %}
+        {% bookshop_include "renderBlocks" blocks: beforeContentSections %}
       </div>
     {%- endif -%}
 
     {%- if contentSections.size > 0 -%}
       <div class="{{ contentClasses | strip | normalize_whitespace }}">
-        {% bookshop "shared/renderBlocks" blocks: contentSections %}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
       </div>
     {%- else -%}
       <div class="{{ contentClasses | strip | normalize_whitespace }}">
@@ -119,7 +119,7 @@
 
     {%- if showBeforeAfter and afterContentSections.size > 0 -%}
       <div class="c-card__after">
-        {% bookshop "shared/renderBlocks" blocks: afterContentSections %}
+        {% bookshop_include "renderBlocks" blocks: afterContentSections %}
       </div>
     {%- endif -%}
   </div>

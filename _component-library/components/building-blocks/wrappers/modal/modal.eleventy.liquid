@@ -65,7 +65,7 @@
 
     <div class="c-modal__content">
       {%- if contentSections.size > 0 -%}
-        {% bookshop "shared/renderBlocks" blocks: contentSections %}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
       {%- else -%}
         <p class="text-gray-400 italic">Add content to this modal</p>
       {%- endif -%}

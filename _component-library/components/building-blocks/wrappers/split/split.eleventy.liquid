@@ -59,7 +59,7 @@
 >
   <div class="c-split__column c-split__column--first">
     {%- if firstColumn.size > 0 -%}
-      {% bookshop "shared/renderBlocks" blocks: firstColumn %}
+      {% bookshop_include "renderBlocks" blocks: firstColumn %}
     {%- else -%}
       <p class="text-gray-400 italic">Add content to the first column</p>
     {%- endif -%}
@@ -67,7 +67,7 @@
 
   <div class="c-split__column c-split__column--second">
     {%- if secondColumn.size > 0 -%}
-      {% bookshop "shared/renderBlocks" blocks: secondColumn %}
+      {% bookshop_include "renderBlocks" blocks: secondColumn %}
     {%- else -%}
       <p class="text-gray-400 italic">Add content to the second column</p>
     {%- endif -%}
