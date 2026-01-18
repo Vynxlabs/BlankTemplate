@@ -670,6 +670,11 @@ _structures:
     comment: >-
       Add expandable items to an accordion.
     style: modal
+  button_items:
+    label: Buttons
+    comment: >-
+      Add buttons to a button group.
+    style: modal
   links:
     style: select
     values:
