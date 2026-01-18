@@ -1,0 +1,210 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Card"
+  description: Flexible card wrapper with background, padding, and content sections
+  icon: crop_square
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  label:
+  content:
+    contentSections:
+    beforeContentSections:
+    afterContentSections:
+  styles:
+    maxContentWidth:
+    paddingHorizontal: md
+    paddingVertical: md
+    colorScheme:
+    backgroundColor: base
+    backgroundImage:
+      source:
+      alt:
+      positionVertical: center
+      positionHorizontal: center
+    link:
+    rounded: true
+    border: false
+    showBeforeAfter: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    contentSections:
+      - _bookshop_name: building-blocks/core-elements/heading
+        content:
+          text: Card Title
+          level: h3
+        styles:
+          size: lg
+      - _bookshop_name: building-blocks/core-elements/text
+        content:
+          text: This is a card with some content inside. Cards can contain any combination of core elements.
+  styles:
+    paddingHorizontal: md
+    paddingVertical: md
+    backgroundColor: surface
+    rounded: true
+    border: true
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this card in the editor
+  contentSections:
+    type: array
+    label: Content
+    comment: Main content inside the card with padding applied
+    options:
+      structures: _structures.content_sections
+  beforeContentSections:
+    type: array
+    label: Before Content
+    comment: Content above the main area without padding (e.g., images)
+    hidden: "!styles.showBeforeAfter"
+    options:
+      structures: _structures.content_sections
+  afterContentSections:
+    type: array
+    label: After Content
+    comment: Content below the main area without padding
+    hidden: "!styles.showBeforeAfter"
+    options:
+      structures: _structures.content_sections
+  maxContentWidth:
+    type: select
+    label: Max Content Width
+    comment: Maximum width constraint for the card content
+    options:
+      allow_empty: true
+      values:
+        - name: Extra Small (320px)
+          id: xs
+        - name: Small (384px)
+          id: sm
+        - name: Medium (448px)
+          id: md
+        - name: Large (512px)
+          id: lg
+        - name: Extra Large (576px)
+          id: xl
+        - name: 2XL (672px)
+          id: 2xl
+        - name: 3XL (768px)
+          id: 3xl
+  paddingHorizontal:
+    type: select
+    label: Horizontal Padding
+    options:
+      values:
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+  paddingVertical:
+    type: select
+    label: Vertical Padding
+    options:
+      values:
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+  colorScheme:
+    type: select
+    label: Color Scheme
+    comment: Color theme for text within the card
+    options:
+      allow_empty: true
+      values:
+        - name: Default
+          id: default
+        - name: Contrast (inverted)
+          id: contrast
+  backgroundColor:
+    type: select
+    label: Background Color
+    options:
+      values:
+        - name: None (transparent)
+          id: none
+        - name: Base
+          id: base
+        - name: Surface
+          id: surface
+        - name: Accent
+          id: accent
+        - name: Highlight
+          id: highlight
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+    comment: Background image for the card
+  backgroundImage.alt:
+    type: text
+    label: Alt Text
+  backgroundImage.positionVertical:
+    type: select
+    label: Vertical Position
+    options:
+      values:
+        - name: Top
+          id: top
+        - name: Center
+          id: center
+        - name: Bottom
+          id: bottom
+  backgroundImage.positionHorizontal:
+    type: select
+    label: Horizontal Position
+    options:
+      values:
+        - name: Left
+          id: left
+        - name: Center
+          id: center
+        - name: Right
+          id: right
+  link:
+    type: url
+    label: Card Link
+    comment: URL to make the entire card clickable
+  rounded:
+    type: switch
+    label: Rounded Corners
+  border:
+    type: switch
+    label: Show Border
+  showBeforeAfter:
+    type: switch
+    label: Show Before/After Content
+    comment: Enable content sections outside the card padding
