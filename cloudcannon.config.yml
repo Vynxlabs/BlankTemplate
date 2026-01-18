@@ -665,6 +665,11 @@ _structures:
     comment: >-
       Add items to display in a grid layout.
     style: modal
+  accordion_items:
+    label: Accordion Items
+    comment: >-
+      Add expandable items to an accordion.
+    style: modal
   links:
     style: select
     values:

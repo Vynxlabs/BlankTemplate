@@ -1,0 +1,75 @@
+{%- comment -%}
+  Accordion - Wrapper component
+  Expandable/collapsible content sections
+{%- endcomment -%}
+
+{%- assign items = content.items -%}
+{%- assign openFirst = styles.openFirst | default: false -%}
+{%- assign singleOpen = styles.singleOpen | default: false -%}
+{%- assign variant = styles.variant | default: "default" -%}
+{%- assign gap = styles.gap | default: "sm" -%}
+
+{%- capture gapClass -%}
+  {%- case gap -%}
+    {%- when "none" -%}gap-0
+    {%- when "xs" -%}gap-1
+    {%- when "sm" -%}gap-2
+    {%- when "md" -%}gap-4
+    {%- when "lg" -%}gap-6
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture variantClass -%}
+  {%- case variant -%}
+    {%- when "default" -%}c-accordion--default
+    {%- when "bordered" -%}c-accordion--bordered
+    {%- when "separated" -%}c-accordion--separated
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div
+  class="c-accordion {{ variantClass | strip }} {{ gapClass | strip }}"
+  data-accordion
+  {% if singleOpen %}data-single-open="true"{% endif %}
+>
+  {%- if items.size > 0 -%}
+    {%- for item in items -%}
+      {%- if item._bookshop_name -%}
+        {%- assign isOpen = false -%}
+        {%- if openFirst and forloop.first -%}
+          {%- assign isOpen = true -%}
+        {%- endif -%}
+        {% bookshop "{{item._bookshop_name}}" bind: item isOpen: isOpen %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    <div class="c-accordion__item">
+      <p class="text-gray-400 italic p-4">Add items to the accordion</p>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('[data-accordion]').forEach(accordion => {
+      const singleOpen = accordion.dataset.singleOpen === 'true';
+
+      accordion.querySelectorAll('[data-accordion-trigger]').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const item = trigger.closest('[data-accordion-item]');
+          const isOpen = item.classList.contains('is-open');
+
+          if (singleOpen && !isOpen) {
+            accordion.querySelectorAll('[data-accordion-item].is-open').forEach(openItem => {
+              openItem.classList.remove('is-open');
+              openItem.querySelector('[data-accordion-trigger]').setAttribute('aria-expanded', 'false');
+            });
+          }
+
+          item.classList.toggle('is-open');
+          trigger.setAttribute('aria-expanded', !isOpen);
+        });
+      });
+    });
+  })();
+</script>

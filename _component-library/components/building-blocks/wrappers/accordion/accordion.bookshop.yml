@@ -1,0 +1,97 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Accordion"
+  description: Expandable/collapsible content sections
+  icon: expand_more
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  label:
+  content:
+    items:
+  styles:
+    openFirst: false
+    singleOpen: false
+    variant: default
+    gap: sm
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    items:
+      - _bookshop_name: building-blocks/wrappers/accordion/accordion-item
+        content:
+          title: First Accordion Item
+          contentSections:
+            - _bookshop_name: building-blocks/core-elements/text
+              content:
+                text: Content for the first accordion item.
+      - _bookshop_name: building-blocks/wrappers/accordion/accordion-item
+        content:
+          title: Second Accordion Item
+          contentSections:
+            - _bookshop_name: building-blocks/core-elements/text
+              content:
+                text: Content for the second accordion item.
+      - _bookshop_name: building-blocks/wrappers/accordion/accordion-item
+        content:
+          title: Third Accordion Item
+          contentSections:
+            - _bookshop_name: building-blocks/core-elements/text
+              content:
+                text: Content for the third accordion item.
+  styles:
+    openFirst: true
+    singleOpen: false
+    variant: default
+    gap: sm
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this accordion in the editor
+  items:
+    type: array
+    label: Accordion Items
+    comment: Expandable sections in the accordion
+    options:
+      structures: _structures.accordion_items
+  openFirst:
+    type: switch
+    label: Open First Item
+    comment: Start with the first item expanded
+  singleOpen:
+    type: switch
+    label: Single Open Mode
+    comment: Only allow one item open at a time
+  variant:
+    type: select
+    label: Style Variant
+    options:
+      values:
+        - name: Default
+          id: default
+        - name: Bordered
+          id: bordered
+        - name: Separated
+          id: separated
+  gap:
+    type: select
+    label: Gap Between Items
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
