@@ -65,14 +65,14 @@ _inputs:
     type: array
     label: Before Content
     comment: Content above the main area without padding (e.g., images)
-    hidden: "!styles.showBeforeAfter"
+    hidden: "!showBeforeAfter"
     options:
       structures: _structures.content_sections
   afterContentSections:
     type: array
     label: After Content
     comment: Content below the main area without padding
-    hidden: "!styles.showBeforeAfter"
+    hidden: "!showBeforeAfter"
     options:
       structures: _structures.content_sections
   maxContentWidth:
