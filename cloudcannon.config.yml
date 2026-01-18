@@ -660,6 +660,11 @@ _structures:
     comment: >-
       Add content blocks inside wrappers like Card, Split, Grid, etc.
     style: modal
+  grid_items:
+    label: Grid Items
+    comment: >-
+      Add items to display in a grid layout.
+    style: modal
   links:
     style: select
     values:
