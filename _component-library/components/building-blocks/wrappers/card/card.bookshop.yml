@@ -27,7 +27,6 @@ blueprint:
       positionVertical: center
       positionHorizontal: center
     link:
-    rounded: true
     border: false
     showBeforeAfter: false
 
@@ -48,7 +47,6 @@ preview:
     paddingHorizontal: md
     paddingVertical: md
     backgroundColor: surface
-    rounded: true
     border: true
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
@@ -199,9 +197,6 @@ _inputs:
     type: url
     label: Card Link
     comment: URL to make the entire card clickable
-  rounded:
-    type: switch
-    label: Rounded Corners
   border:
     type: switch
     label: Show Border

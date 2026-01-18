@@ -14,7 +14,6 @@
 {%- assign bgColor = styles.backgroundColor | default: "base" -%}
 {%- assign bgImage = styles.backgroundImage -%}
 {%- assign link = styles.link -%}
-{%- assign rounded = styles.rounded | default: false -%}
 {%- assign border = styles.border | default: false -%}
 {%- assign showBeforeAfter = styles.showBeforeAfter | default: false -%}
 
@@ -76,8 +75,7 @@
 {%- endcapture -%}
 
 {%- capture cardClasses -%}
-  c-card relative overflow-hidden
-  {%- if rounded %} rounded-lg{% endif -%}
+  c-card relative overflow-hidden {{theme.container_rounding}}
   {%- if border %} c-card--bordered{% endif -%}
   {%- if bgColor != "none" %} {{ bgColorClass | strip }}{% endif -%}
   {%- if colorScheme %} {{ colorSchemeClass | strip }}{% endif -%}

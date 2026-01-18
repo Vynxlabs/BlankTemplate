@@ -47,7 +47,7 @@
       >
     </picture>
   {%- else -%}
-    {%- capture imageClasses -%}w-full h-full {{ positionClass | strip }}{%- endcapture -%}
+    {%- capture imageClasses -%}w-full h-auto {{ positionClass | strip }} {{theme.image_rounding}}{%- endcapture -%}
     {% image imagePath, imageAlt, imageClasses, "100vw", "" %}
   {%- endif -%}
 
