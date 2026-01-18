@@ -9,24 +9,22 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-    title: Tab Title
-    contentSections:
+  title: Tab Title
+  contentSections:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
-  content:
-    title: Sample Tab
-    contentSections:
-      - _bookshop_name: building-blocks/core-elements/heading
-        content:
-          text: Tab Content
-          level: h3
-        styles:
-          size: md
-      - _bookshop_name: building-blocks/core-elements/text
-        content:
-          text: This is the content that appears when this tab is selected.
+  title: Sample Tab
+  contentSections:
+    - _bookshop_name: building-blocks/core-elements/heading
+      content:
+        text: Tab Content
+        level: h3
+      styles:
+        size: md
+    - _bookshop_name: building-blocks/core-elements/text
+      content:
+        text: This is the content that appears when this tab is selected.
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:

@@ -6,6 +6,7 @@ spec:
   description: Quote with author attribution and optional star rating
   icon: format_quote
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

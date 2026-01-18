@@ -6,11 +6,12 @@ spec:
   description: Group of buttons with alignment and direction options
   icon: smart_button
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     buttons:
   styles:
     direction: row

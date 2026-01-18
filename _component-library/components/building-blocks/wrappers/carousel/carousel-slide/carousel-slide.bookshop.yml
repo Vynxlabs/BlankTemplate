@@ -9,25 +9,23 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-    contentSections:
+  contentSections:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
-  content:
-    contentSections:
-      - _bookshop_name: building-blocks/core-elements/heading
-        content:
-          text: Carousel Slide
-          level: h3
-        styles:
-          size: lg
-          alignX: center
-      - _bookshop_name: building-blocks/core-elements/text
-        content:
-          text: Content for this carousel slide.
-        styles:
-          alignX: center
+  contentSections:
+    - _bookshop_name: building-blocks/core-elements/heading
+      content:
+        text: Carousel Slide
+        level: h3
+      styles:
+        size: lg
+        alignX: center
+    - _bookshop_name: building-blocks/core-elements/text
+      content:
+        text: Content for this carousel slide.
+      styles:
+        alignX: center
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:

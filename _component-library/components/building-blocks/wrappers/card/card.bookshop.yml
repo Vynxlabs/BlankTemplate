@@ -6,11 +6,12 @@ spec:
   description: Flexible card wrapper with background, padding, and content sections
   icon: crop_square
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     contentSections:
     beforeContentSections:
     afterContentSections:

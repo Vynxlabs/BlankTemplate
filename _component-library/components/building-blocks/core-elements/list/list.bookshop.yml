@@ -6,6 +6,7 @@ spec:
   description: Ordered or unordered list with icon support
   icon: format_list_bulleted
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

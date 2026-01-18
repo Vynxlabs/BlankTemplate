@@ -3,8 +3,8 @@
   Individual expandable/collapsible section
 {%- endcomment -%}
 
-{%- assign title = content.title | default: "Accordion Item" -%}
-{%- assign contentSections = content.contentSections -%}
+{%- assign title = title | default: "Accordion Item" -%}
+{%- assign contentSections = contentSections -%}
 {%- assign isOpen = isOpen | default: false -%}
 
 <div class="c-accordion__item{% if isOpen %} is-open{% endif %}" data-accordion-item>

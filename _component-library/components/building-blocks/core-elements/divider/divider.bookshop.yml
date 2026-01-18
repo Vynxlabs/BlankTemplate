@@ -9,12 +9,10 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-  styles:
-    variant: solid
-    width: full
-    thickness: thin
-    marginY: md
+  variant: solid
+  width: full
+  thickness: thin
+  marginY: md
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

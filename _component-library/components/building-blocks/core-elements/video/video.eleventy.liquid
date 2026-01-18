@@ -4,18 +4,18 @@
   Uses lite-youtube and lite-vimeo for performance-optimized lazy loading
 {%- endcomment -%}
 
-{%- assign videoType = content.type | default: "youtube" -%}
+{%- assign videoType = type | default: "youtube" -%}
 
 <div class="c-video w-full">
   {%- case videoType -%}
     {%- when "youtube" -%}
-      {%- if content.id -%}
+      {%- if id -%}
         <lite-youtube
-          videoid="{{ content.id }}"
-          style="background-image: url('https://i.ytimg.com/vi/{{ content.id }}/hqdefault.jpg');"
+          videoid="{{ id }}"
+          style="background-image: url('https://i.ytimg.com/vi/{{ id }}/hqdefault.jpg');"
         >
-          <a href="https://youtube.com/watch?v={{ content.id }}" class="lty-playbtn" title="Play Video">
-            <span class="lyt-visually-hidden">{{ content.title | default: "Play Video" }}</span>
+          <a href="https://youtube.com/watch?v={{ id }}" class="lty-playbtn" title="Play Video">
+            <span class="lyt-visually-hidden">{{ title | default: "Play Video" }}</span>
           </a>
         </lite-youtube>
       {%- else -%}
@@ -25,8 +25,8 @@
       {%- endif -%}
 
     {%- when "vimeo" -%}
-      {%- if content.id -%}
-        <lite-vimeo videoid="{{ content.id }}">
+      {%- if id -%}
+        <lite-vimeo videoid="{{ id }}">
           <div class="ltv-playbtn"></div>
         </lite-vimeo>
       {%- else -%}
@@ -36,14 +36,14 @@
       {%- endif -%}
 
     {%- when "local-source" -%}
-      {%- if content.source -%}
+      {%- if source -%}
         <video
           class="w-full aspect-video object-cover"
           controls
           preload="metadata"
-          {%- if content.thumbnail %} poster="{{ content.thumbnail }}"{% endif %}
+          {%- if thumbnail %} poster="{{ thumbnail }}"{% endif %}
         >
-          <source src="{{ content.source }}" type="video/mp4">
+          <source src="{{ source }}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       {%- else -%}

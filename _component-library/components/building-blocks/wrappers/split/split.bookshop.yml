@@ -6,11 +6,12 @@ spec:
   description: Two-column layout with flexible distribution modes
   icon: view_column
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     firstColumnContentSections:
     secondColumnContentSections:
   styles:

@@ -9,10 +9,8 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-  styles:
-    size: md
-    responsiveSize:
+  size: md
+  responsiveSize:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:

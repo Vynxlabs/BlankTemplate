@@ -7,6 +7,7 @@ spec:
   description: Rich text content block with markdown support
   icon: edit_note
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

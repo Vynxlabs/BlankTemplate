@@ -39,7 +39,7 @@
           data-tab="{{ forloop.index0 }}"
           id="tab-{{ forloop.index0 }}"
         >
-          {{ item.content.title | default: "Tab" }}
+          {{ item.title | default: "Tab" }}
         </button>
       {%- endfor -%}
     </div>

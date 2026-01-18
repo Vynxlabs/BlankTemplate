@@ -6,6 +6,7 @@ spec:
   description: Key-value pairs for displaying labeled information
   icon: view_list
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

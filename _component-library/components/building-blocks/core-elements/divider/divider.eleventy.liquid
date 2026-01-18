@@ -3,10 +3,10 @@
   Horizontal line separator with configurable style, width, and thickness
 {%- endcomment -%}
 
-{%- assign variant = styles.variant | default: "solid" -%}
-{%- assign width = styles.width | default: "full" -%}
-{%- assign thickness = styles.thickness | default: "thin" -%}
-{%- assign marginY = styles.marginY | default: "md" -%}
+{%- assign variant = variant | default: "solid" -%}
+{%- assign width = width | default: "full" -%}
+{%- assign thickness = thickness | default: "thin" -%}
+{%- assign marginY = marginY | default: "md" -%}
 
 {%- capture widthClass -%}
   {%- case width -%}

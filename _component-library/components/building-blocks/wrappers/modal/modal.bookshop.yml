@@ -6,11 +6,12 @@ spec:
   description: Popup dialog with flexible content
   icon: open_in_new
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     triggerId:
     triggerText: Open Modal
     contentSections:

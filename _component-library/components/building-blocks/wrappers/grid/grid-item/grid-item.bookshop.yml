@@ -9,22 +9,20 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-    contentSections:
+  contentSections:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
-  content:
-    contentSections:
-      - _bookshop_name: building-blocks/core-elements/heading
-        content:
-          text: Grid Item
-          level: h3
-        styles:
-          size: md
-      - _bookshop_name: building-blocks/core-elements/text
-        content:
-          text: Content inside this grid item.
+  contentSections:
+    - _bookshop_name: building-blocks/core-elements/heading
+      content:
+        text: Grid Item
+        level: h3
+      styles:
+        size: md
+    - _bookshop_name: building-blocks/core-elements/text
+      content:
+        text: Content inside this grid item.
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:

@@ -6,11 +6,12 @@ spec:
   description: Scrollable carousel with slides and navigation
   icon: view_carousel
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     slides:
   styles:
     autoPlay: false
@@ -27,35 +28,32 @@ preview:
   content:
     slides:
       - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
-        content:
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/heading
-              content:
-                text: Slide 1
-                level: h3
-              styles:
-                size: lg
-                alignX: center
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 1
+              level: h3
+            styles:
+              size: lg
+              alignX: center
       - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
-        content:
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/heading
-              content:
-                text: Slide 2
-                level: h3
-              styles:
-                size: lg
-                alignX: center
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 2
+              level: h3
+            styles:
+              size: lg
+              alignX: center
       - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
-        content:
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/heading
-              content:
-                text: Slide 3
-                level: h3
-              styles:
-                size: lg
-                alignX: center
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 3
+              level: h3
+            styles:
+              size: lg
+              alignX: center
   styles:
     slideWidthPercent: 100
     showNavigation: true

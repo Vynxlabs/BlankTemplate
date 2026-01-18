@@ -7,11 +7,12 @@ spec:
   description: Composable foundation section with background, padding, and layout options
   icon: layers
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     sectionId:
     contentSections:
   styles:

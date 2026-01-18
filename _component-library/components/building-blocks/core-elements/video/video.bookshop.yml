@@ -11,12 +11,11 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  content:
-    type: youtube
-    id:
-    title:
-    source:
-    thumbnail:
+  type: youtube
+  id:
+  title:
+  source:
+  thumbnail:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -39,19 +38,19 @@ _inputs:
     type: text
     label: Video ID
     comment: The YouTube or Vimeo video ID (found in the URL)
-    hidden: content.type == "local-source"
+    hidden: type == "local-source"
   title:
     type: text
     label: Video Title
     comment: Accessibility title for the video (shown on hover)
-    hidden: content.type == "local-source"
+    hidden: type == "local-source"
   source:
     type: file
     label: Video File
     comment: Local video file (MP4 recommended)
-    hidden: content.type != "local-source"
+    hidden: type != "local-source"
   thumbnail:
     type: image
     label: Thumbnail
     comment: Preview image shown before video plays
-    hidden: content.type != "local-source"
+    hidden: type != "local-source"

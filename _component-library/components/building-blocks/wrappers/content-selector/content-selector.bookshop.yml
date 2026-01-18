@@ -6,11 +6,12 @@ spec:
   description: Tabbed content panels with navigation
   icon: tab
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
-  label:
   content:
+    label:
     items:
   styles:
     navigationPosition: top
@@ -22,26 +23,29 @@ preview:
   content:
     items:
       - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
-        content:
-          title: First Tab
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/text
-              content:
-                text: Content for the first tab panel.
+        title: First Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the first tab panel.
+            styles:
+              alignX: start
       - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
-        content:
-          title: Second Tab
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/text
-              content:
-                text: Content for the second tab panel.
+        title: Second Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the second tab panel.
+            styles:
+              alignX: start
       - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
-        content:
-          title: Third Tab
-          contentSections:
-            - _bookshop_name: building-blocks/core-elements/text
-              content:
-                text: Content for the third tab panel.
+        title: Third Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the third tab panel.
+            styles:
+              alignX: start
   styles:
     navigationPosition: top
     navigationAlignment: start

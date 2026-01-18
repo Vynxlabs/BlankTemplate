@@ -6,6 +6,7 @@ spec:
   description: Small label or tag element
   icon: label
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:

@@ -6,6 +6,7 @@ spec:
   description: Raw HTML embed with aspect ratio options
   icon: code
   tags: []
+  tabbed: true
 
 # Defines the structure of this component, as well as the default values
 blueprint:
