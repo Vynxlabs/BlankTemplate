@@ -680,6 +680,11 @@ _structures:
     comment: >-
       Add slides to a carousel.
     style: modal
+  content_selector_items:
+    label: Tab Panels
+    comment: >-
+      Add tab panels to a content selector.
+    style: modal
   links:
     style: select
     values:
