@@ -113,7 +113,7 @@
 {%- endcapture -%}
 
 <section
-  class="c-base-section relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} color-group-{{ color_group }}"
+  class="c-base-section componentcontainer relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} color-group-{{ color_group }}"
   {% if backgroundImage.source %}style="background-image: url('{{ backgroundImage.source }}');"{% endif %}
 >
   {% if content.sectionId %}
