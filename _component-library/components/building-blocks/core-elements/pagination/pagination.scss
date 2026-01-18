@@ -1,0 +1,111 @@
+.c-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease;
+
+    &:hover:not(.c-pagination__btn--disabled) {
+      opacity: 0.8;
+    }
+
+    &--disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+  }
+
+  &__info {
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  // Sizes
+  &--sm {
+    .c-pagination__btn {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .c-pagination__icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .c-pagination__info {
+      font-size: 0.875rem;
+    }
+  }
+
+  &--md {
+    .c-pagination__btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .c-pagination__icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .c-pagination__info {
+      font-size: 0.875rem;
+    }
+  }
+
+  &--lg {
+    .c-pagination__btn {
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+    }
+
+    .c-pagination__icon {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    .c-pagination__info {
+      font-size: 1rem;
+    }
+  }
+
+  // Variants
+  &--simple {
+    .c-pagination__btn {
+      background-color: transparent;
+      border: 1px solid currentColor;
+      border-color: rgba(0, 0, 0, 0.2);
+      color: inherit;
+
+      &:hover:not(.c-pagination__btn--disabled) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  &--with-info {
+    .c-pagination__btn {
+      background-color: transparent;
+      border: 1px solid currentColor;
+      border-color: rgba(0, 0, 0, 0.2);
+      color: inherit;
+
+      &:hover:not(.c-pagination__btn--disabled) {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}

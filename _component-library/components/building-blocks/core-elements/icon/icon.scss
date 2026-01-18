@@ -1,0 +1,9 @@
+.c-icon {
+  &__svg--fill {
+    fill: var(--c-icon-color, currentColor);
+  }
+
+  &__svg--stroke {
+    stroke: var(--c-icon-color, currentColor);
+  }
+}

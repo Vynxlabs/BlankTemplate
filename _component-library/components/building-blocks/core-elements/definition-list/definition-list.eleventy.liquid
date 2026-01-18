@@ -1,0 +1,38 @@
+{%- comment -%}
+  Definition List - Core element component
+  Key-value pairs for displaying labeled information
+{%- endcomment -%}
+
+{%- assign layout = styles.layout | default: "stacked" -%}
+{%- assign termWeight = styles.termWeight | default: "bold" -%}
+{%- assign dividers = styles.dividers | default: false -%}
+
+{%- capture weightClass -%}
+  {%- case termWeight -%}
+    {%- when "normal" -%}font-normal
+    {%- when "medium" -%}font-medium
+    {%- when "bold" -%}font-bold
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture listClass -%}
+  c-definition-list c-definition-list--{{ layout }}{% if dividers %} c-definition-list--dividers{% endif %}
+{%- endcapture -%}
+
+{%- if content.items.size > 0 -%}
+  <dl class="{{ listClass | strip }}">
+    {%- for item in content.items -%}
+      <div class="c-definition-list__item">
+        <dt class="c-definition-list__term {{ weightClass | strip }}">{{ item.term }}</dt>
+        <dd class="c-definition-list__definition">{{ item.definition }}</dd>
+      </div>
+    {%- endfor -%}
+  </dl>
+{%- else -%}
+  <dl class="{{ listClass | strip }}">
+    <div class="c-definition-list__item">
+      <dt class="c-definition-list__term {{ weightClass | strip }}">Term</dt>
+      <dd class="c-definition-list__definition">Add items to the list</dd>
+    </div>
+  </dl>
+{%- endif -%}
