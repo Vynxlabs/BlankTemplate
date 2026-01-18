@@ -675,6 +675,11 @@ _structures:
     comment: >-
       Add buttons to a button group.
     style: modal
+  carousel_slides:
+    label: Carousel Slides
+    comment: >-
+      Add slides to a carousel.
+    style: modal
   links:
     style: select
     values:
