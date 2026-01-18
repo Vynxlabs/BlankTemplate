@@ -114,9 +114,11 @@
 
 <section
   class="c-base-section relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} color-group-{{ color_group }}"
-  {% if sectionId %}id="{{ sectionId }}"{% endif %}
   {% if backgroundImage.source %}style="background-image: url('{{ backgroundImage.source }}');"{% endif %}
 >
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
+  {% endif %}
   {%- comment -%} Top Partial Color {%- endcomment -%}
   {%- if topPartialColor and topPartialHeight > 0 -%}
     <div
