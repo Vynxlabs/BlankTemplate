@@ -165,23 +165,23 @@ styles:
   {%- assign gridObj = gridBlock | ymlify -%}
   {%- assign builtContentSections = builtContentSections | push: gridObj -%}
 {%- endif -%}
+{%- capture sectionContent -%}
+content:
+  sectionId: content.sectionId,
+  contentSections: builtContentSections
+styles:
+  color_group: styles.color_group,
+  height: "content",
+  paddingTop: "lg",
+  paddingBottom: "lg",
+  paddingHorizontal: "md",
+  maxContentWidth: "6xl",
+  verticalAlignment: "center",
+  horizontalAlignment: "center",
+  backgroundImage: styles.backgroundImage,
+  backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign sectionContent = sectionContent | ymlify -%}
 
 {%- comment -%} Render via base-section with defaults {%- endcomment -%}
-{% bookshop "page-sections/base-section"
-  content: {
-    sectionId: content.sectionId,
-    contentSections: builtContentSections
-  }
-  styles: {
-    color_group: styles.color_group,
-    height: "content",
-    paddingTop: "lg",
-    paddingBottom: "lg",
-    paddingHorizontal: "md",
-    maxContentWidth: "6xl",
-    verticalAlignment: "center",
-    horizontalAlignment: "center",
-    backgroundImage: styles.backgroundImage,
-    backgroundOpacity: 50
-  }
-%}
+{% bookshop "page-sections/base-section" bind: sectionContent %}
