@@ -31,7 +31,7 @@ blueprint:
       positionVertical: center
       positionHorizontal: center
     backgroundOpacity: 50
-    backgroundColor: none
+    backgroundColor: background
     topPartialColor:
     topPartialHeight: 0
     bottomPartialColor:
@@ -244,17 +244,18 @@ _inputs:
     type: select
     label: Background Color
     options:
+      value_key: id
       values:
-        - name: None (use color group)
-          id: none
-        - name: White
-          id: white
-        - name: Light Gray
-          id: gray-100
-        - name: Gray
-          id: gray-200
-        - name: Dark
-          id: gray-900
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
   topPartialColor:
     type: color
     label: Top Partial Color

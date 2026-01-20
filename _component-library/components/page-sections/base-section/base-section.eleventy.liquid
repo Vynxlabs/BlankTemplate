@@ -93,15 +93,6 @@
   {%- endcase -%}
 {%- endcapture -%}
 
-{%- capture bgColorClass -%}
-  {%- case backgroundColor -%}
-    {%- when "white" -%}bg-white
-    {%- when "gray-100" -%}bg-gray-100
-    {%- when "gray-200" -%}bg-gray-200
-    {%- when "gray-900" -%}bg-gray-900 text-white
-  {%- endcase -%}
-{%- endcapture -%}
-
 {%- capture bgPositionClass -%}
   {%- if backgroundImage.source -%}
     {%- case backgroundImage.positionVertical -%}
@@ -113,7 +104,7 @@
 {%- endcapture -%}
 
 <section
-  class="c-base-section componentcontainer relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} color-group-{{ color_group }}"
+  class="c-base-section componentcontainer relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} text-{{styles.color_group}}-textcolor  bg-{{styles.color_group}}-backgroundcolor"
   {% if backgroundImage.source %}style="background-image: url('{{ backgroundImage.source }}');"{% endif %}
 >
   {% if content.sectionId %}

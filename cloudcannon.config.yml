@@ -497,6 +497,22 @@ _inputs:
           name: Secondary
         - id: accent
           name: Accent
+  backgroundColor:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
   review:
     type: textarea
   headline:

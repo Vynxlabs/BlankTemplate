@@ -20,7 +20,7 @@ blueprint:
     maxContentWidth:
     paddingHorizontal: md
     paddingVertical: md
-    colorScheme:
+    color_group: primary
     backgroundColor: base
     backgroundImage:
       source:
@@ -47,7 +47,7 @@ preview:
   styles:
     paddingHorizontal: md
     paddingVertical: md
-    backgroundColor: surface
+    backgroundColor: background
     border: true
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
@@ -146,17 +146,18 @@ _inputs:
     type: select
     label: Background Color
     options:
+      value_key: id
       values:
-        - name: None (transparent)
-          id: none
-        - name: Base
-          id: base
-        - name: Surface
-          id: surface
-        - name: Accent
-          id: accent
-        - name: Highlight
-          id: highlight
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
   backgroundImage:
     type: object
     label: Background Image

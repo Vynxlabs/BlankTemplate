@@ -10,8 +10,6 @@
 {%- assign maxContentWidth = styles.maxContentWidth -%}
 {%- assign paddingH = styles.paddingHorizontal | default: "md" -%}
 {%- assign paddingV = styles.paddingVertical | default: "md" -%}
-{%- assign colorScheme = styles.colorScheme -%}
-{%- assign bgColor = styles.backgroundColor | default: "base" -%}
 {%- assign bgImage = styles.backgroundImage -%}
 {%- assign link = styles.link -%}
 {%- assign border = styles.border | default: false -%}
@@ -51,19 +49,6 @@
   {%- endcase -%}
 {%- endcapture -%}
 
-{%- capture bgColorClass -%}
-  {%- case bgColor -%}
-    {%- when "base" -%}c-card--bg-base
-    {%- when "surface" -%}c-card--bg-surface
-    {%- when "accent" -%}c-card--bg-accent
-    {%- when "highlight" -%}c-card--bg-highlight
-  {%- endcase -%}
-{%- endcapture -%}
-
-{%- capture colorSchemeClass -%}
-  {%- if colorScheme == "contrast" -%}c-card--contrast{%- endif -%}
-{%- endcapture -%}
-
 {%- capture bgPositionClass -%}
   {%- if bgImage.source -%}
     {%- case bgImage.positionVertical -%}
@@ -75,10 +60,8 @@
 {%- endcapture -%}
 
 {%- capture cardClasses -%}
-  c-card relative overflow-hidden {{theme.container_rounding}}
+  c-card relative overflow-hidden {{theme.container_rounding}} text-{{styles.color_group}}-textcolor bg-{{styles.color_group}}-backgroundcolor
   {%- if border %} c-card--bordered{% endif -%}
-  {%- if bgColor != "none" %} {{ bgColorClass | strip }}{% endif -%}
-  {%- if colorScheme %} {{ colorSchemeClass | strip }}{% endif -%}
   {%- if link %} c-card--clickable{% endif -%}
   {%- if bgImage.source %} {{ bgPositionClass | strip }} bg-cover bg-no-repeat{% endif -%}
 {%- endcapture -%}
