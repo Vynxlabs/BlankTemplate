@@ -10,6 +10,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: list-09fe1d59-035e-4e92-a14e-90ebf7054da9
   content:
     items:
       - text: List item 1

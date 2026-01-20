@@ -10,6 +10,7 @@ spec:
 
 # Defines the structure of this component, as well as the default values
 blueprint:
+  _componentId: counter-a046cfa8-a34a-45ef-9a1e-ef17a56bf8ed
   content:
     number: 100
     prefix: "$"
