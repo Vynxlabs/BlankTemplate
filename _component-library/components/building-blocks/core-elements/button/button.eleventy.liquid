@@ -28,12 +28,12 @@
 {%- endcapture -%}
 
 {%- capture buttonClasses -%}
-  c-button inline-flex items-center justify-center gap-2 font-bold uppercase {{ theme.button_rounding }} transition-all hover:scale-105 {{ sizeClasses | strip }} {{ variantClasses | strip }}
+  c-button max-w-fit inline-flex items-center justify-center gap-2 font-bold uppercase {{ theme.button_rounding }} transition-all hover:scale-105 {{ sizeClasses | strip }} {{ variantClasses | strip }}
 {%- endcapture -%}
 
 <a
   href="{{ content.link | default: '#' }}"
-  class="{{ buttonClasses | strip }}"
+  class=" {{ buttonClasses | strip }}"
   data-contrast="true"
 >
   {%- if content.iconName and content.iconPosition == "before" -%}
