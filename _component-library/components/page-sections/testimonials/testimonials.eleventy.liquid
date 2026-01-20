@@ -13,7 +13,7 @@
   {%- capture badgeBlock -%}
 _bookshop_name: building-blocks/core-elements/badge
 content:
-    text: {{ content.badge | stringifyFilter }}
+    text: {{ content.badge  }}
 styles:
     variant: soft
     size: md
@@ -27,7 +27,7 @@ styles:
   {%- capture headingBlock -%}
 _bookshop_name: building-blocks/core-elements/heading
 content:
-    text: {{ content.heading | stringifyFilter }}
+    text: {{ content.heading  }}
     level: h2
 styles:
     size: 2xl
@@ -42,7 +42,7 @@ styles:
   {%- capture descBlock -%}
 _bookshop_name: building-blocks/core-elements/text
 content:
-    text: {{ content.description | stringifyFilter }}
+    text: {{ content.description  }}
 styles:
     alignX: center
   {%- endcapture -%}
@@ -68,9 +68,9 @@ size: lg
     {%- capture testimonialBlock -%}
 _bookshop_name: building-blocks/core-elements/testimonial
 content:
-    text: {{ firstTestimonial.quote | stringifyFilter }}
-    authorName: {{ firstTestimonial.authorName | stringifyFilter }}
-    authorDescription: {{ firstTestimonial.authorTitle | stringifyFilter }}
+    text: {{ firstTestimonial.quote  }}
+    authorName: {{ firstTestimonial.authorName  }}
+    authorDescription: {{ firstTestimonial.authorTitle  }}
     authorImage: {{ firstTestimonial.authorImage }}
     fiveStarRating: {{ firstTestimonial.showRating | default: false }}
 styles:
@@ -87,9 +87,9 @@ styles:
       {%- capture testimonialBlock -%}
 _bookshop_name: building-blocks/core-elements/testimonial
 content:
-    text: {{ testimonial.quote | stringifyFilter }}
-    authorName: {{ testimonial.authorName | stringifyFilter }}
-    authorDescription: {{ testimonial.authorTitle | stringifyFilter }}
+    text: {{ testimonial.quote  }}
+    authorName: {{ testimonial.authorName  }}
+    authorDescription: {{ testimonial.authorTitle  }}
     authorImage: {{ testimonial.authorImage }}
     fiveStarRating: {{ testimonial.showRating | default: false }}
 styles:
@@ -142,7 +142,7 @@ styles:
 {%- comment -%} Build base-section data object {%- endcomment -%}
 {%- capture baseSectionData -%}
 content:
-    sectionId: {{ content.sectionId | stringifyFilter }}
+    sectionId: {{ content.sectionId  }}
     contentSections:
         {{ builtContentSections | json }}
 styles:
