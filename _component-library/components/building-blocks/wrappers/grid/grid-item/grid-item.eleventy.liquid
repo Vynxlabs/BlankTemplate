@@ -3,11 +3,10 @@
   Individual item container within a grid layout
 {%- endcomment -%}
 
-{%- assign contentSections = contentSections -%}
 
 <div class="c-grid__item">
-  {%- if contentSections.size > 0 -%}
-    {% bookshop_include "renderBlocks" blocks: contentSections %}
+  {%- if gridContentSections.size > 0 -%}
+    {% bookshop_include "renderBlocks" blocks: gridContentSections %}
   {%- else -%}
     <p class="text-gray-400 italic">Add content to this grid item</p>
   {%- endif -%}
