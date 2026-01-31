@@ -96,16 +96,15 @@
 {%- capture bgPositionClass -%}
   {%- if backgroundImage.source -%}
     {%- case backgroundImage.positionVertical -%}
-      {%- when "top" -%}bg-top
-      {%- when "bottom" -%}bg-bottom
-      {%- else -%}bg-center
+      {%- when "top" -%}object-top
+      {%- when "bottom" -%}object-bottom
+      {%- else -%}object-center
     {%- endcase -%}
   {%- endif -%}
 {%- endcapture -%}
 
 <section
   class="c-base-section componentcontainer relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} text-{{styles.color_group}}-textcolor  bg-{{styles.color_group}}-backgroundcolor"
-  {% if backgroundImage.source %}style="background-image: url('{{ backgroundImage.source }}');"{% endif %}
 >
   {% if content.sectionId %}
     {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
@@ -128,13 +127,9 @@
 
   {%- comment -%} Background Image with Overlay {%- endcomment -%}
   {%- if backgroundImage.source -%}
+    {%- capture bgImageClass -%}w-full h-full object-cover {{ bgPositionClass | strip }}{%- endcapture -%}
     <div class="c-base-section__bg absolute inset-0 z-0">
-      <img
-        src="{{ backgroundImage.source }}"
-        alt="{{ backgroundImage.alt | default: '' }}"
-        class="w-full h-full object-cover {{ bgPositionClass | strip }}"
-        loading="lazy"
-      >
+      {% bookshop "generic/image" imagePath: backgroundImage.source, imageAlt: backgroundImage.alt, class: bgImageClass %}
       {%- if backgroundOpacity > 0 -%}
         <div
           class="absolute inset-0 bg-black"
