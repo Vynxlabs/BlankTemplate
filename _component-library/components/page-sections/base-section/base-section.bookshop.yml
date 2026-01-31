@@ -3,6 +3,7 @@ spec:
   structures:
     - content_blocks
     - extra_blocks
+    - hero_blocks
   label: "Base Section"
   description: Composable foundation section with background, padding, and layout options
   icon: layers
