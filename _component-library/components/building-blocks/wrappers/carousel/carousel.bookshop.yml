@@ -5,7 +5,7 @@ spec:
   label: "Carousel"
   description: Scrollable carousel with slides and navigation
   icon: view_carousel
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

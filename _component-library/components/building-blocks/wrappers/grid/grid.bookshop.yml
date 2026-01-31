@@ -5,7 +5,7 @@ spec:
   label: "Grid"
   description: Responsive grid layout with configurable item widths
   icon: grid_view
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values
