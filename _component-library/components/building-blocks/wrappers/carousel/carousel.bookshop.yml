@@ -79,8 +79,7 @@ _inputs:
   autoPlayInterval:
     type: number
     label: Auto Play Interval (ms)
-    comment: Time between slide transitions in milliseconds
-    hidden: "!styles.autoPlay"
+    comment: Time between slide transitions in milliseconds. Only applies when Auto Play is enabled
   autoScroll:
     type: switch
     label: Auto Scroll
