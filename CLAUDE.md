@@ -113,6 +113,7 @@ Defined in `.eleventy.js`:
 
 - **Interactivity/Logic:** Use [hyperscript](https://hyperscript.org) where possible. If hyperscript would be cumbersome or require workarounds, use vanilla JavaScript instead.
 - **Styling:** Use Tailwind CSS as the default. For complex styling that Tailwind handles poorly, use SCSS instead.
+- **Rounding:** Never hardcode border-radius values or Tailwind rounding classes directly. Always reference the theme rounding variables from `src/_data/theme.yml` via Liquid: `{{ theme.button_rounding }}` for buttons, `{{ theme.image_rounding }}` for images, and `{{ theme.container_rounding }}` for containers (cards, form inputs, dropdowns, etc.). These variables resolve to Tailwind rounding classes (e.g. `rounded`, `rounded-md`) and are applied directly in component class attributes.
 
 ## Component Documentation
 
