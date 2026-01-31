@@ -1,0 +1,14 @@
+.c-countdown {
+  font-variant-numeric: tabular-nums;
+
+  &--boxed {
+    .c-countdown__segment {
+      background-color: currentColor;
+    }
+
+    .c-countdown__value,
+    .c-countdown__label {
+      color: var(--countdown-contrast, white);
+    }
+  }
+}

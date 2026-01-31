@@ -109,6 +109,11 @@ Defined in `.eleventy.js`:
 - `happenings` / `upcomingHappenings` / `pastHappenings` - Events
 - `listings` - Marketplace listings
 
+## Technology Preferences
+
+- **Interactivity/Logic:** Use [hyperscript](https://hyperscript.org) where possible. If hyperscript would be cumbersome or require workarounds, use vanilla JavaScript instead.
+- **Styling:** Use Tailwind CSS as the default. For complex styling that Tailwind handles poorly, use SCSS instead.
+
 ## Component Documentation
 
 See `docs/componentArchitecture.md` for detailed component specs including:
