@@ -7,7 +7,7 @@ spec:
   label: "Video"
   description: Embedded video from YouTube, Vimeo, or local source
   icon: play_circle
-  tags: []
+  tags: [alpha]
 
 # Defines the structure of this component, as well as the default values
 blueprint:

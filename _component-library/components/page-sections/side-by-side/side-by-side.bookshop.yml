@@ -6,7 +6,7 @@ spec:
   label: "Side by Side Section"
   description: Two-column split layout with text and media content
   icon: view_column
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

@@ -5,7 +5,7 @@ spec:
   label: "Badge"
   description: Small label or tag element
   icon: label
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

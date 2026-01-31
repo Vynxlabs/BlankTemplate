@@ -6,7 +6,7 @@ spec:
   label: "FAQ Section"
   description: Frequently asked questions with expandable accordion
   icon: help
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

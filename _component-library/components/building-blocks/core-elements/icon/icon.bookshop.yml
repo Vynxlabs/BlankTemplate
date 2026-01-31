@@ -6,7 +6,7 @@ spec:
   label: "Icon"
   description: Hero icon with size and color options
   icon: bolt
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

@@ -6,7 +6,7 @@ spec:
   label: "Hero Section"
   description: Hero section with title, subtitle, description, and call-to-action buttons
   icon: view_headline
-  tags: []
+  tags: [alpha]
 
 # Defines the structure of this component, as well as the default values
 blueprint:

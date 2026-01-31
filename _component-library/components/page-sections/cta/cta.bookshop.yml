@@ -6,7 +6,7 @@ spec:
   label: "CTA Section"
   description: Call-to-action section with heading, description, and prominent buttons
   icon: ads_click
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

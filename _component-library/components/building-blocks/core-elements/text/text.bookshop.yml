@@ -6,7 +6,7 @@ spec:
   label: "Text"
   description: Rich text content block with markdown support
   icon: edit_note
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

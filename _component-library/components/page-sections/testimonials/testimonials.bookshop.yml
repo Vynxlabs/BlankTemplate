@@ -6,7 +6,7 @@ spec:
   label: "Testimonials Section"
   description: Customer testimonials displayed in a grid
   icon: format_quote
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

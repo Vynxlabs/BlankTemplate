@@ -6,7 +6,7 @@ spec:
   label: "Cards Section"
   description: Grid of cards with images, titles, descriptions, and optional links
   icon: grid_view
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

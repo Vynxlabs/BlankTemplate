@@ -6,7 +6,7 @@ spec:
   label: "Feature Section"
   description: Feature highlight section with icon-based feature grid
   icon: auto_awesome
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

@@ -6,7 +6,7 @@ spec:
   label: "Editorial Content Section"
   description: Rich text content section for long-form content like articles and documentation
   icon: article
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

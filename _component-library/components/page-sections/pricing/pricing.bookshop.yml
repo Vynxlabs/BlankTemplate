@@ -6,7 +6,7 @@ spec:
   label: "Pricing Section"
   description: Pricing cards with plans, features, and call-to-action buttons
   icon: payments
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values

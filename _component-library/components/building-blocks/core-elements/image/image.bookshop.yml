@@ -7,7 +7,7 @@ spec:
   label: "Image"
   description: Optimized image with aspect ratio and positioning options
   icon: image
-  tags: []
+  tags: [alpha]
   tabbed: true
 
 # Defines the structure of this component, as well as the default values
