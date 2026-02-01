@@ -37,6 +37,7 @@ blueprint:
     topPartialHeight: 0
     bottomPartialColor:
     bottomPartialHeight: 0
+    backgroundComponent:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
 preview:
@@ -279,3 +280,9 @@ _inputs:
       min: 0
       max: 50
       step: 5
+  backgroundComponent:
+    type: object
+    label: Background Component
+    comment: Optional interactive/animated background element
+    options:
+      structures: _structures.content_sections

@@ -21,6 +21,7 @@
 {%- assign topPartialHeight = styles.topPartialHeight | default: 0 -%}
 {%- assign bottomPartialColor = styles.bottomPartialColor -%}
 {%- assign bottomPartialHeight = styles.bottomPartialHeight | default: 0 -%}
+{%- assign backgroundComponent = styles.backgroundComponent -%}
 
 {%- capture heightClass -%}
   {%- case height -%}
@@ -136,6 +137,13 @@
           style="opacity: {{ backgroundOpacity | divided_by: 100.0 }};"
         ></div>
       {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Background Component {%- endcomment -%}
+  {%- if backgroundComponent._bookshop_name -%}
+    <div class="c-base-section__bg-component absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {% bookshop "{{backgroundComponent._bookshop_name}}" bind: backgroundComponent %}
     </div>
   {%- endif -%}
 
