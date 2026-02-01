@@ -3,6 +3,7 @@
   Flexible card container with background, padding, and content sections
 {%- endcomment -%}
 
+{% assign color_group = styles.color_group %}
 {%- assign contentSections = content.contentSections -%}
 {%- assign beforeContentSections = content.beforeContentSections -%}
 {%- assign afterContentSections = content.afterContentSections -%}
@@ -60,7 +61,7 @@
 {%- endcapture -%}
 
 {%- capture cardClasses -%}
-  c-card relative overflow-hidden {{theme.container_rounding}} text-{{styles.color_group}}-textcolor bg-{{styles.color_group}}-backgroundcolor
+  c-card relative overflow-hidden {{theme.container_rounding}} text-{{styles.color_group}}-highcontrast-{{styles.backgroundColor}}color bg-{{styles.color_group}}-{{styles.backgroundColor}}color
   {%- if border %} c-card--bordered{% endif -%}
   {%- if link %} c-card--clickable{% endif -%}
   {%- if bgImage.source %} {{ bgPositionClass | strip }} bg-cover bg-no-repeat{% endif -%}
