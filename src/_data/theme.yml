@@ -21,6 +21,16 @@ button_rounding: rounded
 image_rounding: rounded
 container_rounding: rounded
 _inputs:
+  textColor:
+    type: color
+  backgroundColor:
+    type: color
+  primaryColor:
+    type: color
+  secondaryColor:
+    type: color
+  accentColor:
+    type: color
   button_rounding:
     comment: >-
       This will change the rounding of all the buttons on the site. Each option mentions which brand it is best suited for,
