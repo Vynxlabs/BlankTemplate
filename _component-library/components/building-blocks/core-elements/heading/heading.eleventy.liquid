@@ -8,9 +8,9 @@
 
 {%- capture alignClass -%}
   {%- case styles.alignX -%}
-    {%- when "center" -%}text-center
-    {%- when "end" -%}text-right
-    {%- else -%}text-left
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- else -%}justify-start
   {%- endcase -%}
 {%- endcapture -%}
 
@@ -37,7 +37,7 @@
   {%- endcase -%}
 {%- endcapture -%}
 
-<{{ level }} class="c-heading font-bold {{ alignClass | strip }} {{ sizeClass | strip }}">
+<{{ level }} class="c-heading flex items-center gap-2 font-bold {{ alignClass | strip }} {{ sizeClass | strip }}">
   {%- if content.iconName and content.iconPosition == "before" -%}
     {% bookshop "building-blocks/core-elements/icon" name: content.iconName size: "md" background: false %}
   {%- endif -%}

@@ -2,6 +2,7 @@
 spec:
   structures:
     - resource
+    - content_sections
   label: "Form Builder"
   description: "Build a form from inputs. Spam filtering is built in"
   icon: dynamic_form

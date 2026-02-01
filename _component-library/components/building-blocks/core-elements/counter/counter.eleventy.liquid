@@ -8,9 +8,9 @@
 
 {%- capture alignClass -%}
   {%- case styles.alignX -%}
-    {%- when "center" -%}text-center
-    {%- when "end" -%}text-right
-    {%- else -%}text-left
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- else -%}justify-start
   {%- endcase -%}
 {%- endcapture -%}
 
@@ -28,7 +28,7 @@
   {%- endcase -%}
 {%- endcapture -%}
 
-<div class="c-counter {{ alignClass | strip }} {{ sizeClass | strip }} font-bold">
+<div class="c-counter flex items-center gap-1 {{ alignClass | strip }} {{ sizeClass | strip }} font-bold">
   {%- if content.prefix -%}
     <span class="c-counter__prefix">{{ content.prefix }}</span>
   {%- endif -%}

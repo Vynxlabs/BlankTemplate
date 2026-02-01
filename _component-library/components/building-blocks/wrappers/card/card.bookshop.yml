@@ -21,7 +21,7 @@ blueprint:
     paddingHorizontal: md
     paddingVertical: md
     color_group: primary
-    backgroundColor: base
+    backgroundColor: background
     backgroundImage:
       source:
       alt:
