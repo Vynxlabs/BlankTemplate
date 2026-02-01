@@ -19,6 +19,9 @@ module.exports = function (Liquid) {
         }
     }
 
+    filteredItems.sort((a, b) => {
+        return a.data.title.localeCompare(b.data.title);
+    });
     if (limit === null || limit <= 0) {
         limit = 50;
     }
