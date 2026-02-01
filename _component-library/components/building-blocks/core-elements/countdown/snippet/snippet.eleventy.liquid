@@ -1,0 +1,19 @@
+{%- capture countdownData -%}
+content:
+    date: {{ date }}
+    completionText: {{ completionText | stringifyFilter }}
+    showLabels: {{ showLabels | default: true }}
+    showDays: {{ showDays | default: true }}
+    showHours: {{ showHours | default: true }}
+    showMinutes: {{ showMinutes | default: true }}
+    showSeconds: {{ showSeconds | default: true }}
+styles:
+    variant: {{ variant | default: "simple" }}
+    size: {{ size | default: "lg" }}
+    alignX: {{ alignX | default: "center" }}
+    colorGroup: {{ colorGroup | default: "primary" }}
+    colorFromGroup: {{ colorFromGroup | default: "text" }}
+{%- endcapture -%}
+{%- assign countdownObj = countdownData | ymlify -%}
+{% capture output %}{% bookshop "building-blocks/core-elements/countdown" bind: countdownObj %}{% endcapture %}
+{{ output | removeExtraWhitespace | strip }}

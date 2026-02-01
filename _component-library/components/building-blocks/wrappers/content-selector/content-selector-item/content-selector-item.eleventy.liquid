@@ -1,0 +1,24 @@
+{%- comment -%}
+  Content Selector Item - Sub-component of Content Selector wrapper
+  Individual tab panel
+{%- endcomment -%}
+
+{%- assign title = title | default: "Tab" -%}
+{%- assign contentSections = contentSections -%}
+{%- assign index = index | default: 0 -%}
+{%- assign isActive = isActive | default: false -%}
+
+<div
+  class="c-content-selector__panel{% if isActive %} is-active{% endif %}"
+  role="tabpanel"
+  id="panel-{{ index }}"
+  aria-labelledby="tab-{{ index }}"
+  data-panel="{{ index }}"
+  {% unless isActive %}hidden{% endunless %}
+>
+  {%- if contentSections.size > 0 -%}
+    {% bookshop_include "renderBlocks" blocks: contentSections %}
+  {%- else -%}
+    <p class="text-gray-400 italic">Add content to this tab panel</p>
+  {%- endif -%}
+</div>

@@ -1,0 +1,32 @@
+{%- comment -%}
+  Spacer - Core element component
+  Empty vertical spacing element with configurable size
+{%- endcomment -%}
+
+{%- assign size = size | default: "md" -%}
+{%- assign responsiveSize = responsiveSize -%}
+
+{%- capture sizeClass -%}
+  {%- case size -%}
+    {%- when "xs" -%}h-2
+    {%- when "sm" -%}h-4
+    {%- when "md" -%}h-8
+    {%- when "lg" -%}h-12
+    {%- when "xl" -%}h-16
+    {%- when "2xl" -%}h-24
+    {%- when "3xl" -%}h-32
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture responsiveSizeClass -%}
+  {%- if responsiveSize -%}
+    {%- case responsiveSize -%}
+      {%- when "xs" -%}max-md:h-2
+      {%- when "sm" -%}max-md:h-4
+      {%- when "md" -%}max-md:h-8
+      {%- when "lg" -%}max-md:h-12
+    {%- endcase -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<div class="c-spacer {{ sizeClass | strip }} {{ responsiveSizeClass | strip }}" aria-hidden="true"></div>

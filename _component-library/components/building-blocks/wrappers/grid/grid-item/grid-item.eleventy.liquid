@@ -1,0 +1,13 @@
+{%- comment -%}
+  Grid Item - Sub-component of Grid wrapper
+  Individual item container within a grid layout
+{%- endcomment -%}
+
+
+<div class="c-grid__item">
+  {%- if gridContentSections.size > 0 -%}
+    {% bookshop_include "renderBlocks" blocks: gridContentSections %}
+  {%- else -%}
+    <p class="text-gray-400 italic">Add content to this grid item</p>
+  {%- endif -%}
+</div>

@@ -1,0 +1,59 @@
+{%- comment -%}
+  Editorial Content Section - Abstraction layer that builds contentSections for base-section
+  Rich text content section for long-form content like articles and documentation
+{%- endcomment -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: start
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add content text if provided {%- endcomment -%}
+{%- if content.content -%}
+  {%- capture textBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.content | stringifyFilter }}
+styles:
+    alignX: start
+  {%- endcapture -%}
+  {%- assign textObj = textBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: textObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 3xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

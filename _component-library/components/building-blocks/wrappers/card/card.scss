@@ -1,0 +1,80 @@
+.c-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  // Border
+  &--bordered {
+    border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  }
+
+  // Clickable card
+  &--clickable {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-focus, #3b82f6);
+      outline-offset: 2px;
+    }
+  }
+
+  // Background image overlay
+  &__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+  }
+
+  // Inner container
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 1;
+  }
+
+  // Content area with padding
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Before/After content areas (no padding)
+  &__before,
+  &__after {
+    // These sections have no padding by design
+    // Perfect for full-bleed images at top/bottom of card
+  }
+
+  &__before {
+    // Image at top of card
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__after {
+    margin-top: auto;
+  }
+}

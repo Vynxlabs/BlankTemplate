@@ -1,0 +1,217 @@
+{%- comment -%}
+  Hero Section - Abstraction layer that builds contentSections for base-section
+  Creates a hero with badge, heading, subheading, description, buttons, and optional image
+{%- endcomment -%}
+
+{%- assign layout = styles.layout | default: "centered" -%}
+{%- assign textAlign = "center" -%}
+{%- if layout == "left" -%}
+  {%- assign textAlign = "start" -%}
+{%- endif -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Check if this is a split layout {%- endcomment -%}
+{%- if layout == "split-left" or layout == "split-right" -%}
+  {%- comment -%} Build the text column content {%- endcomment -%}
+  {%- assign textColumnContent = "" | split: "" -%}
+
+  {%- if content.badge -%}
+    {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+    {%- endcapture -%}
+    {%- assign badgeObj = badgeBlock | ymlify -%}
+    {%- assign textColumnContent = textColumnContent | push: badgeObj -%}
+  {%- endif -%}
+
+  {%- if content.heading -%}
+    {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h1
+styles:
+    size: 3xl
+    alignX: start
+    {%- endcapture -%}
+    {%- assign headingObj = headingBlock | ymlify -%}
+    {%- assign textColumnContent = textColumnContent | push: headingObj -%}
+  {%- endif -%}
+
+  {%- if content.subheading -%}
+    {%- capture subheadingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.subheading | stringifyFilter }}
+    level: h2
+styles:
+    size: lg
+    alignX: start
+    {%- endcapture -%}
+    {%- assign subheadingObj = subheadingBlock | ymlify -%}
+    {%- assign textColumnContent = textColumnContent | push: subheadingObj -%}
+  {%- endif -%}
+
+  {%- if content.description -%}
+    {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: start
+    {%- endcapture -%}
+    {%- assign descObj = descBlock | ymlify -%}
+    {%- assign textColumnContent = textColumnContent | push: descObj -%}
+  {%- endif -%}
+
+  {%- if content.buttons.size > 0 -%}
+    {%- capture buttonGroupBlock -%}
+_bookshop_name: building-blocks/wrappers/button-group
+content:
+    buttons:
+        {{ content.buttons | json }}
+styles:
+    direction: row
+    alignX: start
+    gap: md
+    {%- endcapture -%}
+    {%- assign buttonGroupObj = buttonGroupBlock | ymlify -%}
+    {%- assign textColumnContent = textColumnContent | push: buttonGroupObj -%}
+  {%- endif -%}
+
+  {%- comment -%} Build the image column content {%- endcomment -%}
+  {%- assign imageColumnContent = "" | split: "" -%}
+
+  {%- if content.image.source -%}
+    {%- capture imageBlock -%}
+_bookshop_name: building-blocks/core-elements/image
+content:
+    source: {{ content.image.source }}
+    alt: {{ content.image.alt | stringifyFilter }}
+styles:
+    aspectRatio: none
+    {%- endcapture -%}
+    {%- assign imageObj = imageBlock | ymlify -%}
+    {%- assign imageColumnContent = imageColumnContent | push: imageObj -%}
+  {%- endif -%}
+
+  {%- comment -%} Build the split wrapper {%- endcomment -%}
+  {%- capture splitBlock -%}
+_bookshop_name: building-blocks/wrappers/split
+content:
+    firstColumnContentSections:
+        {{ textColumnContent | json }}
+    secondColumnContentSections:
+        {{ imageColumnContent | json }}
+styles:
+    distributionMode: half
+    verticalAlignment: center
+    gap: lg
+    reverse: {% if layout == "split-left" %}true{% else %}false{% endif %}
+    reverseOrderOnMobile: {% if layout == "split-left" %}true{% else %}false{% endif %}
+  {%- endcapture -%}
+  {%- assign splitObj = splitBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: splitObj -%}
+
+{%- else -%}
+  {%- comment -%} Centered or Left layout - build linear content {%- endcomment -%}
+
+  {%- if content.badge -%}
+    {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+    {%- endcapture -%}
+    {%- assign badgeObj = badgeBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+  {%- endif -%}
+
+  {%- if content.heading -%}
+    {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h1
+styles:
+    size: 3xl
+    alignX: {{ textAlign }}
+    {%- endcapture -%}
+    {%- assign headingObj = headingBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+  {%- endif -%}
+
+  {%- if content.subheading -%}
+    {%- capture subheadingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.subheading | stringifyFilter }}
+    level: h2
+styles:
+    size: lg
+    alignX: {{ textAlign }}
+    {%- endcapture -%}
+    {%- assign subheadingObj = subheadingBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: subheadingObj -%}
+  {%- endif -%}
+
+  {%- if content.description -%}
+    {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: {{ textAlign }}
+    {%- endcapture -%}
+    {%- assign descObj = descBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: descObj -%}
+  {%- endif -%}
+
+  {%- if content.buttons.size > 0 -%}
+    {%- capture buttonGroupBlock -%}
+_bookshop_name: building-blocks/wrappers/button-group
+content:
+    buttons:
+        {{ content.buttons | json }}
+styles:
+    direction: row
+    alignX: {{ textAlign }}
+    gap: md
+    {%- endcapture -%}
+    {%- assign buttonGroupObj = buttonGroupBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: buttonGroupObj -%}
+  {%- endif -%}
+
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: two-thirds
+    paddingTop: xl
+    paddingBottom: xl
+    paddingHorizontal: md
+    maxContentWidth: 4xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

@@ -1,0 +1,23 @@
+.c-grid {
+  --grid-min-width: 280px;
+  --grid-max-width: 400px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--grid-min-width)), var(--grid-max-width)));
+  width: 100%;
+
+  // Layout alignment
+  &--start {
+    justify-content: start;
+  }
+
+  &--center {
+    justify-content: center;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+}

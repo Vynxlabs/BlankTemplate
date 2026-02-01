@@ -1,0 +1,83 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+    - imgvid
+    - media
+  label: "Image"
+  description: Optimized image with aspect ratio and positioning options
+  icon: image
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: image-d8bc54fc-b00d-4f57-84f2-01a099fb12b2
+  content:
+    source:
+    alt:
+  styles:
+    aspectRatio: none
+    positionVertical: center
+    positionHorizontal: center
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    source: /images/tree.jpg
+    alt: Tree in a field
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  source:
+    type: image
+    label: Image
+    comment: The image file to display
+  alt:
+    type: text
+    label: Alt Text
+    comment: Descriptive text for accessibility and SEO (required for non-decorative images)
+  aspectRatio:
+    type: select
+    label: Aspect Ratio
+    comment: Set a fixed aspect ratio, or none to use natural image dimensions
+    options:
+      values:
+        - name: None (natural)
+          id: none
+        - name: Square (1:1)
+          id: square
+        - name: Landscape (4:3)
+          id: landscape
+        - name: Portrait (3:4)
+          id: portrait
+        - name: Widescreen (16:9)
+          id: widescreen
+        - name: Horizontal Strip (3:1)
+          id: horizontal-strip
+  positionVertical:
+    type: select
+    label: Vertical Position
+    comment: Vertical positioning when image is cropped
+    hidden: styles.aspectRatio == "none"
+    options:
+      values:
+        - name: Top
+          id: top
+        - name: Center
+          id: center
+        - name: Bottom
+          id: bottom
+  positionHorizontal:
+    type: select
+    label: Horizontal Position
+    comment: Horizontal positioning when image is cropped
+    hidden: styles.aspectRatio == "none"
+    options:
+      values:
+        - name: Left
+          id: left
+        - name: Center
+          id: center
+        - name: Right
+          id: right

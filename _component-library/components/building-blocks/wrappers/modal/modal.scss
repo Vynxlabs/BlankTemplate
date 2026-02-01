@@ -1,0 +1,135 @@
+.c-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s ease;
+
+  &.is-open {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.2s ease;
+  }
+
+  // Position variants
+  &--center {
+    align-items: center;
+  }
+
+  &--top {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+
+  // Backdrop
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+
+  // Dialog box
+  &__dialog {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    transform: scale(0.95) translateY(-10px);
+    transition: transform 0.2s ease;
+
+    .is-open & {
+      transform: scale(1) translateY(0);
+    }
+
+    // Size variants
+    &--sm {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    &--md {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    &--lg {
+      width: 100%;
+      max-width: 640px;
+    }
+
+    &--xl {
+      width: 100%;
+      max-width: 768px;
+    }
+
+    &--full {
+      width: 100%;
+      max-width: calc(100vw - 2rem);
+      max-height: calc(100vh - 2rem);
+    }
+  }
+
+  // Close button
+  &__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.5;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
+    z-index: 1;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-focus, #3b82f6);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+  }
+
+  // Content area
+  &__content {
+    padding: 1.5rem;
+    padding-top: 2.5rem; // Extra space for close button
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Trigger button uses button component styles
+  &__trigger {
+    // Inherits from c-button or can be styled independently
+  }
+}

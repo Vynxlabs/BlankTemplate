@@ -1,0 +1,182 @@
+{%- comment -%}
+  Countdown - Core element component
+  Countdown timer to a target date with multiple visual variants
+{%- endcomment -%}
+
+{%- assign uuid = "" | uuidFilter -%}
+{%- assign colorGroup = styles.colorGroup | default: "primary" -%}
+{%- assign colorFromGroup = styles.colorFromGroup | default: "primary" -%}
+{%- assign variant = styles.variant | default: "simple" -%}
+{%- assign size = styles.size | default: "lg" -%}
+{%- assign showDays = content.showDays | default: true -%}
+{%- assign showHours = content.showHours | default: true -%}
+{%- assign showMinutes = content.showMinutes | default: true -%}
+{%- assign showSeconds = content.showSeconds | default: true -%}
+{%- assign showLabels = content.showLabels | default: true -%}
+{%- assign targetDate = content.date | date: "%Y-%m-%dT%H:%M:%S%z" -%}
+
+{%- capture alignClass -%}
+  {%- case styles.alignX -%}
+    {%- when "start" -%}justify-start
+    {%- when "end" -%}justify-end
+    {%- else -%}justify-center
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture gapClass -%}
+  {%- case size -%}
+    {%- when "sm" -%}gap-3
+    {%- when "md" -%}gap-4
+    {%- when "xl" -%}gap-8
+    {%- else -%}gap-6
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture valueClass -%}
+  {%- case size -%}
+    {%- when "sm" -%}text-2xl
+    {%- when "md" -%}text-4xl
+    {%- when "xl" -%}text-6xl sm:text-7xl
+    {%- else -%}text-5xl sm:text-6xl
+  {%- endcase -%}
+{%- endcapture -%}
+
+{% comment %}
+  this is needed for dynamic tailwind creation, don't remove
+{% endcomment %}
+{% comment %}
+    after:text-2xl
+    after:text-4xl
+    after:text-6xl sm:text-7xl
+    after:text-5xl sm:text-6xl
+{% endcomment %}
+{% capture separatorClass %}
+  flex-grow basis-[auto] items-center text-center relative after:absolute after:opacity-60 after:content-[':'] after:scale-125 after:{{valueClass | strip}} after:top-0  before:content-[' ']
+  {% case size %}
+    {% when "sm" %}
+      after:-left-2
+    {% when "md" %}
+      after:-left-3
+    {% when "xl" %}
+      after:-left-5  
+    {% else %}
+      after:-left-5  
+  {% endcase %}
+{% endcapture %}
+
+{%- capture labelClass -%}
+  {%- case size -%}
+    {%- when "sm" -%}text-[0.625rem]
+    {%- when "md" -%}text-xs
+    {%- when "xl" -%}text-base
+    {%- else -%}text-sm
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture completionClass -%}
+  {% case size %}
+    {%- when "sm" -%}text-base
+    {%- when "md" -%}text-xl
+    {%- when "xl" -%}text-3xl
+    {%- else -%}text-2xl
+  {% endcase %}
+
+  text-{{ colorGroup }}-{{ colorFromGroup }}color
+{%- endcapture -%}
+
+{%- capture boxedSegmentClass -%}
+  {% case size %}
+    {%- when "sm" -%}p-2 
+    {%- when "md" -%}p-3 
+    {%- when "xl" -%}p-5 
+    {%- else -%}p-4 
+  {% endcase %}
+  bg-{{colorGroup}}-{{colorFromGroup}}color text-{{colorGroup}}-highcontrast-{{colorFromGroup}}color
+  {{theme.container_rounding}}
+{%- endcapture -%}
+
+<div
+  class="c-countdown overflow-hidden{% unless variant == 'boxed' %} text-{{ colorGroup }}-{{ colorFromGroup }}color{% endunless %} flex {{ alignClass | strip }}"
+  id="{{ 'countdown-' | append: uuid }}"
+  _="on intersection(intersecting) having threshold 0.1
+    repeat while intersecting
+      set :now to Date.now()
+      set :target to Date.parse('{{ targetDate }}')
+      set :diff to :target - :now
+      if :diff <= 0 then
+        set :diff to 0
+      end
+      set :totalSeconds to Math.floor(:diff / 1000)
+      set :days to Math.floor(:totalSeconds / 86400)
+      set :hours to Math.floor((:totalSeconds mod 86400) / 3600)
+      set :minutes to Math.floor((:totalSeconds mod 3600) / 60)
+      set :seconds to :totalSeconds mod 60
+      {% unless showDays %}set :hours to :hours + (:days * 24) then set :days to 0{% endunless %}
+      {% unless showHours %}set :minutes to :minutes + (:hours * 60) then set :hours to 0{% endunless %}
+      {% unless showMinutes %}set :seconds to :seconds + (:minutes * 60) then set :minutes to 0{% endunless %}
+      {% if showDays %}put String(:days).padStart(2, '0') into #{{ 'val-days-' | append: uuid }}{% endif %}
+      {% if showHours %}put String(:hours).padStart(2, '0') into #{{ 'val-hours-' | append: uuid }}{% endif %}
+      {% if showMinutes %}put String(:minutes).padStart(2, '0') into #{{ 'val-min-' | append: uuid }}{% endif %}
+      {% if showSeconds %}put String(:seconds).padStart(2, '0') into #{{ 'val-sec-' | append: uuid }}{% endif %}
+      if :diff <= 0 then
+        {% if content.completionText and content.completionText != '' %}
+          remove .hidden from #{{ 'completion-' | append: uuid }}
+          add .hidden to #{{ 'timer-' | append: uuid }}
+        {% endif %}
+        break
+      end
+      wait 1s
+      if intersecting !== true then break end
+    end
+  "
+>
+  {%- if content.completionText and content.completionText != '' -%}
+    <p
+      id="{{ 'completion-' | append: uuid }}"
+      class="c-countdown__completion hidden font-bold {{ completionClass | strip }}"
+    >{{ content.completionText }}</p>
+    
+      
+  {%- endif -%}
+
+  <div
+    id="{{ 'timer-' | append: uuid }}"
+    class="c-countdown__timer flex items-center flex-wrap overflow-hidden {{ gapClass | strip }}"
+  >
+    {%- if showDays -%}
+      <div class="c-countdown__segment flex flex-col  {% if variant == 'boxed' %} {{ boxedSegmentClass | strip }}{% elsif variant == 'separated' %}{{separatorClass |strip}}{% endif %}">
+        <span id="{{ 'val-days-' | append: uuid }}" class="c-countdown__value {{ valueClass | strip }} font-bold tabular-nums">--</span>
+        {%- if showLabels -%}
+          <span class="c-countdown__label {{ labelClass | strip }} uppercase tracking-wider opacity-80">Days</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if showHours -%}
+      <div class="c-countdown__segment flex flex-col  {% if variant == 'boxed' %} {{ boxedSegmentClass | strip }}{% elsif variant == 'separated' %}{{separatorClass |strip}}{% endif %}">
+        <span id="{{ 'val-hours-' | append: uuid }}" class="c-countdown__value {{ valueClass | strip }} font-bold tabular-nums">--</span>
+        {%- if showLabels -%}
+          <span class="c-countdown__label {{ labelClass | strip }} uppercase tracking-wider opacity-80">Hours</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if showMinutes -%}
+      <div class="c-countdown__segment flex flex-col  {% if variant == 'boxed' %} {{ boxedSegmentClass | strip }}{% elsif variant == 'separated' %}{{separatorClass |strip}}{% endif %}">
+        <span id="{{ 'val-min-' | append: uuid }}" class="c-countdown__value {{ valueClass | strip }} font-bold tabular-nums">--</span>
+        {%- if showLabels -%}
+          <span class="c-countdown__label {{ labelClass | strip }} uppercase tracking-wider opacity-80">Minutes</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if showSeconds -%}
+      <div class="c-countdown__segment flex flex-col  {% if variant == 'boxed' %} {{ boxedSegmentClass | strip }}{% elsif variant == 'separated' %}{{separatorClass |strip}}{% endif %}">
+        <span id="{{ 'val-sec-' | append: uuid }}" class="c-countdown__value {{ valueClass | strip }} font-bold tabular-nums">--</span>
+        {%- if showLabels -%}
+          <span class="c-countdown__label {{ labelClass | strip }} uppercase tracking-wider opacity-80">Seconds</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

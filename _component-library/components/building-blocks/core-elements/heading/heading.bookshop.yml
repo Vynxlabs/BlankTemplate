@@ -1,0 +1,101 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Heading"
+  description: Text heading with configurable level, size, and alignment
+  icon: title
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: heading-b92860ef-0328-48dc-aca7-eb70608b09c4
+  content:
+    text: "My Heading"
+    level: h2
+    iconName:
+    iconPosition: before
+  styles:
+    size: default
+    alignX: start
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  text:
+    type: text
+    label: Heading Text
+    comment: The text content of the heading
+  level:
+    type: select
+    label: Heading Level
+    comment: The semantic heading level (h1-h6)
+    options:
+      values:
+        - h1
+        - h2
+        - h3
+        - h4
+        - h5
+        - h6
+  iconName:
+    type: select
+    label: Icon
+    comment: Optional icon to display with the heading
+    options:
+      values: _select_data.icons
+  iconPosition:
+    type: select
+    label: Icon Position
+    comment: Position of the icon relative to the text
+    hidden: "!content.iconName"
+    options:
+      values:
+        - name: Before
+          id: before
+        - name: After
+          id: after
+  size:
+    type: select
+    label: Font Size
+    comment: Override the default size based on heading level
+    options:
+      values:
+        - name: Default (based on level)
+          id: default
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+        - name: 3XL
+          id: 3xl
+        - name: 4XL
+          id: 4xl
+  alignX:
+    type: choice
+    label: Alignment
+    comment: Horizontal alignment of the heading
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Start
+          id: start
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: End
+          id: end
+          icon: format_align_right

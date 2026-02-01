@@ -1,0 +1,165 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+    - icon_blocks
+  label: "Icon"
+  description: Hero icon with size and color options
+  icon: bolt
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: icon-43bf13aa-6ed8-4d3a-bc0f-3078b1d5348a
+  content:
+    name: star
+    type: solid
+  styles:
+    size: md
+    color:
+    useThemeColor: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  name:
+    label: Icon Name
+    comment: Visit [heroicons.com](https://heroicons.com/) to see the full library
+    type: select
+    options:
+      values:
+        - academic-cap
+        - adjustments-horizontal
+        - adjustments-vertical
+        - archive-box
+        - arrow-down
+        - arrow-left
+        - arrow-path
+        - arrow-right
+        - arrow-up
+        - at-symbol
+        - bars-3
+        - bell
+        - bolt
+        - bookmark
+        - briefcase
+        - building-office
+        - cake
+        - calendar
+        - camera
+        - chart-bar
+        - chat-bubble-left
+        - check
+        - check-circle
+        - chevron-down
+        - chevron-left
+        - chevron-right
+        - chevron-up
+        - clock
+        - cloud
+        - cog
+        - credit-card
+        - currency-dollar
+        - document
+        - document-text
+        - envelope
+        - exclamation-circle
+        - exclamation-triangle
+        - eye
+        - eye-slash
+        - face-smile
+        - film
+        - fire
+        - flag
+        - folder
+        - gift
+        - globe-alt
+        - hand-thumb-up
+        - heart
+        - home
+        - identification
+        - inbox
+        - information-circle
+        - key
+        - light-bulb
+        - link
+        - list-bullet
+        - lock-closed
+        - lock-open
+        - magnifying-glass
+        - map
+        - map-pin
+        - megaphone
+        - microphone
+        - minus
+        - moon
+        - musical-note
+        - newspaper
+        - paper-airplane
+        - paper-clip
+        - pencil
+        - phone
+        - photo
+        - play
+        - plus
+        - puzzle-piece
+        - question-mark-circle
+        - rocket-launch
+        - rss
+        - scale
+        - share
+        - shield-check
+        - shopping-bag
+        - shopping-cart
+        - sparkles
+        - star
+        - sun
+        - tag
+        - trash
+        - trophy
+        - truck
+        - user
+        - user-group
+        - users
+        - video-camera
+        - wifi
+        - wrench
+        - x-circle
+        - x-mark
+  type:
+    label: Icon Type
+    comment: Solid fills the icon, outline shows only borders
+    type: select
+    options:
+      values:
+        - name: Solid
+          id: solid
+        - name: Outline
+          id: outline
+  size:
+    label: Size
+    type: select
+    options:
+      values:
+        - name: Extra Small (12px)
+          id: xs
+        - name: Small (16px)
+          id: sm
+        - name: Medium (24px)
+          id: md
+        - name: Large (32px)
+          id: lg
+        - name: Extra Large (48px)
+          id: xl
+  color:
+    label: Color
+    comment: Custom color for the icon
+    type: color
+    hidden: styles.useThemeColor
+  useThemeColor:
+    label: Use Theme Color
+    comment: Use the section's theme color instead of a custom color
+    type: switch

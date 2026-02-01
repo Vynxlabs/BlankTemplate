@@ -1,0 +1,55 @@
+{%- comment -%}
+  Video - Core element component
+  Embedded video from YouTube, Vimeo, or local source
+  Uses lite-youtube and lite-vimeo for performance-optimized lazy loading
+{%- endcomment -%}
+
+{%- assign videoType = type | default: "youtube" -%}
+
+<div class="c-video w-full">
+  {%- case videoType -%}
+    {%- when "youtube" -%}
+      {%- if id -%}
+        <lite-youtube
+          videoid="{{ id }}"
+          style="background-image: url('https://i.ytimg.com/vi/{{ id }}/hqdefault.jpg');"
+        >
+          <a href="https://youtube.com/watch?v={{ id }}" class="lty-playbtn" title="Play Video">
+            <span class="lyt-visually-hidden">{{ title | default: "Play Video" }}</span>
+          </a>
+        </lite-youtube>
+      {%- else -%}
+        <div class="c-video__placeholder aspect-video">
+          <span>Enter a YouTube video ID</span>
+        </div>
+      {%- endif -%}
+
+    {%- when "vimeo" -%}
+      {%- if id -%}
+        <lite-vimeo videoid="{{ id }}">
+          <div class="ltv-playbtn"></div>
+        </lite-vimeo>
+      {%- else -%}
+        <div class="c-video__placeholder aspect-video">
+          <span>Enter a Vimeo video ID</span>
+        </div>
+      {%- endif -%}
+
+    {%- when "local-source" -%}
+      {%- if source -%}
+        <video
+          class="w-full aspect-video object-cover"
+          controls
+          preload="metadata"
+          {%- if thumbnail %} poster="{{ thumbnail }}"{% endif %}
+        >
+          <source src="{{ source }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {%- else -%}
+        <div class="c-video__placeholder aspect-video">
+          <span>Select a video file</span>
+        </div>
+      {%- endif -%}
+  {%- endcase -%}
+</div>

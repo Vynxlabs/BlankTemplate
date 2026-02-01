@@ -1,0 +1,77 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Counter"
+  description: Animated number counter with prefix and suffix
+  icon: pin
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: counter-a046cfa8-a34a-45ef-9a1e-ef17a56bf8ed
+  content:
+    number: 100
+    prefix: "$"
+    suffix: "M"
+  styles:
+    alignX: start
+    size: 2xl
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  number:
+    type: number
+    label: Target Number
+    comment: The number to count up to
+  prefix:
+    type: text
+    label: Prefix
+    comment: Text displayed before the number (e.g., $, +)
+  suffix:
+    type: text
+    label: Suffix
+    comment: Text displayed after the number (e.g., M, %, +)
+  alignX:
+    type: choice
+    label: Alignment
+    comment: Horizontal alignment of the counter
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Start
+          id: start
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: End
+          id: end
+          icon: format_align_right
+  size:
+    type: select
+    label: Size
+    comment: Font size of the counter
+    options:
+      values:
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+        - name: 3XL
+          id: 3xl
+        - name: 4XL
+          id: 4xl

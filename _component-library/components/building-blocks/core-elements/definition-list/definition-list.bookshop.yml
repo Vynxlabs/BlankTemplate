@@ -1,0 +1,76 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Definition List"
+  description: Key-value pairs for displaying labeled information
+  icon: view_list
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: definition-list-95b6cc61-39e1-4f47-acac-f05391bdf1ed
+  content:
+    items:
+      - term: Term 1
+        definition: Definition for term 1
+      - term: Term 2
+        definition: Definition for term 2
+  styles:
+    layout: stacked
+    termWeight: bold
+    dividers: false
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  items:
+    type: array
+    label: Items
+    comment: List of term/definition pairs
+  items[*]:
+    type: object
+    label: Item
+    options:
+      preview:
+        text: term
+        subtext: definition
+  term:
+    type: text
+    label: Term
+    comment: The label or key
+  definition:
+    type: textarea
+    label: Definition
+    comment: The value or description
+  layout:
+    type: select
+    label: Layout
+    comment: How terms and definitions are arranged
+    options:
+      values:
+        - name: Stacked (term above definition)
+          id: stacked
+        - name: Inline (term and definition side by side)
+          id: inline
+        - name: Grid (terms in left column)
+          id: grid
+  termWeight:
+    type: select
+    label: Term Style
+    comment: Font weight for terms
+    options:
+      values:
+        - name: Normal
+          id: normal
+        - name: Medium
+          id: medium
+        - name: Bold
+          id: bold
+  dividers:
+    type: switch
+    label: Show Dividers
+    comment: Add dividing lines between items

@@ -1,0 +1,95 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Badge"
+  description: Small label or tag element
+  icon: label
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: badge-8ef6adf2-7025-4e80-bf54-eed1ab5d9d03
+  content:
+    text: Badge
+    icon:
+  styles:
+    variant: filled
+    size: md
+    color: gray
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  text:
+    label: Text
+    type: text
+    comment: Badge label text
+  icon:
+    label: Icon
+    type: select
+    comment: Optional icon before the text
+    options:
+      allow_empty: true
+      values:
+        - check
+        - x-mark
+        - star
+        - heart
+        - bolt
+        - fire
+        - sparkles
+        - exclamation-circle
+        - information-circle
+        - bell
+        - tag
+  variant:
+    label: Variant
+    type: select
+    comment: Visual style of the badge
+    options:
+      values:
+        - name: Filled
+          id: filled
+        - name: Outline
+          id: outline
+        - name: Soft
+          id: soft
+  size:
+    label: Size
+    type: select
+    options:
+      values:
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+  color:
+    label: Color
+    type: select
+    comment: Badge color scheme
+    options:
+      values:
+        - name: Gray
+          id: gray
+        - name: Red
+          id: red
+        - name: Orange
+          id: orange
+        - name: Yellow
+          id: yellow
+        - name: Green
+          id: green
+        - name: Blue
+          id: blue
+        - name: Indigo
+          id: indigo
+        - name: Purple
+          id: purple
+        - name: Pink
+          id: pink

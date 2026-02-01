@@ -1,0 +1,89 @@
+{%- comment -%}
+  CTA Section - Abstraction layer that builds contentSections for base-section
+  Call-to-action section with heading, description, and prominent buttons
+{%- endcomment -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add buttons via button-group wrapper {%- endcomment -%}
+{%- if content.buttons.size > 0 -%}
+  {%- capture buttonGroupBlock -%}
+_bookshop_name: building-blocks/wrappers/button-group
+content:
+    buttons:
+        {{ content.buttons | json }}
+styles:
+    direction: row
+    alignX: center
+    gap: md
+  {%- endcapture -%}
+  {%- assign buttonGroupObj = buttonGroupBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: buttonGroupObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 3xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

@@ -1,0 +1,14 @@
+.c-counter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.125em;
+
+  &__prefix,
+  &__suffix {
+    opacity: 0.9;
+  }
+
+  &__number {
+    font-variant-numeric: tabular-nums;
+  }
+}

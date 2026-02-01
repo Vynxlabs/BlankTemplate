@@ -1,0 +1,39 @@
+{%- comment -%}
+  Divider - Core element component
+  Horizontal line separator with configurable style, width, and thickness
+{%- endcomment -%}
+
+{%- assign variant = variant | default: "solid" -%}
+{%- assign width = width | default: "full" -%}
+{%- assign thickness = thickness | default: "thin" -%}
+{%- assign marginY = marginY | default: "md" -%}
+
+{%- capture widthClass -%}
+  {%- case width -%}
+    {%- when "full" -%}w-full
+    {%- when "3/4" -%}w-3/4
+    {%- when "1/2" -%}w-1/2
+    {%- when "1/3" -%}w-1/3
+    {%- when "1/4" -%}w-1/4
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture thicknessClass -%}
+  {%- case thickness -%}
+    {%- when "thin" -%}c-divider--thin
+    {%- when "medium" -%}c-divider--medium
+    {%- when "thick" -%}c-divider--thick
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture marginClass -%}
+  {%- case marginY -%}
+    {%- when "none" -%}my-0
+    {%- when "sm" -%}my-2
+    {%- when "md" -%}my-4
+    {%- when "lg" -%}my-8
+    {%- when "xl" -%}my-12
+  {%- endcase -%}
+{%- endcapture -%}
+
+<hr class="c-divider c-divider--{{ variant }} {{ widthClass | strip }} {{ thicknessClass | strip }} {{ marginClass | strip }} mx-auto">

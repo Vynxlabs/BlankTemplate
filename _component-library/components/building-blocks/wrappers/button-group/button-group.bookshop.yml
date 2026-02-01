@@ -1,0 +1,103 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Button Group"
+  description: Group of buttons with alignment and direction options
+  icon: smart_button
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: button-group-452cc7cc-f39d-4142-a296-c778e9fc9d66
+  content:
+    label:
+    buttons:
+  styles:
+    direction: row
+    alignX: start
+    gap: md
+    wrap: true
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    buttons:
+      - _bookshop_name: building-blocks/core-elements/button
+        content:
+          text: Primary Button
+          link: "#"
+        styles:
+          variant: filled
+          size: md
+      - _bookshop_name: building-blocks/core-elements/button
+        content:
+          text: Secondary Button
+          link: "#"
+        styles:
+          variant: outline
+          size: md
+  styles:
+    direction: row
+    alignX: start
+    gap: md
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this button group in the editor
+  buttons:
+    type: array
+    label: Buttons
+    comment: Buttons to display in the group
+    options:
+      structures: _structures.button_items
+  direction:
+    type: select
+    label: Direction
+    comment: Layout direction for buttons
+    options:
+      values:
+        - name: Horizontal (Row)
+          id: row
+        - name: Vertical (Column)
+          id: column
+  alignX:
+    type: select
+    label: Alignment
+    comment: Horizontal alignment of buttons
+    options:
+      values:
+        - name: Start (Left)
+          id: start
+        - name: Center
+          id: center
+        - name: End (Right)
+          id: end
+        - name: Space Between
+          id: between
+        - name: Stretch (Full Width)
+          id: stretch
+  gap:
+    type: select
+    label: Gap
+    comment: Space between buttons
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+  wrap:
+    type: switch
+    label: Allow Wrapping
+    comment: Allow buttons to wrap to new lines on smaller screens

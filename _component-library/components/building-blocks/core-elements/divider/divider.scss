@@ -1,0 +1,31 @@
+.c-divider {
+  border: none;
+  border-top-color: currentColor;
+  opacity: 0.2;
+
+  // Variants
+  &--solid {
+    border-top-style: solid;
+  }
+
+  &--dashed {
+    border-top-style: dashed;
+  }
+
+  &--dotted {
+    border-top-style: dotted;
+  }
+
+  // Thickness
+  &--thin {
+    border-top-width: 1px;
+  }
+
+  &--medium {
+    border-top-width: 2px;
+  }
+
+  &--thick {
+    border-top-width: 4px;
+  }
+}

@@ -1,0 +1,170 @@
+{%- comment -%}
+  Team Section - Abstraction layer that builds contentSections for base-section
+  Team members grid with photos, names, and roles
+{%- endcomment -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add spacer between header and team {%- endcomment -%}
+{%- if content.badge or content.heading or content.description -%}
+  {%- capture spacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: lg
+  {%- endcapture -%}
+  {%- assign spacerObj = spacerBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: spacerObj -%}
+{%- endif -%}
+
+{%- comment -%} Build team grid if members exist {%- endcomment -%}
+{%- if content.members.size > 0 -%}
+  {%- comment -%} Build grid items array {%- endcomment -%}
+  {%- assign gridItems = "" | split: "" -%}
+
+  {%- for member in content.members -%}
+    {%- comment -%} Build member content sections {%- endcomment -%}
+    {%- assign memberContentSections = "" | split: "" -%}
+
+    {%- if member.image -%}
+      {%- capture imageBlock -%}
+_bookshop_name: building-blocks/core-elements/image
+content:
+    source: {{ member.image }}
+    alt: {{ member.name | stringifyFilter }}
+styles:
+    aspectRatio: square
+      {%- endcapture -%}
+      {%- assign imageObj = imageBlock | ymlify -%}
+      {%- assign memberContentSections = memberContentSections | push: imageObj -%}
+    {%- endif -%}
+
+    {%- if member.name -%}
+      {%- capture nameBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ member.name | stringifyFilter }}
+    level: h3
+styles:
+    size: lg
+    alignX: center
+      {%- endcapture -%}
+      {%- assign nameObj = nameBlock | ymlify -%}
+      {%- assign memberContentSections = memberContentSections | push: nameObj -%}
+    {%- endif -%}
+
+    {%- if member.role -%}
+      {%- capture roleBlock -%}
+_bookshop_name: building-blocks/core-elements/simple-text
+content:
+    text: {{ member.role | stringifyFilter }}
+styles:
+    alignX: center
+    size: sm
+      {%- endcapture -%}
+      {%- assign roleObj = roleBlock | ymlify -%}
+      {%- assign memberContentSections = memberContentSections | push: roleObj -%}
+    {%- endif -%}
+
+    {%- if member.bio -%}
+      {%- capture bioBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ member.bio | stringifyFilter }}
+styles:
+    alignX: center
+      {%- endcapture -%}
+      {%- assign bioObj = bioBlock | ymlify -%}
+      {%- assign memberContentSections = memberContentSections | push: bioObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Wrap in grid-item {%- endcomment -%}
+    {%- capture gridItemBlock -%}
+_bookshop_name: building-blocks/wrappers/grid/grid-item
+contentSections:
+    {{ memberContentSections | json }}
+    {%- endcapture -%}
+    {%- assign gridItemObj = gridItemBlock | ymlify -%}
+    {%- assign gridItems = gridItems | push: gridItemObj -%}
+  {%- endfor -%}
+
+  {%- comment -%} Build the grid wrapper {%- endcomment -%}
+  {%- capture gridBlock -%}
+_bookshop_name: building-blocks/wrappers/grid
+content:
+    items:
+        {{ gridItems | json }}
+styles:
+    layout: center
+    minItemWidth: 200
+    maxItemWidth: 280
+    gap: lg
+  {%- endcapture -%}
+  {%- assign gridObj = gridBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: gridObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 6xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

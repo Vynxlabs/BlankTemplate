@@ -1,0 +1,32 @@
+{%- comment -%}
+  Accordion Item - Sub-component of Accordion wrapper
+  Individual expandable/collapsible section
+{%- endcomment -%}
+
+{%- assign title = title | default: "Accordion Item" -%}
+{%- assign contentSections = contentSections -%}
+{%- assign isOpen = isOpen | default: false -%}
+
+<div class="c-accordion__item{% if isOpen %} is-open{% endif %}" data-accordion-item>
+  <button
+    class="c-accordion__trigger"
+    type="button"
+    aria-expanded="{{ isOpen }}"
+    data-accordion-trigger
+  >
+    <span class="c-accordion__title">{{ title }}</span>
+    <svg class="c-accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <div class="c-accordion__content">
+    <div class="c-accordion__content-inner">
+      {%- if contentSections.size > 0 -%}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
+      {%- else -%}
+        <p class="text-gray-400 italic">Add content to this accordion item</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

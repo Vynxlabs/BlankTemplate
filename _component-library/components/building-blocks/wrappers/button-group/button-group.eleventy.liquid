@@ -1,0 +1,53 @@
+{%- comment -%}
+  Button Group - Wrapper component
+  Group of buttons with alignment and direction options
+{%- endcomment -%}
+
+{%- assign buttons = content.buttons -%}
+{%- assign direction = styles.direction | default: "row" -%}
+{%- assign alignX = styles.alignX | default: "start" -%}
+{%- assign gap = styles.gap | default: "md" -%}
+{%- assign wrap = styles.wrap | default: true -%}
+
+{%- capture directionClass -%}
+  {%- case direction -%}
+    {%- when "row" -%}flex-row
+    {%- when "column" -%}flex-col
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture alignClass -%}
+  {%- case alignX -%}
+    {%- when "start" -%}justify-start
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- when "between" -%}justify-between
+    {%- when "stretch" -%}c-button-group--stretch
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture gapClass -%}
+  {%- case gap -%}
+    {%- when "none" -%}gap-0
+    {%- when "xs" -%}gap-1
+    {%- when "sm" -%}gap-2
+    {%- when "md" -%}gap-4
+    {%- when "lg" -%}gap-6
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture wrapClass -%}
+  {%- if wrap -%}flex-wrap{%- else -%}flex-nowrap{%- endif -%}
+{%- endcapture -%}
+
+<div class="c-button-group flex {{ directionClass | strip }} {{ alignClass | strip }} {{ gapClass | strip }} {{ wrapClass | strip }}">
+  {%- if buttons.size > 0 -%}
+    {%- for button in buttons -%}
+      {%- if button._bookshop_name -%}
+        {% bookshop "{{button._bookshop_name}}" bind: button %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    <p class="text-gray-400 italic">Add buttons to this group</p>
+  {%- endif -%}
+</div>

@@ -1,0 +1,11 @@
+.c-simple-text {
+  // Simple text - inline content only
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

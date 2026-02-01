@@ -1,0 +1,133 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Team Section"
+  description: Team members grid with photos, names, and roles
+  icon: groups
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: team-2b279f6c-f90f-47b7-a65b-0261a2ebee8e
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Meet Our Team"
+    description: "The people behind the magic."
+    members:
+      - name: "John Smith"
+        role: "CEO & Founder"
+        bio:
+        image:
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Our Team"
+    heading: "Meet the People Behind the Product"
+    description: "A dedicated team of experts working to deliver exceptional results."
+    members:
+      - name: "Sarah Johnson"
+        role: "CEO & Co-founder"
+        bio: "Visionary leader with 15+ years in tech."
+        image: /images/tree.jpg
+      - name: "Michael Chen"
+        role: "CTO"
+        bio: "Engineering expert passionate about innovation."
+        image: /images/tree.jpg
+      - name: "Emily Davis"
+        role: "Head of Design"
+        bio: "Creative director with an eye for detail."
+        image: /images/tree.jpg
+      - name: "James Wilson"
+        role: "Lead Developer"
+        bio: "Full-stack wizard who loves clean code."
+        image: /images/tree.jpg
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  members:
+    type: array
+    label: Team Members
+    comment: Members to display
+  members[*]:
+    type: object
+    label: Member
+    options:
+      preview:
+        text:
+          - key: name
+        subtext:
+          - key: role
+        image:
+          - key: image
+  members[*].name:
+    type: text
+    label: Name
+  members[*].role:
+    type: text
+    label: Role/Title
+  members[*].bio:
+    type: textarea
+    label: Short Bio
+  members[*].image:
+    type: image
+    label: Photo
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

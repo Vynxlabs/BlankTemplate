@@ -1,0 +1,152 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Feature Section"
+  description: Feature highlight section with icon-based feature grid
+  icon: auto_awesome
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: feature-201314fc-975f-4bf0-98a5-23a724356266
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Features"
+    description: "Everything you need to succeed."
+    features:
+      - icon: "bolt"
+        title: "Lightning Fast"
+        description: "Optimized performance for the best user experience."
+      - icon: "shield-check"
+        title: "Secure"
+        description: "Enterprise-grade security built-in."
+      - icon: "sparkles"
+        title: "Beautiful Design"
+        description: "Modern aesthetics that delight users."
+  styles:
+    color_group: primary
+    columns: 3
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Why Us"
+    heading: "Powerful Features for Modern Teams"
+    description: "Our platform provides everything you need to build, deploy, and scale your applications."
+    features:
+      - icon: "bolt"
+        title: "Lightning Performance"
+        description: "Blazing fast load times and optimized code for the best user experience."
+      - icon: "shield-check"
+        title: "Enterprise Security"
+        description: "Bank-level encryption and compliance with industry standards."
+      - icon: "sparkles"
+        title: "Beautiful Design"
+        description: "Stunning interfaces that users love to interact with."
+      - icon: "chart-bar"
+        title: "Analytics"
+        description: "Deep insights into user behavior and application performance."
+      - icon: "users"
+        title: "Team Collaboration"
+        description: "Work together seamlessly with built-in collaboration tools."
+      - icon: "cog"
+        title: "Easy Integration"
+        description: "Connect with your favorite tools and services effortlessly."
+  styles:
+    color_group: primary
+    columns: 3
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  features:
+    type: array
+    label: Features
+    comment: Feature items to display
+  features[*]:
+    type: object
+    label: Feature
+    options:
+      preview:
+        text:
+          - key: title
+        subtext:
+          - key: description
+  features[*].icon:
+    type: select
+    label: Icon
+    comment: Icon representing this feature
+    options:
+      values: _select_data.icons
+  features[*].title:
+    type: text
+    label: Title
+  features[*].description:
+    type: textarea
+    label: Description
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  columns:
+    type: select
+    label: Columns
+    comment: Number of columns for the feature grid
+    options:
+      values:
+        - name: 2 Columns
+          id: 2
+        - name: 3 Columns
+          id: 3
+        - name: 4 Columns
+          id: 4
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

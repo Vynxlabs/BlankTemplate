@@ -1,0 +1,23 @@
+{%- comment -%}
+  Embed - Core element component
+  Raw HTML embed with aspect ratio container
+{%- endcomment -%}
+
+{%- capture aspectClass -%}
+  {%- case styles.aspectRatio -%}
+    {%- when "square" -%}aspect-square
+    {%- when "portrait" -%}aspect-[3/4]
+    {%- when "widescreen" -%}aspect-video
+    {%- else -%}aspect-[4/3]
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if content.html -%}
+  <div class="c-embed {{ aspectClass | strip }} w-full overflow-hidden">
+    {{ content.html }}
+  </div>
+{%- else -%}
+  <div class="c-embed {{ aspectClass | strip }} w-full bg-gray-200 flex items-center justify-center">
+    <span class="text-gray-500">Add HTML embed code</span>
+  </div>
+{%- endif -%}

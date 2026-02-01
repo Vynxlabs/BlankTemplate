@@ -1,0 +1,36 @@
+{%- comment -%}
+  Simple Text - Core element component
+  Renders a single line of text with inline markdown support
+{%- endcomment -%}
+
+{%- capture alignClass -%}
+  {%- case styles.alignX -%}
+    {%- when "center" -%}text-center
+    {%- when "end" -%}text-right
+    {%- else -%}text-left
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture sizeClass -%}
+  {%- case styles.size -%}
+    {%- when "xs" -%}text-xs
+    {%- when "sm" -%}text-sm
+    {%- when "md" -%}text-base
+    {%- when "lg" -%}text-lg
+    {%- when "xl" -%}text-xl
+    {%- when "2xl" -%}text-2xl
+    {%- when "3xl" -%}text-3xl
+    {%- when "4xl" -%}text-4xl
+    {%- else -%}
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if content.text -%}
+  <p class="c-simple-text {{ alignClass | strip }} {{ sizeClass | strip }}">
+    {%- if env_bookshop_live -%}
+      {{ content.text | markdownify | remove: "<p>" | remove: "</p>" }}
+    {%- else -%}
+      {{ content.text | renderContent | markdownify | remove: "<p>" | remove: "</p>" }}
+    {%- endif -%}
+  </p>
+{%- endif -%}

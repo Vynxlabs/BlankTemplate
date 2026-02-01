@@ -1,0 +1,41 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_selector_items
+  label: "Content Selector Item"
+  description: Individual tab panel within a content selector
+  icon: tab
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: content-selector-item-169c181f-ab6d-499f-b302-ee865a817b48
+  title: Tab Title
+  contentSections:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  title: Sample Tab
+  contentSections:
+    - _bookshop_name: building-blocks/core-elements/heading
+      content:
+        text: Tab Content
+        level: h3
+      styles:
+        size: md
+    - _bookshop_name: building-blocks/core-elements/text
+      content:
+        text: This is the content that appears when this tab is selected.
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  title:
+    type: text
+    label: Tab Title
+    comment: The text shown on the tab button
+  contentSections:
+    type: array
+    label: Content
+    comment: Content sections displayed when this tab is active
+    options:
+      structures: _structures.content_sections

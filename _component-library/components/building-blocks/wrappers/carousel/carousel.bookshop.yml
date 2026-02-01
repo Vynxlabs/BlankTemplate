@@ -1,0 +1,117 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Carousel"
+  description: Scrollable carousel with slides and navigation
+  icon: view_carousel
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: carousel-56b7182c-6826-4cae-a2a2-bac82ef1a713
+  content:
+    label:
+    slides:
+  styles:
+    autoPlay: false
+    autoPlayInterval: 5000
+    autoScroll: false
+    slideWidthPercent: 100
+    minSlideWidth: 280
+    gap: md
+    showNavigation: true
+    showDots: true
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    slides:
+      - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 1
+              level: h3
+            styles:
+              size: lg
+              alignX: center
+      - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 2
+              level: h3
+            styles:
+              size: lg
+              alignX: center
+      - _bookshop_name: building-blocks/wrappers/carousel/carousel-slide
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Slide 3
+              level: h3
+            styles:
+              size: lg
+              alignX: center
+  styles:
+    slideWidthPercent: 100
+    showNavigation: true
+    showDots: true
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this carousel in the editor
+  slides:
+    type: array
+    label: Slides
+    comment: Slides to display in the carousel
+    options:
+      structures: _structures.carousel_slides
+  autoPlay:
+    type: switch
+    label: Auto Play
+    comment: Automatically advance slides
+  autoPlayInterval:
+    type: number
+    label: Auto Play Interval (ms)
+    comment: Time between slide transitions in milliseconds. Only applies when Auto Play is enabled
+  autoScroll:
+    type: switch
+    label: Auto Scroll
+    comment: Continuously scroll the carousel
+  slideWidthPercent:
+    type: range
+    label: Slide Width (%)
+    comment: Width of each slide as a percentage (100 = one slide visible)
+    options:
+      min: 20
+      max: 100
+      step: 5
+  minSlideWidth:
+    type: number
+    label: Min Slide Width (px)
+    comment: Minimum width before slides start stacking
+  gap:
+    type: select
+    label: Gap Between Slides
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+  showNavigation:
+    type: switch
+    label: Show Navigation Arrows
+  showDots:
+    type: switch
+    label: Show Dot Indicators

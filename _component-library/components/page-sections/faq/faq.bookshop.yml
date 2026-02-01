@@ -1,0 +1,115 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "FAQ Section"
+  description: Frequently asked questions with expandable accordion
+  icon: help
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: faq-a9fabeb0-cb36-4fb1-bef0-7ce784a5892c
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Frequently Asked Questions"
+    description: "Find answers to common questions about our products and services."
+    questions:
+      - question: "What is the return policy?"
+        answer: "We offer a 30-day money-back guarantee on all purchases."
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "FAQ"
+    heading: "Frequently Asked Questions"
+    description: "Get answers to common questions about our service."
+    questions:
+      - question: "How do I get started?"
+        answer: "Getting started is easy! Simply sign up for a free account and follow our quick setup guide."
+      - question: "What payment methods do you accept?"
+        answer: "We accept all major credit cards, PayPal, and bank transfers."
+      - question: "Can I cancel my subscription?"
+        answer: "Yes, you can cancel your subscription at any time from your account settings."
+      - question: "Is there a free trial?"
+        answer: "Yes, we offer a 14-day free trial with full access to all features."
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  questions:
+    type: array
+    label: Questions
+    comment: FAQ items
+  questions[*]:
+    type: object
+    label: Question
+    options:
+      preview:
+        text:
+          - key: question
+        subtext:
+          - key: answer
+  questions[*].question:
+    type: text
+    label: Question
+  questions[*].answer:
+    type: markdown
+    label: Answer
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

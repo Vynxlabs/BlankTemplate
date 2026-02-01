@@ -1,0 +1,191 @@
+{%- comment -%}
+  Cards Section - Abstraction layer that builds contentSections for base-section
+  Creates a grid of cards with images, titles, descriptions, and optional links
+{%- endcomment -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add spacer between header and cards {%- endcomment -%}
+{%- if content.badge or content.heading or content.description -%}
+  {%- capture spacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: lg
+  {%- endcapture -%}
+  {%- assign spacerObj = spacerBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: spacerObj -%}
+{%- endif -%}
+
+{%- comment -%} Build cards grid if cards exist {%- endcomment -%}
+{%- if content.cards.size > 0 -%}
+  {%- comment -%} Build grid items array {%- endcomment -%}
+  {%- assign gridItems = "" | split: "" -%}
+
+  {%- for card in content.cards -%}
+    {%- comment -%} Build card content sections {%- endcomment -%}
+    {%- assign cardContentSections = "" | split: "" -%}
+
+    {%- if card.title -%}
+      {%- capture titleBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ card.title | stringifyFilter }}
+    level: h3
+styles:
+    size: lg
+    alignX: start
+      {%- endcapture -%}
+      {%- assign titleObj = titleBlock | ymlify -%}
+      {%- assign cardContentSections = cardContentSections | push: titleObj -%}
+    {%- endif -%}
+
+    {%- if card.description -%}
+      {%- capture cardDescBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ card.description | stringifyFilter }}
+styles:
+    alignX: start
+      {%- endcapture -%}
+      {%- assign cardDescObj = cardDescBlock | ymlify -%}
+      {%- assign cardContentSections = cardContentSections | push: cardDescObj -%}
+    {%- endif -%}
+
+    {%- if card.link and card.linkText -%}
+      {%- capture linkBlock -%}
+_bookshop_name: building-blocks/core-elements/button
+content:
+    text: {{ card.linkText | stringifyFilter }}
+    link: {{ card.link }}
+styles:
+    variant: text
+    size: sm
+      {%- endcapture -%}
+      {%- assign linkObj = linkBlock | ymlify -%}
+      {%- assign cardContentSections = cardContentSections | push: linkObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Build beforeContentSections for image {%- endcomment -%}
+    {%- assign beforeContent = "" | split: "" -%}
+    {%- if card.image.source -%}
+      {%- capture imageBlock -%}
+_bookshop_name: building-blocks/core-elements/image
+content:
+    source: {{ card.image.source }}
+    alt: {{ card.image.alt | stringifyFilter }}
+styles:
+    aspectRatio: landscape
+      {%- endcapture -%}
+      {%- assign imageObj = imageBlock | ymlify -%}
+      {%- assign beforeContent = beforeContent | push: imageObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Build the card wrapper {%- endcomment -%}
+    {%- capture cardBlock -%}
+_bookshop_name: building-blocks/wrappers/card
+content:
+    contentSections:
+        {{ cardContentSections | json }}
+    beforeContentSections:
+        {{ beforeContent | json }}
+styles:
+    paddingHorizontal: md
+    paddingVertical: md
+    backgroundColor: surface
+    rounded: true
+    border: false
+    showBeforeAfter: true
+    {%- endcapture -%}
+    {%- assign cardObj = cardBlock | ymlify -%}
+
+    {%- comment -%} Wrap card in grid-item {%- endcomment -%}
+    {%- capture gridItemBlock -%}
+_bookshop_name: building-blocks/wrappers/grid/grid-item
+contentSections:
+    {{ cardObj | json | prepend: "[" | append: "]" }}
+    {%- endcapture -%}
+    {%- assign gridItemObj = gridItemBlock | ymlify -%}
+    {%- assign gridItems = gridItems | push: gridItemObj -%}
+  {%- endfor -%}
+
+  {%- comment -%} Build the grid wrapper {%- endcomment -%}
+  {%- capture gridBlock -%}
+_bookshop_name: building-blocks/wrappers/grid
+content:
+    items:
+        {{ gridItems | json }}
+styles:
+    layout: center
+    minItemWidth: 300
+    maxItemWidth: 400
+    gap: lg
+  {%- endcapture -%}
+  {%- assign gridObj = gridBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: gridObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 6xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

@@ -1,0 +1,177 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Pricing Section"
+  description: Pricing cards with plans, features, and call-to-action buttons
+  icon: payments
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: pricing-d9b36329-2fd4-4c80-b271-cd3477212c1d
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Simple, Transparent Pricing"
+    description: "Choose the plan that works best for you."
+    plans:
+      - name: "Starter"
+        description: "Perfect for individuals"
+        price: "$9"
+        period: "/month"
+        features:
+          - "5 projects"
+          - "Basic support"
+          - "1GB storage"
+        buttonText: "Get Started"
+        buttonLink: "#"
+        highlighted: false
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Pricing"
+    heading: "Find Your Perfect Plan"
+    description: "Start free and scale as you grow. No hidden fees."
+    plans:
+      - name: "Basic"
+        description: "For individuals"
+        price: "$0"
+        period: "/month"
+        features:
+          - "3 projects"
+          - "Community support"
+          - "500MB storage"
+        buttonText: "Start Free"
+        buttonLink: "#"
+        highlighted: false
+      - name: "Pro"
+        description: "For growing teams"
+        price: "$29"
+        period: "/month"
+        features:
+          - "Unlimited projects"
+          - "Priority support"
+          - "10GB storage"
+          - "Advanced analytics"
+          - "Team collaboration"
+        buttonText: "Start Free Trial"
+        buttonLink: "#"
+        highlighted: true
+      - name: "Enterprise"
+        description: "For large organizations"
+        price: "$99"
+        period: "/month"
+        features:
+          - "Everything in Pro"
+          - "Dedicated support"
+          - "Unlimited storage"
+          - "Custom integrations"
+          - "SLA guarantee"
+        buttonText: "Contact Sales"
+        buttonLink: "#"
+        highlighted: false
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  plans:
+    type: array
+    label: Pricing Plans
+    comment: Pricing tiers to display
+  plans[*]:
+    type: object
+    label: Plan
+    options:
+      preview:
+        text:
+          - key: name
+        subtext:
+          - key: price
+  plans[*].name:
+    type: text
+    label: Plan Name
+  plans[*].description:
+    type: text
+    label: Short Description
+  plans[*].price:
+    type: text
+    label: Price
+    comment: e.g., "$29" or "Free"
+  plans[*].period:
+    type: text
+    label: Billing Period
+    comment: e.g., "/month" or "/year"
+  plans[*].features:
+    type: array
+    label: Features
+  plans[*].features[*]:
+    type: text
+    label: Feature
+  plans[*].buttonText:
+    type: text
+    label: Button Text
+  plans[*].buttonLink:
+    type: url
+    label: Button Link
+  plans[*].highlighted:
+    type: switch
+    label: Highlight This Plan
+    comment: Make this plan stand out (recommended plan)
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

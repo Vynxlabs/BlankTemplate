@@ -1,0 +1,101 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Content Selector"
+  description: Tabbed content panels with navigation
+  icon: tab
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: content-selector-3782aa33-7831-4215-9900-2d4d06f3469f
+  content:
+    label:
+    items:
+  styles:
+    navigationPosition: top
+    navigationAlignment: start
+    variant: underline
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    items:
+      - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
+        title: First Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the first tab panel.
+            styles:
+              alignX: start
+      - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
+        title: Second Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the second tab panel.
+            styles:
+              alignX: start
+      - _bookshop_name: building-blocks/wrappers/content-selector/content-selector-item
+        title: Third Tab
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/text
+            content:
+              text: Content for the third tab panel.
+            styles:
+              alignX: start
+  styles:
+    navigationPosition: top
+    navigationAlignment: start
+    variant: underline
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this content selector in the editor
+  items:
+    type: array
+    label: Tabs
+    comment: Tab panels to display
+    options:
+      structures: _structures.content_selector_items
+  navigationPosition:
+    type: select
+    label: Navigation Position
+    comment: Where the tab navigation appears
+    options:
+      values:
+        - name: Top
+          id: top
+        - name: Left Side
+          id: start
+  navigationAlignment:
+    type: select
+    label: Navigation Alignment
+    comment: Alignment of tab buttons
+    options:
+      values:
+        - name: Start
+          id: start
+        - name: Center
+          id: center
+        - name: End
+          id: end
+        - name: Stretch
+          id: stretch
+  variant:
+    type: select
+    label: Style Variant
+    options:
+      values:
+        - name: Underline
+          id: underline
+        - name: Pills
+          id: pills
+        - name: Boxed
+          id: boxed

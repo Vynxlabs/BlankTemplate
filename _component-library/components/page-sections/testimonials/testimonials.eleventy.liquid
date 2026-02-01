@@ -1,0 +1,164 @@
+{%- comment -%}
+  Testimonials Section - Abstraction layer that builds contentSections for base-section
+  Customer testimonials displayed in a grid
+{%- endcomment -%}
+
+{%- assign layout = styles.layout | default: "grid" -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge  }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading  }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description  }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add spacer between header and testimonials {%- endcomment -%}
+{%- if content.badge or content.heading or content.description -%}
+  {%- capture spacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: lg
+  {%- endcapture -%}
+  {%- assign spacerObj = spacerBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: spacerObj -%}
+{%- endif -%}
+
+{%- comment -%} Build testimonials {%- endcomment -%}
+{%- if content.testimonials.size > 0 -%}
+  {%- if layout == "featured" -%}
+    {%- comment -%} Featured single testimonial {%- endcomment -%}
+    {%- assign firstTestimonial = content.testimonials | first -%}
+    {%- capture testimonialBlock -%}
+_bookshop_name: building-blocks/core-elements/testimonial
+content:
+    text: {{ firstTestimonial.quote  }}
+    authorName: {{ firstTestimonial.authorName  }}
+    authorDescription: {{ firstTestimonial.authorTitle  }}
+    authorImage: {{ firstTestimonial.authorImage }}
+    fiveStarRating: {{ firstTestimonial.showRating | default: false }}
+styles:
+    alignX: center
+    {%- endcapture -%}
+    {%- assign testimonialObj = testimonialBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: testimonialObj -%}
+  {%- else -%}
+    {%- comment -%} Grid layout - build grid items {%- endcomment -%}
+    {%- assign gridItems = "" | split: "" -%}
+
+    {%- for testimonial in content.testimonials -%}
+      {%- comment -%} Build testimonial component {%- endcomment -%}
+      {%- capture testimonialBlock -%}
+_bookshop_name: building-blocks/core-elements/testimonial
+content:
+    text: {{ testimonial.quote  }}
+    authorName: {{ testimonial.authorName  }}
+    authorDescription: {{ testimonial.authorTitle  }}
+    authorImage: {{ testimonial.authorImage }}
+    fiveStarRating: {{ testimonial.showRating | default: false }}
+styles:
+    alignX: start
+      {%- endcapture -%}
+      {%- assign testimonialObj = testimonialBlock | ymlify -%}
+
+      {%- comment -%} Wrap in card {%- endcomment -%}
+      {%- capture cardBlock -%}
+_bookshop_name: building-blocks/wrappers/card
+content:
+    contentSections:
+        {{ testimonialObj | json | prepend: "[" | append: "]" }}
+styles:
+    paddingHorizontal: md
+    paddingVertical: md
+    backgroundColor: surface
+    rounded: true
+    border: true
+      {%- endcapture -%}
+      {%- assign cardObj = cardBlock | ymlify -%}
+
+      {%- comment -%} Wrap in grid-item {%- endcomment -%}
+      {%- capture gridItemBlock -%}
+_bookshop_name: building-blocks/wrappers/grid/grid-item
+contentSections:
+    {{ cardObj | json | prepend: "[" | append: "]" }}
+      {%- endcapture -%}
+      {%- assign gridItemObj = gridItemBlock | ymlify -%}
+      {%- assign gridItems = gridItems | push: gridItemObj -%}
+    {%- endfor -%}
+
+    {%- comment -%} Build the grid wrapper {%- endcomment -%}
+    {%- capture gridBlock -%}
+_bookshop_name: building-blocks/wrappers/grid
+content:
+    items:
+        {{ gridItems | json }}
+styles:
+    layout: center
+    minItemWidth: 320
+    maxItemWidth: 450
+    gap: lg
+    {%- endcapture -%}
+    {%- assign gridObj = gridBlock | ymlify -%}
+    {%- assign builtContentSections = builtContentSections | push: gridObj -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId  }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 6xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

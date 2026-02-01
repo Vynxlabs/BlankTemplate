@@ -1,0 +1,241 @@
+{%- comment -%}
+  Pricing Section - Abstraction layer that builds contentSections for base-section
+  Pricing cards with plans, features, and call-to-action buttons
+{%- endcomment -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add spacer between header and plans {%- endcomment -%}
+{%- if content.badge or content.heading or content.description -%}
+  {%- capture spacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: lg
+  {%- endcapture -%}
+  {%- assign spacerObj = spacerBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: spacerObj -%}
+{%- endif -%}
+
+{%- comment -%} Build pricing plans grid if plans exist {%- endcomment -%}
+{%- if content.plans.size > 0 -%}
+  {%- comment -%} Build grid items array {%- endcomment -%}
+  {%- assign gridItems = "" | split: "" -%}
+
+  {%- for plan in content.plans -%}
+    {%- comment -%} Build plan content sections {%- endcomment -%}
+    {%- assign planContentSections = "" | split: "" -%}
+
+    {%- comment -%} Add "Most Popular" badge if highlighted {%- endcomment -%}
+    {%- if plan.highlighted -%}
+      {%- capture highlightBadgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: "Most Popular"
+styles:
+    variant: filled
+    size: sm
+    color: blue
+      {%- endcapture -%}
+      {%- assign highlightBadgeObj = highlightBadgeBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: highlightBadgeObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Add plan name {%- endcomment -%}
+    {%- if plan.name -%}
+      {%- capture nameBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ plan.name | stringifyFilter }}
+    level: h3
+styles:
+    size: lg
+    alignX: start
+      {%- endcapture -%}
+      {%- assign nameObj = nameBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: nameObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Add plan description {%- endcomment -%}
+    {%- if plan.description -%}
+      {%- capture planDescBlock -%}
+_bookshop_name: building-blocks/core-elements/simple-text
+content:
+    text: {{ plan.description | stringifyFilter }}
+styles:
+    alignX: start
+    size: sm
+      {%- endcapture -%}
+      {%- assign planDescObj = planDescBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: planDescObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Add price {%- endcomment -%}
+    {%- if plan.price -%}
+      {%- assign priceText = plan.price -%}
+      {%- if plan.period -%}
+        {%- assign priceText = priceText | append: plan.period -%}
+      {%- endif -%}
+      {%- capture priceBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ priceText | stringifyFilter }}
+    level: div
+styles:
+    size: 2xl
+    alignX: start
+      {%- endcapture -%}
+      {%- assign priceObj = priceBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: priceObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Add spacer before features {%- endcomment -%}
+    {%- capture smallSpacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: sm
+    {%- endcapture -%}
+    {%- assign smallSpacerObj = smallSpacerBlock | ymlify -%}
+    {%- assign planContentSections = planContentSections | push: smallSpacerObj -%}
+
+    {%- comment -%} Add features list {%- endcomment -%}
+    {%- if plan.features.size > 0 -%}
+      {%- capture listBlock -%}
+_bookshop_name: building-blocks/core-elements/list
+content:
+    items:
+        {{ plan.features | json }}
+styles:
+    variant: check
+    alignX: start
+      {%- endcapture -%}
+      {%- assign listObj = listBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: listObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Add spacer before button {%- endcomment -%}
+    {%- assign planContentSections = planContentSections | push: smallSpacerObj -%}
+
+    {%- comment -%} Add CTA button {%- endcomment -%}
+    {%- if plan.buttonText and plan.buttonLink -%}
+      {%- assign buttonVariant = "ghost" -%}
+      {%- if plan.highlighted -%}
+        {%- assign buttonVariant = "normal" -%}
+      {%- endif -%}
+      {%- capture buttonBlock -%}
+_bookshop_name: building-blocks/core-elements/button
+content:
+    text: {{ plan.buttonText | stringifyFilter }}
+    link: {{ plan.buttonLink }}
+styles:
+    variant: {{ buttonVariant }}
+    size: md
+      {%- endcapture -%}
+      {%- assign buttonObj = buttonBlock | ymlify -%}
+      {%- assign planContentSections = planContentSections | push: buttonObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Wrap in card {%- endcomment -%}
+    {%- capture cardBlock -%}
+_bookshop_name: building-blocks/wrappers/card
+content:
+    contentSections:
+        {{ planContentSections | json }}
+styles:
+    paddingHorizontal: md
+    paddingVertical: lg
+    backgroundColor: surface
+    rounded: true
+    border: {% if plan.highlighted %}false{% else %}true{% endif %}
+    {%- endcapture -%}
+    {%- assign cardObj = cardBlock | ymlify -%}
+
+    {%- comment -%} Wrap in grid-item {%- endcomment -%}
+    {%- capture gridItemBlock -%}
+_bookshop_name: building-blocks/wrappers/grid/grid-item
+contentSections:
+    {{ cardObj | json | prepend: "[" | append: "]" }}
+    {%- endcapture -%}
+    {%- assign gridItemObj = gridItemBlock | ymlify -%}
+    {%- assign gridItems = gridItems | push: gridItemObj -%}
+  {%- endfor -%}
+
+  {%- comment -%} Build the grid wrapper {%- endcomment -%}
+  {%- capture gridBlock -%}
+_bookshop_name: building-blocks/wrappers/grid
+content:
+    items:
+        {{ gridItems | json }}
+styles:
+    layout: center
+    minItemWidth: 280
+    maxItemWidth: 380
+    gap: lg
+  {%- endcapture -%}
+  {%- assign gridObj = gridBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: gridObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 5xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

@@ -1,0 +1,78 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Divider"
+  description: Horizontal line separator with style options
+  icon: remove
+  tags: [alpha]
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: divider-280fbbfc-9414-40e8-9c95-ba89610185e1
+  variant: solid
+  width: full
+  thickness: thin
+  marginY: md
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  variant:
+    type: select
+    label: Style
+    comment: Visual style of the divider
+    options:
+      values:
+        - name: Solid
+          id: solid
+        - name: Dashed
+          id: dashed
+        - name: Dotted
+          id: dotted
+  width:
+    type: select
+    label: Width
+    comment: Width of the divider
+    options:
+      values:
+        - name: Full Width
+          id: full
+        - name: Three Quarters
+          id: 3/4
+        - name: Half
+          id: 1/2
+        - name: One Third
+          id: 1/3
+        - name: One Quarter
+          id: 1/4
+  thickness:
+    type: select
+    label: Thickness
+    comment: Thickness of the divider line
+    options:
+      values:
+        - name: Thin (1px)
+          id: thin
+        - name: Medium (2px)
+          id: medium
+        - name: Thick (4px)
+          id: thick
+  marginY:
+    type: select
+    label: Vertical Spacing
+    comment: Space above and below the divider
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
