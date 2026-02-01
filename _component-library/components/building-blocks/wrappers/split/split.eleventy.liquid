@@ -50,7 +50,7 @@
 {%- capture splitClasses -%}
   c-split {{ distributionClass | strip }} {{ gapClass | strip }} {{ alignClass | strip }}
   {%- if reverse %} c-split--reverse{% endif -%}
-  {%- if reverse and reverseOrderOnMobile %} c-split--reverse-mobile{% endif -%}
+  {%- if reverseOrderOnMobile %} c-split--reverse-mobile{% endif -%}
 {%- endcapture -%}
 
 <div

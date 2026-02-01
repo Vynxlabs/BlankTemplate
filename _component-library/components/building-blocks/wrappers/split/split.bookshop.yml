@@ -120,8 +120,7 @@ _inputs:
   reverseOrderOnMobile:
     type: switch
     label: Reverse on Mobile
-    comment: When reversed, flip order back on mobile for text-image pattern
-    hidden: "!styles.reverse"
+    comment: Reverse the column order when stacked on mobile
   gap:
     type: select
     label: Gap
