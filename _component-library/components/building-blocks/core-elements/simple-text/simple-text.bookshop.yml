@@ -1,0 +1,92 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Simple Text"
+  description: Single line text with inline markdown support
+  icon: short_text
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: simple-text-1c8646ad-649f-484b-b04d-2cbbb58ff2d9
+  content:
+    text: "My text goes here."
+  styles:
+    alignX: start
+    size: default
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  text:
+    type: markdown
+    label: Text
+    comment: Simple text with inline formatting only (bold, italic, links)
+    options:
+      link: true
+      blockquote: false
+      bold: true
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: false
+      numberedlist: false
+      indent: false
+      outdent: false
+      code: false
+      embed: false
+      horizontalrule: false
+      image: false
+      table: false
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      initial_height: 80
+  alignX:
+    type: choice
+    label: Alignment
+    comment: Horizontal alignment of the text
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Start
+          id: start
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: End
+          id: end
+          icon: format_align_right
+  size:
+    type: select
+    label: Font Size
+    comment: Size of the text
+    options:
+      values:
+        - name: Default
+          id: default
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+        - name: 3XL
+          id: 3xl
+        - name: 4XL
+          id: 4xl

@@ -497,6 +497,22 @@ _inputs:
           name: Secondary
         - id: accent
           name: Accent
+  backgroundColor:
+    type: select
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
   review:
     type: textarea
   headline:
@@ -641,6 +657,225 @@ _snippets:
               name: Blue Label
             - id: kbd
               name: Keyboard
+  simpleText:
+    template: eleventy_liquid_bookshop_component
+    inline: false
+    preview:
+      text: Simple Text
+    definitions:
+      component_name: building-blocks/core-elements/simple-text/snippet
+      named_args:
+        - editor_key: text
+          type: string
+        - editor_key: alignX
+          type: string
+        - editor_key: size
+          type: string
+    _inputs:
+      text:
+        type: markdown
+        label: Text
+        comment: Simple text with inline formatting only (bold, italic, links)
+        options:
+          link: true
+          blockquote: false
+          bold: true
+          italic: true
+          strike: true
+          subscript: true
+          superscript: true
+          underline: true
+          bulletedlist: false
+          numberedlist: false
+          indent: false
+          outdent: false
+          code: false
+          embed: false
+          horizontalrule: false
+          image: false
+          table: false
+          undo: true
+          redo: true
+          removeformat: true
+          copyformatting: true
+          initial_height: 80
+      alignX:
+        type: choice
+        label: Alignment
+        comment: Horizontal alignment of the text
+        options:
+          allow_empty: false
+          value_key: id
+          values:
+            - name: Start
+              id: start
+              icon: format_align_left
+            - name: Center
+              id: center
+              icon: format_align_center
+            - name: End
+              id: end
+              icon: format_align_right
+      size:
+        type: select
+        label: Font Size
+        comment: Size of the text
+        options:
+          values:
+            - name: Default
+              id: default
+            - name: Extra Small
+              id: xs
+            - name: Small
+              id: sm
+            - name: Medium
+              id: md
+            - name: Large
+              id: lg
+            - name: Extra Large
+              id: xl
+            - name: 2XL
+              id: 2xl
+            - name: 3XL
+              id: 3xl
+            - name: 4XL
+              id: 4xl
+  countdown:
+    template: eleventy_liquid_bookshop_component
+    inline: false
+    preview:
+      text: Countdown
+    definitions:
+      component_name: building-blocks/core-elements/countdown/snippet
+      named_args:
+        - editor_key: date
+          type: string
+        - editor_key: completionText
+          type: string
+        - editor_key: showLabels
+          type: string
+        - editor_key: showDays
+          type: string
+        - editor_key: showHours
+          type: string
+        - editor_key: showMinutes
+          type: string
+        - editor_key: showSeconds
+          type: string
+        - editor_key: variant
+          type: string
+        - editor_key: size
+          type: string
+        - editor_key: alignX
+          type: string
+        - editor_key: colorGroup
+          type: string
+        - editor_key: colorFromGroup
+          type: string
+    _inputs:
+      date:
+        type: datetime
+        label: Target Date
+        comment: The date and time to count down to
+        instance_value: NOW
+      completionText:
+        type: text
+        label: Completion Text
+        comment: Text shown when countdown reaches zero. If empty, timer stays at 0.
+      showLabels:
+        type: switch
+        label: Show Labels
+        comment: Toggle the unit labels (Days, Hours, etc.)
+      showDays:
+        type: switch
+        label: Show Days
+        comment: Show the days segment
+      showHours:
+        type: switch
+        label: Show Hours
+        comment: Show the hours segment
+      showMinutes:
+        type: switch
+        label: Show Minutes
+        comment: Show the minutes segment
+      showSeconds:
+        type: switch
+        label: Show Seconds
+        comment: Show the seconds segment
+      variant:
+        type: select
+        label: Variant
+        comment: Visual style of the countdown
+        options:
+          values:
+            - name: Simple
+              id: simple
+            - name: Boxed
+              id: boxed
+            - name: Separated
+              id: separated
+      size:
+        type: select
+        label: Size
+        comment: Overall size of the countdown
+        options:
+          values:
+            - name: Small
+              id: sm
+            - name: Medium
+              id: md
+            - name: Large
+              id: lg
+            - name: Extra Large
+              id: xl
+      alignX:
+        type: choice
+        label: Alignment
+        comment: Horizontal alignment of the countdown
+        options:
+          allow_empty: false
+          value_key: id
+          values:
+            - name: Start
+              id: start
+              icon: format_align_left
+            - name: Center
+              id: center
+              icon: format_align_center
+            - name: End
+              id: end
+              icon: format_align_right
+      colorGroup:
+        type: select
+        label: Color Group
+        comment: Which color group to use for styling
+        options:
+          allow_empty: false
+          value_key: id
+          preview:
+            text:
+              - key: name
+            icon:
+              - key: icon
+          values: data.theme..[?(@.primaryColor)]
+      colorFromGroup:
+        type: select
+        label: Color
+        comment: Which color from the group to use
+        options:
+          allow_empty: false
+          value_key: id
+          values:
+            - id: primary
+              name: Primary
+            - id: secondary
+              name: Secondary
+            - id: accent
+              name: Accent
+            - id: text
+              name: Text
+            - id: background
+              name: Background
 _select_data: {}
 _structures:
   extra_blocks:
@@ -654,6 +889,36 @@ _structures:
   editorial_blocks:
     style: modal
   hero_blocks:
+    style: modal
+  content_sections:
+    label: Content Blocks
+    comment: >-
+      Add content blocks inside wrappers like Card, Split, Grid, etc.
+    style: modal
+  grid_items:
+    label: Grid Items
+    comment: >-
+      Add items to display in a grid layout.
+    style: modal
+  accordion_items:
+    label: Accordion Items
+    comment: >-
+      Add expandable items to an accordion.
+    style: modal
+  button_items:
+    label: Buttons
+    comment: >-
+      Add buttons to a button group.
+    style: modal
+  carousel_slides:
+    label: Carousel Slides
+    comment: >-
+      Add slides to a carousel.
+    style: modal
+  content_selector_items:
+    label: Tab Panels
+    comment: >-
+      Add tab panels to a content selector.
     style: modal
   links:
     style: select

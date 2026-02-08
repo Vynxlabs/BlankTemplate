@@ -1,0 +1,30 @@
+.c-button-group {
+  // Stretch variant - buttons fill available space
+  &--stretch {
+    > * {
+      flex: 1;
+    }
+
+    // For column direction, ensure full width
+    &.flex-col > * {
+      width: 100%;
+    }
+  }
+
+  // Ensure buttons align properly in column layout
+  &.flex-col {
+    align-items: stretch;
+
+    &:not(.c-button-group--stretch) {
+      align-items: flex-start;
+    }
+
+    &.justify-center:not(.c-button-group--stretch) {
+      align-items: center;
+    }
+
+    &.justify-end:not(.c-button-group--stretch) {
+      align-items: flex-end;
+    }
+  }
+}

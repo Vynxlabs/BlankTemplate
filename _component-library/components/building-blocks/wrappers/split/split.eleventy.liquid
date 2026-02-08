@@ -1,0 +1,75 @@
+{%- comment -%}
+  Split - Wrapper component
+  Two-column layout with flexible distribution modes
+{%- endcomment -%}
+
+{%- assign firstColumn = content.firstColumnContentSections -%}
+{%- assign secondColumn = content.secondColumnContentSections -%}
+
+{%- assign distributionMode = styles.distributionMode | default: "half" -%}
+{%- assign fixedWidth = styles.fixedWidth | default: 300 -%}
+{%- assign minSplitWidth = styles.minSplitWidth | default: 768 -%}
+{%- assign verticalAlignment = styles.verticalAlignment | default: "center" -%}
+{%- assign reverse = styles.reverse | default: false -%}
+{%- assign reverseOrderOnMobile = styles.reverseOrderOnMobile | default: false -%}
+{%- assign gap = styles.gap | default: "lg" -%}
+
+{%- capture gapClass -%}
+  {%- case gap -%}
+    {%- when "xs" -%}gap-2
+    {%- when "sm" -%}gap-4
+    {%- when "md" -%}gap-6
+    {%- when "lg" -%}gap-8
+    {%- when "xl" -%}gap-10
+    {%- when "2xl" -%}gap-12
+    {%- when "3xl" -%}gap-16
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture alignClass -%}
+  {%- case verticalAlignment -%}
+    {%- when "top" -%}items-start
+    {%- when "center" -%}items-center
+    {%- when "bottom" -%}items-end
+    {%- when "stretch" -%}items-stretch
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture distributionClass -%}
+  {%- case distributionMode -%}
+    {%- when "quarter-three-quarters" -%}c-split--quarter-three-quarters
+    {%- when "third-two-thirds" -%}c-split--third-two-thirds
+    {%- when "half" -%}c-split--half
+    {%- when "two-thirds-third" -%}c-split--two-thirds-third
+    {%- when "three-quarters-quarter" -%}c-split--three-quarters-quarter
+    {%- when "fixed-flexible" -%}c-split--fixed-flexible
+    {%- when "flexible-fixed" -%}c-split--flexible-fixed
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture splitClasses -%}
+  c-split {{ distributionClass | strip }} {{ gapClass | strip }} {{ alignClass | strip }}
+  {%- if reverse %} c-split--reverse{% endif -%}
+  {%- if reverseOrderOnMobile %} c-split--reverse-mobile{% endif -%}
+{%- endcapture -%}
+
+<div
+  class="{{ splitClasses | strip | normalize_whitespace }}"
+  style="--split-min-width: {{ minSplitWidth }}px; --split-fixed-width: {{ fixedWidth }}px;"
+>
+  <div class="c-split__column c-split__column--first">
+    {%- if firstColumn.size > 0 -%}
+      {% bookshop_include "renderBlocks" blocks: firstColumn %}
+    {%- else -%}
+      <p class="text-gray-400 italic">Add content to the first column</p>
+    {%- endif -%}
+  </div>
+
+  <div class="c-split__column c-split__column--second">
+    {%- if secondColumn.size > 0 -%}
+      {% bookshop_include "renderBlocks" blocks: secondColumn %}
+    {%- else -%}
+      <p class="text-gray-400 italic">Add content to the second column</p>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,160 @@
+{%- comment -%}
+  Base Section - Page section component
+  Composable foundation section with background, padding, and layout options
+{%- endcomment -%}
+
+{%- assign sectionId = content.sectionId -%}
+{%- assign contentSections = content.contentSections -%}
+
+{%- assign color_group = styles.color_group | default: "primary" -%}
+{%- assign height = styles.height | default: "content" -%}
+{%- assign paddingTop = styles.paddingTop | default: "lg" -%}
+{%- assign paddingBottom = styles.paddingBottom | default: "lg" -%}
+{%- assign paddingHorizontal = styles.paddingHorizontal | default: "md" -%}
+{%- assign maxContentWidth = styles.maxContentWidth | default: "6xl" -%}
+{%- assign verticalAlignment = styles.verticalAlignment | default: "center" -%}
+{%- assign horizontalAlignment = styles.horizontalAlignment | default: "center" -%}
+{%- assign backgroundImage = styles.backgroundImage -%}
+{%- assign backgroundOpacity = styles.backgroundOpacity | default: 50 -%}
+{%- assign backgroundColor = styles.backgroundColor | default: "none" -%}
+{%- assign topPartialColor = styles.topPartialColor -%}
+{%- assign topPartialHeight = styles.topPartialHeight | default: 0 -%}
+{%- assign bottomPartialColor = styles.bottomPartialColor -%}
+{%- assign bottomPartialHeight = styles.bottomPartialHeight | default: 0 -%}
+{%- assign backgroundComponent = styles.backgroundComponent -%}
+
+{%- capture heightClass -%}
+  {%- case height -%}
+    {%- when "content" -%}
+    {%- when "half" -%}min-h-[50vh]
+    {%- when "two-thirds" -%}min-h-[66vh]
+    {%- when "full" -%}min-h-screen
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture paddingTopClass -%}
+  {%- case paddingTop -%}
+    {%- when "none" -%}pt-0
+    {%- when "sm" -%}pt-8
+    {%- when "md" -%}pt-12
+    {%- when "lg" -%}pt-16 md:pt-20
+    {%- when "xl" -%}pt-20 md:pt-28
+    {%- when "2xl" -%}pt-28 md:pt-36
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture paddingBottomClass -%}
+  {%- case paddingBottom -%}
+    {%- when "none" -%}pb-0
+    {%- when "sm" -%}pb-8
+    {%- when "md" -%}pb-12
+    {%- when "lg" -%}pb-16 md:pb-20
+    {%- when "xl" -%}pb-20 md:pb-28
+    {%- when "2xl" -%}pb-28 md:pb-36
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture paddingHorizontalClass -%}
+  {%- case paddingHorizontal -%}
+    {%- when "none" -%}px-0
+    {%- when "sm" -%}px-4
+    {%- when "md" -%}px-6 md:px-8
+    {%- when "lg" -%}px-8 md:px-12
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture maxWidthClass -%}
+  {%- case maxContentWidth -%}
+    {%- when "sm" -%}max-w-screen-sm
+    {%- when "md" -%}max-w-screen-md
+    {%- when "lg" -%}max-w-screen-lg
+    {%- when "xl" -%}max-w-screen-xl
+    {%- when "2xl" -%}max-w-screen-2xl
+    {%- when "3xl" -%}max-w-[1600px]
+    {%- when "4xl" -%}max-w-[1800px]
+    {%- when "5xl" -%}max-w-[2000px]
+    {%- when "6xl" -%}max-w-[2200px]
+    {%- when "full" -%}max-w-full
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture verticalAlignClass -%}
+  {%- case verticalAlignment -%}
+    {%- when "start" -%}justify-start
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture horizontalAlignClass -%}
+  {%- case horizontalAlignment -%}
+    {%- when "start" -%}items-start
+    {%- when "center" -%}items-center
+    {%- when "end" -%}items-end
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture bgPositionClass -%}
+  {%- if backgroundImage.source -%}
+    {%- case backgroundImage.positionVertical -%}
+      {%- when "top" -%}object-top
+      {%- when "bottom" -%}object-bottom
+      {%- else -%}object-center
+    {%- endcase -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<section
+  class="c-base-section componentcontainer relative overflow-hidden {{ heightClass | strip }} {{ bgColorClass | strip }} text-{{styles.color_group}}-textcolor  bg-{{styles.color_group}}-backgroundcolor"
+>
+  {% if content.sectionId %}
+    {% bookshop "util/IdScrollEvent" sectionId: sectionId %}
+  {% endif %}
+  {%- comment -%} Top Partial Color {%- endcomment -%}
+  {%- if topPartialColor and topPartialHeight > 0 -%}
+    <div
+      class="c-base-section__partial c-base-section__partial--top absolute top-0 left-0 right-0 z-0"
+      style="background-color: {{ topPartialColor }}; height: {{ topPartialHeight }}%;"
+    ></div>
+  {%- endif -%}
+
+  {%- comment -%} Bottom Partial Color {%- endcomment -%}
+  {%- if bottomPartialColor and bottomPartialHeight > 0 -%}
+    <div
+      class="c-base-section__partial c-base-section__partial--bottom absolute bottom-0 left-0 right-0 z-0"
+      style="background-color: {{ bottomPartialColor }}; height: {{ bottomPartialHeight }}%;"
+    ></div>
+  {%- endif -%}
+
+  {%- comment -%} Background Image with Overlay {%- endcomment -%}
+  {%- if backgroundImage.source -%}
+    {%- capture bgImageClass -%}w-full h-full object-cover {{ bgPositionClass | strip }}{%- endcapture -%}
+    <div class="c-base-section__bg absolute inset-0 z-0">
+      {% bookshop "generic/image" imagePath: backgroundImage.source, imageAlt: backgroundImage.alt, class: bgImageClass %}
+      {%- if backgroundOpacity > 0 -%}
+        <div
+          class="absolute inset-0 bg-black"
+          style="opacity: {{ backgroundOpacity | divided_by: 100.0 }};"
+        ></div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Background Component {%- endcomment -%}
+  {%- if backgroundComponent._bookshop_name -%}
+    <div class="c-base-section__bg-component absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {% bookshop "{{backgroundComponent._bookshop_name}}" bind: backgroundComponent %}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Content Container {%- endcomment -%}
+  <div class="c-base-section__container basecontainer w-full relative z-10 flex flex-col {{ heightClass | strip }} {{ verticalAlignClass | strip }} {{ horizontalAlignClass | strip }} {{ paddingTopClass | strip }} {{ paddingBottomClass | strip }} {{ paddingHorizontalClass | strip }}">
+    <div class="c-base-section__content w-full {{ maxWidthClass | strip }} mx-auto">
+      {%- if contentSections.size > 0 -%}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
+      {%- else -%}
+        <p class="text-gray-400 italic text-center">Add content to this section</p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>

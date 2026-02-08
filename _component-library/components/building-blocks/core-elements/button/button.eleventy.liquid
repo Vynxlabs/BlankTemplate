@@ -1,0 +1,50 @@
+{%- comment -%}
+  Button - Core element component
+  Renders a styled button/link with icon and variant options
+{%- endcomment -%}
+
+{%- assign colorGroup = styles.colorGroup | default: "primary" -%}
+{%- assign colorFromGroup = styles.colorFromGroup | default: "primary" -%}
+{%- assign variant = styles.variant | default: "normal" -%}
+{%- assign size = styles.size | default: "md" -%}
+
+{%- capture sizeClasses -%}
+  {%- case size -%}
+    {%- when "sm" -%}px-2 py-1 text-xs
+    {%- when "lg" -%}px-5 py-3 text-base
+    {%- else -%}px-3 py-2 text-sm
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture variantClasses -%}
+  {%- case variant -%}
+    {%- when "ghost" -%}
+      border-2 border-{{ colorGroup }}-{{ colorFromGroup }}color text-{{ colorGroup }}-{{ colorFromGroup }}color bg-transparent hover:bg-{{ colorGroup }}-{{ colorFromGroup }}color hover:text-{{ colorGroup }}-highcontrast-{{ colorFromGroup }}color
+    {%- when "text" -%}
+      text-{{ colorGroup }}-{{ colorFromGroup }}color bg-transparent hover:underline
+    {%- else -%}
+      bg-{{ colorGroup }}-{{ colorFromGroup }}color text-{{ colorGroup }}-highcontrast-{{ colorFromGroup }}color
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture buttonClasses -%}
+  c-button max-w-fit inline-flex items-center justify-center gap-2 font-bold uppercase {{ theme.button_rounding }} transition-all hover:scale-105 {{ sizeClasses | strip }} {{ variantClasses | strip }}
+{%- endcapture -%}
+
+<a
+  href="{{ content.link | default: '#' }}"
+  class=" {{ buttonClasses | strip }}"
+  data-contrast="true"
+>
+  {%- if content.iconName and content.iconPosition == "before" -%}
+    {% bookshop "building-blocks/core-elements/icon" content: { name: content.iconName } styles: { size: "sm", background: false } %}
+  {%- endif -%}
+
+  {%- unless content.hideText -%}
+    {{ content.text | default: "Button" }}
+  {%- endunless -%}
+
+  {%- if content.iconName and content.iconPosition == "after" -%}
+    {% bookshop "building-blocks/core-elements/icon" content: { name: content.iconName } styles: { size: "sm", background: false } %}
+  {%- endif -%}
+</a>

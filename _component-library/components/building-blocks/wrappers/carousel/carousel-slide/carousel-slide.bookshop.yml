@@ -1,0 +1,38 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - carousel_slides
+  label: "Carousel Slide"
+  description: Individual slide within a carousel
+  icon: crop_landscape
+  tags: []
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: carousel-slide-ccfe1fd6-c720-4b11-abd1-ad474f24e0a9
+  slideContentSections:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  contentSections:
+    - _bookshop_name: building-blocks/core-elements/heading
+      content:
+        text: Carousel Slide
+        level: h3
+      styles:
+        size: lg
+        alignX: center
+    - _bookshop_name: building-blocks/core-elements/text
+      content:
+        text: Content for this carousel slide.
+      styles:
+        alignX: center
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  slideContentSections:
+    type: array
+    label: Content
+    comment: Content sections for this slide
+    options:
+      structures: _structures.content_sections

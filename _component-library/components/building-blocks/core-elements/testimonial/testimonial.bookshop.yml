@@ -1,0 +1,61 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Testimonial"
+  description: Quote with author attribution and optional star rating
+  icon: format_quote
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: testimonial-fd309e11-c801-4753-b8e4-70ef92b470e3
+  content:
+    text: "My testimonial text."
+    authorName: "Charlie Parker"
+    authorDescription: "Author"
+    authorImage:
+    fiveStarRating: false
+  styles:
+    alignX: start
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  text:
+    type: textarea
+    label: Quote
+    comment: The testimonial text (quotation marks will be added automatically)
+  authorName:
+    type: text
+    label: Author Name
+    comment: The person giving the testimonial
+  authorDescription:
+    type: text
+    label: Author Title/Role
+    comment: The role, company, or description of the author
+  authorImage:
+    type: image
+    label: Author Photo
+    comment: Optional photo of the author
+  fiveStarRating:
+    type: switch
+    label: Show 5-Star Rating
+    comment: Display a 5-star rating above the quote
+  alignX:
+    type: choice
+    label: Alignment
+    comment: Horizontal alignment of the testimonial
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Start
+          id: start
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center

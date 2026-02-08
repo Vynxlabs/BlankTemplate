@@ -1,0 +1,45 @@
+{%- comment -%}
+  Icon - Core element component
+  Hero icon with size and color options
+{%- endcomment -%}
+
+{%- assign iconName = content.name | default: "star" -%}
+{%- assign iconType = content.type | default: "solid" -%}
+{%- assign size = styles.size | default: "md" -%}
+{%- assign color = styles.color -%}
+{%- assign useThemeColor = styles.useThemeColor | default: false -%}
+
+{%- assign iconPath = "/assets/images/icons/" | append: iconType | append: "/" | append: iconName | append: '.svg' -%}
+
+{%- capture sizeClass -%}
+  {%- case size -%}
+    {%- when "xs" -%}w-3 h-3
+    {%- when "sm" -%}w-4 h-4
+    {%- when "md" -%}w-6 h-6
+    {%- when "lg" -%}w-8 h-8
+    {%- when "xl" -%}w-12 h-12
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture colorClass -%}
+  {%- if iconType == 'solid' -%}
+    {%- if useThemeColor -%}fill-current{% else %}c-icon__svg--fill{% endif -%}
+  {%- else -%}
+    {%- if useThemeColor -%}stroke-current{% else %}c-icon__svg--stroke{% endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture svgClasses -%}
+  {{ colorClass | strip }} w-full h-full
+{%- endcapture -%}
+
+<span
+  class="c-icon c-icon--{{ iconType }} inline-flex items-center justify-center shrink-0 {{ sizeClass | strip }}"
+  {% unless useThemeColor %}style="--c-icon-color: {{ color | default: 'currentColor' }}"{% endunless %}
+>
+  {%- if env_bookshop_live -%}
+    <span class="w-full h-full bg-contain bg-center bg-no-repeat" style="background-image: url('{{ iconPath }}')"></span>
+  {%- else -%}
+    {{ '/src' | append: iconPath | svgContents: svgClasses }}
+  {%- endif -%}
+</span>

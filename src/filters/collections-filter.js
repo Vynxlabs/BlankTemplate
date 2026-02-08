@@ -16,6 +16,10 @@ module.exports = (collection, item, collectionTags, tags = [], limit = 50) => {
         }
     }
 
+    filteredItems.sort((a, b) => {
+        return a.data.title.localeCompare(b.data.title);
+    });
+
     if (limit === null || limit <= 0) {
         limit = 50;
     }
@@ -26,4 +30,3 @@ module.exports = (collection, item, collectionTags, tags = [], limit = 50) => {
 
     return filteredItems;
 }
-

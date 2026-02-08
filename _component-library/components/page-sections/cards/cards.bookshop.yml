@@ -1,0 +1,150 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Cards Section"
+  description: Grid of cards with images, titles, descriptions, and optional links
+  icon: grid_view
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: cards-65b77704-1bd5-476e-a5a0-c909f8aac3ea
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Our Features"
+    description: "Discover what makes us different."
+    cards:
+      - image:
+          source:
+          alt:
+        title: "Card Title"
+        description: "Card description goes here."
+        link:
+        linkText: "Learn More"
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Features"
+    heading: "Why Choose Us"
+    description: "We offer the best solutions for your needs."
+    cards:
+      - image:
+          source: /images/tree.jpg
+          alt: Feature 1
+        title: "Fast Performance"
+        description: "Lightning-fast loading speeds and optimized code."
+        link: "#"
+        linkText: "Learn More"
+      - image:
+          source: /images/tree.jpg
+          alt: Feature 2
+        title: "Easy to Use"
+        description: "Intuitive interface that anyone can master."
+        link: "#"
+        linkText: "Learn More"
+      - image:
+          source: /images/tree.jpg
+          alt: Feature 3
+        title: "Secure & Reliable"
+        description: "Enterprise-grade security for peace of mind."
+        link: "#"
+        linkText: "Learn More"
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  cards:
+    type: array
+    label: Cards
+    comment: Cards to display in the grid
+  cards[*]:
+    type: object
+    label: Card
+    options:
+      preview:
+        text:
+          - key: title
+        subtext:
+          - key: description
+        image:
+          - key: image.source
+  cards[*].image:
+    type: object
+    label: Image
+  cards[*].image.source:
+    type: image
+    label: Image
+  cards[*].image.alt:
+    type: text
+    label: Alt Text
+  cards[*].title:
+    type: text
+    label: Title
+  cards[*].description:
+    type: textarea
+    label: Description
+  cards[*].link:
+    type: url
+    label: Link URL
+  cards[*].linkText:
+    type: text
+    label: Link Text
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

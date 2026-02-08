@@ -1,0 +1,168 @@
+{%- comment -%}
+  Feature Section - Abstraction layer that builds contentSections for base-section
+  Feature highlight section with icon-based feature grid
+{%- endcomment -%}
+
+{%- assign columns = styles.columns | default: 3 -%}
+
+{%- comment -%} Calculate min width based on columns {%- endcomment -%}
+{%- assign minItemWidth = 280 -%}
+{%- if columns == 2 -%}
+  {%- assign minItemWidth = 400 -%}
+{%- elsif columns == 4 -%}
+  {%- assign minItemWidth = 220 -%}
+{%- endif -%}
+
+{%- comment -%} Initialize empty array for content sections {%- endcomment -%}
+{%- assign builtContentSections = "" | split: "" -%}
+
+{%- comment -%} Add badge if provided {%- endcomment -%}
+{%- if content.badge -%}
+  {%- capture badgeBlock -%}
+_bookshop_name: building-blocks/core-elements/badge
+content:
+    text: {{ content.badge | stringifyFilter }}
+styles:
+    variant: soft
+    size: md
+  {%- endcapture -%}
+  {%- assign badgeObj = badgeBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: badgeObj -%}
+{%- endif -%}
+
+{%- comment -%} Add heading if provided {%- endcomment -%}
+{%- if content.heading -%}
+  {%- capture headingBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ content.heading | stringifyFilter }}
+    level: h2
+styles:
+    size: 2xl
+    alignX: center
+  {%- endcapture -%}
+  {%- assign headingObj = headingBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: headingObj -%}
+{%- endif -%}
+
+{%- comment -%} Add description if provided {%- endcomment -%}
+{%- if content.description -%}
+  {%- capture descBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ content.description | stringifyFilter }}
+styles:
+    alignX: center
+  {%- endcapture -%}
+  {%- assign descObj = descBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: descObj -%}
+{%- endif -%}
+
+{%- comment -%} Add spacer between header and features {%- endcomment -%}
+{%- if content.badge or content.heading or content.description -%}
+  {%- capture spacerBlock -%}
+_bookshop_name: building-blocks/core-elements/spacer
+size: lg
+  {%- endcapture -%}
+  {%- assign spacerObj = spacerBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: spacerObj -%}
+{%- endif -%}
+
+{%- comment -%} Build features grid if features exist {%- endcomment -%}
+{%- if content.features.size > 0 -%}
+  {%- comment -%} Build grid items array {%- endcomment -%}
+  {%- assign gridItems = "" | split: "" -%}
+
+  {%- for feature in content.features -%}
+    {%- comment -%} Build feature content sections {%- endcomment -%}
+    {%- assign featureContentSections = "" | split: "" -%}
+
+    {%- if feature.icon -%}
+      {%- capture iconBlock -%}
+_bookshop_name: building-blocks/core-elements/icon
+content:
+    name: {{ feature.icon }}
+    type: solid
+styles:
+    size: xl
+    useThemeColor: true
+      {%- endcapture -%}
+      {%- assign iconObj = iconBlock | ymlify -%}
+      {%- assign featureContentSections = featureContentSections | push: iconObj -%}
+    {%- endif -%}
+
+    {%- if feature.title -%}
+      {%- capture titleBlock -%}
+_bookshop_name: building-blocks/core-elements/heading
+content:
+    text: {{ feature.title | stringifyFilter }}
+    level: h3
+styles:
+    size: lg
+    alignX: start
+      {%- endcapture -%}
+      {%- assign titleObj = titleBlock | ymlify -%}
+      {%- assign featureContentSections = featureContentSections | push: titleObj -%}
+    {%- endif -%}
+
+    {%- if feature.description -%}
+      {%- capture featureDescBlock -%}
+_bookshop_name: building-blocks/core-elements/text
+content:
+    text: {{ feature.description | stringifyFilter }}
+styles:
+    alignX: start
+      {%- endcapture -%}
+      {%- assign featureDescObj = featureDescBlock | ymlify -%}
+      {%- assign featureContentSections = featureContentSections | push: featureDescObj -%}
+    {%- endif -%}
+
+    {%- comment -%} Wrap feature in grid-item {%- endcomment -%}
+    {%- capture gridItemBlock -%}
+_bookshop_name: building-blocks/wrappers/grid/grid-item
+contentSections:
+    {{ featureContentSections | json }}
+    {%- endcapture -%}
+    {%- assign gridItemObj = gridItemBlock | ymlify -%}
+    {%- assign gridItems = gridItems | push: gridItemObj -%}
+  {%- endfor -%}
+
+  {%- comment -%} Build the grid wrapper {%- endcomment -%}
+  {%- capture gridBlock -%}
+_bookshop_name: building-blocks/wrappers/grid
+content:
+    items:
+        {{ gridItems | json }}
+styles:
+    layout: center
+    minItemWidth: {{ minItemWidth }}
+    maxItemWidth: 500
+    gap: lg
+  {%- endcapture -%}
+  {%- assign gridObj = gridBlock | ymlify -%}
+  {%- assign builtContentSections = builtContentSections | push: gridObj -%}
+{%- endif -%}
+
+{%- comment -%} Build base-section data object {%- endcomment -%}
+{%- capture baseSectionData -%}
+content:
+    sectionId: {{ content.sectionId | stringifyFilter }}
+    contentSections:
+        {{ builtContentSections | json }}
+styles:
+    color_group: {{ styles.color_group | default: "primary" }}
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 6xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+        {{ styles.backgroundImage | json }}
+    backgroundOpacity: 50
+{%- endcapture -%}
+{%- assign baseSectionObj = baseSectionData | ymlify -%}
+
+{%- comment -%} Render via base-section {%- endcomment -%}
+{% bookshop "page-sections/base-section" bind: baseSectionObj %}

@@ -1,0 +1,106 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "CTA Section"
+  description: Call-to-action section with heading, description, and prominent buttons
+  icon: ads_click
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: cta-975665d2-f3a2-44a8-8eda-ddbadeb1f91f
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "Ready to Get Started?"
+    description: "Take the next step and join thousands of satisfied customers."
+    buttons:
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Limited Time"
+    heading: "Start Your Free Trial Today"
+    description: "No credit card required. Cancel anytime. Get full access to all features for 14 days."
+    buttons:
+      - _bookshop_name: building-blocks/core-elements/button
+        content:
+          text: "Start Free Trial"
+          link: "#"
+        styles:
+          variant: normal
+          size: md
+      - _bookshop_name: building-blocks/core-elements/button
+        content:
+          text: "Learn More"
+          link: "#"
+        styles:
+          variant: ghost
+          size: md
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Main call-to-action headline
+  description:
+    type: markdown
+    label: Description
+    comment: Supporting text that reinforces the call-to-action
+  buttons:
+    type: array
+    label: Buttons
+    comment: Call-to-action buttons
+    options:
+      structures: _structures.button_items
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

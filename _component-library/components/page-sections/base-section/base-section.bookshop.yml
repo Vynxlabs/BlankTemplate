@@ -1,0 +1,288 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+    - hero_blocks
+  label: "Base Section"
+  description: Composable foundation section with background, padding, and layout options
+  icon: layers
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: base-section-2add31ca-afd4-40e8-8e20-7085e953a50c
+  content:
+    label:
+    sectionId:
+    contentSections:
+  styles:
+    color_group: primary
+    height: content
+    paddingTop: lg
+    paddingBottom: lg
+    paddingHorizontal: md
+    maxContentWidth: 6xl
+    verticalAlignment: center
+    horizontalAlignment: center
+    backgroundImage:
+      source:
+      alt:
+      positionVertical: center
+      positionHorizontal: center
+    backgroundOpacity: 50
+    backgroundColor: background
+    topPartialColor:
+    topPartialHeight: 0
+    bottomPartialColor:
+    bottomPartialHeight: 0
+    backgroundComponent:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    contentSections:
+      - _bookshop_name: building-blocks/core-elements/heading
+        content:
+          text: Base Section
+          level: h2
+        styles:
+          size: 2xl
+          alignX: center
+      - _bookshop_name: building-blocks/core-elements/text
+        content:
+          text: This is a base section with composable content. Add any core elements or wrappers inside.
+        styles:
+          alignX: center
+  styles:
+    color_group: primary
+    paddingTop: lg
+    paddingBottom: lg
+    maxContentWidth: 4xl
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section (e.g., example.com/#sectionId)
+  contentSections:
+    type: array
+    label: Content
+    comment: Content blocks to display in this section
+    options:
+      structures: _structures.content_sections
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  height:
+    type: select
+    label: Section Height
+    options:
+      values:
+        - name: Content (auto)
+          id: content
+        - name: Half Screen (50vh)
+          id: half
+        - name: Two-Thirds Screen (66vh)
+          id: two-thirds
+        - name: Full Screen (100vh)
+          id: full
+  paddingTop:
+    type: select
+    label: Top Padding
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+  paddingBottom:
+    type: select
+    label: Bottom Padding
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+  paddingHorizontal:
+    type: select
+    label: Horizontal Padding
+    options:
+      values:
+        - name: None
+          id: none
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+  maxContentWidth:
+    type: select
+    label: Max Content Width
+    options:
+      values:
+        - name: Small (640px)
+          id: sm
+        - name: Medium (768px)
+          id: md
+        - name: Large (1024px)
+          id: lg
+        - name: Extra Large (1280px)
+          id: xl
+        - name: 2XL (1536px)
+          id: 2xl
+        - name: 3XL (1600px)
+          id: 3xl
+        - name: 4XL (1800px)
+          id: 4xl
+        - name: 5XL (2000px)
+          id: 5xl
+        - name: 6XL (2200px)
+          id: 6xl
+        - name: Full Width
+          id: full
+  verticalAlignment:
+    type: select
+    label: Vertical Alignment
+    comment: Alignment of content within the section height
+    options:
+      values:
+        - name: Top
+          id: start
+        - name: Center
+          id: center
+        - name: Bottom
+          id: end
+  horizontalAlignment:
+    type: select
+    label: Horizontal Alignment
+    options:
+      values:
+        - name: Left
+          id: start
+        - name: Center
+          id: center
+        - name: Right
+          id: end
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text
+  backgroundImage.positionVertical:
+    type: select
+    label: Vertical Position
+    options:
+      values:
+        - name: Top
+          id: top
+        - name: Center
+          id: center
+        - name: Bottom
+          id: bottom
+  backgroundImage.positionHorizontal:
+    type: select
+    label: Horizontal Position
+    options:
+      values:
+        - name: Left
+          id: left
+        - name: Center
+          id: center
+        - name: Right
+          id: right
+  backgroundOpacity:
+    type: range
+    label: Background Overlay Opacity
+    comment: Darkness of overlay on background image (0 = no overlay)
+    options:
+      min: 0
+      max: 100
+      step: 5
+  backgroundColor:
+    type: select
+    label: Background Color
+    options:
+      value_key: id
+      values:
+        - id: text
+          name: Text
+        - id: background
+          name: Background
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
+  topPartialColor:
+    type: color
+    label: Top Partial Color
+    comment: Decorative color block at top of section
+  topPartialHeight:
+    type: range
+    label: Top Partial Height (%)
+    options:
+      min: 0
+      max: 50
+      step: 5
+  bottomPartialColor:
+    type: color
+    label: Bottom Partial Color
+    comment: Decorative color block at bottom of section
+  bottomPartialHeight:
+    type: range
+    label: Bottom Partial Height (%)
+    options:
+      min: 0
+      max: 50
+      step: 5
+  backgroundComponent:
+    type: object
+    label: Background Component
+    comment: Optional interactive/animated background element
+    options:
+      structures: _structures.content_sections

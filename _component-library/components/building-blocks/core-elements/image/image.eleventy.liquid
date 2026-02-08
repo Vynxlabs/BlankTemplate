@@ -1,0 +1,57 @@
+{%- comment -%}
+  Image - Core element component
+  Renders an optimized image with optional aspect ratio and positioning
+{%- endcomment -%}
+
+{%- assign imagePath = content.source | pathExists -%}
+{%- assign imageAlt = content.alt | default: "" -%}
+
+{%- capture aspectClass -%}
+  {%- case styles.aspectRatio -%}
+    {%- when "square" -%}aspect-square
+    {%- when "landscape" -%}aspect-[4/3]
+    {%- when "portrait" -%}aspect-[3/4]
+    {%- when "widescreen" -%}aspect-video
+    {%- when "horizontal-strip" -%}aspect-[3/1]
+    {%- else -%}
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture positionClass -%}
+  {%- if styles.aspectRatio != "none" -%}
+    object-cover
+    {%- case styles.positionVertical -%}
+      {%- when "top" -%} object-top
+      {%- when "bottom" -%} object-bottom
+      {%- else -%} object-center
+    {%- endcase -%}
+    {%- case styles.positionHorizontal -%}
+      {%- when "left" -%} object-left
+      {%- when "right" -%} object-right
+    {%- endcase -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if imagePath and imagePath != "" -%}
+  {%- if styles.aspectRatio != "none" -%}
+    <div class="c-image {{ aspectClass | strip }} overflow-hidden">
+  {%- endif -%}
+
+  {%- if env_bookshop_live or meta.env == 'cloudcannon' or imagePath contains '.gif' -%}
+    <picture>
+      <img
+        class="w-full h-full {{ positionClass | strip }}"
+        src="{{ imagePath }}"
+        alt="{{ imageAlt }}"
+        loading="lazy"
+      >
+    </picture>
+  {%- else -%}
+    {%- capture imageClasses -%}w-full h-auto {{ positionClass | strip }} {{theme.image_rounding}}{%- endcapture -%}
+    {% image imagePath, imageAlt, imageClasses, "100vw", "" %}
+  {%- endif -%}
+
+  {%- if styles.aspectRatio != "none" -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

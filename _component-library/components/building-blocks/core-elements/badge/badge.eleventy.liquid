@@ -1,0 +1,50 @@
+{%- comment -%}
+  Badge - Core element component
+  Small label or tag element with icon support
+{%- endcomment -%}
+
+{%- assign text = content.text | default: "Badge" -%}
+{%- assign icon = content.icon -%}
+{%- assign variant = styles.variant | default: "filled" -%}
+{%- assign size = styles.size | default: "md" -%}
+{%- assign color = styles.color | default: "gray" -%}
+
+{%- capture sizeClass -%}
+  {%- case size -%}
+    {%- when "sm" -%}c-badge--sm
+    {%- when "md" -%}c-badge--md
+    {%- when "lg" -%}c-badge--lg
+  {%- endcase -%}
+{%- endcapture -%}
+
+<span class="c-badge c-badge--{{ variant }} c-badge--{{ color }} {{ sizeClass | strip }}">
+  {%- if icon -%}
+    <span class="c-badge__icon">
+      {%- case icon -%}
+        {%- when "check" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg>
+        {%- when "x-mark" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg>
+        {%- when "star" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" /></svg>
+        {%- when "heart" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" /></svg>
+        {%- when "bolt" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.907a.75.75 0 00-1.292-.657l-8.5 9.5A.75.75 0 002.75 12h6.572l-1.305 6.093a.75.75 0 001.292.657l8.5-9.5A.75.75 0 0017.25 8h-6.572l1.305-6.093z" /></svg>
+        {%- when "fire" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M13.5 4.938a7 7 0 11-9.006 1.737c.202-.257.59-.218.793.039.278.352.594.672.943.954.332.269.786-.049.773-.476a5.977 5.977 0 01.572-2.759 6.026 6.026 0 012.486-2.665c.247-.14.55-.016.677.238A6.967 6.967 0 0013.5 4.938zM14 12a4 4 0 01-4 4c-1.913 0-3.52-1.398-3.91-3.182-.093-.429.44-.643.814-.413a4.043 4.043 0 001.601.564c.303.038.531-.24.51-.544a5.975 5.975 0 011.315-4.192.447.447 0 01.431-.16A4.001 4.001 0 0114 12z" clip-rule="evenodd" /></svg>
+        {%- when "sparkles" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.001 7.82L10 8a3 3 0 100-6V.192c.052.094.139.171.224.255.113.108.226.218.326.351a2.077 2.077 0 01.399 1.133c.018.357-.038.693-.207.945-.084.127-.182.267-.293.416a6.044 6.044 0 00-.385.61c-.146.27-.258.562-.313.859a3.085 3.085 0 00.068 1.054l.001.001zM16.5 10c0 .166-.015.33-.044.493a4.088 4.088 0 01-1.17 2.305c-.37.365-.817.665-1.296.88a3.93 3.93 0 01-1.49.298c-.485 0-.95-.09-1.378-.267a4.08 4.08 0 01-1.204-.752 3.94 3.94 0 01-.83-1.173 4.018 4.018 0 01-.31-1.288c-.02-.167-.032-.337-.032-.508 0-.167.01-.332.032-.495.047-.327.13-.643.247-.943a4.068 4.068 0 01.652-1.108 4.067 4.067 0 011.003-.867c.394-.237.831-.408 1.293-.5A4.1 4.1 0 0114.5 6a3.94 3.94 0 011.142.168c.38.112.737.28 1.062.497a4.01 4.01 0 01.869.818c.247.316.448.668.592 1.04.144.37.238.763.277 1.166.024.213.038.43.038.651 0 .224-.013.442-.04.66H16.5z" /></svg>
+        {%- when "exclamation-circle" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+        {%- when "information-circle" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" /></svg>
+        {%- when "bell" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a6 6 0 00-6 6c0 1.887-.454 3.665-1.257 5.234a.75.75 0 00.515 1.076 32.91 32.91 0 003.256.508 3.5 3.5 0 006.972 0 32.903 32.903 0 003.256-.508.75.75 0 00.515-1.076A11.448 11.448 0 0116 8a6 6 0 00-6-6zM8.05 14.943a33.54 33.54 0 003.9 0 2 2 0 01-3.9 0z" clip-rule="evenodd" /></svg>
+        {%- when "tag" -%}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg>
+      {%- endcase -%}
+    </span>
+  {%- endif -%}
+  <span class="c-badge__text">{{ text }}</span>
+</span>

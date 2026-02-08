@@ -1,0 +1,61 @@
+.c-base-section {
+  position: relative;
+  width: 100%;
+
+  // Background layer
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Partial color decorations
+  &__partial {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    &--top {
+      top: 0;
+    }
+
+    &--bottom {
+      bottom: 0;
+    }
+  }
+
+  // Content container
+  &__container {
+    position: relative;
+    z-index: 10;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Color group integration
+  // These classes work with the existing color_group system
+  &[class*="color-group-"] {
+    // Inherit text color from color group
+    color: var(--text-color, inherit);
+  }
+}

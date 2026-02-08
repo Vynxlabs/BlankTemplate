@@ -1,0 +1,15 @@
+{%- comment -%}
+  renderBlocks - Renders an array of content sections
+
+  Usage:
+    {% bookshop_include "renderBlocks" blocks: contentSections %}
+
+  Each block in the array must have a _bookshop_name property.
+  This is useful for wrapper components that contain dynamic content.
+{%- endcomment -%}
+
+{%- for block in blocks -%}
+  {%- if block._bookshop_name -%}
+    {% bookshop "{{block._bookshop_name}}" bind: block %}
+  {%- endif -%}
+{%- endfor -%}

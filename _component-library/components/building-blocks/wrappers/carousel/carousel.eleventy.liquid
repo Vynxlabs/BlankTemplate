@@ -1,0 +1,141 @@
+{%- comment -%}
+  Carousel - Wrapper component
+  Scrollable carousel with slides and navigation
+{%- endcomment -%}
+
+{%- assign slides = content.slides -%}
+{%- assign autoPlay = styles.autoPlay | default: false -%}
+{%- assign autoPlayInterval = styles.autoPlayInterval | default: 5000 -%}
+{%- assign autoScroll = styles.autoScroll | default: false -%}
+{%- assign slideWidthPercent = styles.slideWidthPercent | default: 100 -%}
+{%- assign minSlideWidth = styles.minSlideWidth | default: 280 -%}
+{%- assign gap = styles.gap | default: "md" -%}
+{%- assign showNavigation = styles.showNavigation | default: true -%}
+{%- assign showDots = styles.showDots | default: true -%}
+
+{%- capture gapValue -%}
+  {%- case gap -%}
+    {%- when "none" -%}0
+    {%- when "sm" -%}0.5rem
+    {%- when "md" -%}1rem
+    {%- when "lg" -%}1.5rem
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div
+  class="c-carousel"
+  data-carousel
+  {% if autoPlay %}data-autoplay="{{ autoPlayInterval }}"{% endif %}
+  {% if autoScroll %}data-autoscroll="true"{% endif %}
+  style="--slide-width: {{ slideWidthPercent }}%; --slide-min-width: {{ minSlideWidth }}px; --slide-gap: {{ gapValue | strip }};"
+>
+  <div class="c-carousel__viewport">
+    <div class="c-carousel__track" data-carousel-track>
+      {%- if slides.size > 0 -%}
+        {%- for slide in slides -%}
+          {%- if slide._bookshop_name -%}
+            {% bookshop "{{slide._bookshop_name}}" bind: slide index: forloop.index0 %}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        <div class="c-carousel__slide">
+          <p class="text-gray-400 italic p-8 text-center">Add slides to the carousel</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if styles.showNavigation and slides.size > 1 -%}
+    <button class="c-carousel__nav c-carousel__nav--prev" data-carousel-prev aria-label="Previous slide">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+      </svg>
+    </button>
+    <button class="c-carousel__nav c-carousel__nav--next" data-carousel-next aria-label="Next slide">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  {%- endif -%}
+
+  {%- if styles.showDots and slides.size > 1 -%}
+    <div class="c-carousel__dots" data-carousel-dots>
+      {%- for slide in slides -%}
+        <button
+          class="c-carousel__dot{% if forloop.first %} is-active{% endif %}"
+          data-carousel-dot="{{ forloop.index0 }}"
+          aria-label="Go to slide {{ forloop.index }}"
+        ></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('[data-carousel]').forEach(carousel => {
+      const track = carousel.querySelector('[data-carousel-track]');
+      const slides = track.querySelectorAll('.c-carousel__slide');
+      const dots = carousel.querySelectorAll('[data-carousel-dot]');
+      const prevBtn = carousel.querySelector('[data-carousel-prev]');
+      const nextBtn = carousel.querySelector('[data-carousel-next]');
+      const autoplayInterval = carousel.dataset.autoplay;
+
+      let currentIndex = 0;
+      let autoplayTimer = null;
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+
+        const slideWidth = slides[0].offsetWidth + parseFloat(getComputedStyle(track).gap || 0);
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('is-active', i === currentIndex);
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          goToSlide(parseInt(dot.dataset.carouselDot));
+        });
+      });
+
+      if (autoplayInterval) {
+        autoplayTimer = setInterval(nextSlide, parseInt(autoplayInterval));
+
+        carousel.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
+        carousel.addEventListener('mouseleave', () => {
+          autoplayTimer = setInterval(nextSlide, parseInt(autoplayInterval));
+        });
+      }
+
+      // Touch support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) nextSlide();
+        if (touchEndX - touchStartX > 50) prevSlide();
+      }, { passive: true });
+    });
+  })();
+</script>

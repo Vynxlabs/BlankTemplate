@@ -1,0 +1,122 @@
+{%- comment -%}
+  Content Selector - Wrapper component
+  Tabbed content panels with navigation
+{%- endcomment -%}
+
+{%- assign items = content.items -%}
+{%- assign navigationPosition = styles.navigationPosition | default: "top" -%}
+{%- assign navigationAlignment = styles.navigationAlignment | default: "start" -%}
+{%- assign variant = styles.variant | default: "underline" -%}
+
+{%- capture alignmentClass -%}
+  {%- case navigationAlignment -%}
+    {%- when "start" -%}justify-start
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- when "stretch" -%}c-content-selector__nav--stretch
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture positionClass -%}
+  {%- case navigationPosition -%}
+    {%- when "top" -%}c-content-selector--top
+    {%- when "start" -%}c-content-selector--start
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div
+  class="c-content-selector {{ positionClass | strip }} c-content-selector--{{ variant }}"
+  data-content-selector
+>
+  {%- if items.size > 0 -%}
+    <div class="c-content-selector__nav {{ alignmentClass | strip }}" role="tablist">
+      {%- for item in items -%}
+        <button
+          class="c-content-selector__tab{% if forloop.first %} is-active{% endif %}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-controls="panel-{{ forloop.index0 }}"
+          data-tab="{{ forloop.index0 }}"
+          id="tab-{{ forloop.index0 }}"
+        >
+          {{ item.title | default: "Tab" }}
+        </button>
+      {%- endfor -%}
+    </div>
+
+    <div class="c-content-selector__panels">
+      {%- for item in items -%}
+        {%- if item._bookshop_name -%}
+          {% bookshop "{{item._bookshop_name}}" bind: item index: forloop.index0 isActive: forloop.first %}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <div class="c-content-selector__nav" role="tablist">
+      <button class="c-content-selector__tab is-active" role="tab">Tab 1</button>
+    </div>
+    <div class="c-content-selector__panels">
+      <div class="c-content-selector__panel is-active">
+        <p class="text-gray-400 italic">Add items to the content selector</p>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  (function() {
+    document.querySelectorAll('[data-content-selector]').forEach(selector => {
+      const tabs = selector.querySelectorAll('[data-tab]');
+      const panels = selector.querySelectorAll('[data-panel]');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const index = tab.dataset.tab;
+
+          // Update tabs
+          tabs.forEach(t => {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+
+          // Update panels
+          panels.forEach(p => {
+            p.classList.remove('is-active');
+            p.hidden = true;
+          });
+          const activePanel = selector.querySelector(`[data-panel="${index}"]`);
+          if (activePanel) {
+            activePanel.classList.add('is-active');
+            activePanel.hidden = false;
+          }
+        });
+      });
+
+      // Keyboard navigation
+      selector.addEventListener('keydown', e => {
+        if (!e.target.matches('[data-tab]')) return;
+
+        const currentIndex = parseInt(e.target.dataset.tab);
+        let newIndex;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          newIndex = (currentIndex + 1) % tabs.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        } else if (e.key === 'Home') {
+          newIndex = 0;
+        } else if (e.key === 'End') {
+          newIndex = tabs.length - 1;
+        } else {
+          return;
+        }
+
+        e.preventDefault();
+        tabs[newIndex].click();
+        tabs[newIndex].focus();
+      });
+    });
+  })();
+</script>

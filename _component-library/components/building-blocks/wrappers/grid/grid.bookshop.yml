@@ -1,0 +1,106 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Grid"
+  description: Responsive grid layout with configurable item widths
+  icon: grid_view
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: grid-3d91632a-6bf7-4c6f-abb7-a52be087181d
+  content:
+    label:
+    items:
+  styles:
+    layout: center
+    minItemWidth: 280
+    maxItemWidth: 400
+    gap: md
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    items:
+      - _bookshop_name: building-blocks/wrappers/grid/grid-item
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Grid Item 1
+              level: h3
+            styles:
+              size: md
+      - _bookshop_name: building-blocks/wrappers/grid/grid-item
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Grid Item 2
+              level: h3
+            styles:
+              size: md
+      - _bookshop_name: building-blocks/wrappers/grid/grid-item
+        contentSections:
+          - _bookshop_name: building-blocks/core-elements/heading
+            content:
+              text: Grid Item 3
+              level: h3
+            styles:
+              size: md
+  styles:
+    layout: center
+    minItemWidth: 280
+    maxItemWidth: 400
+    gap: md
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this grid in the editor
+  items:
+    type: array
+    label: Grid Items
+    comment: Items to display in the grid
+    options:
+      structures: _structures.grid_items
+  layout:
+    type: select
+    label: Layout Alignment
+    comment: How grid items are aligned when they don't fill a row
+    options:
+      values:
+        - name: Start (left-aligned)
+          id: start
+        - name: Center
+          id: center
+  minItemWidth:
+    type: number
+    label: Min Item Width (px)
+    comment: Minimum width for each grid item
+  maxItemWidth:
+    type: number
+    label: Max Item Width (px)
+    comment: Maximum width for each grid item
+  gap:
+    type: select
+    label: Gap
+    comment: Space between grid items
+    options:
+      values:
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+        - name: 3XL
+          id: 3xl

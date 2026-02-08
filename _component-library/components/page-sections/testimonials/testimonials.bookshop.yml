@@ -1,0 +1,148 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Testimonials Section"
+  description: Customer testimonials displayed in a grid
+  icon: format_quote
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: testimonials-b4686af7-9f3f-4f66-bddf-ea4552caf7ab
+  content:
+    label:
+    sectionId:
+    badge:
+    heading: "What Our Customers Say"
+    description: "Don't just take our word for it."
+    testimonials:
+      - quote: "This product has completely transformed our workflow."
+        authorName: "Sarah Johnson"
+        authorTitle: "CEO, TechCorp"
+        authorImage:
+        showRating: true
+  styles:
+    color_group: primary
+    layout: grid
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    badge: "Testimonials"
+    heading: "Loved by Thousands"
+    description: "See what our customers have to say about their experience."
+    testimonials:
+      - quote: "The best investment we've made for our business. The results speak for themselves."
+        authorName: "Sarah Johnson"
+        authorTitle: "CEO, TechCorp"
+        authorImage: /images/tree.jpg
+        showRating: true
+      - quote: "Outstanding support and incredible features. Couldn't be happier with our decision."
+        authorName: "Michael Chen"
+        authorTitle: "CTO, StartupXYZ"
+        authorImage: /images/tree.jpg
+        showRating: true
+      - quote: "Simple, powerful, and reliable. Everything we needed in one package."
+        authorName: "Emily Davis"
+        authorTitle: "Marketing Director"
+        authorImage: /images/tree.jpg
+        showRating: true
+  styles:
+    color_group: primary
+    layout: grid
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  badge:
+    type: text
+    label: Badge Text
+    comment: Optional small badge/label above the heading
+  heading:
+    type: text
+    label: Heading
+    comment: Section headline
+  description:
+    type: textarea
+    label: Description
+    comment: Supporting text below the heading
+  testimonials:
+    type: array
+    label: Testimonials
+    comment: Customer testimonials
+  testimonials[*]:
+    type: object
+    label: Testimonial
+    options:
+      preview:
+        text:
+          - key: authorName
+        subtext:
+          - key: quote
+        image:
+          - key: authorImage
+  testimonials[*].quote:
+    type: textarea
+    label: Quote
+  testimonials[*].authorName:
+    type: text
+    label: Author Name
+  testimonials[*].authorTitle:
+    type: text
+    label: Author Title/Role
+  testimonials[*].authorImage:
+    type: image
+    label: Author Photo
+  testimonials[*].showRating:
+    type: switch
+    label: Show 5-Star Rating
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  layout:
+    type: select
+    label: Layout
+    comment: How testimonials are displayed
+    options:
+      values:
+        - name: Grid
+          id: grid
+        - name: Single Featured
+          id: featured
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

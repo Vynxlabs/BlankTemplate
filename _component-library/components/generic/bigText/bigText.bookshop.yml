@@ -2,6 +2,7 @@
 spec:
   structures:
     - headingBlocks
+    - content_sections
   label: "Big Text"
   description: "Big Text heading"
   icon:

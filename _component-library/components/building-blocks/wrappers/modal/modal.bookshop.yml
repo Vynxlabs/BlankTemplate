@@ -1,0 +1,105 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Modal"
+  description: Popup dialog with flexible content
+  icon: open_in_new
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: modal-1b67a94c-64b6-44c3-ab8e-ebe9c8530067
+  content:
+    label:
+    triggerId:
+    triggerText: Open Modal
+    contentSections:
+  styles:
+    size: md
+    showCloseButton: true
+    closeOnBackdrop: true
+    position: center
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    triggerText: Open Modal
+    contentSections:
+      - _bookshop_name: building-blocks/core-elements/heading
+        content:
+          text: Modal Title
+          level: h2
+        styles:
+          size: lg
+      - _bookshop_name: building-blocks/core-elements/text
+        content:
+          text: This is the modal content. You can add any content sections here.
+      - _bookshop_name: building-blocks/wrappers/button-group
+        content:
+          buttons:
+            - _bookshop_name: building-blocks/core-elements/button
+              content:
+                text: Close
+              styles:
+                variant: outline
+  styles:
+    size: md
+    showCloseButton: true
+    closeOnBackdrop: true
+    position: center
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this modal in the editor
+  triggerId:
+    type: text
+    label: Trigger ID
+    comment: Unique ID to link this modal to a trigger button (use data-modal-trigger on any element)
+  triggerText:
+    type: text
+    label: Trigger Button Text
+    comment: Text for the built-in trigger button (leave empty to use external trigger only)
+  contentSections:
+    type: array
+    label: Content
+    comment: Content sections displayed inside the modal
+    options:
+      structures: _structures.content_sections
+  size:
+    type: select
+    label: Size
+    comment: Maximum width of the modal
+    options:
+      values:
+        - name: Small (400px)
+          id: sm
+        - name: Medium (500px)
+          id: md
+        - name: Large (640px)
+          id: lg
+        - name: Extra Large (768px)
+          id: xl
+        - name: Full Width
+          id: full
+  showCloseButton:
+    type: switch
+    label: Show Close Button
+    comment: Display X button in top-right corner
+  closeOnBackdrop:
+    type: switch
+    label: Close on Backdrop Click
+    comment: Close modal when clicking outside
+  position:
+    type: select
+    label: Position
+    options:
+      values:
+        - name: Center
+          id: center
+        - name: Top
+          id: top

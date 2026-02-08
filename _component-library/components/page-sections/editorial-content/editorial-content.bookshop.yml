@@ -1,0 +1,118 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_blocks
+    - extra_blocks
+  label: "Editorial Content Section"
+  description: Rich text content section for long-form content like articles and documentation
+  icon: article
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: editorial-content-5353bf19-41ae-461f-a615-d67fc92d28c5
+  content:
+    label:
+    sectionId:
+    heading:
+    content: >-
+      Add your content here. This section supports **rich text formatting** including headings, lists, links, and more.
+  styles:
+    color_group: primary
+    backgroundImage:
+      source:
+      alt:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    heading: "Our Story"
+    content: >-
+      We started with a simple idea: make web development accessible to everyone. Today, we're proud to serve thousands of customers worldwide.
+
+
+      ## Our Mission
+
+
+      To empower creators and businesses with the tools they need to build beautiful, functional websites without the complexity.
+
+
+      ### What We Believe
+
+
+      - **Simplicity matters** - Great tools should be easy to use
+
+      - **Quality first** - We never compromise on quality
+
+      - **Customer focus** - Your success is our success
+  styles:
+    color_group: primary
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this section in the editor
+  sectionId:
+    type: text
+    label: Section ID
+    comment: Anchor ID for linking to this section
+  heading:
+    type: text
+    label: Heading
+    comment: Optional section heading
+  content:
+    type: markdown
+    label: Content
+    comment: Rich text content with full markdown support
+    options:
+      link: true
+      blockquote: true
+      bold: true
+      format: p h2 h3 h4 h5 h6
+      italic: true
+      strike: true
+      subscript: true
+      superscript: true
+      underline: true
+      bulletedlist: true
+      numberedlist: true
+      code: true
+      embed: true
+      horizontalrule: true
+      image: true
+      table: true
+      undo: true
+      redo: true
+      removeformat: true
+      copyformatting: true
+      snippet: true
+  color_group:
+    type: select
+    label: Color Theme
+    comment: Color scheme for the section
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  backgroundImage:
+    type: object
+    label: Background Image
+    options:
+      preview:
+        text: Background Image
+        subtext:
+          key: source
+  backgroundImage.source:
+    type: image
+    label: Image
+  backgroundImage.alt:
+    type: text
+    label: Alt Text

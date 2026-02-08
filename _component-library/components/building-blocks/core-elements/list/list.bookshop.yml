@@ -1,0 +1,68 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "List"
+  description: Ordered or unordered list with icon support
+  icon: format_list_bulleted
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: list-09fe1d59-035e-4e92-a14e-90ebf7054da9
+  content:
+    items:
+      - text: List item 1
+      - text: List item 2
+      - text: List item 3
+  styles:
+    type: unordered
+    icon:
+    iconColor:
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  items:
+    type: array
+    label: List Items
+    comment: Items in the list
+  items[*]:
+    type: object
+    label: Item
+    options:
+      preview:
+        text: text
+  text:
+    type: text
+    label: Text
+    comment: Text content of the list item
+  type:
+    type: select
+    label: List Type
+    comment: Type of list markers
+    options:
+      values:
+        - name: Unordered (Bullets)
+          id: unordered
+        - name: Ordered (Numbers)
+          id: ordered
+        - name: Icon List
+          id: icon
+        - name: Checkmark List
+          id: check
+        - name: No Markers
+          id: none
+  icon:
+    type: text
+    label: Icon
+    comment: Hero icon name for icon list type (e.g., check, star, arrow-right)
+    hidden: "!styles.type || styles.type !== 'icon'"
+  iconColor:
+    type: color
+    label: Icon Color
+    comment: Color of the list icons
+    hidden: "!styles.type || (styles.type !== 'icon' && styles.type !== 'check')"

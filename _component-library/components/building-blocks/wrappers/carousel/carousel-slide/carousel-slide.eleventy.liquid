@@ -1,0 +1,14 @@
+{%- comment -%}
+  Carousel Slide - Sub-component of Carousel wrapper
+  Individual slide container within a carousel
+{%- endcomment -%}
+
+{%- assign index = index | default: 0 -%}
+
+<div class="c-carousel__slide" data-carousel-slide="{{ index }}">
+  {%- if slideContentSections.size > 0 -%}
+    {% bookshop_include "renderBlocks" blocks: slideContentSections %}
+  {%- else -%}
+    <p class="text-gray-400 italic text-center py-8">Add content to this slide</p>
+  {%- endif -%}
+</div>

@@ -1,0 +1,101 @@
+.c-carousel {
+  --slide-width: 100%;
+  --slide-min-width: 280px;
+  --slide-gap: 1rem;
+
+  position: relative;
+  width: 100%;
+
+  &__viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  &__track {
+    display: flex;
+    gap: var(--slide-gap);
+    transition: transform 0.3s ease-out;
+  }
+
+  &__slide {
+    flex: 0 0 calc(var(--slide-width) - var(--slide-gap));
+    min-width: var(--slide-min-width);
+    max-width: 100%;
+  }
+
+  // Navigation arrows
+  &__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &:hover {
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-focus, #3b82f6);
+      outline-offset: 2px;
+    }
+
+    &--prev {
+      left: 0.5rem;
+    }
+
+    &--next {
+      right: 0.5rem;
+    }
+  }
+
+  // Dot indicators
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  &__dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-focus, #3b82f6);
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      background-color: currentColor;
+      transform: scale(1.2);
+    }
+  }
+}

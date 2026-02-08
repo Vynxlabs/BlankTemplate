@@ -1,0 +1,89 @@
+{%- comment -%}
+  Counter - Core element component
+  Animated number counter with prefix and suffix
+{%- endcomment -%}
+
+{%- assign targetNumber = content.number | default: 100 -%}
+{%- assign startNumber = targetNumber | times: 0.2 | floor -%}
+
+{%- capture alignClass -%}
+  {%- case styles.alignX -%}
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- else -%}justify-start
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture sizeClass -%}
+  {%- case styles.size -%}
+    {%- when "xs" -%}text-xs
+    {%- when "sm" -%}text-sm
+    {%- when "md" -%}text-base
+    {%- when "lg" -%}text-lg
+    {%- when "xl" -%}text-xl
+    {%- when "2xl" -%}text-2xl
+    {%- when "3xl" -%}text-3xl
+    {%- when "4xl" -%}text-4xl
+    {%- else -%}text-2xl
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div class="c-counter flex items-center gap-1 {{ alignClass | strip }} {{ sizeClass | strip }} font-bold">
+  {%- if content.prefix -%}
+    <span class="c-counter__prefix">{{ content.prefix }}</span>
+  {%- endif -%}
+  <span
+    class="c-counter__number"
+    data-target="{{ targetNumber }}"
+    data-start="{{ startNumber }}"
+    data-duration="500"
+    aria-live="off"
+  >{{ targetNumber }}</span>
+  {%- if content.suffix -%}
+    <span class="c-counter__suffix">{{ content.suffix }}</span>
+  {%- endif -%}
+</div>
+
+<script>
+  (function() {
+    if (typeof window.counterObserverInit === 'undefined') {
+      window.counterObserverInit = true;
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const counters = document.querySelectorAll('.c-counter__number');
+        if (!counters.length) return;
+
+        const io = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.6 });
+
+        counters.forEach(function(el) { io.observe(el); });
+
+        function animateCounter(el) {
+          if (el.dataset.hasRun) return;
+          el.dataset.hasRun = 'true';
+
+          const start = parseFloat(el.dataset.start || '0');
+          const target = parseFloat(el.dataset.target || '0');
+          const duration = parseInt(el.dataset.duration || '500', 10);
+          let startTime = null;
+
+          function step(ts) {
+            if (!startTime) startTime = ts;
+            const progress = Math.min((ts - startTime) / duration, 1);
+            const value = start + (target - start) * progress;
+            el.textContent = Math.floor(value).toLocaleString();
+            if (progress < 1) requestAnimationFrame(step);
+          }
+
+          requestAnimationFrame(step);
+        }
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,48 @@
+{%- comment -%}
+  Heading - Core element component
+  Renders a semantic heading with configurable level, size, and alignment
+{%- endcomment -%}
+
+{%- assign level = content.level | default: "h2" -%}
+{%- assign text = content.text | default: "Heading" -%}
+
+{%- capture alignClass -%}
+  {%- case styles.alignX -%}
+    {%- when "center" -%}justify-center
+    {%- when "end" -%}justify-end
+    {%- else -%}justify-start
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture sizeClass -%}
+  {%- case styles.size -%}
+    {%- when "xs" -%}text-xs
+    {%- when "sm" -%}text-sm
+    {%- when "md" -%}text-base
+    {%- when "lg" -%}text-lg
+    {%- when "xl" -%}text-xl
+    {%- when "2xl" -%}text-2xl
+    {%- when "3xl" -%}text-3xl
+    {%- when "4xl" -%}text-4xl
+    {%- else -%}
+      {%- comment -%} Default sizing based on heading level {%- endcomment -%}
+      {%- case level -%}
+        {%- when "h1" -%}text-4xl md:text-5xl
+        {%- when "h2" -%}text-3xl md:text-4xl
+        {%- when "h3" -%}text-2xl md:text-3xl
+        {%- when "h4" -%}text-xl md:text-2xl
+        {%- when "h5" -%}text-lg md:text-xl
+        {%- when "h6" -%}text-base md:text-lg
+      {%- endcase -%}
+  {%- endcase -%}
+{%- endcapture -%}
+
+<{{ level }} class="c-heading flex items-center gap-2 font-bold {{ alignClass | strip }} {{ sizeClass | strip }}">
+  {%- if content.iconName and content.iconPosition == "before" -%}
+    {% bookshop "building-blocks/core-elements/icon" name: content.iconName size: "md" background: false %}
+  {%- endif -%}
+  {{ text }}
+  {%- if content.iconName and content.iconPosition == "after" -%}
+    {% bookshop "building-blocks/core-elements/icon" name: content.iconName size: "md" background: false %}
+  {%- endif -%}
+</{{ level }}>

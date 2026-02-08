@@ -1,0 +1,143 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Split"
+  description: Two-column layout with flexible distribution modes
+  icon: view_column
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: split-a10b9f5b-f6a0-4f4e-a7b6-64954b917534
+  content:
+    label:
+    firstColumnContentSections:
+    secondColumnContentSections:
+  styles:
+    distributionMode: half
+    fixedWidth: 300
+    minSplitWidth: 768
+    verticalAlignment: center
+    reverse: false
+    reverseOrderOnMobile: false
+    gap: lg
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+  content:
+    firstColumnContentSections:
+      - _bookshop_name: building-blocks/core-elements/heading
+        content:
+          text: First Column
+          level: h3
+        styles:
+          size: lg
+      - _bookshop_name: building-blocks/core-elements/text
+        content:
+          text: Content in the first column of the split layout.
+    secondColumnContentSections:
+      - _bookshop_name: building-blocks/core-elements/heading
+        content:
+          text: Second Column
+          level: h3
+        styles:
+          size: lg
+      - _bookshop_name: building-blocks/core-elements/text
+        content:
+          text: Content in the second column of the split layout.
+  styles:
+    distributionMode: half
+    verticalAlignment: center
+    gap: lg
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  label:
+    type: text
+    label: Label
+    comment: Optional label to identify this split in the editor
+  firstColumnContentSections:
+    type: array
+    label: First Column
+    comment: Content sections for the first (left) column
+    options:
+      structures: _structures.content_sections
+  secondColumnContentSections:
+    type: array
+    label: Second Column
+    comment: Content sections for the second (right) column
+    options:
+      structures: _structures.content_sections
+  distributionMode:
+    type: select
+    label: Column Distribution
+    comment: How width is distributed between columns
+    options:
+      values:
+        - name: "1/4 - 3/4"
+          id: quarter-three-quarters
+        - name: "1/3 - 2/3"
+          id: third-two-thirds
+        - name: "1/2 - 1/2 (Equal)"
+          id: half
+        - name: "2/3 - 1/3"
+          id: two-thirds-third
+        - name: "3/4 - 1/4"
+          id: three-quarters-quarter
+        - name: "Fixed - Flexible"
+          id: fixed-flexible
+        - name: "Flexible - Fixed"
+          id: flexible-fixed
+  fixedWidth:
+    type: number
+    label: Fixed Width (px)
+    comment: Width in pixels for the fixed column
+    hidden: "styles.distributionMode !== 'fixed-flexible' && styles.distributionMode !== 'flexible-fixed'"
+  minSplitWidth:
+    type: number
+    label: Mobile Breakpoint (px)
+    comment: Screen width below which columns stack vertically
+  verticalAlignment:
+    type: select
+    label: Vertical Alignment
+    comment: How columns align vertically when heights differ
+    options:
+      values:
+        - name: Top
+          id: top
+        - name: Center
+          id: center
+        - name: Bottom
+          id: bottom
+        - name: Stretch
+          id: stretch
+  reverse:
+    type: switch
+    label: Reverse Order
+    comment: Swap the order of columns (second column appears first)
+  reverseOrderOnMobile:
+    type: switch
+    label: Reverse on Mobile
+    comment: Reverse the column order when stacked on mobile
+  gap:
+    type: select
+    label: Gap
+    comment: Space between columns
+    options:
+      values:
+        - name: Extra Small
+          id: xs
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+        - name: 2XL
+          id: 2xl
+        - name: 3XL
+          id: 3xl

@@ -1,0 +1,46 @@
+{%- comment -%}
+  Grid - Wrapper component
+  Responsive grid layout with configurable item widths
+{%- endcomment -%}
+
+{%- assign items = content.items -%}
+{%- assign layout = styles.layout | default: "center" -%}
+{%- assign minItemWidth = styles.minItemWidth | default: 280 -%}
+{%- assign maxItemWidth = styles.maxItemWidth | default: 400 -%}
+{%- assign gap = styles.gap | default: "md" -%}
+
+{%- capture gapClass -%}
+  {%- case gap -%}
+    {%- when "xs" -%}gap-2
+    {%- when "sm" -%}gap-4
+    {%- when "md" -%}gap-6
+    {%- when "lg" -%}gap-8
+    {%- when "xl" -%}gap-10
+    {%- when "2xl" -%}gap-12
+    {%- when "3xl" -%}gap-16
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture layoutClass -%}
+  {%- case layout -%}
+    {%- when "start" -%}c-grid--start
+    {%- when "center" -%}c-grid--center
+  {%- endcase -%}
+{%- endcapture -%}
+
+<div
+  class="c-grid {{ layoutClass | strip }} {{ gapClass | strip }}"
+  style="--grid-min-width: {{ minItemWidth }}px; --grid-max-width: {{ maxItemWidth }}px;"
+>
+  {%- if items.size > 0 -%}
+    {%- for item in items -%}
+      {%- if item._bookshop_name -%}
+        {% bookshop "{{item._bookshop_name}}" bind: item %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    <div class="c-grid__item">
+      <p class="text-gray-400 italic">Add items to the grid</p>
+    </div>
+  {%- endif -%}
+</div>

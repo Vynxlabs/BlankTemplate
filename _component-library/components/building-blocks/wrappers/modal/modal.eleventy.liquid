@@ -1,0 +1,142 @@
+{%- comment -%}
+  Modal - Wrapper component
+  Popup dialog with flexible content
+{%- endcomment -%}
+
+{%- assign triggerId = content.triggerId | default: "modal" | append: "-" | append: "now" | date: "%s%N" -%}
+{%- assign triggerText = content.triggerText -%}
+{%- assign contentSections = content.contentSections -%}
+{%- assign size = styles.size | default: "md" -%}
+{%- assign showCloseButton = styles.showCloseButton | default: true -%}
+{%- assign closeOnBackdrop = styles.closeOnBackdrop | default: true -%}
+{%- assign position = styles.position | default: "center" -%}
+
+{%- capture sizeClass -%}
+  {%- case size -%}
+    {%- when "sm" -%}c-modal__dialog--sm
+    {%- when "md" -%}c-modal__dialog--md
+    {%- when "lg" -%}c-modal__dialog--lg
+    {%- when "xl" -%}c-modal__dialog--xl
+    {%- when "full" -%}c-modal__dialog--full
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture positionClass -%}
+  {%- case position -%}
+    {%- when "center" -%}c-modal--center
+    {%- when "top" -%}c-modal--top
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if triggerText and triggerText != "" -%}
+  <button
+    class="c-modal__trigger c-button"
+    type="button"
+    data-modal-trigger="{{ triggerId }}"
+  >
+    {{ triggerText }}
+  </button>
+{%- endif -%}
+
+<div
+  class="c-modal {{ positionClass | strip }}"
+  id="{{ triggerId }}"
+  data-modal
+  {% if closeOnBackdrop %}data-close-on-backdrop="true"{% endif %}
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="c-modal__backdrop" data-modal-backdrop></div>
+
+  <div class="c-modal__dialog {{ sizeClass | strip }}">
+    {%- if showCloseButton -%}
+      <button
+        class="c-modal__close"
+        type="button"
+        data-modal-close
+        aria-label="Close modal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+        </svg>
+      </button>
+    {%- endif -%}
+
+    <div class="c-modal__content">
+      {%- if contentSections.size > 0 -%}
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
+      {%- else -%}
+        <p class="text-gray-400 italic">Add content to this modal</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Open modal triggers
+    document.querySelectorAll('[data-modal-trigger]').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const modalId = trigger.dataset.modalTrigger;
+        const modal = document.getElementById(modalId);
+        if (modal) openModal(modal);
+      });
+    });
+
+    // Close button
+    document.querySelectorAll('[data-modal-close]').forEach(closeBtn => {
+      closeBtn.addEventListener('click', () => {
+        const modal = closeBtn.closest('[data-modal]');
+        if (modal) closeModal(modal);
+      });
+    });
+
+    // Backdrop click
+    document.querySelectorAll('[data-modal]').forEach(modal => {
+      const backdrop = modal.querySelector('[data-modal-backdrop]');
+      if (backdrop && modal.dataset.closeOnBackdrop === 'true') {
+        backdrop.addEventListener('click', () => closeModal(modal));
+      }
+    });
+
+    // Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const openModal = document.querySelector('[data-modal].is-open');
+        if (openModal) closeModal(openModal);
+      }
+    });
+
+    function openModal(modal) {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Focus first focusable element
+      const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusable) focusable.focus();
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+
+      // Return focus to trigger
+      const triggerId = modal.id;
+      const trigger = document.querySelector(`[data-modal-trigger="${triggerId}"]`);
+      if (trigger) trigger.focus();
+    }
+
+    // Expose functions globally for external use
+    window.openModal = function(id) {
+      const modal = document.getElementById(id);
+      if (modal) openModal(modal);
+    };
+    window.closeModal = function(id) {
+      const modal = document.getElementById(id);
+      if (modal) closeModal(modal);
+    };
+  })();
+</script>

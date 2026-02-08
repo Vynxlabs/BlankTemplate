@@ -1,0 +1,13 @@
+{%- comment -%}
+  renderBlock - Dynamically renders a single component based on _bookshop_name
+
+  Usage:
+    {% bookshop_include "renderBlock" blocks: myBlock %}
+
+  The block must have a _bookshop_name property containing the component path.
+  Example: block._bookshop_name = "building-blocks/core-elements/heading"
+{%- endcomment -%}
+
+{%- if block._bookshop_name -%}
+  {% bookshop "{{block._bookshop_name}}" bind: block %}
+{%- endif -%}

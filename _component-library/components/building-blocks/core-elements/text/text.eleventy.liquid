@@ -1,0 +1,22 @@
+{%- comment -%}
+  Text - Core element component
+  Renders rich text content with markdown support
+{%- endcomment -%}
+
+{%- capture alignClass -%}
+  {%- case styles.alignX -%}
+    {%- when "center" -%}text-center
+    {%- when "end" -%}text-right
+    {%- else -%}text-left
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if content.text -%}
+  <div class="c-text cs-docs cs-docs--{{ color_group | default: 'primary' }} w-full {{ alignClass | strip }}">
+    {%- if env_bookshop_live -%}
+      {{ content.text | markdownify }}
+    {%- else -%}
+      {{ content.text | renderContent | markdownify }}
+    {%- endif -%}
+  </div>
+{%- endif -%}

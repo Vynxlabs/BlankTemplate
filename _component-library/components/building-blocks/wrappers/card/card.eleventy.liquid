@@ -1,0 +1,113 @@
+{%- comment -%}
+  Card - Wrapper component
+  Flexible card container with background, padding, and content sections
+{%- endcomment -%}
+
+{% assign color_group = styles.color_group %}
+{%- assign contentSections = content.contentSections -%}
+{%- assign beforeContentSections = content.beforeContentSections -%}
+{%- assign afterContentSections = content.afterContentSections -%}
+
+{%- assign maxContentWidth = styles.maxContentWidth -%}
+{%- assign paddingH = styles.paddingHorizontal | default: "md" -%}
+{%- assign paddingV = styles.paddingVertical | default: "md" -%}
+{%- assign bgImage = styles.backgroundImage -%}
+{%- assign link = styles.link -%}
+{%- assign border = styles.border | default: false -%}
+{%- assign showBeforeAfter = styles.showBeforeAfter | default: false -%}
+
+{%- capture paddingXClass -%}
+  {%- case paddingH -%}
+    {%- when "xs" -%}px-2
+    {%- when "sm" -%}px-4
+    {%- when "md" -%}px-6
+    {%- when "lg" -%}px-8
+    {%- when "xl" -%}px-10
+    {%- when "2xl" -%}px-12
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture paddingYClass -%}
+  {%- case paddingV -%}
+    {%- when "xs" -%}py-2
+    {%- when "sm" -%}py-4
+    {%- when "md" -%}py-6
+    {%- when "lg" -%}py-8
+    {%- when "xl" -%}py-10
+    {%- when "2xl" -%}py-12
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture maxWidthClass -%}
+  {%- case maxContentWidth -%}
+    {%- when "xs" -%}max-w-xs
+    {%- when "sm" -%}max-w-sm
+    {%- when "md" -%}max-w-md
+    {%- when "lg" -%}max-w-lg
+    {%- when "xl" -%}max-w-xl
+    {%- when "2xl" -%}max-w-2xl
+    {%- when "3xl" -%}max-w-3xl
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- capture bgPositionClass -%}
+  {%- if bgImage.source -%}
+    {%- case bgImage.positionVertical -%}
+      {%- when "top" -%}bg-top
+      {%- when "bottom" -%}bg-bottom
+      {%- else -%}bg-center
+    {%- endcase -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture cardClasses -%}
+  c-card relative overflow-hidden {{theme.container_rounding}} text-{{styles.color_group}}-highcontrast-{{styles.backgroundColor}}color bg-{{styles.color_group}}-{{styles.backgroundColor}}color
+  {%- if border %} c-card--bordered{% endif -%}
+  {%- if link %} c-card--clickable{% endif -%}
+  {%- if bgImage.source %} {{ bgPositionClass | strip }} bg-cover bg-no-repeat{% endif -%}
+{%- endcapture -%}
+
+{%- capture contentClasses -%}
+  c-card__content {{ paddingXClass | strip }} {{ paddingYClass | strip }}
+  {%- if maxContentWidth %} {{ maxWidthClass | strip }}{% endif -%}
+{%- endcapture -%}
+
+{%- if link -%}
+<a href="{{ link }}" class="{{ cardClasses | strip | normalize_whitespace }}"{% if bgImage.source %} style="background-image: url('{{ bgImage.source }}')"{% endif %}>
+{%- else -%}
+<div class="{{ cardClasses | strip | normalize_whitespace }}"{% if bgImage.source %} style="background-image: url('{{ bgImage.source }}')"{% endif %}>
+{%- endif -%}
+
+  {%- if bgImage.source -%}
+    <div class="c-card__bg-overlay"></div>
+  {%- endif -%}
+
+  <div class="c-card__inner relative">
+    {%- if showBeforeAfter and beforeContentSections.size > 0 -%}
+      <div class="c-card__before">
+        {% bookshop_include "renderBlocks" blocks: beforeContentSections %}
+      </div>
+    {%- endif -%}
+
+    {%- if contentSections.size > 0 -%}
+      <div class="{{ contentClasses | strip | normalize_whitespace }}">
+        {% bookshop_include "renderBlocks" blocks: contentSections %}
+      </div>
+    {%- else -%}
+      <div class="{{ contentClasses | strip | normalize_whitespace }}">
+        <p class="text-gray-400 italic">Add content to this card</p>
+      </div>
+    {%- endif -%}
+
+    {%- if showBeforeAfter and afterContentSections.size > 0 -%}
+      <div class="c-card__after">
+        {% bookshop_include "renderBlocks" blocks: afterContentSections %}
+      </div>
+    {%- endif -%}
+  </div>
+
+{%- if link -%}
+</a>
+{%- else -%}
+</div>
+{%- endif -%}

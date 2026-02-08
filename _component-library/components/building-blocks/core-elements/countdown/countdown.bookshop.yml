@@ -1,0 +1,136 @@
+# Metadata about this component, to be used in the CMS
+spec:
+  structures:
+    - content_sections
+  label: "Countdown"
+  description: Countdown timer to a target date with multiple visual variants
+  icon: timer
+  tags: [alpha]
+  tabbed: true
+
+# Defines the structure of this component, as well as the default values
+blueprint:
+  _componentId: countdown-3f8a1c2e-9d47-4b6a-ae52-7c1f0d8e5b94
+  content:
+    date: 
+    completionText:
+    showLabels: true
+    showDays: true
+    showHours: true
+    showMinutes: true
+    showSeconds: true
+  styles:
+    variant: simple
+    size: lg
+    alignX: center
+    colorGroup: primary
+    colorFromGroup: text
+
+# Overrides any fields in the blueprint when viewing this component in the component browser
+preview:
+
+# Any extra CloudCannon inputs configuration to apply to the blueprint
+_inputs:
+  date:
+    type: datetime
+    label: Target Date
+    comment: The date and time to count down to
+    instance_value: NOW
+  completionText:
+    type: text
+    label: Completion Text
+    comment: Text shown when countdown reaches zero. If empty, timer stays at 0.
+  showLabels:
+    type: switch
+    label: Show Labels
+    comment: Toggle the unit labels (Days, Hours, etc.)
+  showDays:
+    type: switch
+    label: Show Days
+    comment: Show the days segment
+  showHours:
+    type: switch
+    label: Show Hours
+    comment: Show the hours segment
+  showMinutes:
+    type: switch
+    label: Show Minutes
+    comment: Show the minutes segment
+  showSeconds:
+    type: switch
+    label: Show Seconds
+    comment: Show the seconds segment
+  variant:
+    type: select
+    label: Variant
+    comment: Visual style of the countdown
+    options:
+      values:
+        - name: Simple
+          id: simple
+        - name: Boxed
+          id: boxed
+        - name: Separated
+          id: separated
+  size:
+    type: select
+    label: Size
+    comment: Overall size of the countdown
+    options:
+      values:
+        - name: Small
+          id: sm
+        - name: Medium
+          id: md
+        - name: Large
+          id: lg
+        - name: Extra Large
+          id: xl
+  alignX:
+    type: choice
+    label: Alignment
+    comment: Horizontal alignment of the countdown
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - name: Start
+          id: start
+          icon: format_align_left
+        - name: Center
+          id: center
+          icon: format_align_center
+        - name: End
+          id: end
+          icon: format_align_right
+  colorGroup:
+    type: select
+    label: Color Group
+    comment: Which color group to use for styling
+    options:
+      allow_empty: false
+      value_key: id
+      preview:
+        text:
+          - key: name
+        icon:
+          - key: icon
+      values: data.theme..[?(@.primaryColor)]
+  colorFromGroup:
+    type: select
+    label: Color
+    comment: Which color from the group to use
+    options:
+      allow_empty: false
+      value_key: id
+      values:
+        - id: primary
+          name: Primary
+        - id: secondary
+          name: Secondary
+        - id: accent
+          name: Accent
+        - id: text
+          name: Text
+        - id: background
+          name: Background

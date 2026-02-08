@@ -1,0 +1,77 @@
+.c-text {
+  // Prose-like styling for rich text content
+
+  // Headings within text blocks
+  h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+  h5 { font-size: 1rem; }
+  h6 { font-size: 0.875rem; }
+
+  // Paragraphs
+  p {
+    margin-bottom: 1em;
+  }
+
+  // Lists
+  ul, ol {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  li {
+    margin-bottom: 0.25em;
+  }
+
+  // Links
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  // Blockquotes
+  blockquote {
+    border-left: 4px solid currentColor;
+    padding-left: 1em;
+    margin: 1em 0;
+    opacity: 0.9;
+  }
+
+  // Code
+  code {
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.125em 0.25em;
+    border-radius: 0.25em;
+  }
+
+  pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 0.5em;
+    overflow-x: auto;
+    margin-bottom: 1em;
+
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+}
