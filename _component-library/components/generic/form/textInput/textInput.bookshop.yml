@@ -14,6 +14,7 @@ blueprint:
   placeholder: ""
   id:
   required: false
+  hidden: false
   helperText:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
@@ -25,6 +26,9 @@ preview:
 _inputs:
   helperText:
     comment: Helpful text for the user such as 'You do not need to enter your middle name(s)'
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true    

@@ -18,6 +18,7 @@ blueprint:
       checked: false
       required: false
   arrangement: inline
+  hidden: false
   helperText:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
@@ -41,6 +42,9 @@ preview:
 
 # Any extra CloudCannon inputs configuration to apply to the blueprint
 _inputs:
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true
