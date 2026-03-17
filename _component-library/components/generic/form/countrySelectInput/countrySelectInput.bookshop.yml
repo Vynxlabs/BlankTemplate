@@ -13,6 +13,7 @@ blueprint:
   label: ""
   id:
   required: false
+  hidden: false
   helperText:
   
 
@@ -23,6 +24,9 @@ preview:
 _inputs:
   helper_text:
     comment: Helpful text for the user such as 'Your primary country of residence'
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true

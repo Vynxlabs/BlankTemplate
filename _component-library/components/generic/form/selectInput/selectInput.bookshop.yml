@@ -12,6 +12,7 @@ blueprint:
   _componentId: selectInput-e804fa54-01d6-46c7-8861-f19b5f12ac64
   label: ""
   id:
+  hidden: false
   options:
     - name:
   helperText:
@@ -29,6 +30,9 @@ preview:
 _inputs:
   helperText:
     comment: Helpful text for the user such as 'Option 1 is only available on weekends'
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true

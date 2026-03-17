@@ -1,4 +1,4 @@
-<div class="relative c-dateInput">
+<div class="relative c-dateInput" {% if hidden %}style="display:none"{% endif %}>
   <label class="block text-xs uppercase font-bold text-{{color_group}}-textcolor" for="{{ id }}">{{ label }}{% if required %}
       *{% endif %}
     <input

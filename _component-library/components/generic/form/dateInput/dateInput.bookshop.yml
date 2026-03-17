@@ -13,6 +13,7 @@ blueprint:
   label: ""
   id:
   required: false
+  hidden: false
   minToday: false
   min:
   maxToday: false
@@ -34,6 +35,9 @@ _inputs:
     hidden: maxToday
     comment: Select the latest date a user is allowed to input (if not the current day)
     type: date
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   minToday:
     type: switch
     comment: On if the earliest date to be selected should always be the current date

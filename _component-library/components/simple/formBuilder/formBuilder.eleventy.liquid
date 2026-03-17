@@ -5,7 +5,7 @@
  {{page.url}}
  {% endif %} 
 {% endcapture %}
-<div class="w-full flex flex-col justify-center items-center">
+<div class="c-formBuilder w-full flex flex-col justify-center items-center">
   <form
     {% if successPage %}
     action="{{ successPage }}"
@@ -67,4 +67,41 @@
       </ul>
     </div>
   </form>
+  <script>
+    (function() {
+      var form = document.currentScript.closest('.c-formBuilder').querySelector('form');
+      if (!form) return;
+      var params = new URLSearchParams(window.location.search);
+      if (!params.toString()) return;
+
+      function slugify(str) {
+        return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      }
+
+      var fields = form.querySelectorAll('input, select, textarea');
+      params.forEach(function(value, key) {
+        var sluggedKey = slugify(decodeURIComponent(key));
+        fields.forEach(function(field) {
+          if (!field.name) return;
+          var sluggedName = slugify(field.name);
+          if (sluggedName === sluggedKey) {
+            if (field.type === 'checkbox' || field.type === 'radio') {
+              if (slugify(field.value) === slugify(decodeURIComponent(value))) {
+                field.checked = true;
+              }
+            } else if (field.tagName === 'SELECT') {
+              for (var i = 0; i < field.options.length; i++) {
+                if (slugify(field.options[i].value) === slugify(decodeURIComponent(value))) {
+                  field.selectedIndex = i;
+                  break;
+                }
+              }
+            } else {
+              field.value = decodeURIComponent(value);
+            }
+          }
+        });
+      });
+    })();
+  </script>
 </div>
