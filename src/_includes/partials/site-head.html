@@ -109,23 +109,39 @@ logo for {{site.name}}
           {% if site.contactInfo.phone and site.contactInfo.phone != "" %}
           <div class="flex gap-1 items-center">
             {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "phone" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
-            <a 
+            {% if site.contactInfo.obfuscateContactInfo %}
+            <a
             data-rot20-text
             data-umami-event="{{site.contactInfo.phone}}-navbar"
             data-rot20-href="{{"tel:" | append: site.contactInfo.phone | remove: "-" | remove: " " | remove: "." | remove: "(" | remove: ")" | rot20Filter}}" class="block underline"
               >{{ site.contactInfo.phone | rot20Filter }}</a
             >
+            {% else %}
+            <a
+            data-umami-event="{{site.contactInfo.phone}}-navbar"
+            href="{{"tel:" | append: site.contactInfo.phone | remove: "-" | remove: " " | remove: "." | remove: "(" | remove: ")"}}" class="block underline"
+              >{{ site.contactInfo.phone }}</a
+            >
+            {% endif %}
           </div>
           {% endif %}
           {% if site.contactInfo.email and site.contactInfo.email != "" %}
           <div class="flex gap-1 items-center">
             {% bookshop "generic/heroLibraryIcon" heroLibraryIconName: "envelope" iconType: "outline" iconSize: 'micro' roundedBorder: false themeColor: true %}
-            <a 
+            {% if site.contactInfo.obfuscateContactInfo %}
+            <a
             data-rot20-text
             data-umami-event="{{site.contactInfo.email}}-navbar"
             data-rot20-href="{{ "mailto:" | append: site.contactInfo.email | rot20Filter }}" class="block underline"
               >{{ site.contactInfo.email | rot20Filter }}</a
             >
+            {% else %}
+            <a
+            data-umami-event="{{site.contactInfo.email}}-navbar"
+            href="{{ "mailto:" | append: site.contactInfo.email }}" class="block underline"
+              >{{ site.contactInfo.email }}</a
+            >
+            {% endif %}
           </div>
           {% endif %}
   

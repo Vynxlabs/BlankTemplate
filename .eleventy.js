@@ -272,13 +272,15 @@ function loadSiteTokens() {
       }
     });
 
+    const obfuscate = siteData?.contactInfo?.obfuscateContactInfo === true;
+
     // Include contactInfo fields
     Object.keys(contactFields).forEach((key) => {
       if (contactFields[key]) {
         let contactKey = slugify(`contactInfo.${key}`);
         console.log(contactKey);
         flattenedTokens[contactKey] =
-          key == "email" || key == "phone"
+          obfuscate && (key == "email" || key == "phone")
             ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>`
             : contactFields[key];
       }

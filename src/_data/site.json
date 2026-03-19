@@ -10,7 +10,8 @@
     "email": "info@example.com",
     "phone": "123-456-7890",
     "location": "Some Rd, Somecity, ID ",
-    "hours": "Mon - Fri: 8am-5pm"
+    "hours": "Mon - Fri: 8am-5pm",
+    "obfuscateContactInfo": false
   },
   "customCode": {
     "headCode": "",
@@ -96,6 +97,10 @@
     },
     "termsAndConditionsUrl": {
       "type": "url"
+    },
+    "obfuscateContactInfo": {
+      "type": "switch",
+      "comment": "Obfuscate phone numbers and emails to prevent scraping. May impact SEO."
     },
     "umamiAnalytics": {
       "hidden": true
