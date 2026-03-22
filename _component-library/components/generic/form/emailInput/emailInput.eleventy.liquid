@@ -2,7 +2,7 @@
 {% if label == "Email" %}
   {% assign label = label | downcase %}
 {% endif %}
-<div class="">
+<div class="" {% if hidden %}style="display:none"{% endif %}>
   <label class="block text-xs uppercase font-bold text-{{color_group}}-textcolor" for="{{ id }}">{{ label }}{% if required %}
       *{% endif %}
     <input

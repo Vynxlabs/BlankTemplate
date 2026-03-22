@@ -13,6 +13,7 @@ blueprint:
   label: ""
   placeholder: ""
   id:
+  hidden: false
   helperText:
   min:
   max:
@@ -32,6 +33,9 @@ _inputs:
     type: time
   max:
     type: time
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true

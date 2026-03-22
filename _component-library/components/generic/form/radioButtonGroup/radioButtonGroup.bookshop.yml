@@ -18,6 +18,7 @@ blueprint:
       checked: false
       required: false
   arrangement: inline
+  hidden: false
   helperText:
 
 # Overrides any fields in the blueprint when viewing this component in the component browser
@@ -29,6 +30,9 @@ _inputs:
     comment: It is recommended to provide a label for this input group
   radioButtons:
     comment: It is recommended to have one option checked as a default for radio button groups
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true

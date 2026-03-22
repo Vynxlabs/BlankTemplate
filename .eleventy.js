@@ -272,13 +272,15 @@ function loadSiteTokens() {
       }
     });
 
+    const obfuscate = siteData?.contactInfo?.obfuscateContactInfo === true;
+
     // Include contactInfo fields
     Object.keys(contactFields).forEach((key) => {
       if (contactFields[key]) {
         let contactKey = slugify(`contactInfo.${key}`);
         console.log(contactKey);
         flattenedTokens[contactKey] =
-          key == "email" || key == "phone"
+          obfuscate && (key == "email" || key == "phone")
             ? `<span data-rot20-text>${rot20_7(contactFields[key])}</span>`
             : contactFields[key];
       }
@@ -312,7 +314,7 @@ module.exports = async function (eleventyConfig) {
     if (!state.src || !state.src.includes("bookshop-live")) return;
 
     // remove bookshop live markers (meta/name/end, etc.)
-    state.src = state.src.replace(/<!--\s*bookshop-live[\s\s]*?-->/g, "");
+    state.src = state.src.replace(/<!--\s*bookshop-live[\s\S]*?-->/g, "");
 
     // clean up extra blank lines left behind (prevents paragraph breaks)
     state.src = state.src.replace(/\n{3,}/g, "\n\n");

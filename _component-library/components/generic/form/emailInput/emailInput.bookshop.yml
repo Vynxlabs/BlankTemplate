@@ -13,6 +13,7 @@ blueprint:
   label: ""
   id:
   required: false
+  hidden: false
   placeholder:
   helperText:
 
@@ -24,6 +25,9 @@ preview:
 _inputs:
   helperText:
     comment: Helpful text for the user such as 'Please use your personal email address'
+  hidden:
+    type: switch
+    comment: Hidden fields are not visible to the user but can be pre-filled via URL parameters
   id:
     instance_value: UUID
     hidden: true
