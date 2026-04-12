@@ -568,8 +568,9 @@ module.exports = async function (eleventyConfig) {
     return content;
   });
 
+  const { processFonts } = await import('./utils/processFonts.mjs');
+  await processFonts();
   eleventyConfig.on("eleventy.before", () => {
-    execSync("node ./utils/generateFavicon.js");
     execSync("node ./utils/syncPermalinks.js");
     execSync("node ./utils/permalinkDupCheck.js");
     execSync("node ./utils/addHappeningPagination.js");

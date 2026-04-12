@@ -15,12 +15,13 @@ const fileDictionary = {
 // Function to validate and sync _inputs key
 function syncInputs(referenceInputs, clientInputs) {
   const updatedInputs = {};
+  const inputWarnings = [];
 
   // Add missing keys from reference to client
   for (const [key, value] of Object.entries(referenceInputs)) {
     if (!(key in clientInputs)) {
       updatedInputs[key] = value;
-      warnings.push(`Added missing key '${key}' to _inputs.`);
+      inputWarnings.push(`Added missing key '${key}' to _inputs.`);
     } else {
       updatedInputs[key] = clientInputs[key];
     }
@@ -29,27 +30,27 @@ function syncInputs(referenceInputs, clientInputs) {
   // Remove extra keys in client that are not in reference
   for (const key of Object.keys(clientInputs)) {
     if (!(key in referenceInputs)) {
-      warnings.push(`Removed extra key '${key}' from _inputs.`);
+      inputWarnings.push(`Removed extra key '${key}' from _inputs.`);
     }
   }
 
-  return { updatedInputs, warnings };
+  return { updatedInputs, warnings: inputWarnings };
 }
 
 // Function to validate and sync arrays
 function validateArray(referenceArray, clientArray, key) {
   const referenceStructure = referenceArray[0];
+  const arrayWarnings = [];
   const validatedArray = clientArray.map((item, index) => {
     if (item === null) {
       return null; // Preserve null values
     }
     if (typeof item === "string" || item instanceof String) {
-      return item; // Preserve undefined values
+      return item; // Preserve string values
     }
 
     const newItem = {};
     for (const refKey in referenceStructure) {
-      // Add this code here
       if (
         typeof referenceStructure === "string" ||
         referenceStructure instanceof String
@@ -61,17 +62,16 @@ function validateArray(referenceArray, clientArray, key) {
         referenceStructure[refKey].every((item) => typeof item !== "object")
       ) {
         if (item[refKey] && item[refKey].length > 0) {
-          // Client file has at least one array item, skip this key
-          continue;
+          // Client file has at least one array item, keep it
+          newItem[refKey] = item[refKey];
         } else {
           // Client file is empty, add array items from reference file
-          item[refKey] = referenceStructure[refKey];
+          newItem[refKey] = referenceStructure[refKey];
         }
       } else {
-        // Existing code here...
         if (!(refKey in item)) {
           newItem[refKey] = referenceStructure[refKey];
-          warnings.push(
+          arrayWarnings.push(
             `Array '${key}' index ${index}: Added missing key '${refKey}'.`,
           );
         } else {
@@ -83,7 +83,7 @@ function validateArray(referenceArray, clientArray, key) {
     // Remove extra keys not in reference
     for (const itemKey of Object.keys(item)) {
       if (!(itemKey in referenceStructure)) {
-        warnings.push(
+        arrayWarnings.push(
           `Array '${key}' index ${index}: Removed extra key '${itemKey}'.`,
         );
       }
@@ -92,7 +92,7 @@ function validateArray(referenceArray, clientArray, key) {
     return newItem;
   });
 
-  return { validatedArray, warnings };
+  return { validatedArray, warnings: arrayWarnings };
 }
 
 // Recursive function to reorder and clean keys in objects
@@ -166,7 +166,9 @@ function syncFiles(referenceFilePath, clientFilePath) {
       warnings.push(...arrayWarnings);
     } else if (
       typeof referenceData[key] === "object" &&
-      typeof clientData[key] === "object"
+      typeof clientData[key] === "object" &&
+      referenceData[key] !== null &&
+      clientData[key] !== null
     ) {
       for (const refKey of Object.keys(referenceData[key])) {
         if (!(refKey in clientData[key])) {

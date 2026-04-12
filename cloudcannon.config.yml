@@ -443,33 +443,6 @@ _inputs:
     type: select
     options:
       values: data.fonts
-  heading_font:
-    comment: >-
-      Write the name of any font from
-      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
-      access it here. Note: fonts needs to have at least style 400 and 700
-      available
-    type: select
-    options:
-      values: data.fonts
-  content_font:
-    comment: >-
-      Write the name of any font from
-      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
-      access it here. Note: fonts needs to have at least style 400 and 700
-      available
-    type: select
-    options:
-      values: data.fonts
-  logo_font:
-    comment: >-
-      Write the name of any font from
-      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
-      access it here. Note: fonts needs to have at least style 400 and 700
-      available
-    type: select
-    options:
-      values: data.fonts
   showNote:
     type: switch
     comment: >-

@@ -15,12 +15,78 @@ customColor_groups:
     accentColor: '#a88815'
     id: 5c9075f8-80f9-4482-b041-91cffdfe02be
 heading_font: Alegreya Sans
+heading_font_file:
 content_font: Fira Sans
+content_font_file:
 logo_font: Oswald
+logo_font_file:
 button_rounding: rounded
 image_rounding: rounded
 container_rounding: rounded
 _inputs:
+  heading_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      allow_create: true
+      values: data.fonts
+  content_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      allow_create: true
+      values: data.fonts
+  logo_font:
+    comment: >-
+      Write the name of any font from
+      [https://fonts.google.com/](https://fonts.google.com/) in data/fonts to
+      access it here. Note: fonts needs to have at least style 400 and 700
+      available
+    type: select
+    options:
+      allow_create: true
+      values: data.fonts
+  heading_font_file:
+    type: file
+    options:
+      empty_type: string
+      accepts_mime_types:
+        - font/ttf
+        - font/otf
+        - font/woff
+        - font/woff2
+        - application/font-woff
+        - application/font-woff2
+  content_font_file:
+    type: file
+    options:
+      empty_type: string
+      accepts_mime_types:
+        - font/ttf
+        - font/otf
+        - font/woff
+        - font/woff2
+        - application/font-woff
+        - application/font-woff2
+  logo_font_file:
+    type: file
+    options:
+      empty_type: string
+      accepts_mime_types:
+        - font/ttf
+        - font/otf
+        - font/woff
+        - font/woff2
+        - application/font-woff
+        - application/font-woff2
   textColor:
     type: color
   backgroundColor:
