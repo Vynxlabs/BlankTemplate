@@ -159,17 +159,30 @@
               <div class="mt-20">{% bookshop "generic/heading" bind: headingHappening %}</div>
               <div class="flex justify-between w-full items-end flex-wrap mt-20  gap-2 sm:gap-4">
                 <div>
-                  <p class="uppercase font-bold text-2xl sm:text-4xl opacity-70">When:</p>
+                  <p class="uppercase font-bold text-2xl sm:text-4xl opacity-70">{{ contents.whenLabel | default: "When:" }}</p>
                   <p
                     {% if entry.data.cancelled != true %}
                     _="on load
                   set happeningDate to Date.parse('{{entry.data.happeningDate | date: "%Y-%m-%dT%H:%M:%S%z"}}')
                   log happeningDate
                   set timezone to Intl.DateTimeFormat().resolvedOptions().timeZone
-                  js(happeningDate,timezone)  
-                  dt = new Date(happeningDate);
-                  console.log(dt);
-                  return dt.toLocaleString('en-US', { timeZone: timezone }) end
+                  js(happeningDate,timezone)
+                  var dt = new Date(happeningDate);
+                  var showTime = {% if contents.showTime == false %}false{% else %}true{% endif %};
+                  var dateFormat = '{{ contents.dateFormat | default: "mm/dd/yyyy" }}';
+                  var mo = String(dt.toLocaleString('en-US', { timeZone: timezone, month: '2-digit' }));
+                  var da = String(dt.toLocaleString('en-US', { timeZone: timezone, day: '2-digit' }));
+                  var yr = String(dt.toLocaleString('en-US', { timeZone: timezone, year: 'numeric' }));
+                  var datePart = '';
+                  if (dateFormat === 'dd/mm/yyyy') { datePart = da + '/' + mo + '/' + yr; }
+                  else if (dateFormat === 'yyyy/mm/dd') { datePart = yr + '/' + mo + '/' + da; }
+                  else { datePart = mo + '/' + da + '/' + yr; }
+                  if (showTime) {
+                    var timePart = dt.toLocaleString('en-US', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: true });
+                    return datePart + ' ' + timePart;
+                  }
+                  return datePart;
+                  end
                   put it into my.innerHTML
                   "
                     {% endif %}
@@ -177,7 +190,16 @@
                     {% if entry.data.cancelled %}
                       CANCELLED
                     {% else %}
-                      {{ entry.data.happeningDate | date: "%Y-%m-%d %I:%M %P", 0 }} UTC
+                      {% if contents.dateFormat == "dd/mm/yyyy" %}
+                        {{ entry.data.happeningDate | date: "%d/%m/%Y" }}
+                      {% elsif contents.dateFormat == "yyyy/mm/dd" %}
+                        {{ entry.data.happeningDate | date: "%Y/%m/%d" }}
+                      {% else %}
+                        {{ entry.data.happeningDate | date: "%m/%d/%Y" }}
+                      {% endif %}
+                      {% if contents.showTime != false %}
+                        {{ entry.data.happeningDate | date: "%I:%M %P" }} UTC
+                      {% endif %}
                     {% endif %}
                   </p>
                   <ul class="  flex flex-wrap gap-x-4 overflow-hidden ">
@@ -193,7 +215,7 @@
                 <a
                   data-umami-event="{{entry.data.title}}-upcomingHappening-{{page.url}}-link"
                   class="text-3xl sm:text-5xl font-bold opacity-80 underline transition-all hover:scale-105"
-                  href="{{entry.url}}">Learn more</a>
+                  href="{{entry.url}}">{{ contents.learnMoreText | default: "Learn more" }}</a>
               </div>
             </section>
           </div>

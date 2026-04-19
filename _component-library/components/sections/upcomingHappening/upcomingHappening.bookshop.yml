@@ -18,6 +18,10 @@ blueprint:
     showCancelled: true
     tags:
     showCountdown: false
+    whenLabel: "When:"
+    showTime: true
+    dateFormat: mm/dd/yyyy
+    learnMoreText: "Learn more"
     noHappeningsHeading: bookshop:generic/heading
   styles:
     color_group: primary
@@ -41,6 +45,32 @@ _inputs:
       Make sure the tag you want to filter on is set up in the happenings data file.
     options:
       values: data.blogTags
+  whenLabel:
+    type: text
+    label: When Label
+    comment: >-
+      The label text displayed above the event date (e.g. "When:", "Date:", "Starts:").
+  showTime:
+    type: switch
+    label: Show Time
+    comment: >-
+      Toggle whether the time portion of the date is visible or hidden. When hidden, only the date is shown.
+  dateFormat:
+    type: choice
+    label: Date Format
+    options:
+      allow_empty: false
+      values:
+        - mm/dd/yyyy
+        - dd/mm/yyyy
+        - yyyy/mm/dd
+    comment: >-
+      Choose the date display format.
+  learnMoreText:
+    type: text
+    label: Learn More Text
+    comment: >-
+      The text for the link to the event's detail page (e.g. "Learn more", "View details", "Read more").
   noHappeningsHeading:
     label: No Happenings Heading
     comment: >-

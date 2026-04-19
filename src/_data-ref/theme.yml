@@ -15,11 +15,11 @@ customColor_groups:
     accentColor: '#a88815'
     id: 5c9075f8-80f9-4482-b041-91cffdfe02be
 heading_font: Alegreya Sans
-heading_font_file:
+heading_font_file: ''
 content_font: Fira Sans
-content_font_file:
+content_font_file: ''
 logo_font: Oswald
-logo_font_file:
+logo_font_file: ''
 button_rounding: rounded
 image_rounding: rounded
 container_rounding: rounded
