@@ -14,7 +14,10 @@
 {% assign featuredCreated = false %}
 {% assign cardStyle = 'generic/happenings/' | append: styles.cardStyle | append: "Card" %}
 {% assign featuredStyle = 'generic/happenings/' | append: styles.cardStyle | append: "Featured" %}
-
+{% if styles.cardStyle == "featured" %}
+{% assign cardStyle = 'generic/happenings/' | append: "default" | append: "Card" %}
+{% assign featuredStyle = 'generic/happenings/' | append: "default" | append: "Featured" %}
+{% endif %}
 
 <div class="cs-w-full py-20 bg-{{styles.color_group}}-backgroundcolor flex flex-col items-center justify-center text-{{styles.color_group}}-textcolor">
   {% if postListItems.size > 0 %}
