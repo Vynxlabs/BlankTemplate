@@ -73,7 +73,11 @@
             {% bookshop {{featuredStyle}} bind: happeningInfo %}
             {% assign featuredCreated = true %}
           {% elsif counter < 21 %}
+            {% if styles.cardStyle == "featured" %}
+            {% bookshop {{featuredStyle}} bind: happeningInfo %}
+             {% else %}
             {% bookshop {{cardStyle}} bind: happeningInfo %}
+            {% endif %}
             {% if env_bookshop_live %}
               {% assign counter = counter | plus: 1 %}
             {% endif %}
