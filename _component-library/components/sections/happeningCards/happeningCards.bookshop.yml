@@ -39,6 +39,8 @@ _inputs:
       values:
         - name: Default
           id: default
+        - name: All Featured
+          id: featured
   tags:
     hidden: false
     type: multiselect
